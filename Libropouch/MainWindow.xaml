@@ -1,7 +1,8 @@
 ﻿<Window x:Class="Libropouch.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        xmlns:libropouch="clr-namespace:Libropouch"
+        Title="MainWindow" Height="500" Width="800" MinWidth="500" MinHeight="350">
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -12,10 +13,24 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,5,5,5">
-            <Button Content="Sync"/>
+            <Button Click="Sync_OnClick" Content="Sync"/>
             <Button  Content="Butt" Margin="5,0,0,0"/>
             <Button  Content="About" Margin="5,0,0,0" HorizontalAlignment="Right"/>
         </StackPanel>
+        <Border Panel.ZIndex="100" Name="InfoBoxBorder"  Grid.Row="1" CornerRadius="8" VerticalAlignment="Top" Visibility="Hidden">
+            <Border.Effect>
+                <DropShadowEffect Color="#FFD2DAB8"/>
+            </Border.Effect>
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7FAE47"/>
+                    <GradientStop Color="#FFCADC94" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            
+            <TextBlock  Name="InfoBox"  Loaded="InfoBox_OnLoaded" TextWrapping="Wrap"  VerticalAlignment="Top" Padding="5" TextAlignment="Center" RenderTransformOrigin="0.5,0.5"/>
+        </Border>
+
         <DataGrid Grid.Row="1"  HorizontalAlignment="Left" AutoGenerateColumns="False" Loaded="BookGrid_OnLoaded"  VerticalAlignment="Top" Height="auto"  AlternatingRowBackground="Coral">
 
             <DataGrid.Columns>

@@ -29,8 +29,6 @@ namespace Libropouch
             
         }
 
-
-
         private static String[] GetFileList(out bool skipInfo)
         {
             skipInfo = false; 

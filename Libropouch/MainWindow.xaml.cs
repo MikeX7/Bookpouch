@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Libropouch
 {
@@ -20,8 +10,11 @@ namespace Libropouch
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static MainWindow MW;
+
         public MainWindow()
         {
+            MW = this;            
             InitializeComponent();
 
             new UsbSync();
@@ -35,13 +28,32 @@ namespace Libropouch
 
         public static void Info(String text, byte type = 0)
         {
-            MessageBox.Show(text);
+            if (Properties.Settings.Default.UseInfoBanner == false)
+            {
+                MessageBox.Show(text);
+                return;
+            }
+
+            MW.InfoBox.Text = text;
+            var parent = (System.Windows.Controls.Border) LogicalTreeHelper.GetParent(MW.InfoBox);            
+            parent.Visibility = Visibility.Visible;
         }
 
 
         private void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
         {
                
+        }        
+
+        private void InfoBox_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Sync_OnClick(object sender, RoutedEventArgs e)
+        {
+            Info("Hello");
+            Info("Hello\n sdddsds \n ssdds");
         }
     }
 }

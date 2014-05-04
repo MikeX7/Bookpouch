@@ -67,10 +67,19 @@ namespace Libropouch.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("/Documentss/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("/Documents/")]
         public string RootDir {
             get {
                 return ((string)(this["RootDir"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseInfoBanner {
+            get {
+                return ((bool)(this["UseInfoBanner"]));
             }
         }
     }
