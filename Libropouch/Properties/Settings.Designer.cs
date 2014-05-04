@@ -64,5 +64,14 @@ namespace Libropouch.Properties {
                 this["UsbAutoDetect"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("/Documentss/")]
+        public string RootDir {
+            get {
+                return ((string)(this["RootDir"]));
+            }
+        }
     }
 }

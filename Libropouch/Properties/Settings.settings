@@ -14,5 +14,8 @@
     <Setting Name="UsbAutoDetect" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="RootDir" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">/Documentss/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

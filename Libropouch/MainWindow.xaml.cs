@@ -27,10 +27,21 @@ namespace Libropouch
             new UsbSync();
 
             if (Properties.Settings.Default.UsbAutoDetect)
-                new ReaderDetector(this);
+                new ReaderDetector(this); //Start reader detection which automatically triggers UsbSync when reader is connected to the pc
 
            
             
+        }
+
+        public static void Info(String text, byte type = 0)
+        {
+            MessageBox.Show(text);
+        }
+
+
+        private void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
+        {
+               
         }
     }
 }

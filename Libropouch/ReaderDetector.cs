@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
+//Trigger class UsbSync when connection of compatible USB storage device is detected
 namespace Libropouch
 {
     class ReaderDetector
@@ -23,7 +24,6 @@ namespace Libropouch
             src.AddHook(WndProc);
             
         }
-
 
         [DllImport("user32.dll")]
         public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam);        

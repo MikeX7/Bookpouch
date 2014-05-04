@@ -16,7 +16,7 @@
             <Button  Content="Butt" Margin="5,0,0,0"/>
             <Button  Content="About" Margin="5,0,0,0" HorizontalAlignment="Right"/>
         </StackPanel>
-        <DataGrid Grid.Row="1"  HorizontalAlignment="Left" AutoGenerateColumns="False"  VerticalAlignment="Top" Height="auto"  AlternatingRowBackground="Coral">
+        <DataGrid Grid.Row="1"  HorizontalAlignment="Left" AutoGenerateColumns="False" Loaded="BookGrid_OnLoaded"  VerticalAlignment="Top" Height="auto"  AlternatingRowBackground="Coral">
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Names" Binding="{Binding}"  Width="*" />
