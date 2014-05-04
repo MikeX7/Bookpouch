@@ -23,8 +23,13 @@ namespace Libropouch
         public MainWindow()
         {
             InitializeComponent();
-            
-            var usync = new UsbSync(this);
+
+            new UsbSync();
+
+            if (Properties.Settings.Default.UsbAutoDetect)
+                new ReaderDetector(this);
+
+           
             
         }
     }

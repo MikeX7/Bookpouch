@@ -11,5 +11,8 @@
     <Setting Name="UsbModel" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Kindle</Value>
     </Setting>
+    <Setting Name="UsbAutoDetect" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

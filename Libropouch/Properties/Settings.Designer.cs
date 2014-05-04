@@ -52,5 +52,17 @@ namespace Libropouch.Properties {
                 return ((string)(this["UsbModel"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UsbAutoDetect {
+            get {
+                return ((bool)(this["UsbAutoDetect"]));
+            }
+            set {
+                this["UsbAutoDetect"] = value;
+            }
+        }
     }
 }
