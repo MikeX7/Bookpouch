@@ -10,17 +10,11 @@ namespace Libropouch
     {                
         public UsbSync()
         {
-            bool skipInfo;
 
-            var fileList = GetFileList(out skipInfo);
+            var fileList = GetFileList();
 
             if (fileList.Length == 0)
-            {
-                if(!skipInfo)
-                    MainWindow.Info("File list is empty.");
-
                 return;
-            }
 
             foreach (var file in fileList)
             {
@@ -29,23 +23,24 @@ namespace Libropouch
             
         }
 
-        private static String[] GetFileList(out bool skipInfo)
-        {
-            skipInfo = false; 
-            var drive = GetDriveLetter();            
+        private static String[] GetFileList()
+        {            
+            var drive = GetDriveLetter();
 
-            if (drive == "") //Reader is not connected to the pc or wasn't found, so there is no point to go on
+            if (drive == "") //Reader is not connected to the pc or wasn't found, so there is no point to go on                            
                 return new String[0];            
 
             if (!Directory.Exists(@drive + Properties.Settings.Default.RootDir)) //Specified directory on the reader which should contain ebook files doesn't exist
-            {
-                skipInfo = true; //Don't display empty file list info to the user, since there is no directory to scan
+            {                
                 MainWindow.Info(String.Format("Specified directory \"{0}\" wasn't found on the connected reader: {1}.", Properties.Settings.Default.RootDir, Properties.Settings.Default.UsbModel));                
 
                 return new String[0];            
             }
 
             var files = Directory.GetFiles(@drive + Properties.Settings.Default.RootDir);
+
+            if (files.Length == 0)
+                MainWindow.Info("No books found on the reader.");
 
             return files;
         }
@@ -76,7 +71,7 @@ namespace Libropouch
                 Debug.WriteLine("Houston, we have a problem with getting the reader disk letter:\n" + e);
             }
 
-            MainWindow.Info("I wasn't able to find any connected readers.");
+            MainWindow.Info("I wasn't able to find any connected readers.", 1);
             return "";
         }
         
