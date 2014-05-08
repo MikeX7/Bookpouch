@@ -20,5 +20,11 @@
     <Setting Name="UseInfoBanner" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="FileExtensions" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">mobi,epub,lit,pdf</Value>
+    </Setting>
+    <Setting Name="FilesDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)">books</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

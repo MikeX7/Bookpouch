@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +12,7 @@ namespace Libropouch
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public static MainWindow MW;
 
@@ -20,7 +21,7 @@ namespace Libropouch
             MW = this;            
             InitializeComponent();
 
-            //new UsbSync();
+            new UsbSync();
 
             if (Properties.Settings.Default.UsbAutoDetect)
                 new ReaderDetector(this); //Start reader detection which automatically triggers UsbSync when reader is connected to the pc                      
@@ -42,8 +43,7 @@ namespace Libropouch
                 InfoQueue.Enqueue(Tuple.Create(text, type)); //Add info into the info queue                                                              
 
             if (_infoBoxVisible || InfoQueue.Count == 0) //Proceed only if infobox isn't currently displayed and if the info queue isn't empty
-                return;            
-            
+                return;                        
             
             var info = InfoQueue.Dequeue(); //item1 = text, item2 = type
             text = info.Item1;
@@ -66,10 +66,8 @@ namespace Libropouch
             foreach (var animation in sb.Children.OfType<DoubleAnimation>().Where(animation => animation.Name == "OutOpacity"))
                 animation.BeginTime = new TimeSpan(0, 0, delay);
 
-            foreach (var keyFrame in sb.Children.OfType<ObjectAnimationUsingKeyFrames>().Where(oaukf => oaukf.Name == "OutVisibility").SelectMany(oaukf => oaukf.KeyFrames.Cast<DiscreteObjectKeyFrame>()))
-            {
-                keyFrame.KeyTime = new TimeSpan(0, 0, delay + 2);
-            }
+            foreach (var keyFrame in sb.Children.OfType<ObjectAnimationUsingKeyFrames>().Where(oaukf => oaukf.Name == "OutVisibility").SelectMany(oaukf => oaukf.KeyFrames.Cast<DiscreteObjectKeyFrame>()))            
+                keyFrame.KeyTime = new TimeSpan(0, 0, delay + 2);            
 
             Storyboard.SetTarget(sb, border);
             sb.Begin();                                     
@@ -77,7 +75,26 @@ namespace Libropouch
 
         private void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
         {
-               
+            if (!Directory.Exists(Properties.Settings.Default.FilesDir))
+            {
+                Info(String.Format("I wasn't able to find the specified directory ({0}) for storing books.", Properties.Settings.Default.FilesDir), 1);
+                return;
+            }
+
+            var grid = (DataGrid) sender;
+            var extensions = Properties.Settings.Default.FileExtensions.Split(',');            
+            var files = Directory.EnumerateFiles(Properties.Settings.Default.FilesDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();
+            var bookList = new List<string>();
+
+            foreach (var file in files)
+            {
+                var finfo = new FileInfo(file);
+
+                bookList.Add(finfo.Name);
+            }
+
+            grid.ItemsSource = bookList;
+
         }        
 
         private void Sync_OnClick(object sender, RoutedEventArgs e)
@@ -94,15 +111,12 @@ namespace Libropouch
             if (border.Visibility == Visibility.Hidden)
             {
                 _infoBoxVisible = false;
-                Info("");
-                
+                Info("");                
             }
             else
             {
                 _infoBoxVisible = true;
             }
-
-            Debug.WriteLine("Changed vis: " + border.Visibility);
         }
     }
 }

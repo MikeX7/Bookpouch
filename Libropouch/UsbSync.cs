@@ -19,8 +19,7 @@ namespace Libropouch
             foreach (var file in fileList)
             {
                 Debug.WriteLine(file);
-            }
-            
+            }            
         }
 
         private static String[] GetFileList()
@@ -37,7 +36,9 @@ namespace Libropouch
                 return new String[0];            
             }
 
-            var files = Directory.GetFiles(@drive + Properties.Settings.Default.RootDir);
+            var extensions = Properties.Settings.Default.FileExtensions.Split(',');
+
+            var files = Directory.EnumerateFiles(@drive + Properties.Settings.Default.RootDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();
 
             if (files.Length == 0)
                 MainWindow.Info("No books found on the reader.");
@@ -53,8 +54,9 @@ namespace Libropouch
               
                 foreach (var queryObj in searcher.Get().Cast<ManagementObject>())
                 {
-                    if (!queryObj["PNPDeviceID"].ToString().Contains(Properties.Settings.Default.UsbPnpDeviceId) &&
-                        !queryObj["Model"].ToString().Contains(Properties.Settings.Default.UsbModel))
+                    //if (!queryObj["PNPDeviceID"].ToString().Contains(Properties.Settings.Default.UsbPnpDeviceId) &&
+                      //  !queryObj["Model"].ToString().Contains(Properties.Settings.Default.UsbModel))
+                    if (!queryObj["PNPDeviceID"].ToString().Contains("VERBATIM"))
                         continue;
 
                     foreach (var partition in queryObj.GetRelated("Win32_DiskPartition").Cast<ManagementObject>())

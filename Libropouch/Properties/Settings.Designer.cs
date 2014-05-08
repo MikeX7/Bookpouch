@@ -82,5 +82,26 @@ namespace Libropouch.Properties {
                 return ((bool)(this["UseInfoBanner"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mobi,epub,lit,pdf")]
+        public string FileExtensions {
+            get {
+                return ((string)(this["FileExtensions"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("books")]
+        public string FilesDir {
+            get {
+                return ((string)(this["FilesDir"]));
+            }
+            set {
+                this["FilesDir"] = value;
+            }
+        }
     }
 }
