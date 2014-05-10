@@ -85,7 +85,7 @@ namespace Libropouch.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("mobi,epub,lit,pdf")]
+        [global::System.Configuration.DefaultSettingValueAttribute("mobi;epub;lit;pdf")]
         public string FileExtensions {
             get {
                 return ((string)(this["FileExtensions"]));

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using Microsoft.Win32;
 
 namespace Libropouch
 {
@@ -84,13 +85,13 @@ namespace Libropouch
             var grid = (DataGrid) sender;
             var extensions = Properties.Settings.Default.FileExtensions.Split(',');            
             var files = Directory.EnumerateFiles(Properties.Settings.Default.FilesDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();
-            var bookList = new List<string>();
+            var bookList = new List<Book>();            
 
             foreach (var file in files)
             {
                 var finfo = new FileInfo(file);
-
-                bookList.Add(finfo.Name);
+                bookList.Add(new Book(finfo.Name, "sdds", "dsd"));                                
+                
             }
 
             grid.ItemsSource = bookList;
@@ -118,5 +119,47 @@ namespace Libropouch
                 _infoBoxVisible = true;
             }
         }
+
+        private void Add_OnClick(object sender, RoutedEventArgs e)
+        {
+            var supportedFiles = "*." + Properties.Settings.Default.FileExtensions.Replace(";", ";*.");            
+            var openFileDialog = new OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = "eBook files|" + supportedFiles + "|All Files|*.*",                
+            };
+
+            var filesSelected = openFileDialog.ShowDialog();
+
+            if (filesSelected != true)
+            {
+                return;
+            }
+
+            Info("Selected supported files are being added into the library...");
+
+            var selectedFiles = openFileDialog.FileNames;
+
+            foreach (var file in selectedFiles)
+            {
+                BookKeeper.Add(file);
+            }            
+
+        }
+    }
+
+    class Book
+    {
+        public string Name { get; set; }
+        public string Size{ get; set; }
+        public string Pic { get; set; }
+
+        public Book(String name, String size, String pic)
+        {
+            Name = name;
+            Size = size;
+            Pic = pic;
+        }
+        
     }
 }

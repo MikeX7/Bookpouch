@@ -36,7 +36,7 @@ namespace Libropouch
                 return new String[0];            
             }
 
-            var extensions = Properties.Settings.Default.FileExtensions.Split(',');
+            var extensions = Properties.Settings.Default.FileExtensions.Split(';');
 
             var files = Directory.EnumerateFiles(@drive + Properties.Settings.Default.RootDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();
 

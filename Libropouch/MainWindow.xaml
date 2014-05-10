@@ -21,8 +21,8 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,5,5,5">
-            <Button Click="Sync_OnClick" Content="Sync"/>
-            <Button  Content="Butt" Margin="5,0,0,0"/>
+            <Button Click="Sync_OnClick" Content="Sync" ToolTip="Synchronize files on the connected ebook reader with local Libropouch library"/>
+            <Button  Content="Add books" Click="Add_OnClick" Margin="5,0,0,0" ToolTip="Add new books to the library"/>
             <Button  Content="About" Margin="5,0,0,0" HorizontalAlignment="Right"/>
         </StackPanel>
 
@@ -33,12 +33,12 @@
         <DataGrid Grid.Row="1"  HorizontalAlignment="Left" AutoGenerateColumns="False" Loaded="BookGrid_OnLoaded"  VerticalAlignment="Top" Height="auto"  AlternatingRowBackground="Coral">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Names" Binding="{Binding}"  Width="*" />
+                <DataGridTextColumn Header="Names" Binding="{Binding Name}"  Width="*" />
 
                 <DataGridTemplateColumn Header="Size">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text=""/>
+                            <TextBlock Text="{Binding Size}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -51,6 +51,19 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
+
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <Border>
+                        
+                        <StackPanel>
+                            <TextBlock FontSize="12" Text="Email: " VerticalAlignment="Center" />
+                            <TextBlock FontSize="12" Text="Emdail: " VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+                
 
         </DataGrid>
 
