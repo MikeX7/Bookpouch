@@ -77,7 +77,7 @@ namespace Libropouch
             }
             catch (Exception)
             {
-                MainWindow.Info("I wasn't ale to get any information from the Epub file, it may be corrupted or is missing some key files.");
+                MainWindow.Info("I wasn't ale to get any information from the Epub file, it may be corrupted or is missing some key files.", 1);
             }             
         }        
 

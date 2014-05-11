@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
-using System.IO.Packaging;
 using System.Linq;
-using System.Resources;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Libropouch
-{
+{    
     static class BookKeeper
     {
         public static void Add(String file) //Add a new book into the library
@@ -26,27 +20,36 @@ namespace Libropouch
             var dirName = finfo.Name.Substring(0, (finfo.Name.Length - finfo.Extension.Length));
                 //Dir to store all book related files in, name derived from the file name
             var dirPath = Properties.Settings.Default.FilesDir + "/" + dirName;
+            var newDirPath = dirPath;
 
-            Directory.CreateDirectory(dirPath); //Create the dir in the default book folder, specified in the settings
+            for(var i = 1; Directory.Exists(newDirPath); i++) //If the folder already exists append number to the new folder's name
+                newDirPath = dirPath + " (" + i + ")";
 
-            if (!Directory.Exists(dirPath) || 1 == 1)
-            {
+            dirPath = newDirPath;
 
-                finfo.CopyTo(dirPath + "/" + finfo.Name, true);
+            Directory.CreateDirectory(dirPath); //Create the dir in the default book folder, specified in the settings        
 
-                var bookInfo = new BookPeek(finfo);
+            finfo.CopyTo(dirPath + "/" + finfo.Name, true);
 
-                foreach (var l in bookInfo.List)
+            var bookPeek = new BookPeek(finfo);          
+
+            var bookData = new BookData
                 {
-                    Debug.WriteLine(l);
-                }
+                    Title = (string) bookPeek.List["title"],
+                    Author = (string) (bookPeek.List.ContainsKey("author") ? bookPeek.List["author"] : ""),
+                    Publisher = (string) (bookPeek.List.ContainsKey("publisher") ? bookPeek.List["publisher"] : ""),
+                    Language = (string) (bookPeek.List.ContainsKey("language") ? bookPeek.List["language"] : ""),
+                    Published = (DateTime?) (bookPeek.List.ContainsKey("published") ? bookPeek.List["published"] : null),
+                    MobiType = (string) (bookPeek.List.ContainsKey("type") ? bookPeek.List["type"] : ""),
+                    Created = DateTime.Now                    
+                };
 
-                //Debug.WriteLine(bookInfo.List["Author"]);
-
-                //Debug.WriteLine(finfo.Name.Substring(0, (finfo.Name.Length - finfo.Extension.Length)));
+            using (var writer = XmlWriter.Create(dirPath + "/info.xml"))
+            {
+                var serializer = new XmlSerializer(typeof (BookData));
+                serializer.Serialize(writer, bookData);
             }
         }
     }
-
     
 }

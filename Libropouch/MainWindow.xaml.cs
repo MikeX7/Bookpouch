@@ -83,12 +83,13 @@ namespace Libropouch
             }
 
             var grid = (DataGrid) sender;
-            var extensions = Properties.Settings.Default.FileExtensions.Split(',');            
-            var files = Directory.EnumerateFiles(Properties.Settings.Default.FilesDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();
-            var bookList = new List<Book>();            
-
-            foreach (var file in files)
-            {
+            var extensions = Properties.Settings.Default.FileExtensions.Split(';');            
+            //var files = Directory.EnumerateFiles(Properties.Settings.Default.FilesDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();
+            var dirs = Directory.EnumerateDirectories(Properties.Settings.Default.FilesDir);
+            var bookList = new List<Book>();
+            
+            foreach (var file in dirs)
+            {                
                 var finfo = new FileInfo(file);
                 bookList.Add(new Book(finfo.Name, "sdds", "dsd"));                                
                 
