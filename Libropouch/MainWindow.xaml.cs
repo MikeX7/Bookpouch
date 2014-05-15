@@ -5,8 +5,17 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
-using Microsoft.Win32;
+using System.Xml.Serialization;
+using ShadoLib;
+using Button = System.Windows.Controls.Button;
+using DataGrid = System.Windows.Controls.DataGrid;
+using MessageBox = System.Windows.MessageBox;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace Libropouch
 {
@@ -82,17 +91,43 @@ namespace Libropouch
                 return;
             }
 
+            var categories = new List<string> {"Sci-fi", "Action", "Fantasy", "Horror", "Poetry", "Biography", "Comic"};
+                
+
             var grid = (DataGrid) sender;
             var extensions = Properties.Settings.Default.FileExtensions.Split(';');            
-            //var files = Directory.EnumerateFiles(Properties.Settings.Default.FilesDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();
-            var dirs = Directory.EnumerateDirectories(Properties.Settings.Default.FilesDir);
+            var dirs = Directory.EnumerateDirectories(Properties.Settings.Default.FilesDir).ToList();
             var bookList = new List<Book>();
             
-            foreach (var file in dirs)
-            {                
-                var finfo = new FileInfo(file);
-                bookList.Add(new Book(finfo.Name, "sdds", "dsd"));                                
+            foreach (var dir in dirs)
+            {
+                var dinfo = new FileInfo(dir);
+                var bookFilePath = Directory.EnumerateFiles(dinfo.FullName).First(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase)));
                 
+
+                if (!File.Exists(dinfo.FullName + "\\info.xml")) //If info file is missing, attempt to generate new one
+                    BookKeeper.GenerateInfo(bookFilePath);                
+
+                using (var infoFile = new FileStream(dinfo.FullName + "\\info.xml", FileMode.Open))
+                {
+                    var serializer = new XmlSerializer(typeof (BookData));
+                    var bookInfo = (BookData) serializer.Deserialize(infoFile);
+
+                    bookList.Add(new Book()
+                    {
+                        Title = bookInfo.Title,
+                        Author = bookInfo.Author,
+                        Publisher = bookInfo.Publisher,
+                        CountryCode = Tools.GetCountryCode(bookInfo.Language).ToUpper(),
+                        Published = bookInfo.Published,
+                        Description = bookInfo.Description,
+                        MobiType = bookInfo.MobiType,
+                        Size = Tools.BytesFormat(bookInfo.Size),
+                        Favorite = bookInfo.Favorite,
+                        Sync = bookInfo.Sync,
+                        Category = bookInfo.Category,
+                    });
+                }
             }
 
             grid.ItemsSource = bookList;
@@ -147,19 +182,79 @@ namespace Libropouch
             }            
 
         }
+
+        private void SyncToDeviceToggle_OnClick(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            var icon = (Image) VisualTreeHelper.GetChild(button, 0);            
+            icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
+            
+
+        }
+
+        private void FavoriteToggle_OnClick(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            var icon = (Image)VisualTreeHelper.GetChild(button, 0);
+            icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
+        }
+
+        private void EditBook_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Settings_OnClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new Settings();
+            settings.Show();            
+            
+        }
     }
 
-    class Book
+    internal class Book
     {
-        public string Name { get; set; }
-        public string Size{ get; set; }
-        public string Pic { get; set; }
+        public string Title { set; get; }
+        public string Author { set; get; }
+        public string Series { set; get; }
+        public string Publisher { set; get; }
+        public DateTime? Published { set; get; }
+        public string CountryCode;
+        public string Description { set; get; }
+        public string MobiType { set; get; }
+        public string Size { set; get; }
+        public int Category { set; get; }
+        public bool Favorite { set; get; }
+        public bool Sync { set; get; }
+        
+        public Visibility SeriesVisibility 
+        { 
+            get { return (Series != null ? Visibility.Visible : Visibility.Collapsed); } 
+        }
 
-        public Book(String name, String size, String pic)
+        public Visibility AuthorVisibility
         {
-            Name = name;
-            Size = size;
-            Pic = pic;
+            get { return (Author != null ? Visibility.Visible : Visibility.Collapsed); }
+        }
+
+        public double FavoriteOpacity
+        {
+            get { return (Favorite ? 1 : 0.12); }             
+        }
+
+        public double SyncOpacity
+        {
+            get { return (Sync ? 1 : 0.12); }
+        }
+
+        public string CountryFlagPath
+        {
+            get { return "flags/" + CountryCode.Trim() + ".png"; }
+        }
+
+        public Book()
+        {
+
         }
         
     }

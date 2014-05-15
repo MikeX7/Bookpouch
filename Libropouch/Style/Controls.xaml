@@ -1,0 +1,85 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Style for all butons-->
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="#56565c" />
+        <Setter Property="Foreground" Value="#801111" />
+        <Setter Property="FontSize" Value="14" />
+
+        <Setter Property="Template">
+
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="RootElement" CornerRadius="8">
+                        <Border.Background>
+                            <SolidColorBrush x:Name="BorderBrush" Color="#8D0000" />
+                        </Border.Background>
+
+                        <Border.Effect>
+                            <DropShadowEffect Color="#AE4E4E" />
+                        </Border.Effect>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="BorderBrush"
+                                                            Storyboard.TargetProperty="Color" To="Orange" Duration="0:0:0.3"/>
+                                        
+
+
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="MouseOut">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="BorderBrush"
+                                                            Storyboard.TargetProperty="Color" To="#8D0000" Duration="0:0:0.3"/>
+
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="BorderBrush"
+                                                            Storyboard.TargetProperty="Color" To="Green" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="RootElement"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0.3" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused" />
+                                <VisualState x:Name="Unfocused" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid  Margin="2">
+                            <Border x:Name="Background" Background="#888888" CornerRadius="7" />
+
+                            <ContentPresenter    
+                                    x:Name="TextColor"                
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    
+                                    Margin="10 3 10 3"/>
+
+                        </Grid>
+
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

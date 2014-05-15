@@ -1,16 +1,18 @@
 ﻿<Window x:Class="Libropouch.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
-        Title="MainWindow" Height="500" Width="800" MinWidth="500" MinHeight="350">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="700" Width="1000" MinWidth="500" MinHeight="350" Background="#2d2d30">
     <Window.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.MergedDictionaries>                
                 <ResourceDictionary Source="Style/Global.xaml" />
-                <ResourceDictionary Source="Style/Info.xaml" />
+                <ResourceDictionary Source="Style/Controls.xaml" />
+                <ResourceDictionary Source="Style/Info.xaml" />                
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Window.Resources>    
-    
+        
+    </Window.Resources>
+
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -23,50 +25,127 @@
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,5,5,5">
             <Button Click="Sync_OnClick" Content="Sync" ToolTip="Synchronize files on the connected ebook reader with local Libropouch library"/>
             <Button  Content="Add books" Click="Add_OnClick" Margin="5,0,0,0" ToolTip="Add new books to the library"/>
+            <Button  Content="Settings" Margin="5,0,0,0" Click="Settings_OnClick" HorizontalAlignment="Right"/>
             <Button  Content="About" Margin="5,0,0,0" HorizontalAlignment="Right"/>
         </StackPanel>
 
-        <Border Panel.ZIndex="100" Grid.Row="1" Name="InfoBoxBorder" Grid.Column="0" CornerRadius="8"  Visibility="Hidden" VerticalAlignment="Top" IsVisibleChanged="InfoBox_OnIsVisibleChanged">   
+        <Border Panel.ZIndex="100" Grid.Row="1" Name="InfoBoxBorder" Grid.Column="0" CornerRadius="8"  Visibility="Hidden" VerticalAlignment="Top" IsVisibleChanged="InfoBox_OnIsVisibleChanged">
             <TextBlock  Name="InfoBox"  TextWrapping="Wrap"  VerticalAlignment="Top" Padding="5" TextAlignment="Center" RenderTransformOrigin="0.5,0.5" />
         </Border>
 
-        <DataGrid Grid.Row="1"  HorizontalAlignment="Left" AutoGenerateColumns="False" Loaded="BookGrid_OnLoaded"  VerticalAlignment="Top" Height="auto"  AlternatingRowBackground="Coral">
+        <DataGrid Grid.Row="1"  IsReadOnly="True"  HorizontalAlignment="Left" AutoGenerateColumns="False" Loaded="BookGrid_OnLoaded" HorizontalGridLinesBrush="#2b72ac" VerticalGridLinesBrush="#2b72ac" VerticalAlignment="Top" Height="auto" RowBackground="#5d5d5d" AlternatingRowBackground="#454545">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell" >                    
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#D3E26610"/>
+                            <Setter Property="BorderBrush" Value="#844200"/>
+                        </Trigger>                        
+                    </Style.Triggers>
+                    <Setter Property="Foreground" Value="#F2F2F2"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                </Style>      
+                
+            </DataGrid.CellStyle>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#569cd6"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="FontWeight" Value="Heavy"/>                    
+                </Style>
+             </DataGrid.ColumnHeaderStyle>
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="{x:Type DataGridRowHeader}">
+                    <Setter Property="Background" Value="#569cd6"/>
+                    <Setter Property="Padding" Value="2"/>
+                </Style>
+            </DataGrid.RowHeaderStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Names" Binding="{Binding Name}"  Width="*" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Title}"  Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Padding" Value="5" />                            
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                <DataGridTemplateColumn Header="Size">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Size}"/>
+                <DataGridTemplateColumn Header=" ★">
+                    <DataGridTemplateColumn.CellTemplate>                        
+                        <DataTemplate>                            
+                            <Button Click="FavoriteToggle_OnClick" ToolTip="Allows marking this book as favorite">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Img/star.png" Height="25" Opacity="{Binding FavoriteOpacity}"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Pic">
+                <DataGridTemplateColumn Header=" ⇪">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-
+                            <Button Click="SyncToDeviceToggle_OnClick" ToolTip="Toggles if the book will be synced into the reader">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="Img/kindle.png" Height="25" Opacity="{Binding SyncOpacity}"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}"  Width="auto" />
             </DataGrid.Columns>
 
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <Border>
-                        
-                        <StackPanel>
-                            <TextBlock FontSize="12" Text="Email: " VerticalAlignment="Center" />
-                            <TextBlock FontSize="12" Text="Emdail: " VerticalAlignment="Center" />
-                        </StackPanel>
+                    <Border Padding="5" Margin="6" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect Color="#797777"/>
+                        </Border.Effect>
+                        <Border.Background>
+                            <RadialGradientBrush>
+                                <GradientStop Color="#FF515157" Offset="1"/>
+                                <GradientStop Color="#FF7D7D86"/>
+                            </RadialGradientBrush>
+                        </Border.Background>
+
+                        <DockPanel>
+                            <Image Source="Img/book.png" MaxHeight="128" MaxWidth="128" DockPanel.Dock="Left" FlowDirection="LeftToRight" Margin="0,0,10,0"/>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock FontSize="24" FontWeight="Regular" Foreground="WhiteSmoke" Text="{Binding Title}" VerticalAlignment="Center" >
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="Black" ShadowDepth="5" BlurRadius="5"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="Img/silhouette1.png" Height="16" Margin="0,0,5,0" HorizontalAlignment="Left"/>
+                                    <TextBlock FontSize="16" Text="{Binding Author}" Foreground="#92caf4" FontWeight="Medium" Visibility="{Binding AuthorVisibility}" VerticalAlignment="Center">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect Color="#0a395c" ShadowDepth="3" BlurRadius="3"/>
+                                        </TextBlock.Effect></TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding SeriesVisibility}">
+                                    <TextBlock FontSize="18" Text="📚" FontWeight="Medium" VerticalAlignment="Center" />
+                                    <TextBlock  Text="{Binding Series}" FontWeight="DemiBold" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding CountryFlagPath}" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="{Binding Publisher}" />
+                                    <TextBlock Text="{Binding Published}" Foreground="#FF292929"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding Description}"/>
+                            </StackPanel>
+                            <Button Content="Edit" Click="EditBook_OnClick" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                        </DockPanel>
                     </Border>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
-                
 
         </DataGrid>
-
-
     </Grid>
 </Window>

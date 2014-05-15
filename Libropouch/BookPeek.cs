@@ -107,8 +107,7 @@ namespace Libropouch
                 var headerIdent = new byte[4];
                 var headerFound = false;
                 var headerLength = new byte[4];
-                var type = new byte[4];
-                var title = new byte[4];
+                var type = new byte[4];                
                 var titleOffset = new byte[4];
                 var titleLength = new byte[4];
                 var exthFlags = new byte[4];
@@ -130,7 +129,7 @@ namespace Libropouch
 
                 if (!headerFound)
                 {
-                    MainWindow.Info(string.Format("{0} is missing the MOBI header and therefore I am not able to extract any information from it.", file.Name));
+                    MainWindow.Info(string.Format("{0} is missing the MOBI header and therefore I am not able to extract any information from it.", file.Name), 1);
                     return;
                 }
 
@@ -154,13 +153,12 @@ namespace Libropouch
 
                 //Get book title from the mobi header, the title itself is located after the exth header, if any
                 fs.Seek(headerPos + ByteToUInt32(titleOffset) - 4 - 16, SeekOrigin.Begin);
-                var b = new byte[ByteToUInt32(titleLength)];
-                fs.Read(b, 0, b.Length);
+                var title = new byte[ByteToUInt32(titleLength)];
+                fs.Read(title, 0, title.Length);
 
                 if (ByteToUInt32(titleLength) > 0)
                 {
-                    List.Add("title", Encoding.UTF8.GetString(b).Replace("\0", String.Empty));
-                    Debug.WriteLine(Encoding.UTF8.GetString(b).Replace("\0", String.Empty));
+                    List.Add("title", Encoding.UTF8.GetString(title).Replace("\0", String.Empty));                    
                 }    
             }
         }
@@ -221,7 +219,7 @@ namespace Libropouch
             }
             catch (Exception e)
             {
-                MainWindow.Info(String.Format("Something is wrong with EXTH header in {0}: {1}", file.Name, e), 1);
+                MainWindow.Info(String.Format("I encountered some problems with fetching the EXTH header in {0}: {1}", file.Name, e), 1);
             }
         }
 

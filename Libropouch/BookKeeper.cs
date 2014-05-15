@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -31,22 +32,32 @@ namespace Libropouch
 
             finfo.CopyTo(dirPath + "/" + finfo.Name, true);
 
-            var bookPeek = new BookPeek(finfo);          
+            GenerateInfo(dirPath + "/" + finfo.Name); //Generate info.xml file for this book file
+        }
+
+        public static void GenerateInfo(String file) //Add a new book into the library
+        {
+            if (!File.Exists(file))
+                return;
+
+            var finfo = new FileInfo(file);
+            var bookPeek = new BookPeek(finfo);
 
             var bookData = new BookData
-                {
-                    Title = (string) bookPeek.List["title"],
-                    Author = (string) (bookPeek.List.ContainsKey("author") ? bookPeek.List["author"] : ""),
-                    Publisher = (string) (bookPeek.List.ContainsKey("publisher") ? bookPeek.List["publisher"] : ""),
-                    Language = (string) (bookPeek.List.ContainsKey("language") ? bookPeek.List["language"] : ""),
-                    Published = (DateTime?) (bookPeek.List.ContainsKey("published") ? bookPeek.List["published"] : null),
-                    MobiType = (string) (bookPeek.List.ContainsKey("type") ? bookPeek.List["type"] : ""),
-                    Created = DateTime.Now                    
-                };
-
-            using (var writer = XmlWriter.Create(dirPath + "/info.xml"))
             {
-                var serializer = new XmlSerializer(typeof (BookData));
+                Title = (string)bookPeek.List["title"],
+                Author = (string)(bookPeek.List.ContainsKey("author") ? bookPeek.List["author"] : ""),
+                Publisher = (string)(bookPeek.List.ContainsKey("publisher") ? bookPeek.List["publisher"] : ""),
+                Language = (string)(bookPeek.List.ContainsKey("language") ? bookPeek.List["language"] : ""),
+                Published = (DateTime?)(bookPeek.List.ContainsKey("published") ? bookPeek.List["published"] : null),
+                MobiType = (string)(bookPeek.List.ContainsKey("type") ? bookPeek.List["type"] : ""),
+                Created = DateTime.Now,
+                Size = (ulong)finfo.Length
+            };
+            Debug.WriteLine(finfo.Directory);
+            using (var writer = XmlWriter.Create(finfo.Directory + "/info.xml"))
+            {
+                var serializer = new XmlSerializer(typeof(BookData));
                 serializer.Serialize(writer, bookData);
             }
         }
