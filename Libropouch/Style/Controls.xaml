@@ -3,21 +3,19 @@
 
     <!--Style for all butons-->
     <Style TargetType="Button">
-        <Setter Property="Background" Value="#56565c" />
-        <Setter Property="Foreground" Value="#801111" />
         <Setter Property="FontSize" Value="14" />
-
+        <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="Template">
 
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="RootElement" CornerRadius="8">
+                    <Border x:Name="RootElement" CornerRadius="4">
                         <Border.Background>
-                            <SolidColorBrush x:Name="BorderBrush" Color="#8D0000" />
+                            <SolidColorBrush x:Name="BorderBrush" Color="#FF910202" />
                         </Border.Background>
 
                         <Border.Effect>
-                            <DropShadowEffect Color="#AE4E4E" />
+                            <DropShadowEffect x:Name="BorderShadow" Opacity="1" BlurRadius="10" Color="#383838"   ShadowDepth="0"/>
                         </Border.Effect>
 
                         <VisualStateManager.VisualStateGroups>
@@ -27,33 +25,42 @@
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="BorderBrush"
-                                                            Storyboard.TargetProperty="Color" To="Orange" Duration="0:0:0.3"/>
-                                        
+                                                        Storyboard.TargetProperty="Color" To="OrangeRed" Duration="0:0:0.5"/>
 
+                                        <ColorAnimation 
+                                            Storyboard.TargetName="BorderShadow"
+                                            Storyboard.TargetProperty="Color"
+                                                To="OrangeRed" Duration="0:0:0.5"
+                                            />
 
-                                    </Storyboard>
-                                </VisualState>
+                                        <ColorAnimation 
+                                            Storyboard.TargetName="TextColor"
+                                            Storyboard.TargetProperty="(TextBlock.Foreground).Color"
+                                                To="#C73601" Duration="0:0:0.5"
+                                            />
 
-                                <VisualState x:Name="MouseOut">
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="BorderBrush"
-                                                            Storyboard.TargetProperty="Color" To="#8D0000" Duration="0:0:0.3"/>
-
+                                        <DoubleAnimation Storyboard.TargetName="BorderShadow" Storyboard.TargetProperty="BlurRadius"  To="20"/>
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
+                                        <ColorAnimation 
+                                            Storyboard.TargetName="BackgroundGradientColor2"
+                                            Storyboard.TargetProperty="Color"
+                                                To="#6B6B6B"  Duration="0"
+                                            />
+
                                         <ColorAnimation Storyboard.TargetName="BorderBrush"
-                                                            Storyboard.TargetProperty="Color" To="Green" />
+                                                        Storyboard.TargetProperty="Color" To="#380000" Duration="0"/>
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="RootElement"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             To="0.3" Duration="0" />
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            To="0.3" Duration="0" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -62,17 +69,23 @@
                                 <VisualState x:Name="Focused" />
                                 <VisualState x:Name="Unfocused" />
                             </VisualStateGroup>
+
                         </VisualStateManager.VisualStateGroups>
 
                         <Grid  Margin="2">
-                            <Border x:Name="Background" Background="#888888" CornerRadius="7" />
-
+                            <Border x:Name="Background" CornerRadius="4" >
+                                <Border.Background>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="#B3B3B3" Offset="0.49"/>
+                                        <GradientStop Color="#B3B3B3" x:Name="BackgroundGradientColor2" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                            </Border>
                             <ContentPresenter    
-                                    x:Name="TextColor"                
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    
-                                    Margin="10 3 10 3"/>
+                                x:Name="TextColor"        
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="10,0,10,0"/>
 
                         </Grid>
 
@@ -81,5 +94,6 @@
             </Setter.Value>
         </Setter>
     </Style>
+
 
 </ResourceDictionary>
