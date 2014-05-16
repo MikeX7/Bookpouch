@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,19 @@ namespace Libropouch
         public Settings()
         {            
             InitializeComponent();
+        }
+
+        private void Language_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var comboBox = (ComboBox) sender;
+            comboBox.ItemsSource = new List<string> { "English", "Česky" }; ;
+        }
+
+        private void Language_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+            Debug.WriteLine(comboBox.SelectedIndex);
+            
         }
     }
 }

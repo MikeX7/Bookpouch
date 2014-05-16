@@ -59,5 +59,14 @@ namespace Libropouch.Lang {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Searching for connected {0}....
+        /// </summary>
+        internal static string InfoSyncDeviceSearch {
+            get {
+                return ResourceManager.GetString("InfoSyncDeviceSearch", resourceCulture);
+            }
+        }
     }
 }

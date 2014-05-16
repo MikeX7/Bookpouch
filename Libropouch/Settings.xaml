@@ -1,108 +1,45 @@
 ﻿<Window x:Class="Libropouch.Settings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Settings" Height="300" Width="300" Background="#2d2d30">
+        Title="Settings" Height="500" Width="800" Background="#2d2d30">
     <Window.Resources>
-
-        <Style TargetType="Button">
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="FontWeight" Value="DemiBold" />
-            <Setter Property="Template">
-
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="RootElement" CornerRadius="4">
-                            <Border.Background>
-                                <SolidColorBrush x:Name="BorderBrush" Color="#6C0000" />
-                            </Border.Background>
-
-                            <Border.Effect>
-                                <DropShadowEffect x:Name="BorderShadow" Opacity="1" BlurRadius="10" Color="#383838"   ShadowDepth="0"/>
-                            </Border.Effect>
-
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-
-                                    <VisualState x:Name="MouseOver">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="BorderBrush"
-                                                        Storyboard.TargetProperty="Color" To="OrangeRed" Duration="0:0:0.5"/>                                            
-
-                                            <ColorAnimation 
-                                            Storyboard.TargetName="BorderShadow"
-                                            Storyboard.TargetProperty="Color"
-                                                To="OrangeRed" Duration="0:0:0.5"
-                                            />
-
-                                            <ColorAnimation 
-                                            Storyboard.TargetName="TextColor"
-                                            Storyboard.TargetProperty="(TextBlock.Foreground).Color"
-                                                To="#C73601" Duration="0:0:0.5"
-                                            />
-
-                                            <DoubleAnimation Storyboard.TargetName="BorderShadow" Storyboard.TargetProperty="BlurRadius"  To="20"/>
-                                        </Storyboard>
-                                    </VisualState>
-
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ColorAnimation 
-                                            Storyboard.TargetName="BackgroundGradientColor2"
-                                            Storyboard.TargetProperty="Color"
-                                                To="#6B6B6B"  Duration="0"
-                                            />
-
-                                            <ColorAnimation Storyboard.TargetName="BorderBrush"
-                                                        Storyboard.TargetProperty="Color" To="#380000" Duration="0"/>
-
-                                            <DoubleAnimation Storyboard.TargetName="TextColor" Storyboard.TargetProperty="(TextBlock.FontSize)"  To="12" Duration="0"/>
-
-                                        </Storyboard>
-                                    </VisualState>
-
-                                    <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="RootElement"
-                                                            Storyboard.TargetProperty="Opacity"
-                                                            To="0.3" Duration="0" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                
-                                <VisualStateGroup x:Name="FocusStates">
-                                    <VisualState x:Name="Focused" />
-                                    <VisualState x:Name="Unfocused" />
-                                </VisualStateGroup>
-
-                            </VisualStateManager.VisualStateGroups>
-
-                            <Grid  Margin="2">
-                                <Border x:Name="Background" CornerRadius="4" >
-                                    <Border.Background>
-                                        <RadialGradientBrush>
-                                            <GradientStop Color="#B3B3B3" Offset="0.49"/>
-                                            <GradientStop Color="#B3B3B3" x:Name="BackgroundGradientColor2" Offset="1"/>
-                                        </RadialGradientBrush>
-                                    </Border.Background>
-                                </Border>
-                                <ContentPresenter    
-                                x:Name="TextColor"        
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Margin="10,0,10,0"/>
-
-                            </Grid>
-
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style/Global.xaml" />
+                <ResourceDictionary Source="Style/Controls.xaml" />                               
+            </ResourceDictionary.MergedDictionaries>
+            <!--Style for the form-->
+            <Style TargetType="RowDefinition">
+                <Setter Property="Height" Value="30"/>
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="WhiteSmoke"/>
+                <Setter Property="Margin" Value="0,0,0,5"/>
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Margin" Value="0,0,0,5"/>
+            </Style>
+            <!--End form style-->
+        </ResourceDictionary>
     </Window.Resources>
-    <Grid>
-        <Button Width="100" Height="25">Sup onéčan</Button>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0"  TextWrapping="Wrap" Text="Language:"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" Width="120" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged"/>
+
+        <ComboBox Grid.Row="1" Grid.Column="1" Width="120" />
+        <TextBlock Grid.Row="1" Grid.Column="0"  TextWrapping="Wrap" Text="TextBlock" />
+
 
     </Grid>
 </Window>
