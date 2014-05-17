@@ -81,6 +81,7 @@
     <Compile Include="BookData.cs" />
     <Compile Include="BookKeeper.cs" />
     <Compile Include="BookPeek.cs" />
+    <Compile Include="UiLang.cs" />
     <Compile Include="Lang\Lang.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

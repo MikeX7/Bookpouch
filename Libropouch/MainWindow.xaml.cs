@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -26,12 +28,12 @@ namespace Libropouch
     /// </summary>
     public partial class MainWindow
     {
-        public static MainWindow MW;
-        public static ResourceManager Lang = new ResourceManager("Libropouch.Lang.Lang", Assembly.GetExecutingAssembly());  
+        public static MainWindow MW;        
 
         public MainWindow()
         {            
-            MW = this;            
+            MW = this;                        
+
             InitializeComponent();
 
             new UsbSync();
@@ -139,7 +141,7 @@ namespace Libropouch
 
         private void Sync_OnClick(object sender, RoutedEventArgs e)
         {
-            Info(String.Format(Lang.GetString("InfoSyncDeviceSearch"), Properties.Settings.Default.UsbModel));  
+            Info(String.Format(UiLang.Get("InfoSyncDeviceSearch"), Properties.Settings.Default.UsbModel));  
 
             new UsbSync();
         }

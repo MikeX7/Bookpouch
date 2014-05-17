@@ -35,7 +35,16 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0"  TextWrapping="Wrap" Text="Language:"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" Width="120" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" Width="120" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding FlagPath}" Height="20" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
         <ComboBox Grid.Row="1" Grid.Column="1" Width="120" />
         <TextBlock Grid.Row="1" Grid.Column="0"  TextWrapping="Wrap" Text="TextBlock" />
