@@ -5,16 +5,16 @@
     <Setting Name="Language" Type="System.String" Scope="User">
       <Value Profile="(Default)">en-US</Value>
     </Setting>
-    <Setting Name="UsbPnpDeviceId" Type="System.String" Scope="Application">
+    <Setting Name="UsbPnpDeviceId" Type="System.String" Scope="User">
       <Value Profile="(Default)">KINDLE</Value>
     </Setting>
-    <Setting Name="UsbModel" Type="System.String" Scope="Application">
+    <Setting Name="UsbModel" Type="System.String" Scope="User">
       <Value Profile="(Default)">Kindle</Value>
     </Setting>
-    <Setting Name="UsbAutoDetect" Type="System.Boolean" Scope="User">
+    <Setting Name="UsbAutoSync" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="RootDir" Type="System.String" Scope="Application">
+    <Setting Name="DeviceRootDir" Type="System.String" Scope="User">
       <Value Profile="(Default)">/Documents/</Value>
     </Setting>
     <Setting Name="UseInfoBanner" Type="System.Boolean" Scope="Application">

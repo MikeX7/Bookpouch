@@ -35,42 +35,51 @@ namespace Libropouch.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("KINDLE")]
         public string UsbPnpDeviceId {
             get {
                 return ((string)(this["UsbPnpDeviceId"]));
             }
+            set {
+                this["UsbPnpDeviceId"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Kindle")]
         public string UsbModel {
             get {
                 return ((string)(this["UsbModel"]));
             }
+            set {
+                this["UsbModel"] = value;
+            }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool UsbAutoDetect {
+        public bool UsbAutoSync {
             get {
-                return ((bool)(this["UsbAutoDetect"]));
+                return ((bool)(this["UsbAutoSync"]));
             }
             set {
-                this["UsbAutoDetect"] = value;
+                this["UsbAutoSync"] = value;
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("/Documents/")]
-        public string RootDir {
+        public string DeviceRootDir {
             get {
-                return ((string)(this["RootDir"]));
+                return ((string)(this["DeviceRootDir"]));
+            }
+            set {
+                this["DeviceRootDir"] = value;
             }
         }
         

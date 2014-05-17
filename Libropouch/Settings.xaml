@@ -17,8 +17,19 @@
                 <Setter Property="Foreground" Value="WhiteSmoke"/>
                 <Setter Property="Margin" Value="0,0,0,5"/>
             </Style>
+            <Style TargetType="Label">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="WhiteSmoke"/>
+                <Setter Property="Padding" Value="0,0,0,0"/>
+                <Setter Property="Margin" Value="0,0,0,5"/>
+            </Style>
             <Style TargetType="ComboBox">
                 <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Margin" Value="0,0,0,5"/>
+            </Style>
+            <Style TargetType="CheckBox">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="0,0,0,5"/>
             </Style>
             <!--End form style-->
@@ -27,15 +38,16 @@
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition/>
+            <RowDefinition Height="90"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="90" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0"  TextWrapping="Wrap" Text="Language:"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" Width="120" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
+        <Label Grid.Row="0" Grid.Column="0" Content="_Language:" Target="{Binding ElementName=UiLanguage}"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" Name="UiLanguage" Width="120" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -46,9 +58,20 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <ComboBox Grid.Row="1" Grid.Column="1" Width="120" />
-        <TextBlock Grid.Row="1" Grid.Column="0"  TextWrapping="Wrap" Text="TextBlock" />
+        <Label Grid.Row="1" Grid.Column="0" Content="_Reader:" Target="{Binding ElementName=Reader}"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" Name="Reader" Width="150" Loaded="Reader_OnLoaded" SelectionChanged="Reader_OnSelectionChanged" ToolTip="Select the reader with which you are going to be using the Libropouch">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding ImagePath}" Height="80" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Model}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
+        <Label Grid.Row="2" Grid.Column="0" Content="_AutoSync:" Target="{Binding ElementName=UsbAutoSync}"/>
+        <CheckBox Grid.Row="2" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="UsbAutoSync" ToolTip="Automatically start sync, when compatible reader is connected to the computer"/>
 
     </Grid>
 </Window>

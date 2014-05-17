@@ -32,13 +32,15 @@ namespace Libropouch
 
         public MainWindow()
         {            
-            MW = this;                        
-
+            MW = this;
+            
             InitializeComponent();
+
+            this.Title = "Libropouch";
 
             new UsbSync();
 
-            if (Properties.Settings.Default.UsbAutoDetect)
+            if (Properties.Settings.Default.UsbAutoSync)
                 new ReaderDetector(this); //Start reader detection which automatically triggers UsbSync when reader is connected to the pc                      
         }
 
@@ -211,9 +213,10 @@ namespace Libropouch
 
         private void Settings_OnClick(object sender, RoutedEventArgs e)
         {
-            var settings = new Settings();
-            settings.Show();            
-            
+            this.IsEnabled = false;
+            var settings = new Settings {Owner = this};
+            settings.Closed += delegate { this.IsEnabled = true; };
+            settings.Show();
         }
     }
 

@@ -29,16 +29,16 @@ namespace Libropouch
             if (drive == "") //Reader is not connected to the pc or wasn't found, so there is no point to go on                            
                 return new String[0];            
 
-            if (!Directory.Exists(@drive + Properties.Settings.Default.RootDir)) //Specified directory on the reader which should contain ebook files doesn't exist
+            if (!Directory.Exists(@drive + Properties.Settings.Default.DeviceRootDir)) //Specified directory on the reader which should contain ebook files doesn't exist
             {                
-                MainWindow.Info(String.Format("Specified directory \"{0}\" wasn't found on the connected reader: {1}.", Properties.Settings.Default.RootDir, Properties.Settings.Default.UsbModel));                
+                MainWindow.Info(String.Format("Specified directory \"{0}\" wasn't found on the connected reader: {1}.", Properties.Settings.Default.DeviceRootDir, Properties.Settings.Default.UsbModel));                
 
                 return new String[0];            
             }
 
             var extensions = Properties.Settings.Default.FileExtensions.Split(';');
 
-            var files = Directory.EnumerateFiles(@drive + Properties.Settings.Default.RootDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();
+            var files = Directory.EnumerateFiles(@drive + Properties.Settings.Default.DeviceRootDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();
 
             if (files.Length == 0)
                 MainWindow.Info("No books found on the reader.");
