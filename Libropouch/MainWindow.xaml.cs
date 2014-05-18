@@ -31,9 +31,10 @@ namespace Libropouch
         public static MainWindow MW;        
 
         public MainWindow()
-        {            
-            MW = this;
-            
+        {
+
+            MW = this;            
+
             InitializeComponent();
 
             this.Title = "Libropouch";

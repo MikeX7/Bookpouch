@@ -112,5 +112,17 @@ namespace Libropouch.Properties {
                 this["FilesDir"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SplashScreen {
+            get {
+                return ((bool)(this["SplashScreen"]));
+            }
+            set {
+                this["SplashScreen"] = value;
+            }
+        }
     }
 }

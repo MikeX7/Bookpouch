@@ -31,7 +31,7 @@ namespace Libropouch
 
             if (!Directory.Exists(@drive + Properties.Settings.Default.DeviceRootDir)) //Specified directory on the reader which should contain ebook files doesn't exist
             {                
-                MainWindow.Info(String.Format("Specified directory \"{0}\" wasn't found on the connected reader: {1}.", Properties.Settings.Default.DeviceRootDir, Properties.Settings.Default.DeviceModel));                
+                MainWindow.Info(String.Format("Specified directory \"{0}\" wasn't found on the connected reader: {1}.", Properties.Settings.Default.DeviceRootDir, Properties.Settings.Default.DeviceModel), 1);                
 
                 return new String[0];            
             }

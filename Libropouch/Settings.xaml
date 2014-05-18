@@ -43,6 +43,7 @@
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition/>
+            <RowDefinition/>
             <RowDefinition Height="90"/>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
@@ -64,8 +65,11 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <Label Grid.Row="1" Grid.Column="0" Content="_Reader:" Target="{Binding ElementName=Reader}"/>
-        <ComboBox Grid.Row="1" Grid.Column="1" Name="Reader" Width="150" Loaded="Reader_OnLoaded" SelectionChanged="Reader_OnSelectionChanged" ToolTip="Select the reader with which you are going to be using the Libropouch">
+        <Label Grid.Row="1" Grid.Column="0" Content="_Splashscreen:" Target="{Binding ElementName=SplashScreen}"/>
+        <CheckBox Grid.Row="1" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="SplashScreen" ToolTip="Show splashscreen while the application loads"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="_Reader:" Target="{Binding ElementName=Reader}"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" Name="Reader" Width="150" Loaded="Reader_OnLoaded" SelectionChanged="Reader_OnSelectionChanged" ToolTip="Select the reader with which you are going to be using the Libropouch">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -76,7 +80,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <Border Grid.Row="2" Grid.Column="1" Name="UnknownDeviceForm" Visibility="Visible" Background="#58585f" CornerRadius="6" Width="260" Padding="10" HorizontalAlignment="Left">
+        <Border Grid.Row="3" Grid.Column="1" Name="UnknownDeviceForm" Visibility="Collapsed" Background="#58585f" CornerRadius="6" Width="260" Padding="10" HorizontalAlignment="Left">
             <Border.Effect>
                 <DropShadowEffect Opacity="1" BlurRadius="10" Color="#383838"   ShadowDepth="0"/>
             </Border.Effect>
@@ -106,9 +110,8 @@
             </Grid>
         </Border>
 
-
-        <Label Grid.Row="3" Grid.Column="0" Content="_AutoSync:" Target="{Binding ElementName=UsbAutoSync}"/>
-        <CheckBox Grid.Row="3" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="UsbAutoSync" ToolTip="Automatically start sync, when compatible reader is connected to the computer"/>
+        <Label Grid.Row="4" Grid.Column="0" Content="_AutoSync:" Target="{Binding ElementName=UsbAutoSync}"/>
+        <CheckBox Grid.Row="4" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="UsbAutoSync" ToolTip="Automatically start sync, when compatible reader is connected to the computer"/>       
 
     </Grid>
 </Window>

@@ -26,5 +26,8 @@
     <Setting Name="FilesDir" Type="System.String" Scope="User">
       <Value Profile="(Default)">books</Value>
     </Setting>
+    <Setting Name="SplashScreen" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
