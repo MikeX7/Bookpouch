@@ -25,8 +25,8 @@
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,5,5,5">
             <Button Click="Sync_OnClick" Content="Sync" ToolTip="Synchronize files on the connected ebook reader with local Libropouch library"/>
             <Button  Content="Add books" Click="Add_OnClick" Margin="5,0,0,0" ToolTip="Add new books to the library"/>
-            <Button  Content="Settings" Margin="5,0,0,0" Click="Settings_OnClick" HorizontalAlignment="Right"/>
-            <Button  Content="About" Margin="5,0,0,0" HorizontalAlignment="Right"/>
+            <Button  Content="Settings" Margin="5,0,0,0" Click="Settings_OnClick" />
+            <Button  Content="About" Click="About_OnClick" Margin="5,0,0,0" />
         </StackPanel>
 
         <Border Panel.ZIndex="100" Grid.Row="1" Name="InfoBoxBorder" Grid.Column="0" CornerRadius="8"  Visibility="Hidden" VerticalAlignment="Top" IsVisibleChanged="InfoBox_OnIsVisibleChanged">

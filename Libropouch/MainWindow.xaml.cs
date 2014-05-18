@@ -219,6 +219,14 @@ namespace Libropouch
             settings.Closed += delegate { this.IsEnabled = true; };
             settings.Show();
         }
+
+        private void About_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.IsEnabled = false;
+            var about = new AboutBox { Owner = this };
+            about.Closed += delegate { this.IsEnabled = true; };
+            about.Show();
+        }
     }
 
     internal class Book
