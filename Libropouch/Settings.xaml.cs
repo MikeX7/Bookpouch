@@ -8,6 +8,7 @@ using System.Resources;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace Libropouch
 {
@@ -56,14 +57,15 @@ namespace Libropouch
         {
             var comboBox = (ComboBox)sender;
             var langList = new List<ReaderOption>
-            {
+            {                    
                 new ReaderOption("kindle", "KINDLE", "Documents"),
                 new ReaderOption("nook", "NOOK", "my documents"),                
+                new ReaderOption("- other -", "", ""),        
             };
 
-            var position = Array.IndexOf(new[] { "kindle", "Nook"}, Properties.Settings.Default.UsbModel);
-            comboBox.ItemsSource = langList;
-            comboBox.SelectedIndex = (position > 0 ? position : 0);
+            var position = Array.IndexOf(new[] { "kindle", "nook"}, Properties.Settings.Default.DeviceModel);
+            comboBox.ItemsSource = langList;            
+            comboBox.SelectedIndex = (position != -1 ? position : 2);
 
         }
 
@@ -73,15 +75,30 @@ namespace Libropouch
             var comboBox = (ComboBox) sender;
             var readerOption = (ReaderOption) comboBox.SelectedItem;
 
-            Properties.Settings.Default.UsbModel = readerOption.Model;
-            Properties.Settings.Default.UsbPnpDeviceId = readerOption.PnpDeviceId;
+            if (readerOption.PnpDeviceId == "") //If user selects unknown device, don't save anything and display form for manual device info input
+            {
+                UnknownDeviceForm.Visibility = Visibility.Visible;
+                return;
+            }
+            
+            UnknownDeviceForm.Visibility = Visibility.Collapsed;
+
+            Properties.Settings.Default.DeviceModel = readerOption.Model;
+            Properties.Settings.Default.DevicePnpId = readerOption.PnpDeviceId;
+            Properties.Settings.Default.DeviceRootDir = readerOption.RootDir;
             Properties.Settings.Default.Save();
+
+        }
+
+        private void UnknownDeviceHint_OnClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("You have selected an unknown reader device and therefore you will need to manually input the identification strings, so that your reader can be correctly recognized and handled by Libropouch.\nHover over the fields with your cursor to display tooltips.");
         }
 
         //Handle loading  values for all settings checkboxes
         private void CheckBox_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var box = (CheckBox)sender;
+            var box = (CheckBox) sender;
             var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);
 
             if(prop != null)
@@ -91,7 +108,7 @@ namespace Libropouch
 
         //Handle saving  values for all settings checkboxes
         private void CheckBox_OnChecked(object sender, RoutedEventArgs e)
-        {
+        {           
             var box = (CheckBox) sender;
             var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);             
 
@@ -101,27 +118,28 @@ namespace Libropouch
             Properties.Settings.Default.Save();            
         }
 
-        //Handle loading for all settings text fields
+        //Handle loading values for all settings text fields
         private void TextBox_OnLoaded(object sender, RoutedEventArgs e)
         {
             var box = (TextBox) sender;
             var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);
 
             if (prop != null)
-                box.Text = (string) prop.GetValue(Properties.Settings.Default);
-
+                box.Text = (string) prop.GetValue(Properties.Settings.Default);        
         }
 
-        //Handle saving for all settings text fields
-        private void TextBox_OnChecked(object sender, RoutedEventArgs e)
-        {
-            var box = (CheckBox)sender;
+        //Handle saving values for all settings text fields
+        private void TextBox_OnLostFocus(object sender, RoutedEventArgs e)
+        { 
+            var box = (TextBox) sender;
             var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);
 
             if (prop != null)
-                prop.SetValue(Properties.Settings.Default, box.IsChecked);
+                prop.SetValue(Properties.Settings.Default, box.Text);
 
-            Properties.Settings.Default.Save();
+            
+
+            Properties.Settings.Default.Save();            
         }
 
         internal sealed class LanguageOption //Class representing items in the language selection drop down menu
@@ -148,7 +166,16 @@ namespace Libropouch
 
             public string PnpDeviceId;
             public string RootDir;
-            public string ImagePath { get { return "Img/" + Model.ToLower() + ".png"; } }            
+            private readonly String[] _readerImgs = {"kindle", "nook"}; //List of model names for which we have pictures present in the readers folder
+
+            public string ImagePath
+            {
+                get //Return image path for the reader model name specified in Model or default picture if unkwnon model name is supplied
+                {
+                    return "Readers/" + (Array.IndexOf(_readerImgs, Model) != -1 ? Model.ToLower() : "_unknown") + ".png";
+                }
+            }
+                     
 
             public ReaderOption(string model, string pnpDeviceId, string rootDir)
             {                
@@ -159,8 +186,7 @@ namespace Libropouch
 
         }
 
-     
+ 
     }
     
-
 }

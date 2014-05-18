@@ -5,10 +5,10 @@
     <Setting Name="Language" Type="System.String" Scope="User">
       <Value Profile="(Default)">en-US</Value>
     </Setting>
-    <Setting Name="UsbPnpDeviceId" Type="System.String" Scope="User">
+    <Setting Name="DevicePnpId" Type="System.String" Scope="User">
       <Value Profile="(Default)">KINDLE</Value>
     </Setting>
-    <Setting Name="UsbModel" Type="System.String" Scope="User">
+    <Setting Name="DeviceModel" Type="System.String" Scope="User">
       <Value Profile="(Default)">Kindle</Value>
     </Setting>
     <Setting Name="UsbAutoSync" Type="System.Boolean" Scope="User">

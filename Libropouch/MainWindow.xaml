@@ -90,7 +90,7 @@
                             <Button Click="SyncToDeviceToggle_OnClick" ToolTip="Toggles if the book will be synced into the reader">
                                 <Button.Template>
                                     <ControlTemplate>
-                                        <Image Source="Img/kindle.png" Height="25" Opacity="{Binding SyncOpacity}"/>
+                                        <Image Source="Readers/kindle.png" Height="25" Opacity="{Binding SyncOpacity}"/>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>

@@ -143,7 +143,7 @@ namespace Libropouch
 
         private void Sync_OnClick(object sender, RoutedEventArgs e)
         {
-            Info(String.Format(UiLang.Get("InfoSyncDeviceSearch"), Properties.Settings.Default.UsbModel));  
+            Info(String.Format(UiLang.Get("InfoSyncDeviceSearch"), Properties.Settings.Default.DeviceModel));  
 
             new UsbSync();
         }

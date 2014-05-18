@@ -31,7 +31,7 @@ namespace Libropouch
 
             if (!Directory.Exists(@drive + Properties.Settings.Default.DeviceRootDir)) //Specified directory on the reader which should contain ebook files doesn't exist
             {                
-                MainWindow.Info(String.Format("Specified directory \"{0}\" wasn't found on the connected reader: {1}.", Properties.Settings.Default.DeviceRootDir, Properties.Settings.Default.UsbModel));                
+                MainWindow.Info(String.Format("Specified directory \"{0}\" wasn't found on the connected reader: {1}.", Properties.Settings.Default.DeviceRootDir, Properties.Settings.Default.DeviceModel));                
 
                 return new String[0];            
             }
@@ -54,8 +54,8 @@ namespace Libropouch
               
                 foreach (var queryObj in searcher.Get().Cast<ManagementObject>())
                 {
-                    //if (!queryObj["PNPDeviceID"].ToString().Contains(Properties.Settings.Default.UsbPnpDeviceId) &&
-                      //  !queryObj["Model"].ToString().Contains(Properties.Settings.Default.UsbModel))
+                    //if (!queryObj["PNPDeviceID"].ToString().Contains(Properties.Settings.Default.DevicePnpId) &&
+                      //  !queryObj["Model"].ToString().Contains(Properties.Settings.Default.DeviceModel))
                     if (!queryObj["PNPDeviceID"].ToString().Contains("VERBATIM"))
                         continue;
 

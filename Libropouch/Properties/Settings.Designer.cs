@@ -38,24 +38,24 @@ namespace Libropouch.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("KINDLE")]
-        public string UsbPnpDeviceId {
+        public string DevicePnpId {
             get {
-                return ((string)(this["UsbPnpDeviceId"]));
+                return ((string)(this["DevicePnpId"]));
             }
             set {
-                this["UsbPnpDeviceId"] = value;
+                this["DevicePnpId"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Kindle")]
-        public string UsbModel {
+        public string DeviceModel {
             get {
-                return ((string)(this["UsbModel"]));
+                return ((string)(this["DeviceModel"]));
             }
             set {
-                this["UsbModel"] = value;
+                this["DeviceModel"] = value;
             }
         }
         
