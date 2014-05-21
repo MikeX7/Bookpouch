@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Resources;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Xml.Serialization;
@@ -32,14 +25,9 @@ namespace Libropouch
 
         public MainWindow()
         {
-
             MW = this;            
 
-            InitializeComponent();
-
-            this.Title = "Libropouch";
-
-            new UsbSync();
+            InitializeComponent();            
 
             if (Properties.Settings.Default.UsbAutoSync)
                 new ReaderDetector(this); //Start reader detection which automatically triggers UsbSync when reader is connected to the pc                      
@@ -50,7 +38,6 @@ namespace Libropouch
 
         public static void Info(string text, byte type = 0)
         {
-            
             if (Properties.Settings.Default.UseInfoBanner == false)
             {
                 MessageBox.Show(text);
@@ -134,6 +121,7 @@ namespace Libropouch
                         Favorite = bookInfo.Favorite,
                         Sync = bookInfo.Sync,
                         Category = bookInfo.Category,
+                        InfoFile = dinfo.FullName + "\\info.xml"
                     });
                 }
             }
@@ -209,7 +197,12 @@ namespace Libropouch
 
         private void EditBook_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            var button = (Button) sender;
+            Debug.WriteLine(button.DataContext);
+            this.IsEnabled = false;
+            var editBook = new EditBook { Owner = this };
+            editBook.Closed += delegate { this.IsEnabled = true; };
+            editBook.Show();
         }
 
         private void Settings_OnClick(object sender, RoutedEventArgs e)
@@ -243,6 +236,7 @@ namespace Libropouch
         public int Category { set; get; }
         public bool Favorite { set; get; }
         public bool Sync { set; get; }
+        public string InfoFile { set; get; }
         
         public Visibility SeriesVisibility 
         { 

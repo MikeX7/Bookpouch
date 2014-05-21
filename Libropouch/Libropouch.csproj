@@ -85,6 +85,9 @@
     <Compile Include="BookData.cs" />
     <Compile Include="BookKeeper.cs" />
     <Compile Include="BookPeek.cs" />
+    <Compile Include="EditBook.xaml.cs">
+      <DependentUpon>EditBook.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UiLang.cs" />
     <Compile Include="Lang\Lang.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -97,6 +100,10 @@
     </Compile>
     <Compile Include="UsbSync.cs" />
     <Page Include="AboutBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditBook.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -466,6 +473,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Img\splashscreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Img\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Img\sync.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Img\arrows.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

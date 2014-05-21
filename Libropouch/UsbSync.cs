@@ -10,7 +10,7 @@ namespace Libropouch
     {                
         public UsbSync()
         {
-
+            Debug.WriteLine("syncink");
             var fileList = GetFileList();
 
             if (fileList.Length == 0)
@@ -54,16 +54,14 @@ namespace Libropouch
               
                 foreach (var queryObj in searcher.Get().Cast<ManagementObject>())
                 {
-                    //if (!queryObj["PNPDeviceID"].ToString().Contains(Properties.Settings.Default.DevicePnpId) &&
-                      //  !queryObj["Model"].ToString().Contains(Properties.Settings.Default.DeviceModel))
-                    if (!queryObj["PNPDeviceID"].ToString().Contains("VERBATIM"))
+                    if (!queryObj["PNPDeviceID"].ToString().Contains(Properties.Settings.Default.DevicePnpId) && !queryObj["Model"].ToString().Contains(Properties.Settings.Default.DeviceModel))                    
                         continue;
 
                     foreach (var partition in queryObj.GetRelated("Win32_DiskPartition").Cast<ManagementObject>())
                     {
                         foreach (var disk in partition.GetRelated("Win32_LogicalDisk"))
                         {                            
-                            return (string) disk["name"];
+                            return (string) disk["name"]; 
                         }
                     }
                 }
