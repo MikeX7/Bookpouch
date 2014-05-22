@@ -463,9 +463,6 @@
     <Resource Include="Flags\_wales.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Img\silhouette1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Readers\nook.png" />
   </ItemGroup>
   <ItemGroup>
@@ -482,6 +479,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Img\arrows.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Img\tools.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Img\tools1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

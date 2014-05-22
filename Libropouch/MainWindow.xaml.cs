@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -107,13 +108,20 @@ namespace Libropouch
                 {
                     var serializer = new XmlSerializer(typeof (BookData));
                     var bookInfo = (BookData) serializer.Deserialize(infoFile);
+                    var countryCode = "_unknown"; //If we can't get proper country code, this fallback flag image name will be used
+
+                    if (bookInfo.Language != "" && CultureInfo.GetCultures(CultureTypes.SpecificCultures).FirstOrDefault(x => x.Name == bookInfo.Language) != null) //Make sure the book language is not neutral (ex: en instead of en-US), or invalid. This will make sure we don't display for example US flag for british english.                         
+                    {         
+                        var cultureInfo = new CultureInfo(bookInfo.Language);
+                        countryCode = new RegionInfo(cultureInfo.Name).TwoLetterISORegionName;                                                        
+                    }
 
                     bookList.Add(new Book()
                     {
                         Title = bookInfo.Title,
                         Author = bookInfo.Author,
                         Publisher = bookInfo.Publisher,
-                        CountryCode = Tools.GetCountryCode(bookInfo.Language).ToUpper(),
+                        CountryCode = countryCode,
                         Published = bookInfo.Published,
                         Description = bookInfo.Description,
                         MobiType = bookInfo.MobiType,
@@ -163,20 +171,17 @@ namespace Libropouch
 
             var filesSelected = openFileDialog.ShowDialog();
 
-            if (filesSelected != true)
-            {
+            if (filesSelected != true)            
                 return;
-            }
 
             Info("Selected supported files are being added into the library...");
 
             var selectedFiles = openFileDialog.FileNames;
 
-            foreach (var file in selectedFiles)
-            {
+            foreach (var file in selectedFiles)            
                 BookKeeper.Add(file);
-            }            
 
+            BookGrid_OnLoaded(BookGrid, null); //Refresh the data grid displaying info about books, so we can see any newly added books 
         }
 
         private void SyncToDeviceToggle_OnClick(object sender, RoutedEventArgs e)

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Libropouch
 {
+    //BookData is used to store serialized data about books in info.xml
     public class BookData
     {        
         public String Title;

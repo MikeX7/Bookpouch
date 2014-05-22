@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -13,12 +14,17 @@ namespace Libropouch
     {
         public Dictionary<string, object> List = new Dictionary<string, object>();
 
-        public BookPeek(FileInfo file)
+        public BookPeek(FileSystemInfo file)
         {
-            if (file.Extension.ToLower() == ".mobi")
-                Mobi(file);
-            else if (file.Extension.ToLower() == ".epub")
-                Epub(file);
+            switch (file.Extension.ToLower())
+            {
+                case ".mobi":
+                    Mobi(file);
+                    break;
+                case ".epub":
+                    Epub(file);
+                    break;
+            }
 
             if(!List.ContainsKey("title"))
                 List.Add("title", file.Name.Substring(0, (file.Name.Length - file.Extension.Length)));
@@ -79,11 +85,11 @@ namespace Libropouch
             {
                 MainWindow.Info("I wasn't ale to get any information from the Epub file, it may be corrupted or is missing some key files.", 1);
             }             
-        }        
+        }
 
-        private void Mobi(FileSystemInfo file)
+        private void Mobi(FileSystemInfo file) //Find and read MOBI header       
         {
-            //Processing MOBI header            
+                 
             var types = new Dictionary<UInt32, String>
                 {
                     {2, "Mobipocket Book"},
@@ -110,6 +116,7 @@ namespace Libropouch
                 var type = new byte[4];                
                 var titleOffset = new byte[4];
                 var titleLength = new byte[4];
+                var language = new byte[4];
                 var exthFlags = new byte[4];
                 long headerPos = 0;
 
@@ -117,7 +124,7 @@ namespace Libropouch
 
                 while (fs.Read(headerIdent, 0, headerIdent.Length) > 0)
                 {
-                    if (Encoding.UTF8.GetBytes("MOBI").SequenceEqual(headerIdent))
+                    if (Encoding.UTF8.GetBytes("MOBI").SequenceEqual(headerIdent)) //Search the stream until the beggining of the MOBI header is found or until end of the stream is reached
                     {
                         headerPos = fs.Position;
                         headerFound = true;
@@ -125,9 +132,9 @@ namespace Libropouch
                     }
                 }
 
-                Debug.WriteLine("Header position: " + fs.Position);
+                //Debug.WriteLine("Header position: " + fs.Position);
 
-                if (!headerFound)
+                if (!headerFound) 
                 {
                     MainWindow.Info(string.Format("{0} is missing the MOBI header and therefore I am not able to extract any information from it.", file.Name), 1);
                     return;
@@ -139,31 +146,41 @@ namespace Libropouch
                 if (types.ContainsKey(ByteToUInt32(type)))
                     List.Add("type", types[ByteToUInt32(type)]);
 
-                fs.Seek((14 * 4), SeekOrigin.Current); //Skip some next fields
+                fs.Seek((14 * 4), SeekOrigin.Current); //Skip some of the following fields
                 fs.Read(titleOffset, 0, titleOffset.Length);
                 fs.Read(titleLength, 0, titleLength.Length);
-                fs.Seek((9 * 4), SeekOrigin.Current); //Skip some next fields
+                fs.Read(language, 0, language.Length);
+                fs.Seek((8 * 4), SeekOrigin.Current); //Skip some of the following fields
                 fs.Read(exthFlags, 0, exthFlags.Length);
-                //Process the EXTH header
-                if ((ByteToUInt32(exthFlags) & 0x40) != 0)
-                    MobiExth(fs, file);
+                
+                var langCode = ByteToUInt32(language);
+
+                if (langCode > 100) //Only continue if the language code looks valid and isn't too low 
+                {
+                    var cultureInfo = CultureInfo.GetCultureInfo((int) langCode);
+                    List.Add("language", cultureInfo.Name);
+                }                
+
+                if ((ByteToUInt32(exthFlags) & 0x40) != 0) //exthFlags tells us if the EXTH header exists in this file
+                    MobiExth(fs, file); 
 
                 if (List.ContainsKey("title")) //If exth contained the book title, no need to continue
                     return;
 
-                //Get book title from the mobi header, the title itself is located after the exth header, if any
+                //Get book title from the mobi header, the title itself is located after the exth header (if it exists)
                 fs.Seek(headerPos + ByteToUInt32(titleOffset) - 4 - 16, SeekOrigin.Begin);
+                
                 var title = new byte[ByteToUInt32(titleLength)];
                 fs.Read(title, 0, title.Length);
 
                 if (ByteToUInt32(titleLength) > 0)
                 {
-                    List.Add("title", Encoding.UTF8.GetString(title).Replace("\0", String.Empty));                    
+                    List.Add("title", Encoding.UTF8.GetString(title));                    
                 }    
             }
         }
 
-        private void MobiExth(Stream fs, FileSystemInfo file)
+        private void MobiExth(Stream fs, FileSystemInfo file) //Attempt to find and process the EXTH header from the mobi file stream
         {
             var records = new Dictionary<UInt32, string>();
             var headerIdent = new byte[4];
@@ -172,13 +189,13 @@ namespace Libropouch
 
             while (fs.Read(headerIdent, 0, headerIdent.Length) > 0)
             {
-                if (Encoding.UTF8.GetBytes("EXTH").SequenceEqual(headerIdent))
+                if (Encoding.UTF8.GetBytes("EXTH").SequenceEqual(headerIdent)) //Keep checking the file until we find the EXTH header beginning
                     break;
             }
 
-            if (fs.Length == fs.Position)
+            if (fs.Length == fs.Position) //If we reach the end of the stream without finding the EXTH header, then the file doesn't contain it
             {
-                MainWindow.Info(String.Format("{0} is missing EXTH header and therefore I wasn't able to extract any extra information from it.", file.Name), 1);
+                MainWindow.Info(String.Format("{0} is missing the EXTH header, even though it claims that it has one and therefore I wasn't able to extract any information from it.", file.Name), 1);
                 return;
             }
 
@@ -199,7 +216,8 @@ namespace Libropouch
                     var recordData = new byte[ByteToUInt32(recordLength) - 8];
                     fs.Read(recordData, 0, recordData.Length);
 
-                    records.Add(ByteToUInt32(recordType), Encoding.UTF8.GetString(recordData).Replace("\0", String.Empty));
+                    if (!records.ContainsKey(ByteToUInt32(recordType)))
+                        records.Add(ByteToUInt32(recordType), Encoding.UTF8.GetString(recordData));
                 }
 
                 if (records.ContainsKey(100))
@@ -211,8 +229,11 @@ namespace Libropouch
                 if (records.ContainsKey(101))
                     List.Add("publisher", records[101]);
 
-                if (records.ContainsKey(524))
-                    List.Add("language", records[524]);
+                if (records.ContainsKey(524) && !List.ContainsKey("language")) //Only add language from the exth header, if it wasn't found in the mobi header
+                {
+                    var cultureInfo = CultureInfo.GetCultureInfo("en");                                        
+                    List.Add("language", cultureInfo.Name);
+                }
 
                 if (records.ContainsKey(106))
                     List.Add("published", DateTime.Parse(records[106]));
