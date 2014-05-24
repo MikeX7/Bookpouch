@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using ShadoLib;
 
 namespace Libropouch
 {
@@ -28,9 +29,9 @@ namespace Libropouch
             var comboBox = (ComboBox) sender;
             var langList = new List<LanguageOption>
             {
-                new LanguageOption("- Automatic -", "", ""),
-                new LanguageOption("English", "en", "US"),
-                new LanguageOption("Česky", "cs", "CZ")
+                new LanguageOption(CultureInfo.InvariantCulture),
+                new LanguageOption(CultureInfo.GetCultureInfo("en-US")),
+                new LanguageOption(CultureInfo.GetCultureInfo("cs-CZ"))
             };
 
             var position = Array.IndexOf(new[] {"", "en-US", "cs-CZ"}, Properties.Settings.Default.Language);
@@ -44,12 +45,11 @@ namespace Libropouch
         {
             var comboBox = (ComboBox) sender;
             var language = (LanguageOption) comboBox.SelectedItem;
-            var languageCode = (language.CountryCode != "" ? String.Format("{0}-{1}", language.Code, language.CountryCode) : "");
 
-            Properties.Settings.Default.Language = languageCode;            
+            Properties.Settings.Default.Language = language.cultureInfo.Name;            
             Properties.Settings.Default.Save();
 
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo((languageCode != "" ? languageCode : CultureInfo.CurrentCulture.Name));        
+            Thread.CurrentThread.CurrentUICulture = language.cultureInfo;        
         }
 
         //Populating reader drop down list
@@ -145,17 +145,19 @@ namespace Libropouch
         internal sealed class LanguageOption //Class representing items in the language selection drop down menu
         {
             public string Name { private set; get; }
-            public string FlagPath { private set; get; }
+            public string NativeName { private set; get; }
+            public string FlagPath { set; get; }
 
-            public readonly string Code;
-            public readonly string CountryCode;
+            public readonly CultureInfo cultureInfo;
 
-            public LanguageOption(string name, string code, string coutnryCode)
+            public LanguageOption(CultureInfo cultureInfo)
             {
-                Name = name;
-                Code = code;
-                CountryCode = coutnryCode;                
-                FlagPath = "Flags/" + (coutnryCode != "" ? coutnryCode : "_unknown") + ".png";                
+                this.cultureInfo = cultureInfo;
+                var countryCode = (cultureInfo.Name != "" ? new RegionInfo(cultureInfo.Name).TwoLetterISORegionName : "_unknown");
+                Name = cultureInfo.DisplayName;
+                NativeName = cultureInfo.NativeName;
+                FlagPath = "flags/"+ countryCode +".png";
+                FlagPath = (Tools.ResourceExists(FlagPath, Assembly.GetExecutingAssembly()) ? FlagPath : "flags/_unknown.png");
             }
 
         }
@@ -172,7 +174,7 @@ namespace Libropouch
             {
                 get //Return image path for the reader model name specified in Model or default picture if unkwnon model name is supplied
                 {
-                    return "Readers/" + (Array.IndexOf(_readerImgs, Model) != -1 ? Model.ToLower() : "_unknown") + ".png";
+                    return "Readers/" + (Array.IndexOf(_readerImgs, Model) != -1 ? Model : "_unknown") + ".png";
                 }
             }
                      

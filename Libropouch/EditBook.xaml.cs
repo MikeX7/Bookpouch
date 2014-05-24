@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace Libropouch
 {
@@ -21,38 +16,37 @@ namespace Libropouch
     /// </summary>
     public partial class EditBook
     {
+        public string InfoFile;
+
         public EditBook()
         {
             InitializeComponent();
+
+            
         }
 
         private void Language_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var comboBox = (ComboBox)sender;
-            var langList = new List<Settings.LanguageOption>
-            {
-                new Settings.LanguageOption("- Automatic -", "", ""),
-                new Settings.LanguageOption("English", "en", "US"),
-                new Settings.LanguageOption("Česky", "cs", "CZ")
-            };
+            var comboBox = (ComboBox) sender;
+            var cultureList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            var languageOptions = cultureList.Select(culture => new Settings.LanguageOption(culture)).ToList();
 
             var position = Array.IndexOf(new[] { "", "en-US", "cs-CZ" }, Properties.Settings.Default.Language);
-            comboBox.ItemsSource = langList;
+            comboBox.ItemsSource = languageOptions;
             comboBox.SelectedIndex = (position > 0 ? position : 0);
-
         }
 
         //Save language change and also start using the new language
         private void Language_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (ComboBox)sender;
-            var language = (Settings.LanguageOption)comboBox.SelectedItem;
-            var languageCode = (language.CountryCode != "" ? String.Format("{0}-{1}", language.Code, language.CountryCode) : "");
+            var language = (Settings.LanguageOption) comboBox.SelectedItem;
+            
 
-            Properties.Settings.Default.Language = languageCode;
+            Properties.Settings.Default.Language = language.cultureInfo.Name;
             Properties.Settings.Default.Save();
 
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo((languageCode != "" ? languageCode : CultureInfo.CurrentCulture.Name));
+            Thread.CurrentThread.CurrentUICulture = language.cultureInfo;
         }
 
 
@@ -77,6 +71,27 @@ namespace Libropouch
                 prop.SetValue(Properties.Settings.Default, box.IsChecked);
 
             Properties.Settings.Default.Save();
+        }
+
+        //Handle loading  values for all settings textboxes
+        private void TextBox_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var textBox = (TextBox) sender;
+
+            using (var infoFile = new FileStream(InfoFile, FileMode.Open))
+            {
+                var serializer = new XmlSerializer(typeof (BookData));
+                var bookInfo = (BookData) serializer.Deserialize(infoFile);
+
+                var prop = bookInfo.GetType().GetProperty(textBox.Name);
+                
+                Debug.WriteLine(textBox.Name + prop);
+                Debug.WriteLine(bookInfo.Title);
+
+                
+
+                
+            }
         }
     }
 }

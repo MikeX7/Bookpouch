@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml;
-using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Libropouch
 {    
@@ -43,7 +42,32 @@ namespace Libropouch
             var finfo = new FileInfo(file);
             var bookPeek = new BookPeek(finfo);
 
-            var bookData = new BookData
+            var bookData = new Dictionary<string, object>
+            {
+                {"title", bookPeek.List["title"]},
+                {"author", bookPeek.List.ContainsKey("author") ? bookPeek.List["author"] : ""},
+                {"publisher", bookPeek.List.ContainsKey("publisher") ? bookPeek.List["publisher"] : ""},
+                {"language", bookPeek.List.ContainsKey("language") ? bookPeek.List["language"] : ""},
+                {"published", (DateTime?) (bookPeek.List.ContainsKey("published") ? bookPeek.List["published"] : null)},
+                {"description", ""},
+                {"series", 0},
+                {"category", 0},
+                {"mobiType", bookPeek.List.ContainsKey("type") ? bookPeek.List["type"] : ""},
+                {"size", (ulong) finfo.Length},
+                {"favorite", false},
+                {"sync", false},                                
+                {"created", DateTime.Now},
+                
+            };
+
+            using (var fs = new FileStream(finfo.Directory + "/info.dat", FileMode.Create))
+            {
+                var bf = new BinaryFormatter();
+                bf.Serialize(fs, bookData);
+            }
+            
+
+            /*var bookData = new BookData
             {
                 Title = (string)bookPeek.List["title"],
                 Author = (string)(bookPeek.List.ContainsKey("author") ? bookPeek.List["author"] : ""),
@@ -54,12 +78,12 @@ namespace Libropouch
                 Created = DateTime.Now,
                 Size = (ulong)finfo.Length
             };
-            Debug.WriteLine(finfo.Directory);
+            
             using (var writer = XmlWriter.Create(finfo.Directory + "/info.xml"))
             {
                 var serializer = new XmlSerializer(typeof(BookData));
                 serializer.Serialize(writer, bookData);
-            }
+            }*/
         }
     }
     

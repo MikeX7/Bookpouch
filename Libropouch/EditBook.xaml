@@ -18,18 +18,25 @@
                 <Setter Property="Margin" Value="0,0,0,5"/>
             </Style>
             <Style TargetType="TextBox">
-                <Setter Property="VerticalAlignment" Value="Center"/>
-
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Width" Value="250"/>
                 <Setter Property="Margin" Value="0,0,0,5"/>
             </Style>
             <Style TargetType="Label">
                 <Setter Property="VerticalAlignment" Value="Center"/>
+                
                 <Setter Property="Foreground" Value="WhiteSmoke"/>
                 <Setter Property="Padding" Value="0,0,0,0"/>
                 <Setter Property="Margin" Value="0,0,0,5"/>
             </Style>
             <Style TargetType="ComboBox">
                 <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Width" Value="250"/>
+                <Setter Property="Margin" Value="0,0,0,5"/>
+            </Style>
+            <Style TargetType="DatePicker">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Width" Value="250"/>
                 <Setter Property="Margin" Value="0,0,0,5"/>
             </Style>
             <Style TargetType="CheckBox">
@@ -43,15 +50,27 @@
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition/>            
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="90" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="_Language:" Target="{Binding ElementName=UiLanguage}"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" Name="UiLanguage" Width="120" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
+        <Label Grid.Row="0" Grid.Column="0" Content="_Title:" Target="{Binding ElementName=Title}"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Name="Title" Loaded="TextBox_OnLoaded"/>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="_Author:" Target="{Binding ElementName=Author}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Name="Author"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="_Language:" Target="{Binding ElementName=UiLanguage}"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" Name="UiLanguage" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -62,8 +81,20 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <Label Grid.Row="1" Grid.Column="0" Content="_Splashscreen:" Target="{Binding ElementName=SplashScreen}"/>
-        <CheckBox Grid.Row="1" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="SplashScreen" ToolTip="Show splashscreen while the application loads"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="S_eries:" Target="{Binding ElementName=Series}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Name="Series"/>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="_Published:" Target="{Binding ElementName=Published}"/>
+        <DatePicker Grid.Row="4" Grid.Column="1" Name="Published" SelectedDateFormat="Short" Width="125"/>
+
+        <Label Grid.Row="5" Grid.Column="0" Content="_Category:" Target="{Binding ElementName=Category}"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Name="Category"/>
+
+        <Label Grid.Row="6" Grid.Column="0" Content="_Favorite:" Target="{Binding ElementName=Favorite}"/>
+        <CheckBox Grid.Row="6" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Favorite" ToolTip="Mark this book as one of your favorites"/>
+        
+        <Label Grid.Row="7" Grid.Column="0" Content="_Sync:" Target="{Binding ElementName=Sync}"/>        
+        <CheckBox Grid.Row="7" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Sync" ToolTip="This book will by copied into your reader during synchronization"/>
 
       
 

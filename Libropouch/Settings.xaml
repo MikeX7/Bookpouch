@@ -54,12 +54,12 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="_Language:" Target="{Binding ElementName=UiLanguage}"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" Name="UiLanguage" Width="120" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
+        <ComboBox Grid.Row="0" Grid.Column="1" Name="UiLanguage" Width="250" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding FlagPath}" Height="20" Margin="0,0,5,0"/>
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding NativeName}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
