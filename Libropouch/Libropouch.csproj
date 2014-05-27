@@ -52,6 +52,7 @@
     <ApplicationIcon>kindle.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="ShadoLib">
       <HintPath>..\..\ShadoLib\ShadoLib\bin\Release\ShadoLib.dll</HintPath>
     </Reference>

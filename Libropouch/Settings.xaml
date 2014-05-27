@@ -17,11 +17,6 @@
                 <Setter Property="Foreground" Value="WhiteSmoke"/>
                 <Setter Property="Margin" Value="0,0,0,5"/>
             </Style>
-            <Style TargetType="TextBox">
-                <Setter Property="VerticalAlignment" Value="Center"/>
-
-                <Setter Property="Margin" Value="0,0,0,5"/>
-            </Style>
             <Style TargetType="Label">
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Foreground" Value="WhiteSmoke"/>

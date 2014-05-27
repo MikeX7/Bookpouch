@@ -17,11 +17,7 @@
                 <Setter Property="Foreground" Value="WhiteSmoke"/>
                 <Setter Property="Margin" Value="0,0,0,5"/>
             </Style>
-            <Style TargetType="TextBox">
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="Width" Value="250"/>
-                <Setter Property="Margin" Value="0,0,0,5"/>
-            </Style>
+            
             <Style TargetType="Label">
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 
@@ -29,21 +25,9 @@
                 <Setter Property="Padding" Value="0,0,0,0"/>
                 <Setter Property="Margin" Value="0,0,0,5"/>
             </Style>
-            <Style TargetType="ComboBox">
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="Width" Value="250"/>
-                <Setter Property="Margin" Value="0,0,0,5"/>
-            </Style>
-            <Style TargetType="DatePicker">
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="Width" Value="250"/>
-                <Setter Property="Margin" Value="0,0,0,5"/>
-            </Style>
-            <Style TargetType="CheckBox">
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="0,0,0,5"/>
-            </Style>
+            
+
+           
             <!--End form style-->
         </ResourceDictionary>
     </Window.Resources>
@@ -64,10 +48,10 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="_Title:" Target="{Binding ElementName=Title}"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Name="Title" Loaded="TextBox_OnLoaded"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Name="Title" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged"/>
 
         <Label Grid.Row="1" Grid.Column="0" Content="_Author:" Target="{Binding ElementName=Author}"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Name="Author"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Name="Author" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged"/>
 
         <Label Grid.Row="2" Grid.Column="0" Content="_Language:" Target="{Binding ElementName=UiLanguage}"/>
         <ComboBox Grid.Row="2" Grid.Column="1" Name="UiLanguage" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
@@ -82,13 +66,15 @@
         </ComboBox>
 
         <Label Grid.Row="3" Grid.Column="0" Content="S_eries:" Target="{Binding ElementName=Series}"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Name="Series"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Name="Series" Loaded="TextBox_OnLoaded"  LostFocus="TextBox_OnChanged"/>
 
         <Label Grid.Row="4" Grid.Column="0" Content="_Published:" Target="{Binding ElementName=Published}"/>
-        <DatePicker Grid.Row="4" Grid.Column="1" Name="Published" SelectedDateFormat="Short" Width="125"/>
+        <DatePicker Grid.Row="4" Grid.Column="1" Name="Published" Loaded="DatePicker_OnLoaded" LostFocus="DatePicker_OnChanged" SelectedDateFormat="Short" Width="125"/>
 
         <Label Grid.Row="5" Grid.Column="0" Content="_Category:" Target="{Binding ElementName=Category}"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Name="Category"/>
+        <ComboBox Grid.Row="5" Grid.Column="1" Name="Category">
+            <ComboBoxItem Content="df"/>
+        </ComboBox>
 
         <Label Grid.Row="6" Grid.Column="0" Content="_Favorite:" Target="{Binding ElementName=Favorite}"/>
         <CheckBox Grid.Row="6" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Favorite" ToolTip="Mark this book as one of your favorites"/>
@@ -96,7 +82,18 @@
         <Label Grid.Row="7" Grid.Column="0" Content="_Sync:" Target="{Binding ElementName=Sync}"/>        
         <CheckBox Grid.Row="7" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Sync" ToolTip="This book will by copied into your reader during synchronization"/>
 
-      
+        <Popup Grid.Row="7" Grid.Column="1" IsOpen="True" x:Name="ParentedPopup" PlacementTarget="{Binding ElementName=Series}">
+            <ListBox Padding="5 1 5 1">
+                <ListBoxItem>That feel when no girlfriend</ListBoxItem>
+                <ListBoxItem>Feels batman</ListBoxItem>
+                <ListBoxItem>sdsdd</ListBoxItem>
+                <ListBoxItem>sdsdd</ListBoxItem>
+                <ListBoxItem>sdsdd</ListBoxItem>
+                <ListBoxItem>sdsdd</ListBoxItem>
+                <ListBoxItem>sdsdd</ListBoxItem>
+                <ListBoxItem>sdsdd</ListBoxItem>
+            </ListBox>
+        </Popup>
 
     </Grid>
 </Window>

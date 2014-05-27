@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,7 +17,8 @@ namespace Libropouch
     /// </summary>
     public partial class EditBook
     {
-        public string InfoFile;
+        public string InfoFile; //Path to the info.dat file for the edited book
+        private Dictionary<string, object> _bookInfo; //Dictionary containing the data about the book
 
         public EditBook()
         {
@@ -36,62 +38,86 @@ namespace Libropouch
             comboBox.SelectedIndex = (position > 0 ? position : 0);
         }
 
-        //Save language change and also start using the new language
+        //Save book language change
         private void Language_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (ComboBox)sender;
             var language = (Settings.LanguageOption) comboBox.SelectedItem;
             
 
-            Properties.Settings.Default.Language = language.cultureInfo.Name;
-            Properties.Settings.Default.Save();
-
-            Thread.CurrentThread.CurrentUICulture = language.cultureInfo;
+            
         }
 
 
-        //Handle loading  values for all settings checkboxes
+        //Handle loading  values for all checkboxes
         private void CheckBox_OnLoaded(object sender, RoutedEventArgs e)
         {
             var box = (CheckBox)sender;
-            var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);
-
-            if (prop != null)
-                box.IsChecked = (bool)prop.GetValue(Properties.Settings.Default);
-
+            box.IsChecked = (bool) BookInfoGet(box.Name);
         }
 
-        //Handle saving  values for all settings checkboxes
+        //Handle saving  values for all checkboxes
         private void CheckBox_OnChecked(object sender, RoutedEventArgs e)
         {
-            var box = (CheckBox)sender;
-            var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);
-
-            if (prop != null)
-                prop.SetValue(Properties.Settings.Default, box.IsChecked);
-
-            Properties.Settings.Default.Save();
+            var box = (CheckBox)sender;            
+            BookInfoSet(box.Name, box.IsChecked);
         }
 
-        //Handle loading  values for all settings textboxes
+        //Handle loading  values for all  textboxes
         private void TextBox_OnLoaded(object sender, RoutedEventArgs e)
         {
             var textBox = (TextBox) sender;
+            textBox.Text = (string) BookInfoGet(textBox.Name);
+        }
 
-            using (var infoFile = new FileStream(InfoFile, FileMode.Open))
+        //Handle saving  values for all  textboxes
+        private void TextBox_OnChanged(object sender, RoutedEventArgs e)
+        {            
+            var textBox = (TextBox)sender;
+            BookInfoSet(textBox.Name, textBox.Text);
+        }
+
+        //Handle loading  values for all  dateboxes
+        private void DatePicker_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var datePicker = (DatePicker) sender;
+            datePicker.SelectedDate = (DateTime?) BookInfoGet(datePicker.Name);
+        }
+
+        //Handle saving values for all  dateboxes
+        private void DatePicker_OnChanged(object sender, RoutedEventArgs e)
+        {            
+            var datePicker = (DatePicker) sender;                       
+            BookInfoSet(datePicker.Name, datePicker.SelectedDate);
+        }
+
+        private object BookInfoGet(string key) //Fetch data, to fill the form fields, from the bookinfo dictionary based on the key
+        {
+            if (_bookInfo == null) //Singleton, so we don't have to reopen the file with saved info, after every form field loads and its load event handler calls BookInfoGet
             {
-                var serializer = new XmlSerializer(typeof (BookData));
-                var bookInfo = (BookData) serializer.Deserialize(infoFile);
-
-                var prop = bookInfo.GetType().GetProperty(textBox.Name);
-                
-                Debug.WriteLine(textBox.Name + prop);
-                Debug.WriteLine(bookInfo.Title);
-
-                
-
-                
+                using (var infoFile = new FileStream(InfoFile, FileMode.Open))
+                {
+                    var bf = new BinaryFormatter();
+                    _bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);                    
+                }
             }
+
+            return _bookInfo.ContainsKey(key.ToLower()) ? _bookInfo[key.ToLower()] : null;
+        }
+
+        private void BookInfoSet(string key, object value)
+        {
+            if (!_bookInfo.ContainsKey(key.ToLower()))
+                return;
+
+            _bookInfo[key.ToLower()] = value;
+
+            using (var infoFile = new FileStream(InfoFile, FileMode.Create))
+            {
+                var bf = new BinaryFormatter();
+                bf.Serialize(infoFile, _bookInfo);
+            }            
+
         }
     }
 }

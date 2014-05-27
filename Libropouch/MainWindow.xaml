@@ -107,7 +107,7 @@
                 <DataGridTemplateColumn Header=" ⇪">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="SyncToDeviceToggle_OnClick"
+                            <Button DataContext="{Binding InfoFile}" Click="SyncToDeviceToggle_OnClick"
                                     ToolTip="Toggles if the book will be synced into the reader">
                                 <Button.Template>
                                     <ControlTemplate>
@@ -146,11 +146,11 @@
                                         <DropShadowEffect Color="Black" ShadowDepth="5" BlurRadius="5" />
                                     </TextBlock.Effect>
                                 </TextBlock>
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding AuthorVisibility}">
                                     <Image Source="Img/silhouette.png" Height="16" Margin="0,0,5,0"
                                            HorizontalAlignment="Left" />
                                     <TextBlock FontSize="16" Text="{Binding Author}" Foreground="#92caf4"
-                                               FontWeight="Medium" Visibility="{Binding AuthorVisibility}"
+                                               FontWeight="Medium" 
                                                VerticalAlignment="Center">
                                         <TextBlock.Effect>
                                             <DropShadowEffect Color="#0a395c" ShadowDepth="3" BlurRadius="3" />

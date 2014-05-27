@@ -50,7 +50,7 @@ namespace Libropouch
                 {"language", bookPeek.List.ContainsKey("language") ? bookPeek.List["language"] : ""},
                 {"published", (DateTime?) (bookPeek.List.ContainsKey("published") ? bookPeek.List["published"] : null)},
                 {"description", ""},
-                {"series", 0},
+                {"series", ""},
                 {"category", 0},
                 {"mobiType", bookPeek.List.ContainsKey("type") ? bookPeek.List["type"] : ""},
                 {"size", (ulong) finfo.Length},
@@ -59,31 +59,12 @@ namespace Libropouch
                 {"created", DateTime.Now},
                 
             };
-
+            
             using (var fs = new FileStream(finfo.Directory + "/info.dat", FileMode.Create))
             {
                 var bf = new BinaryFormatter();
                 bf.Serialize(fs, bookData);
-            }
-            
-
-            /*var bookData = new BookData
-            {
-                Title = (string)bookPeek.List["title"],
-                Author = (string)(bookPeek.List.ContainsKey("author") ? bookPeek.List["author"] : ""),
-                Publisher = (string)(bookPeek.List.ContainsKey("publisher") ? bookPeek.List["publisher"] : ""),
-                Language = (string)(bookPeek.List.ContainsKey("language") ? bookPeek.List["language"] : ""),
-                Published = (DateTime?)(bookPeek.List.ContainsKey("published") ? bookPeek.List["published"] : null),
-                MobiType = (string)(bookPeek.List.ContainsKey("type") ? bookPeek.List["type"] : ""),
-                Created = DateTime.Now,
-                Size = (ulong)finfo.Length
-            };
-            
-            using (var writer = XmlWriter.Create(finfo.Directory + "/info.xml"))
-            {
-                var serializer = new XmlSerializer(typeof(BookData));
-                serializer.Serialize(writer, bookData);
-            }*/
+            }           
         }
     }
     

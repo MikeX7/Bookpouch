@@ -129,10 +129,10 @@ namespace Libropouch
                         Author = (string) bookInfo["author"],
                         Publisher = (string) bookInfo["publisher"],
                         CountryCode = countryCode,
-                        Published = (DateTime) bookInfo["published"],
+                        Published = (DateTime?) bookInfo["published"],
                         Description = (string) bookInfo["description"],
                         Series = (string) bookInfo["series"],
-                        Category = (int)bookInfo["category"],
+                        Category = (int) bookInfo["category"],
                         MobiType = (string) bookInfo["mobiType"],
                         Size = Tools.BytesFormat((ulong) bookInfo["size"]),
                         Favorite = (bool) bookInfo["favorite"],
@@ -197,6 +197,8 @@ namespace Libropouch
             var button = (Button)sender;
             var icon = (Image) VisualTreeHelper.GetChild(button, 0);            
             icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
+
+            BookInfoSet("sync", (icon.Opacity > 0.9), (string) button.DataContext);            
             
 
         }
@@ -205,7 +207,7 @@ namespace Libropouch
         {
             var button = (Button)sender;
             var icon = (Image)VisualTreeHelper.GetChild(button, 0);
-            icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
+            icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);            
         }
 
         private void EditBook_OnClick(object sender, RoutedEventArgs e)
@@ -234,6 +236,31 @@ namespace Libropouch
             about.Closed += delegate { this.IsEnabled = true; };
             about.Show();
         }
+        private void BookInfoSet(string key, object value, string infoFilePath)
+        {
+            if (!File.Exists(infoFilePath))
+                return;
+
+            Dictionary<string, object> bookInfo;
+
+            using (var infoFile = new FileStream(infoFilePath, FileMode.Open))
+            {
+                var bf = new BinaryFormatter();
+                bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);
+            }
+
+            if (!bookInfo.ContainsKey(key))
+                return;
+
+            bookInfo[key.ToLower()] = value;
+
+            using (var infoFile = new FileStream(infoFilePath, FileMode.Create))
+            {
+                var bf = new BinaryFormatter();
+                bf.Serialize(infoFile, bookInfo);
+            }
+            
+        }
     }
 
     internal class Book
@@ -254,12 +281,12 @@ namespace Libropouch
         
         public Visibility SeriesVisibility 
         { 
-            get { return (Series != null ? Visibility.Visible : Visibility.Collapsed); } 
+            get { return (Series != "" ? Visibility.Visible : Visibility.Collapsed); } 
         }
 
         public Visibility AuthorVisibility
         {
-            get { return (Author != null ? Visibility.Visible : Visibility.Collapsed); }
+            get { return (Author != "" ? Visibility.Visible : Visibility.Collapsed); }
         }
 
         public double FavoriteOpacity
