@@ -5,8 +5,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Style/Global.xaml" />
-                <ResourceDictionary Source="Style/Controls.xaml" />
+                <ResourceDictionary Source="Style/Global.xaml" />                
             </ResourceDictionary.MergedDictionaries>
             <!--Style for the form-->
             <Style TargetType="RowDefinition">

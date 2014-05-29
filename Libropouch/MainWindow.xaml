@@ -3,15 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Libropouch" Height="700" Width="1000" MinWidth="500" MinHeight="350" x:Name="Window"
         Background="#2d2d30">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Style/Global.xaml" />
-                <ResourceDictionary Source="Style/Controls.xaml" />
-                <ResourceDictionary Source="Style/Info.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-
+    <Window.Resources>                   
+        <ResourceDictionary Source="Style/Global.xaml" />                                   
     </Window.Resources>
 
     <Grid Margin="5">
@@ -93,7 +86,7 @@
                 <DataGridTemplateColumn Header=" ★">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="FavoriteToggle_OnClick" ToolTip="Allows marking this book as favorite">
+                            <Button Tag="{Binding InfoFile}" Click="FavoriteToggle_OnClick" PreviewMouseDown="Favorite_OnPreviewMouseDown" ToolTip="Toggle to mark this book as one of your favorite.">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Img/star.png" Height="25" Opacity="{Binding FavoriteOpacity}" />
@@ -107,8 +100,8 @@
                 <DataGridTemplateColumn Header=" ⇪">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button DataContext="{Binding InfoFile}" Click="SyncToDeviceToggle_OnClick"
-                                    ToolTip="Toggles if the book will be synced into the reader">
+                            <Button Tag="{Binding InfoFile}" Click="SyncToDeviceToggle_OnClick" PreviewMouseDown="Sync_OnPreviewMouseDown" 
+                                    ToolTip="Toggle to decide if you want to sync this book to your reader or not, upon the next synchronization.">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Readers/kindle.png" Height="25" Opacity="{Binding SyncOpacity}" />

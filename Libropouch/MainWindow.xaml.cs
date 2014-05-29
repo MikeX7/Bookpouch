@@ -9,6 +9,8 @@ using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Xml.Serialization;
@@ -192,22 +194,37 @@ namespace Libropouch
             BookGrid_OnLoaded(BookGrid, null); //Refresh the data grid displaying info about books, so we can see any newly added books 
         }
 
+        //Execute the button click event handling method manually from here and then cancel the click, since we need to prevent  showing of the row detail and therefore  cannot wait for full click to be performed
+        private void Sync_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SyncToDeviceToggle_OnClick(sender, e);
+            e.Handled = true;
+        }
+
         private void SyncToDeviceToggle_OnClick(object sender, RoutedEventArgs e)
         {
+            
             var button = (Button)sender;
             var icon = (Image) VisualTreeHelper.GetChild(button, 0);            
             icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
 
-            BookInfoSet("sync", (icon.Opacity > 0.9), (string) button.DataContext);            
-            
+            BookInfoSet("sync", (icon.Opacity > 0.9), (string) button.Tag);                       
+        }
 
+        //Execute the button click event handling method manually from here and then cancel the click, since we need to prevent  showing of the row detail and therefore  cannot wait for full click to be performed
+        private void Favorite_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            FavoriteToggle_OnClick(sender, e);
+            e.Handled = true;
         }
 
         private void FavoriteToggle_OnClick(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
             var icon = (Image)VisualTreeHelper.GetChild(button, 0);
-            icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);            
+            icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
+
+            BookInfoSet("favorite", (icon.Opacity > 0.9), (string)button.Tag);            
         }
 
         private void EditBook_OnClick(object sender, RoutedEventArgs e)
@@ -236,6 +253,8 @@ namespace Libropouch
             about.Closed += delegate { this.IsEnabled = true; };
             about.Show();
         }
+
+        //Change value in existing info.dat file for a book
         private void BookInfoSet(string key, object value, string infoFilePath)
         {
             if (!File.Exists(infoFilePath))
@@ -259,55 +278,51 @@ namespace Libropouch
                 var bf = new BinaryFormatter();
                 bf.Serialize(infoFile, bookInfo);
             }
-            
-        }
-    }
-
-    internal class Book
-    {
-        public string Title { set; get; }
-        public string Author { set; get; }
-        public string Series { set; get; }
-        public string Publisher { set; get; }
-        public DateTime? Published { set; get; }
-        public string CountryCode;
-        public string Description { set; get; }
-        public string MobiType { set; get; }
-        public string Size { set; get; }
-        public int Category { set; get; }
-        public bool Favorite { set; get; }
-        public bool Sync { set; get; }
-        public string InfoFile { set; get; }
-        
-        public Visibility SeriesVisibility 
-        { 
-            get { return (Series != "" ? Visibility.Visible : Visibility.Collapsed); } 
         }
 
-        public Visibility AuthorVisibility
+        sealed internal class Book
         {
-            get { return (Author != "" ? Visibility.Visible : Visibility.Collapsed); }
-        }
+            public string Title { set; get; }
+            public string Author { set; get; }
+            public string Series { set; get; }
+            public string Publisher { set; get; }
+            public DateTime? Published { set; get; }
+            public string CountryCode;
+            public string Description { set; get; }
+            public string MobiType { set; get; }
+            public string Size { set; get; }
+            public int Category { set; get; }
+            public bool Favorite { set; get; }
+            public bool Sync { set; get; }
+            public string InfoFile { set; get; }
 
-        public double FavoriteOpacity
-        {
-            get { return (Favorite ? 1 : 0.12); }             
-        }
+            public Visibility SeriesVisibility
+            {
+                get { return (Series != "" ? Visibility.Visible : Visibility.Collapsed); }
+            }
 
-        public double SyncOpacity
-        {
-            get { return (Sync ? 1 : 0.12); }
-        }
+            public Visibility AuthorVisibility
+            {
+                get { return (Author != "" ? Visibility.Visible : Visibility.Collapsed); }
+            }
 
-        public string CountryFlagPath
-        {
-            get { return "flags/" + CountryCode.Trim() + ".png"; }
-        }
+            public double FavoriteOpacity
+            {
+                get { return (Favorite ? 1 : 0.12); }
+            }
 
-        public Book()
-        {
+            public double SyncOpacity
+            {
+                get { return (Sync ? 1 : 0.12); }
+            }
+
+            public string CountryFlagPath
+            {
+                get { return "flags/" + CountryCode.Trim() + ".png"; }
+            }
 
         }
         
     }
+
 }
