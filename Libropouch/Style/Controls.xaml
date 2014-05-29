@@ -34,11 +34,25 @@
         <Setter Property="Width" Value="250"/>
         <Setter Property="Height" Value="25"/>
         <Setter Property="Margin" Value="0,0,0,5"/>
-    </Style>    
+    </Style>        
     <Style TargetType="{x:Type DatePickerTextBox}">
         <Setter Property="BorderBrush" Value="#007acc"/>
-        <Setter Property="Background" Value="#49494e" />        
+        <Setter Property="Background" Value="#49494e" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Name="dptext" TargetType="{x:Type DatePickerTextBox}">
+                    <Grid>
+                        <Grid x:Name="WatermarkContent" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="0" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
+
+
 
     <Style TargetType="TextBox">
         <Style.Triggers>

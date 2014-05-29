@@ -94,8 +94,7 @@
                                 <EasingColorKeyFrame KeyTime="0"
                                    Value="{StaticResource DisabledControlDarkColor}" />
                             </ColorAnimationUsingKeyFrames>
-                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).
-                (SolidColorBrush.Color)"
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
                                           Storyboard.TargetName="Arrow">
                                 <EasingColorKeyFrame KeyTime="0"
                                    Value="{StaticResource DisabledForegroundColor}" />
@@ -104,6 +103,12 @@
                                           Storyboard.TargetName="Border">
                                 <EasingColorKeyFrame KeyTime="0"
                                    Value="{StaticResource DisabledBorderDarkColor}" />
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)"
+                                          Storyboard.TargetName="Border">
+                                <EasingColorKeyFrame KeyTime="0"
+                                   Value="{StaticResource DisabledBorderLightColor}" />
+                                <!-- Combobox border color on mouse over-->
                             </ColorAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
@@ -191,7 +196,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
-                    <Grid Width="250" Height="25" Margin="0,0,0,5" HorizontalAlignment="Left" VerticalAlignment="Center"> <!-- MAIN COMBOBOX GRID HERE-->
+                    <Grid Width="250" Height="25" Margin="0,0,0,5" HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="ComboBoxGrid"> <!-- MAIN COMBOBOX GRID HERE-->
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
@@ -260,7 +265,7 @@
                  PopupAnimation="Slide">
                             <Grid x:Name="DropDown"
                   SnapsToDevicePixels="True"
-                  
+                  MinWidth="{Binding ElementName=ComboBoxGrid, Path=ActualWidth }" 
                   MaxHeight="{TemplateBinding MaxDropDownHeight}" >
                                 <Border x:Name="DropDownBorder"
                       BorderThickness="1">
