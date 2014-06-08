@@ -34,25 +34,19 @@
         <Setter Property="Width" Value="250"/>
         <Setter Property="Height" Value="25"/>
         <Setter Property="Margin" Value="0,0,0,5"/>
+        <Setter Property="Padding" Value="0,3,0,0"/>
     </Style>        
     <Style TargetType="{x:Type DatePickerTextBox}">
         <Setter Property="BorderBrush" Value="#007acc"/>
         <Setter Property="Background" Value="#49494e" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate x:Name="dptext" TargetType="{x:Type DatePickerTextBox}">
-                    <Grid>
-                        <Grid x:Name="WatermarkContent" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <ScrollViewer x:Name="PART_ContentHost" Margin="0" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
-               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Grid>
-                    </Grid>
+                <ControlTemplate>
+                    <ScrollViewer x:Name="PART_ContentHost"  />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
-
 
     <Style TargetType="TextBox">
         <Style.Triggers>
@@ -258,6 +252,19 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    
+    <Style TargetType="ListBox">        
+        <Setter Property="Background" Value="#49494e"/>
+        <Setter Property="Foreground" Value="GhostWhite"/>
+    </Style>
+
+    <Style TargetType="ListBoxItem">
+        <Style.Resources>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#007acc"/>
+        </Style.Resources>
+        <Setter Property="Padding" Value="5,2,5,2"/>
+        <Setter Property="Margin" Value="0"/>
     </Style>
 
 </ResourceDictionary>

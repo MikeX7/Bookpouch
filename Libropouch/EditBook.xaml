@@ -65,7 +65,7 @@
         </ComboBox>
 
         <Label Grid.Row="3" Grid.Column="0" Content="S_eries:" Target="{Binding ElementName=Series}"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Name="Series" Loaded="TextBox_OnLoaded"  LostFocus="TextBox_OnChanged"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Name="Series" Loaded="TextBox_OnLoaded"  LostFocus="TextBox_OnChanged" KeyUp="Series_OnKeyUp"/>
 
         <Label Grid.Row="4" Grid.Column="0" Content="_Published:" Target="{Binding ElementName=Published}"/>
         <DatePicker Grid.Row="4" Grid.Column="1" Name="Published" Loaded="DatePicker_OnLoaded" LostFocus="DatePicker_OnChanged" SelectedDateFormat="Short" Width="125"/>
@@ -80,19 +80,6 @@
         
         <Label Grid.Row="7" Grid.Column="0" Content="_Sync:" Target="{Binding ElementName=Sync}"/>        
         <CheckBox Grid.Row="7" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Sync" ToolTip="This book will by copied into your reader during synchronization"/>
-
-        <Popup Grid.Row="7" Grid.Column="1" IsOpen="True" x:Name="ParentedPopup" PlacementTarget="{Binding ElementName=Series}">
-            <ListBox Padding="5 1 5 1">
-                <ListBoxItem>That feel when no girlfriend</ListBoxItem>
-                <ListBoxItem>Feels batman</ListBoxItem>
-                <ListBoxItem>sdsdd</ListBoxItem>
-                <ListBoxItem>sdsdd</ListBoxItem>
-                <ListBoxItem>sdsdd</ListBoxItem>
-                <ListBoxItem>sdsdd</ListBoxItem>
-                <ListBoxItem>sdsdd</ListBoxItem>
-                <ListBoxItem>sdsdd</ListBoxItem>
-            </ListBox>
-        </Popup>
 
     </Grid>
 </Window>

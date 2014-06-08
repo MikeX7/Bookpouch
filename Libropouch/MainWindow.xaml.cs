@@ -230,9 +230,9 @@ namespace Libropouch
         private void EditBook_OnClick(object sender, RoutedEventArgs e)
         {
             var button = (Button) sender;
-            Debug.WriteLine(button.DataContext);
             this.IsEnabled = false;
             var editBook = new EditBook { Owner = this };
+
             editBook.InfoFile = button.DataContext.ToString();
             editBook.Closed += delegate { this.IsEnabled = true; };
             editBook.Show();

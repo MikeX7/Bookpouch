@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
-using System.Resources;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Shapes;
 using ShadoLib;
 
 namespace Libropouch
@@ -46,10 +42,10 @@ namespace Libropouch
             var comboBox = (ComboBox) sender;
             var language = (LanguageOption) comboBox.SelectedItem;
 
-            Properties.Settings.Default.Language = language.cultureInfo.Name;            
+            Properties.Settings.Default.Language = language.CultureInfo.Name;            
             Properties.Settings.Default.Save();
 
-            Thread.CurrentThread.CurrentUICulture = language.cultureInfo;        
+            Thread.CurrentThread.CurrentUICulture = language.CultureInfo;        
         }
 
         //Populating reader drop down list
@@ -146,13 +142,13 @@ namespace Libropouch
         {
             public string Name { private set; get; }
             public string NativeName { private set; get; }
-            public string FlagPath { set; get; }
+            public string FlagPath { private set; get; }
 
-            public readonly CultureInfo cultureInfo;
+            public readonly CultureInfo CultureInfo;
 
             public LanguageOption(CultureInfo cultureInfo)
             {
-                this.cultureInfo = cultureInfo;
+                this.CultureInfo = cultureInfo;
                 var countryCode = (cultureInfo.Name != "" ? new RegionInfo(cultureInfo.Name).TwoLetterISORegionName : "_unknown");
                 Name = cultureInfo.DisplayName;
                 NativeName = cultureInfo.NativeName;
