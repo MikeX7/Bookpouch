@@ -90,17 +90,23 @@ namespace Libropouch
             var datePicker = (DatePicker) sender;                       
             BookInfoSet(datePicker.Name, datePicker.SelectedDate);
         }
-        private void Series_OnKeyUp(object sender, KeyEventArgs e)
-        {
-            //Whisperer
-            var textBox = (TextBox) sender;
-            Whisperer.TextBox = textBox;
-            Whisperer.HintList = new List<string>{"lol", "that feel when no gf", "feels bad man :(", "tfw no gf", "tfw no qt3.14","pppppppppppppppppppppppp"};
-            Whisperer.Pop();   
 
-            if (e.Key == Key.Down)            
-                Whisperer.Focus();
+        private Whisperer _seriesWhisperer;
+
+        private void Series_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            TextBox_OnLoaded(sender, e);
+            
+            _seriesWhisperer = new Whisperer
+            {
+                TextBox = (TextBox) sender,
+                HintList = { "lol", "that feel when no gf", "feels bad man :(", "tfw no gf", "tfw no qt3.14", "pppppppppppppppppppppppp" }
+            };
+
+            
+
         }
+
 
         private object BookInfoGet(string key) //Fetch data to fill the form fields, from the bookinfo dictionary based on the key
         {
@@ -131,7 +137,5 @@ namespace Libropouch
 
         }
 
-
-     
     }
 }
