@@ -51,7 +51,7 @@ namespace Libropouch
                 {"published", (DateTime?) (bookPeek.List.ContainsKey("published") ? bookPeek.List["published"] : null)},
                 {"description", ""},
                 {"series", ""},
-                {"category", 0},
+                {"category", ""},
                 {"mobiType", bookPeek.List.ContainsKey("type") ? bookPeek.List["type"] : ""},
                 {"size", (ulong) finfo.Length},
                 {"favorite", false},

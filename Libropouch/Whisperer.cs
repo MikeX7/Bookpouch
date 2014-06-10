@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 using System.Windows.Input;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using ListBox = System.Windows.Controls.ListBox;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using TextBox = System.Windows.Controls.TextBox;
 
 
@@ -14,6 +16,8 @@ namespace Libropouch
      class Whisperer
     {
          public List<string> HintList = new List<string>(); //List of possible phrases offered in the whisperer
+         public Window Parent;
+         private Popup _popup;
          private TextBox _textBox; //Text element for which the whisperer is used
 
          public TextBox TextBox 
@@ -21,19 +25,25 @@ namespace Libropouch
              set
              {
                  _textBox = value;
-                 value.KeyUp -= TextBox_KeyUp;
-                 value.KeyUp += TextBox_KeyUp;
+                 
+                 value.KeyUp += TextBox_KeyUp;                 
+                 value.PreviewMouseLeftButtonUp += TextBox_MouseUp;                 
+                 value.LostFocus += TextBox_LostFocus;                 
+
              }
 
              get { return _textBox; }
-         } 
+         }
 
-         private Popup _popup;
+         private void ListBox_LostFocus(object sender, RoutedEventArgs e)
+         {
+             TextBox_LostFocus(sender, e); 
+         }
 
-         public Whisperer()
-         {             
-             //TextBox.KeyUp += (object sender, KeyEventArgs e) => { };
-             
+         private void TextBox_LostFocus(object sender, RoutedEventArgs e) 
+         {
+             if (_popup != null && _popup.IsKeyboardFocusWithin == false)
+                 _popup.IsOpen = false;             
          }
 
          public void TextBox_KeyUp(object sender, KeyEventArgs e)
@@ -44,7 +54,23 @@ namespace Libropouch
                  Focus();
 
              if (e.Key == Key.Enter)
-                 SelectHint(sender, e);
+                 SelectHint();
+         }
+
+         public void ListBox_KeyUp(object sender, KeyEventArgs e)
+         {             
+             if (e.Key == Key.Enter)
+                 SelectHint();
+         }
+
+        public void ListBox_LeftMouseUp(object sender, MouseEventArgs e)
+        {       
+            SelectHint();
+        }
+
+         private void TextBox_MouseUp(object sender, MouseButtonEventArgs e)
+         {           
+             Pop();
          }
 
         public void Pop() //Display the whisperer popup under an element
@@ -53,11 +79,13 @@ namespace Libropouch
 
             var listBox = new ListBox(); 
             
-            var combedList = HintList.Where(hl => hl.StartsWith(TextBox.Text));
+            var combedList = HintList.Where(hl => hl.ToLower().StartsWith(TextBox.Text.ToLower()));
 
-            if (!combedList.Any() && _popup != null)
+            if (!combedList.Any())
             {
-                _popup.IsOpen = false;                
+                if (_popup != null)
+                    _popup.IsOpen = false;                
+
                 return;
             }
 
@@ -67,12 +95,11 @@ namespace Libropouch
             }
 
             listBox.SelectedIndex = 0;  
-
-            //TextBox.KeyUp -= InlineHint; //Try to remove event handlers, before adding them, to make sure they aren't added multiple times
-            listBox.KeyUp -= SelectHint;
-
+  
             //TextBox.KeyUp += InlineHint;     
-            listBox.KeyUp += SelectHint;                          
+            listBox.KeyUp += ListBox_KeyUp;
+            listBox.MouseLeftButtonUp += ListBox_LeftMouseUp;
+            listBox.LostFocus += ListBox_LostFocus;
 
             if (_popup != null)
             {
@@ -92,8 +119,7 @@ namespace Libropouch
                     Child = listBox,
                     MinWidth = TextBox.Width
                     
-                };
-                
+                };                
             }
         }        
 
@@ -101,16 +127,13 @@ namespace Libropouch
         {
             var listBox = (ListBox) _popup.Child;
             listBox.Focus();
-            listBox.SelectedIndex = (listBox.Items.Count > 0 ? 1 : 0);            
+            listBox.SelectedIndex = (listBox.Items.Count > 0 ? 1 : 0); //Since the first whisperer suggestion can be always accessed with enter (even when the whisperer listobx is unfocused), skip to the second  suggestion (if it exists) when down arrow is pressed 
             SendKeys.SendWait("{DOWN}");
             ((ListBoxItem) listBox.SelectedItem).Focus();                       
         }
 
-        private  void SelectHint(object sender, KeyEventArgs e) //Take selected hint from the whisperer popup and place it into the textbox
+        private  void SelectHint() //Take selected hint from the whisperer popup and place it into the textbox
         {            
-            if (e.Key != Key.Enter)
-                return;
-
             var listBox = (ListBox) _popup.Child;
             var hint =  (string) ((ListBoxItem) listBox.SelectedItem).Content;
 

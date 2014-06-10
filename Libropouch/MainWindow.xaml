@@ -130,7 +130,7 @@
                         </Border.Background>
 
                         <DockPanel>
-                            <Image Source="Img/book.png" MaxHeight="128" MaxWidth="128" DockPanel.Dock="Left"
+                            <Image Source="{Binding CoverImage}" MaxHeight="128" MaxWidth="128" DockPanel.Dock="Left"
                                    FlowDirection="LeftToRight" Margin="0,0,10,0" />
                             <StackPanel Orientation="Vertical">
                                 <TextBlock FontSize="21" FontWeight="Regular" TextWrapping="Wrap"
@@ -161,7 +161,7 @@
                                 </StackPanel>
                                 <TextBlock Text="{Binding Description}" />
                             </StackPanel>
-                            <Button Content="Edit" Click="EditBook_OnClick" DataContext="{Binding InfoFile}"
+                            <Button Content="Edit" Click="EditBook_OnClick" DataContext="{Binding DirName}"
                                     VerticalAlignment="Top" HorizontalAlignment="Right" />
                         </DockPanel>
                     </Border>

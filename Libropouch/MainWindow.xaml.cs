@@ -13,6 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using ShadoLib;
 using Button = System.Windows.Controls.Button;
@@ -84,7 +85,7 @@ namespace Libropouch
             sb.Begin();                                     
         }
 
-        private void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
+        public void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
         {
             if (!Directory.Exists(Properties.Settings.Default.FilesDir))
             {
@@ -134,12 +135,12 @@ namespace Libropouch
                         Published = (DateTime?) bookInfo["published"],
                         Description = (string) bookInfo["description"],
                         Series = (string) bookInfo["series"],
-                        Category = (int) bookInfo["category"],
+                        Category = (string) bookInfo["category"],
                         MobiType = (string) bookInfo["mobiType"],
                         Size = Tools.BytesFormat((ulong) bookInfo["size"]),
                         Favorite = (bool) bookInfo["favorite"],
-                        Sync = (bool) bookInfo["sync"],                        
-                        InfoFile = dinfo.FullName + "\\info.dat"
+                        Sync = (bool) bookInfo["sync"],                                                
+                        DirName = dinfo.FullName
                     });
                 }
             }
@@ -233,7 +234,7 @@ namespace Libropouch
             this.IsEnabled = false;
             var editBook = new EditBook { Owner = this };
 
-            editBook.InfoFile = button.DataContext.ToString();
+            editBook.DirName = button.DataContext.ToString();
             editBook.Closed += delegate { this.IsEnabled = true; };
             editBook.Show();
         }
@@ -291,10 +292,28 @@ namespace Libropouch
             public string Description { set; get; }
             public string MobiType { set; get; }
             public string Size { set; get; }
-            public int Category { set; get; }
+            public string Category { set; get; }
             public bool Favorite { set; get; }
             public bool Sync { set; get; }
-            public string InfoFile { set; get; }
+            public string DirName { set; get; }                       
+
+            public BitmapImage CoverImage
+            {
+                get 
+                { 
+                    var file = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
+
+                    var cover = new BitmapImage();
+
+                    cover.BeginInit();
+                    cover.CreateOptions = BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile;
+                    cover.CacheOption = BitmapCacheOption.OnLoad;
+                    cover.UriSource = new Uri(@file ?? "img/book.png", UriKind.RelativeOrAbsolute);
+                    cover.EndInit();
+
+                    return cover;
+                }
+            }
 
             public Visibility SeriesVisibility
             {

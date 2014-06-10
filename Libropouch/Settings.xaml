@@ -10,27 +10,12 @@
             <!--Style for the form-->
             <Style TargetType="RowDefinition">
                 <Setter Property="Height" Value="30"/>
-            </Style>
-            <Style TargetType="TextBlock">
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Foreground" Value="WhiteSmoke"/>
-                <Setter Property="Margin" Value="0,0,0,5"/>
-            </Style>
-            <Style TargetType="Label">
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Foreground" Value="WhiteSmoke"/>
-                <Setter Property="Padding" Value="0,0,0,0"/>
-                <Setter Property="Margin" Value="0,0,0,5"/>
-            </Style>
-            <Style TargetType="ComboBox">
+            </Style>            
+
+<!--            <Style TargetType="ComboBox">
                 <Setter Property="HorizontalAlignment" Value="Left"/>
                 <Setter Property="Margin" Value="0,0,0,5"/>
-            </Style>
-            <Style TargetType="CheckBox">
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="0,0,0,5"/>
-            </Style>
+            </Style>-->
             <!--End form style-->
         </ResourceDictionary>
     </Window.Resources>
@@ -48,7 +33,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="_Language:" Target="{Binding ElementName=UiLanguage}"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" Name="UiLanguage" Width="250" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
+        <ComboBox Grid.Row="0" Grid.Column="1" Name="UiLanguage" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -63,7 +48,7 @@
         <CheckBox Grid.Row="1" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="SplashScreen" ToolTip="Show splashscreen while the application loads"/>
 
         <Label Grid.Row="2" Grid.Column="0" Content="_Reader:" Target="{Binding ElementName=Reader}"/>
-        <ComboBox Grid.Row="2" Grid.Column="1" Name="Reader" Width="150" Loaded="Reader_OnLoaded" SelectionChanged="Reader_OnSelectionChanged" ToolTip="Select the reader with which you are going to be using the Libropouch">
+        <ComboBox Grid.Row="2" Grid.Column="1" Name="Reader" Width="150" Height="auto" Loaded="Reader_OnLoaded" SelectionChanged="Reader_OnSelectionChanged" ToolTip="Select the reader with which you are going to be using the Libropouch">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

@@ -64,7 +64,7 @@
 
     <ControlTemplate x:Key="ComboBoxToggleButton"
                  TargetType="{x:Type ToggleButton}">
-        <Grid >
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="20" />
@@ -189,6 +189,10 @@
           Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll"
           Value="true" />
+        <Setter Property="HorizontalAlignment"
+          Value="Left" />
+        <Setter Property="Width"
+          Value="250" />
         <Setter Property="MinWidth"
           Value="120" />
         <Setter Property="MinHeight"
@@ -196,7 +200,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
-                    <Grid Width="250" MinHeight="25" Margin="0,0,0,5" HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="ComboBoxGrid"> <!-- MAIN COMBOBOX GRID HERE-->
+                    <Grid Width="{TemplateBinding ActualWidth}"  MinHeight="25" Margin="0,0,0,5" HorizontalAlignment="Left" VerticalAlignment="Center"  x:Name="ComboBoxGrid"> <!-- MAIN COMBOBOX GRID HERE-->
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />

@@ -7,7 +7,11 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 
 namespace Libropouch
 {
@@ -15,14 +19,64 @@ namespace Libropouch
     /// Interaction logic for EditBook.xaml
     /// </summary>
     public partial class EditBook
-    {
-        public string InfoFile; //Path to the info.dat file for the edited book
-        private Dictionary<string, object> _bookInfo; //Dictionary containing the data about the book
+    {        
+        public string DirName; //Name or name and path of the direcotry in which all the files related to the edited book are stored        
+        private Dictionary<string, object> _bookInfo; //Dictionary containing the data about the book         
         
 
         public EditBook()
         {
-            InitializeComponent();
+            InitializeComponent();            
+        }
+
+        private void CoverImage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var image = (Image) sender;
+            var file = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();            
+            var cover = new BitmapImage();
+
+            cover.BeginInit();
+            cover.CreateOptions = BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile;
+            cover.CacheOption = BitmapCacheOption.OnLoad;
+            cover.UriSource = new Uri(@file ?? "img/book.png", UriKind.RelativeOrAbsolute); 
+            cover.EndInit();
+            
+
+            image.Source = cover;                      
+        }
+
+        private void CoverImage_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var image = (Image) sender;
+            var openFileDialog = new OpenFileDialog {Filter = "Images|*.png; *.jpg; *.gif; *.tif; *.bmp"};
+
+            if (openFileDialog.ShowDialog() != true) 
+                return;
+
+            MainWindow.MW.BookGrid_OnLoaded(MainWindow.MW.BookGrid, null); //Reload grid in the main window so that all cover images are freshly loaded
+
+            image.Source = null;
+
+            var oldCover = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();  
+
+            if(oldCover != null)
+                File.Delete(oldCover);
+ 
+            var file = File.Create(DirName + "/cover" + Path.GetExtension(openFileDialog.FileName));            
+            var newFile = openFileDialog.OpenFile();
+
+            newFile.CopyTo(file);
+            newFile.Close();
+            file.Close();
+
+            var cover = new BitmapImage();
+            cover.BeginInit();
+            cover.CreateOptions = BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile;
+            cover.CacheOption = BitmapCacheOption.OnLoad;
+            cover.UriSource = new Uri(openFileDialog.FileName, UriKind.Absolute);
+            cover.EndInit();
+
+            image.Source = cover;
         }
 
         private void Language_OnLoaded(object sender, RoutedEventArgs e)
@@ -33,7 +87,7 @@ namespace Libropouch
             var language = (string) BookInfoGet("language");               
          
             comboBox.ItemsSource = languageOptions;
-            comboBox.SelectedIndex = cultureList.Select(culture => culture.Name).ToList().IndexOf(language); //Set combobox position to the book's language
+            comboBox.SelectedIndex = cultureList.Select(culture => culture.Name).ToList().IndexOf(language); //Set combobox position to the book's language            
         }
 
         //Save book language change
@@ -91,28 +145,33 @@ namespace Libropouch
             BookInfoSet(datePicker.Name, datePicker.SelectedDate);
         }
 
-        private Whisperer _seriesWhisperer;
-
         private void Series_OnLoaded(object sender, RoutedEventArgs e)
         {
             TextBox_OnLoaded(sender, e);
             
-            _seriesWhisperer = new Whisperer
+            new Whisperer
             {
                 TextBox = (TextBox) sender,
-                HintList = { "lol", "that feel when no gf", "feels bad man :(", "tfw no gf", "tfw no qt3.14", "pppppppppppppppppppppppp" }
-            };
-
-            
-
+                HintList = { "Sci", "Sex", "Science", "Action", "Fantasy", "Twilight fanfiction" }                
+            };            
         }
 
+        private void Category_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            TextBox_OnLoaded(sender, e);
+
+            new Whisperer
+            {
+                TextBox = (TextBox)sender,
+                HintList = { "Sci-fi", "Sex", "Science", "Action", "Fantasy", "Twilight fanfiction" }
+            };
+        }
 
         private object BookInfoGet(string key) //Fetch data to fill the form fields, from the bookinfo dictionary based on the key
         {
             if (_bookInfo == null) //Singleton, so we don't have to reopen the file with saved info, after every form field loads and its load event handler calls BookInfoGet
             {
-                using (var infoFile = new FileStream(InfoFile, FileMode.Open))
+                using (var infoFile = new FileStream(DirName + "/info.dat", FileMode.Open))
                 {
                     var bf = new BinaryFormatter();
                     _bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);                    
@@ -129,13 +188,12 @@ namespace Libropouch
 
             _bookInfo[key.ToLower()] = value;
 
-            using (var infoFile = new FileStream(InfoFile, FileMode.Create))
+            using (var infoFile = new FileStream(DirName + "/info.dat", FileMode.Create))
             {
                 var bf = new BinaryFormatter();
                 bf.Serialize(infoFile, _bookInfo);
             }            
 
         }
-
     }
 }
