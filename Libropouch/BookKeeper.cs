@@ -66,6 +66,15 @@ namespace Libropouch
                 bf.Serialize(fs, bookData);
             }           
         }
+
+        public static void Discard(string dirName) //Pernamently remove a book from the library
+        {
+            if (!Directory.Exists(dirName))
+                return;
+
+            Directory.Delete(dirName, true);
+            MainWindow.MW.BookGrid_OnLoaded(MainWindow.MW.BookGrid, null); //Reload grid in the main window
+        }
     }
     
 }

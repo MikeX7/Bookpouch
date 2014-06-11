@@ -28,6 +28,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -35,7 +36,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image Grid.Column="1" Grid.Row="0"  Grid.RowSpan="9" MouseLeftButtonUp="CoverImage_OnMouseLeftButtonUp" Loaded="CoverImage_OnLoaded" HorizontalAlignment="Right" VerticalAlignment="Top" MaxWidth="240" MaxHeight="240"  />
+        <Image Grid.Column="1" Grid.Row="0"  Grid.RowSpan="10" MouseLeftButtonUp="CoverImage_OnMouseLeftButtonUp" Loaded="CoverImage_OnLoaded" HorizontalAlignment="Right" VerticalAlignment="Top" MaxWidth="240" MaxHeight="240"  />
 
         <Label Grid.Row="0" Grid.Column="0" Content="_Title:" Target="{Binding ElementName=Title}"/>
         <TextBox Grid.Row="0" Grid.Column="1" Name="Title" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged"/>
@@ -69,6 +70,8 @@
 
         <Label Grid.Row="7" Grid.Column="0" Content="_Sync:" Target="{Binding ElementName=Sync}"/>
         <CheckBox Grid.Row="7" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Sync" ToolTip="This book will by copied into your reader during synchronization"/>
+
+        <Button Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Discard" Click="Discard_OnClick" ToolTip="Remove this book from the library"/>
 
     </Grid>
 </Window>

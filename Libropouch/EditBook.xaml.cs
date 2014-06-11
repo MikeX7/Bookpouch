@@ -7,11 +7,16 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Microsoft.Win32;
+using CheckBox = System.Windows.Controls.CheckBox;
+using ComboBox = System.Windows.Controls.ComboBox;
+using MessageBox = System.Windows.MessageBox;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace Libropouch
 {
@@ -166,6 +171,14 @@ namespace Libropouch
                 HintList = { "Sci-fi", "Sex", "Science", "Action", "Fantasy", "Twilight fanfiction" }
             };
         }
+        private void Discard_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show(String.Format("Do you really want to pernamently delete {0}?", BookInfoGet("title")), "Discard book?", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                return;
+
+            BookKeeper.Discard(DirName);
+            Close();
+        }
 
         private object BookInfoGet(string key) //Fetch data to fill the form fields, from the bookinfo dictionary based on the key
         {
@@ -194,6 +207,6 @@ namespace Libropouch
                 bf.Serialize(infoFile, _bookInfo);
             }            
 
-        }
+        }        
     }
 }

@@ -46,9 +46,11 @@
         </Border>
 
         <DataGrid x:Name="BookGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False"
-                  Loaded="BookGrid_OnLoaded" VerticalAlignment="Top" 
-                  HorizontalGridLinesBrush="#2b72ac" VerticalGridLinesBrush="#2b72ac" RowBackground="#5d5d5d" AlternatingRowBackground="#454545"  Background="#569cd6" >            
-            <DataGrid.CellStyle>
+                  Loaded="BookGrid_OnLoaded" VerticalAlignment="Top" CanUserResizeRows="False" RowHeaderWidth="1"
+                  HorizontalGridLinesBrush="#2b72ac" VerticalGridLinesBrush="#2b72ac" RowBackground="#5d5d5d" AlternatingRowBackground="#454545"  Background="#569cd6" >
+            
+                
+                <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
@@ -112,7 +114,13 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="auto" />
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="auto" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Padding" Value="5" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
 
             <DataGrid.RowDetailsTemplate>
