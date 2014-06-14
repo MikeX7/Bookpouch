@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -32,10 +33,10 @@ namespace Libropouch
             finfo.CopyTo(dirPath + "/" + finfo.Name, true);
 
             GenerateInfo(dirPath + "/" + finfo.Name); //Generate info.xml file for this book file
-        }
+        }        
 
-        public static void GenerateInfo(String file) //Add a new book into the library
-        {
+        public static void GenerateInfo(string file) //Add a new book into the library
+        {            
             if (!File.Exists(file))
                 return;
 

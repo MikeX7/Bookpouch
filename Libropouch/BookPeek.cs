@@ -13,9 +13,12 @@ namespace Libropouch
     class BookPeek //Extract book info from ebook files
     {
         public Dictionary<string, object> List = new Dictionary<string, object>();
+        public string DirName;
 
-        public BookPeek(FileSystemInfo file)
+        public BookPeek(FileInfo file)
         {
+            DirName = file.DirectoryName;
+
             switch (file.Extension.ToLower())
             {
                 case ".mobi":
@@ -24,7 +27,7 @@ namespace Libropouch
                 case ".epub":
                     Epub(file);
                     break;
-            }
+            }            
 
             if(!List.ContainsKey("title"))
                 List.Add("title", file.Name.Substring(0, (file.Name.Length - file.Extension.Length)));
@@ -56,7 +59,26 @@ namespace Libropouch
                     XNamespace contentNs = contentXml.Root.Attribute("xmlns").Value;
                     var customNs = XNamespace.Get("http://purl.org/dc/elements/1.1/");                    
                     var metaData = contentXml.Root.Descendants(contentNs + "metadata").FirstOrDefault();
-                    
+                    var manifest = contentXml.Root.Descendants(contentNs + "manifest").FirstOrDefault();
+
+                    XElement cover = manifest.Elements(contentNs + "item")
+                        .FirstOrDefault(
+                            x =>
+                                (x.Attribute("id").Value.ToLower().Contains("cover") &&
+                                 (x.Attribute("href").Value.EndsWith(".jpg") ||
+                                  x.Attribute("href").Value.EndsWith(".jpeg"))));
+
+                    if (cover != null)
+                    {
+                        var dir = new DirectoryInfo(rootFile);
+
+                        var coverFullPath = ((rootFile.Contains("/") || rootFile.Contains("\\"))
+                            ? dir.Parent + "/"
+                            : "") + cover.Attribute("href").Value;
+                        Debug.WriteLine(DirName);
+                        zip.GetEntry(coverFullPath).ExtractToFile(DirName + "/cover.jpg");                        
+                    }
+
                     var meta = from el in metaData.Descendants() where el.Name.Namespace == customNs select el;
 
                     var author = metaData.Descendants(customNs + "creator").FirstOrDefault();
@@ -117,6 +139,7 @@ namespace Libropouch
                 var titleOffset = new byte[4];
                 var titleLength = new byte[4];
                 var language = new byte[4];
+                var imageIndex = new byte[4];
                 var exthFlags = new byte[4];
                 long headerPos = 0;
 
@@ -150,7 +173,9 @@ namespace Libropouch
                 fs.Read(titleOffset, 0, titleOffset.Length);
                 fs.Read(titleLength, 0, titleLength.Length);
                 fs.Read(language, 0, language.Length);
-                fs.Seek((8 * 4), SeekOrigin.Current); //Skip some of the following fields
+                fs.Seek((3 * 4), SeekOrigin.Current); //Skip some of the following fields
+                fs.Read(imageIndex, 0, imageIndex.Length);
+                fs.Seek((4 * 4), SeekOrigin.Current); //Skip some of the following fields
                 fs.Read(exthFlags, 0, exthFlags.Length);
                 
                 var langCode = ByteToUInt32(language);
@@ -159,7 +184,22 @@ namespace Libropouch
                 {
                     var cultureInfo = CultureInfo.GetCultureInfo((int) langCode);
                     List.Add("language", cultureInfo.Name);
-                }                
+                }
+
+                var cover = ByteToUInt32(imageIndex);
+                
+                if (cover > 0)//TEST
+                {                    
+                    fs.Seek(cover, SeekOrigin.Begin);
+                    while (fs.Read(headerIdent, 0, headerIdent.Length) > 0)
+                    {
+                        if (Encoding.UTF8.GetBytes("JFIF").SequenceEqual(headerIdent)) //Keep checking the file until we find the EXTH header beginning
+                            break;
+                    }
+
+                    if (fs.Length == fs.Position) 
+                        Debug.WriteLine("no dice");
+                }
 
                 if ((ByteToUInt32(exthFlags) & 0x40) != 0) //exthFlags tells us if the EXTH header exists in this file
                     MobiExth(fs, file); 

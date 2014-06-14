@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Xml.Serialization;
 using ShadoLib;
 using Button = System.Windows.Controls.Button;
 using DataGrid = System.Windows.Controls.DataGrid;
@@ -258,9 +254,11 @@ namespace Libropouch
         //Change value in existing info.dat file for a book
         private void BookInfoSet(string key, object value, string infoFilePath)
         {
+            infoFilePath += "/info.dat";
+            
             if (!File.Exists(infoFilePath))
                 return;
-
+            Debug.WriteLine(123);
             Dictionary<string, object> bookInfo;
 
             using (var infoFile = new FileStream(infoFilePath, FileMode.Open))

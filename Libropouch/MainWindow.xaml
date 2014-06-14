@@ -42,7 +42,7 @@
         <Border Panel.ZIndex="100" Grid.Row="1" Name="InfoBoxBorder" Grid.Column="0" CornerRadius="8"
                 Visibility="Hidden" VerticalAlignment="Top" IsVisibleChanged="InfoBox_OnIsVisibleChanged">
             <TextBlock Name="InfoBox" TextWrapping="Wrap" VerticalAlignment="Top" Padding="5" TextAlignment="Center"
-                       RenderTransformOrigin="0.5,0.5" />
+                       RenderTransformOrigin="0.5,0.5" Foreground="Black"/>
         </Border>
 
         <DataGrid x:Name="BookGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False"
@@ -88,7 +88,7 @@
                 <DataGridTemplateColumn Header=" ★">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Tag="{Binding InfoFile}" Click="FavoriteToggle_OnClick" PreviewMouseDown="Favorite_OnPreviewMouseDown" ToolTip="Toggle to mark this book as one of your favorite.">
+                            <Button Tag="{Binding DirName}" Click="FavoriteToggle_OnClick" PreviewMouseDown="Favorite_OnPreviewMouseDown" ToolTip="Toggle to mark this book as one of your favorite.">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Img/star.png" Height="25" Opacity="{Binding FavoriteOpacity}" />
@@ -102,7 +102,7 @@
                 <DataGridTemplateColumn Header=" ⇪">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Tag="{Binding InfoFile}" Click="SyncToDeviceToggle_OnClick" PreviewMouseDown="Sync_OnPreviewMouseDown" 
+                            <Button Tag="{Binding DirName}" Click="SyncToDeviceToggle_OnClick" PreviewMouseDown="Sync_OnPreviewMouseDown" 
                                     ToolTip="Toggle to decide if you want to sync this book to your reader or not, upon the next synchronization.">
                                 <Button.Template>
                                     <ControlTemplate>

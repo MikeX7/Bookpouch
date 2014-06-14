@@ -36,7 +36,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image Grid.Column="1" Grid.Row="0"  Grid.RowSpan="10" MouseLeftButtonUp="CoverImage_OnMouseLeftButtonUp" Loaded="CoverImage_OnLoaded" HorizontalAlignment="Right" VerticalAlignment="Top" MaxWidth="240" MaxHeight="240"  />
+        <Image Grid.Column="1" Grid.Row="0"  Grid.RowSpan="10" MouseLeftButtonUp="CoverImage_OnMouseLeftButtonUp" MouseRightButtonUp="CoverImage_OnMouseRightButtonUp" Loaded="CoverImage_OnLoaded" HorizontalAlignment="Right" VerticalAlignment="Top" MaxWidth="240" MaxHeight="240" ToolTip="Cover image for this book. You can select another image by clicking on this picture, or remove the existing image by right clicking on it." />
 
         <Label Grid.Row="0" Grid.Column="0" Content="_Title:" Target="{Binding ElementName=Title}"/>
         <TextBox Grid.Row="0" Grid.Column="1" Name="Title" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged"/>

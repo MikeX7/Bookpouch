@@ -50,15 +50,13 @@ namespace Libropouch
             image.Source = cover;                      
         }
 
-        private void CoverImage_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void CoverImage_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e) //Change the book cover picture
         {
             var image = (Image) sender;
             var openFileDialog = new OpenFileDialog {Filter = "Images|*.png; *.jpg; *.gif; *.tif; *.bmp"};
 
             if (openFileDialog.ShowDialog() != true) 
-                return;
-
-            MainWindow.MW.BookGrid_OnLoaded(MainWindow.MW.BookGrid, null); //Reload grid in the main window so that all cover images are freshly loaded
+                return;            
 
             image.Source = null;
 
@@ -80,6 +78,22 @@ namespace Libropouch
             cover.CacheOption = BitmapCacheOption.OnLoad;
             cover.UriSource = new Uri(openFileDialog.FileName, UriKind.Absolute);
             cover.EndInit();
+
+            image.Source = cover;
+        }
+
+        private void CoverImage_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e) //Remove existing book cover picture
+        {
+            var image = (Image)sender;            
+
+            var oldCover = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
+
+            if (oldCover == null)
+                return;
+            
+            File.Delete(oldCover);
+
+            var cover = new BitmapImage(new Uri("img/book.png", UriKind.Relative));
 
             image.Source = cover;
         }
@@ -207,6 +221,6 @@ namespace Libropouch
                 bf.Serialize(infoFile, _bookInfo);
             }            
 
-        }        
+        }
     }
 }
