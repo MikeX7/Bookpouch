@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -13,7 +15,7 @@ namespace Libropouch
     class BookPeek //Extract book info from ebook files
     {
         public Dictionary<string, object> List = new Dictionary<string, object>();
-        public string DirName;
+        public readonly string DirName;
 
         public BookPeek(FileInfo file)
         {
@@ -75,7 +77,7 @@ namespace Libropouch
                         var coverFullPath = ((rootFile.Contains("/") || rootFile.Contains("\\"))
                             ? dir.Parent + "/"
                             : "") + cover.Attribute("href").Value;
-                        Debug.WriteLine(DirName);
+                        
                         zip.GetEntry(coverFullPath).ExtractToFile(DirName + "/cover.jpg");                        
                     }
 
@@ -186,23 +188,20 @@ namespace Libropouch
                     List.Add("language", cultureInfo.Name);
                 }
 
-                var cover = ByteToUInt32(imageIndex);
-                
-                if (cover > 0)//TEST
-                {                    
-                    fs.Seek(cover, SeekOrigin.Begin);
-                    while (fs.Read(headerIdent, 0, headerIdent.Length) > 0)
-                    {
-                        if (Encoding.UTF8.GetBytes("JFIF").SequenceEqual(headerIdent)) //Keep checking the file until we find the EXTH header beginning
-                            break;
-                    }
-
-                    if (fs.Length == fs.Position) 
-                        Debug.WriteLine("no dice");
-                }
-
                 if ((ByteToUInt32(exthFlags) & 0x40) != 0) //exthFlags tells us if the EXTH header exists in this file
-                    MobiExth(fs, file); 
+                    MobiExth(fs, file);
+
+                //Attempt to get the cover image from the mobi file and save it
+                var img = getJpegFromStream(fs);
+
+                if (img.Length > 0)
+                {
+                    using (var fileStream = File.Create(DirName + "/cover.jpg")) //Save cover image
+                    {
+                        img.Seek(0, SeekOrigin.Begin);
+                        img.CopyTo(fileStream);
+                    }
+                }
 
                 if (List.ContainsKey("title")) //If exth contained the book title, no need to continue
                     return;
@@ -220,7 +219,7 @@ namespace Libropouch
             }
         }
 
-        private void MobiExth(Stream fs, FileSystemInfo file) //Attempt to find and process the EXTH header from the mobi file stream
+        private void MobiExth(FileStream fs, FileSystemInfo file) //Attempt to find and process the EXTH header from the mobi file stream
         {
             var records = new Dictionary<UInt32, string>();
             var headerIdent = new byte[4];
@@ -259,7 +258,7 @@ namespace Libropouch
                     if (!records.ContainsKey(ByteToUInt32(recordType)))
                         records.Add(ByteToUInt32(recordType), Encoding.UTF8.GetString(recordData));
                 }
-
+                
                 if (records.ContainsKey(100))
                     List.Add("author", records[100]);
 
@@ -282,6 +281,59 @@ namespace Libropouch
             {
                 MainWindow.Info(String.Format("I encountered some problems with fetching the EXTH header in {0}: {1}", file.Name, e), 1);
             }
+        }
+
+        private MemoryStream getJpegFromStream(Stream fs) //Fetch the first jpg image from the file stream
+        {            
+            var img = new MemoryStream();
+            var fsc = new MemoryStream();
+            var saving = false;
+
+            fs.Seek(0, SeekOrigin.Begin);
+
+            fs.CopyTo(fsc);
+            var bytes = fsc.ToArray();
+
+            for (var index = 0; index < bytes.Length; index++)
+            {
+                var b = bytes[index];
+
+                if ((b != 0xFF || bytes[index + 1] != 0xD8) && !saving)
+                    continue;
+
+                saving = true;
+
+                img.WriteByte(b);
+
+                if (b == 0xFF && bytes[index + 1] == 0xD9)
+                {
+                    img.WriteByte(bytes[index + 1]);
+                    break;
+                }
+            }
+
+            img.Seek(0, SeekOrigin.Begin);
+            
+            //Check if the image file we extracted is actually valid image
+            if (img.Length > 0)
+            {
+                try
+                {
+                    using (var imgCheck = Image.FromStream(img))
+                    {
+                        var isBitmap = imgCheck.RawFormat.Equals(ImageFormat.Jpeg);
+
+                        if (!isBitmap)
+                            throw new FormatException();
+                    }
+                }
+                catch (Exception)
+                {
+                    img.SetLength(0);
+                }
+            }
+
+            return img;
         }
 
         private static UInt32 ByteToUInt32(byte[] bytesToConvert)

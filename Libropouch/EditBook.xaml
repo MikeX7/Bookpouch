@@ -57,7 +57,7 @@
         </ComboBox>
 
         <Label Grid.Row="3" Grid.Column="0" Content="S_eries:" Target="{Binding ElementName=Series}"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Name="Series" Loaded="Series_OnLoaded"  LostFocus="TextBox_OnChanged"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Name="Series" Loaded="Series_OnLoaded"  LostFocus="TextBox_OnChanged"/>        
 
         <Label Grid.Row="4" Grid.Column="0" Content="_Published:" Target="{Binding ElementName=Published}"/>
         <DatePicker Grid.Row="4" Grid.Column="1" Name="Published" Loaded="DatePicker_OnLoaded" LostFocus="DatePicker_OnChanged" SelectedDateFormat="Short" Width="125"/>

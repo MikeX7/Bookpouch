@@ -5,6 +5,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -183,12 +185,43 @@ namespace Libropouch
 
             Info("Selected supported files are being added into the library...");
 
-            var selectedFiles = openFileDialog.FileNames;
+            var selectedFiles = openFileDialog.FileNames;            
 
-            foreach (var file in selectedFiles)            
-                BookKeeper.Add(file);
+            //Fancy animated loading icon in the window title
+            var timer = new Timer(300);
 
-            BookGrid_OnLoaded(BookGrid, null); //Refresh the data grid displaying info about books, so we can see any newly added books 
+            timer.Elapsed += delegate
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.Title = this.Title.Substring(0, 2) == "▣•" ? "•▣" : "▣•";
+                    this.Title += " Libropouch - Adding new books...";
+                });                
+            };
+
+            timer.Start();
+            
+            Task.Factory.StartNew(() => 
+            {
+                foreach (var file in selectedFiles)
+                {
+                    BookKeeper.Add(file);
+
+                    this.Dispatcher.Invoke(() => BookGrid_OnLoaded(BookGrid, null));//Refresh the data grid displaying info about books, so we can see any newly added books 
+                }
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    timer.Stop();
+                    timer.Close();
+                    this.Title = "Libropouch";     
+                });
+            });
+            
+
+            
+
+            
         }
 
         //Execute the button click event handling method manually from here and then cancel the click, since we need to prevent  showing of the row detail and therefore  cannot wait for full click to be performed
@@ -258,7 +291,7 @@ namespace Libropouch
             
             if (!File.Exists(infoFilePath))
                 return;
-            Debug.WriteLine(123);
+            
             Dictionary<string, object> bookInfo;
 
             using (var infoFile = new FileStream(infoFilePath, FileMode.Open))
