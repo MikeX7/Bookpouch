@@ -68,6 +68,10 @@ namespace Libropouch
             }           
         }
 
+        /// <summary>
+        /// Removes book from the library
+        /// </summary>
+        /// <param name="dirName">Path to the folder which contains the book files</param>
         public static void Discard(string dirName) //Pernamently remove a book from the library
         {
             if (!Directory.Exists(dirName))

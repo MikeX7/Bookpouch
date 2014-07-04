@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -16,8 +16,10 @@ using System.Windows.Media.Imaging;
 using ShadoLib;
 using Button = System.Windows.Controls.Button;
 using DataGrid = System.Windows.Controls.DataGrid;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using Timer = System.Timers.Timer;
 
 namespace Libropouch
 {
@@ -145,7 +147,57 @@ namespace Libropouch
 
             grid.ItemsSource = bookList;
 
-        }        
+        }
+
+        private void BookGrid_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            var dataGrid = (DataGrid)sender;
+            var forcedSettingValue = (Keyboard.IsKeyDown(Key.LeftShift) ? true : (Keyboard.IsKeyDown(Key.LeftCtrl) ? false : (bool?) null));
+
+            if (e.Key == Key.Delete)
+            {              
+
+                if (
+                    MessageBox.Show(
+                        String.Format("Do you really want to permanently delete {0} book/s?",
+                            dataGrid.SelectedItems.Count), "Discard book?", MessageBoxButton.YesNo) !=
+                    MessageBoxResult.Yes)
+                    return;
+
+                foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
+                {
+                    BookKeeper.Discard(book.DirName);
+                }
+            }            
+            else if (e.Key == Key.F)
+            {          
+                foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
+                {                    
+                    BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.DirName);  
+                }
+
+                BookGrid_OnLoaded(BookGrid, null); //Reload grid in the main window
+            }
+            else if (e.Key == Key.S)
+            {
+                foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
+                {
+                    BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.DirName);
+                }
+
+                BookGrid_OnLoaded(BookGrid, null); //Reload grid in the main window
+            }
+            else if (e.Key == Key.D)
+            {
+                foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
+                {
+                    BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.DirName);
+                    BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.DirName); 
+                }
+
+                BookGrid_OnLoaded(BookGrid, null); //Reload grid in the main window
+            }            
+        }
 
         private void Sync_OnClick(object sender, RoutedEventArgs e)
         {
@@ -284,6 +336,12 @@ namespace Libropouch
             about.Show();
         }
 
+        private void MainWindow_OnKeyUp(object sender, KeyEventArgs e) //Allow user to refresh the book list with F5
+        {
+            if (e.Key == Key.F5)
+                BookGrid_OnLoaded(BookGrid, null); //Reload grid
+        }
+
         //Change value in existing info.dat file for a book
         private void BookInfoSet(string key, object value, string infoFilePath)
         {
@@ -333,14 +391,23 @@ namespace Libropouch
                 get 
                 { 
                     var file = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
+                    BitmapImage cover;  
 
-                    var cover = new BitmapImage();
+                    try
+                    {
+                        cover = new BitmapImage();
 
-                    cover.BeginInit();
-                    cover.CreateOptions = BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile;
-                    cover.CacheOption = BitmapCacheOption.OnLoad;
-                    cover.UriSource = new Uri(@file ?? "img/book.png", UriKind.RelativeOrAbsolute);
-                    cover.EndInit();
+                        cover.BeginInit();
+                        cover.CreateOptions = BitmapCreateOptions.PreservePixelFormat |
+                                              BitmapCreateOptions.IgnoreColorProfile;
+                        cover.CacheOption = BitmapCacheOption.OnLoad;
+                        cover.UriSource = new Uri(@file ?? "img/book.png", UriKind.RelativeOrAbsolute);
+                        cover.EndInit();
+                    }
+                    catch (NotSupportedException)
+                    {
+                        cover = new BitmapImage(new Uri("img/book.png", UriKind.Relative)); //Provide default image in case the book cover image exists but is faulty
+                    }
 
                     return cover;
                 }
@@ -371,8 +438,7 @@ namespace Libropouch
                 get { return "flags/" + CountryCode.Trim() + ".png"; }
             }
 
-        }
-        
+        }        
     }
 
 }

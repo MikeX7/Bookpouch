@@ -59,7 +59,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <Border Grid.Row="3" Grid.Column="1" Name="UnknownDeviceForm" Visibility="Visible" Background="#58585f" CornerRadius="6" Width="260" Padding="10" HorizontalAlignment="Left">
+        <Border Grid.Row="3" Grid.Column="1" Name="UnknownDeviceForm" Visibility="Collapsed" Background="#58585f" CornerRadius="6" Width="260" Padding="10" HorizontalAlignment="Left">
             <Border.Effect>
                 <DropShadowEffect Opacity="1" BlurRadius="10" Color="#383838"   ShadowDepth="0"/>
             </Border.Effect>

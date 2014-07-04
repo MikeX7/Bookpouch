@@ -37,14 +37,24 @@ namespace Libropouch
         private void CoverImage_OnLoaded(object sender, RoutedEventArgs e)
         {
             var image = (Image) sender;
-            var file = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();            
-            var cover = new BitmapImage();
+            var file = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
+            BitmapImage cover;
 
-            cover.BeginInit();
-            cover.CreateOptions = BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile;
-            cover.CacheOption = BitmapCacheOption.OnLoad;
-            cover.UriSource = new Uri(@file ?? "img/book.png", UriKind.RelativeOrAbsolute); 
-            cover.EndInit();
+            try
+            {
+                cover = new BitmapImage();
+
+                cover.BeginInit();
+                cover.CreateOptions = BitmapCreateOptions.PreservePixelFormat |
+                                      BitmapCreateOptions.IgnoreColorProfile;
+                cover.CacheOption = BitmapCacheOption.OnLoad;
+                cover.UriSource = new Uri(@file ?? "img/book.png", UriKind.RelativeOrAbsolute);
+                cover.EndInit();
+            }
+            catch (NotSupportedException)
+            {
+                cover = new BitmapImage(new Uri("img/book.png", UriKind.Relative)); //Provide default image in case the book cover image exists but is faulty
+            }
             
 
             image.Source = cover;                      
