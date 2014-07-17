@@ -86,6 +86,7 @@
     <Compile Include="BookData.cs" />
     <Compile Include="BookKeeper.cs" />
     <Compile Include="BookPeek.cs" />
+    <Compile Include="DebugConsole.cs" />
     <Compile Include="EditBook.xaml.cs">
       <DependentUpon>EditBook.xaml</DependentUpon>
     </Compile>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,9 @@ using TextBox = System.Windows.Controls.TextBox;
 
 namespace Libropouch
 {
+    /// <summary>
+    /// Display a list of suggestions based on a text typed in a bonded text field
+    /// </summary>
      class Whisperer
     {
          public List<string> HintList = new List<string>(); //List of possible phrases offered in the whisperer
@@ -124,8 +128,12 @@ namespace Libropouch
         }        
 
          public void Focus() //Switch focus from the textbox to the whisperer listbox item
-        {
-            var listBox = (ListBox) _popup.Child;
+         {
+             var listBox = (ListBox)_popup.Child;
+
+             if (!listBox.IsVisible) 
+                 return;
+                                   
             listBox.Focus();
             listBox.SelectedIndex = (listBox.Items.Count > 0 ? 1 : 0); //Since the first whisperer suggestion can be always accessed with enter (even when the whisperer listobx is unfocused), skip to the second  suggestion (if it exists) when down arrow is pressed 
             SendKeys.SendWait("{DOWN}");

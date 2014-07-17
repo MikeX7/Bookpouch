@@ -26,6 +26,7 @@
             <RowDefinition Height="90"/>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="90" />
@@ -69,7 +70,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition/>                    
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="90" />
@@ -90,7 +91,10 @@
         </Border>
 
         <Label Grid.Row="4" Grid.Column="0" Content="_AutoSync:" Target="{Binding ElementName=UsbAutoSync}"/>
-        <CheckBox Grid.Row="4" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="UsbAutoSync" ToolTip="Automatically start sync, when compatible reader is connected to the computer"/>       
+        <CheckBox Grid.Row="4" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="UsbAutoSync" ToolTip="Automatically start sync, when compatible reader is connected to the computer"/>
+
+        <Label Grid.Row="5" Grid.Column="0" Content="_Debug:" Target="{Binding ElementName=Debug}" />
+        <Button Grid.Row="5" Grid.Column="1" Name="Debug" Content="Show console" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Debug_OnClick" ToolTip="Debug console displays runtime information about this application, this information will be probably of no use to you as user."/>
 
     </Grid>
 </Window>

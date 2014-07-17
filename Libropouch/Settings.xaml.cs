@@ -138,6 +138,11 @@ namespace Libropouch
             Properties.Settings.Default.Save();            
         }
 
+        private void Debug_OnClick(object sender, RoutedEventArgs e)
+        {            
+             DebugConsole.Open();
+        }
+
         internal sealed class LanguageOption //Class representing items in the language selection drop down menu
         {
             public string Name { private set; get; }
@@ -183,8 +188,7 @@ namespace Libropouch
             }
 
         }
-
- 
+      
     }
     
 }

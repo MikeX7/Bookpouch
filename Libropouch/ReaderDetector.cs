@@ -50,6 +50,7 @@ namespace Libropouch
             }
             else //If this is own postmessage start the usbsync class
             {
+                DebugConsole.WriteLine("Autosync: USB storage device connection detected, triggering UsbSync");
                 Debug.WriteLine("Triggering UsbSync");
                 new UsbSync();
             }

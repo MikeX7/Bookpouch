@@ -45,8 +45,16 @@
                        RenderTransformOrigin="0.5,0.5" Foreground="Black"/>
         </Border>
 
+        <ComboBox HorizontalAlignment="Right" VerticalAlignment="Top" Name="FilterCategory" SelectionChanged="FilterCategory_OnSelectionChanged" Grid.Row="1" Visibility="Collapsed" Canvas.ZIndex="1">
+            <ComboBoxItem>- - -</ComboBoxItem>
+            <ComboBoxItem>dfdffd</ComboBoxItem>
+            <ComboBoxItem>dfd44141ffd</ComboBoxItem>
+            <ComboBoxItem>ddssdfdffd</ComboBoxItem>
+            <ComboBoxItem>Sci-fi</ComboBoxItem>
+        </ComboBox>
+        
         <DataGrid x:Name="BookGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False"
-                  Loaded="BookGrid_OnLoaded" VerticalAlignment="Top" CanUserResizeRows="False" RowHeaderWidth="1" KeyUp="BookGrid_OnKeyUp"
+                  Loaded="BookGrid_OnLoaded" VerticalAlignment="Top" CanUserResizeRows="False" RowHeaderWidth="1" KeyUp="BookGrid_OnKeyUp" PreviewMouseRightButtonUp="BookGrid_PreviewMouseRightButtonUp" PreviewMouseLeftButtonUp="BookGrid_PreviewMouseRightButtonUp"
                   HorizontalGridLinesBrush="#2b72ac" VerticalGridLinesBrush="#2b72ac" RowBackground="#5d5d5d" AlternatingRowBackground="#454545"  Background="#569cd6" Style="{DynamicResource DataGridStyle1}" >
             <DataGrid.Resources>
                 <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
@@ -93,7 +101,7 @@
                 <DataGridTemplateColumn Header=" ★">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Tag="{Binding DirName}" Click="FavoriteToggle_OnClick" PreviewMouseDown="Favorite_OnPreviewMouseDown" ToolTip="Toggle to mark this book as one of your favorite.">
+                            <Button Tag="{Binding DirName}" Click="FavoriteToggle_OnClick" PreviewMouseDown="Favorite_OnPreviewMouseDown" ToolTip="Toggle to mark this book as one of your favorites.">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Img/star.png" Height="25" Opacity="{Binding FavoriteOpacity}" />
@@ -108,7 +116,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Tag="{Binding DirName}" Click="SyncToDeviceToggle_OnClick" PreviewMouseDown="Sync_OnPreviewMouseDown" 
-                                    ToolTip="Toggle to decide if you want to sync this book to your reader or not, upon the next synchronization.">
+                                    ToolTip="Toggle to decide if you want to sync this book to your reader or not.">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Readers/kindle.png" Height="25" Opacity="{Binding SyncOpacity}" />
@@ -119,7 +127,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="auto" >
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="auto"  >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Padding" Value="5" />
