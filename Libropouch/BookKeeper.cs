@@ -9,6 +9,10 @@ namespace Libropouch
 {    
     static class BookKeeper
     {
+        /// <summary>
+        /// Add a new book into the library
+        /// </summary>
+        /// <param name="file">Path to the file which is being added</param>
         public static void Add(String file) //Add a new book into the library
         {
             var finfo = new FileInfo(file);
@@ -23,18 +27,26 @@ namespace Libropouch
             var dirPath = Properties.Settings.Default.FilesDir + "/" + dirName;
             var newDirPath = dirPath;
 
-            for(var i = 1; Directory.Exists(newDirPath); i++) //If the folder already exists append number to the new folder's name
-                newDirPath = dirPath + " (" + i + ")";
+            int copyNumber;
+
+            for(copyNumber = 1; Directory.Exists(newDirPath); copyNumber++) //If the folder already exists append a number to the new folder's name
+                newDirPath = dirPath + " (" + copyNumber + ")";
 
             dirPath = newDirPath;
 
             Directory.CreateDirectory(dirPath); //Create the dir in the default book folder, specified in the settings        
+            var fileName = Path.GetFileNameWithoutExtension(finfo.Name)  + (copyNumber > 0 ? " (" + (copyNumber - 1) + ")" : "") + finfo.Extension; //If the parent directory got a number added to its name, add it to the book file name as well
+            Debug.WriteLine(copyNumber);
 
-            finfo.CopyTo(dirPath + "/" + finfo.Name, true);
+            finfo.CopyTo(dirPath + "/" + fileName, true);
 
-            GenerateInfo(dirPath + "/" + finfo.Name); //Generate info.xml file for this book file
+            GenerateInfo(dirPath + "/" + fileName); //Generate info.xml file for this book file
         }        
 
+        /// <summary>
+        /// Generate info.dat file containing information about a book (mostly extracted from the book file) and save it into the book's folder.
+        /// </summary>
+        /// <param name="file">Path to the book file</param>
         public static void GenerateInfo(string file) //Add a new book into the library
         {            
             if (!File.Exists(file))
@@ -69,7 +81,7 @@ namespace Libropouch
         }
 
         /// <summary>
-        /// Removes book from the library
+        /// Remove a book from the library
         /// </summary>
         /// <param name="dirName">Path to the folder which contains the book files</param>
         public static void Discard(string dirName) //Pernamently remove a book from the library

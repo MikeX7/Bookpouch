@@ -21,6 +21,9 @@ namespace Libropouch
             }            
         }
 
+        /// <summary>
+        /// Get a list of book files from the reader device
+        /// </summary>        
         private static String[] GetFileList()
         {            
             var drive = GetDriveLetter();
@@ -45,7 +48,10 @@ namespace Libropouch
             return files;
         }
         
-        private static String GetDriveLetter() //Get the drive letter for the reader device
+        /// <summary>
+        /// Get the drive letter for the reader device
+        /// </summary>        
+        private static String GetDriveLetter() 
         {
             try
             {                                
