@@ -1,24 +1,72 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Libropouch
 {
     class UsbSync
-    {                
+    {
+
+        static private string deviceDir;
+
         public UsbSync()
         {
+            var dirs = Directory.GetDirectories("books");
+            var extensions = Properties.Settings.Default.FileExtensions.Split(';');
+            var localBookList = new List<string>();
+
+            foreach (var dir in dirs)
+            {
+                if (!File.Exists(dir + "\\info.dat")) 
+                    continue;
+
+                using (var infoFile = new FileStream(dir + "\\info.dat", FileMode.Open))
+                {
+                    var bf = new BinaryFormatter();
+                    var bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);
+                    
+                    if ((bool) bookInfo["sync"])
+                    {
+                        localBookList.Add(
+                            
+                                Directory.EnumerateFiles(dir)
+                                    .FirstOrDefault(
+                                        f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))));
+                    }
+                }
+            }
+
             var fileList = GetFileList();
 
             if (fileList.Length == 0)
                 return;
-
-            foreach (var file in fileList)
+            
+            foreach (var file in fileList) //Remove any files from the reader which aren't books marked for sync in the Libropouch
             {
-                Debug.WriteLine(file);
-            }            
+                var fileName = Path.GetFileName(file);
+
+                if (localBookList.Select(Path.GetFileName).Contains(fileName))                
+                    continue;
+
+                DebugConsole.WriteLine("Deleting " + file);
+
+                File.Delete(file);                
+            }
+
+            foreach (var file in localBookList) //Copy all books marked for sync from the local storage to the reader device, skip books which already exist on the reader
+            {
+                if (fileList.Select(Path.GetFileName).Contains(Path.GetFileName(file)))
+                    continue;
+
+                DebugConsole.WriteLine("Copying " + file);                
+                
+                File.Copy(file, deviceDir + "/" + Path.GetFileName(file));
+                
+            }
         }
 
         /// <summary>
@@ -29,9 +77,11 @@ namespace Libropouch
             var drive = GetDriveLetter();
 
             if (drive == "") //Reader is not connected to the pc or wasn't found, so there is no point to go on                            
-                return new String[0];            
+                return new String[0];
 
-            if (!Directory.Exists(@drive + Properties.Settings.Default.DeviceRootDir)) //Specified directory on the reader which should contain ebook files doesn't exist
+            deviceDir = drive + Properties.Settings.Default.DeviceRootDir;
+
+            if (!Directory.Exists(@deviceDir)) //Specified directory on the reader which should contain ebook files doesn't exist
             {                
                 MainWindow.Info(String.Format("Specified directory \"{0}\" wasn't found on the connected reader: {1}.", Properties.Settings.Default.DeviceRootDir, Properties.Settings.Default.DeviceModel), 1);                
 
@@ -40,7 +90,7 @@ namespace Libropouch
 
             var extensions = Properties.Settings.Default.FileExtensions.Split(';');
 
-            var files = Directory.EnumerateFiles(@drive + Properties.Settings.Default.DeviceRootDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();
+            var files = Directory.EnumerateFiles(@deviceDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();            
 
             if (files.Length == 0)
                 MainWindow.Info("No books found on the reader.");

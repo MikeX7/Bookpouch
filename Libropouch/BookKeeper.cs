@@ -35,7 +35,7 @@ namespace Libropouch
             dirPath = newDirPath;
 
             Directory.CreateDirectory(dirPath); //Create the dir in the default book folder, specified in the settings        
-            var fileName = Path.GetFileNameWithoutExtension(finfo.Name)  + (copyNumber > 0 ? " (" + (copyNumber - 1) + ")" : "") + finfo.Extension; //If the parent directory got a number added to its name, add it to the book file name as well
+            var fileName = Path.GetFileNameWithoutExtension(finfo.Name)  + (copyNumber > 1 ? " (" + (copyNumber - 1) + ")" : "") + finfo.Extension; //If the parent directory got a number added to its name, add it to the book file name as well
             Debug.WriteLine(copyNumber);
 
             finfo.CopyTo(dirPath + "/" + fileName, true);
