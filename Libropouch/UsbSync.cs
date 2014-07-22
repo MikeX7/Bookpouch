@@ -67,6 +67,8 @@ namespace Libropouch
                 File.Copy(file, deviceDir + "/" + Path.GetFileName(file));
                 
             }
+
+            MainWindow.Info("Synchronization was successfully finished.");
         }
 
         /// <summary>

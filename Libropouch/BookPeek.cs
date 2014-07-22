@@ -12,7 +12,10 @@ using System.Xml.Linq;
 
 namespace Libropouch
 {
-    class BookPeek //Extract book info from ebook files
+    /// <summary>
+    /// Tools for extracting informations from the eBook files
+    /// </summary>
+    class BookPeek 
     {
         public Dictionary<string, object> List = new Dictionary<string, object>();
         public readonly string DirName;

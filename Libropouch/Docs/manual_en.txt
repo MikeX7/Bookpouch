@@ -12,6 +12,7 @@ You can add new books into the list by clicking on the plus icon, in the top lef
 Libropouch natively supports Mobi and Epub formats, therefore if you add any books in said formats, it will extract and fill in the informations (if any are available in the book file) about the books, automatically.
 If you wish to remove a book from the list, click on it and then hit the Delete key on your keyboard. You can also select and remove multiple books by holding down the Ctrl key and clicking on the books you want to remove.
 To sort the books by their category, simply left-click on the Category column name. If you want to display only books belonging to a certain category, right-click the Category column name instead, and choose the desired category from the dropdown menu.
+To display only books containing with a certain letter, or a string, right-click on the Name column name. A text field will appear and as you begin to type into it, the list of books will be automatically filtered, to match the searched string.
 
 
 Editing book details

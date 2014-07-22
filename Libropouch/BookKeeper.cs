@@ -7,6 +7,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Libropouch
 {    
+    /// <summary>
+    /// Tools for editing and reading the existing library of books
+    /// </summary>
     static class BookKeeper
     {
         /// <summary>
@@ -84,13 +87,36 @@ namespace Libropouch
         /// Remove a book from the library
         /// </summary>
         /// <param name="dirName">Path to the folder which contains the book files</param>
-        public static void Discard(string dirName) //Pernamently remove a book from the library
+        public static void Discard(string dirName) //Permanently remove a book from the library
         {
             if (!Directory.Exists(dirName))
                 return;
 
             Directory.Delete(dirName, true);
             MainWindow.MW.BookGrid_OnLoaded(MainWindow.MW.BookGrid, null); //Reload grid in the main window
+        }        
+
+        /// <summary>
+        /// Generate a list of all books (including their full info) in the library
+        /// </summary>
+        public static List<Dictionary<string, object>> List()
+        {
+            var dirs = Directory.GetDirectories("books");
+            var extensions = Properties.Settings.Default.FileExtensions.Split(';');
+            var bookData = new List<Dictionary<string, object>>();
+
+            foreach (var dir in dirs.Where(dir => File.Exists(dir + "\\info.dat")))
+            {
+                using (var infoFile = new FileStream(dir + "\\info.dat", FileMode.Open))
+                {
+                    var bf = new BinaryFormatter();
+                    var bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);
+
+                    bookData.Add(bookInfo);
+                }
+            }
+
+            return bookData;
         }
     }
     

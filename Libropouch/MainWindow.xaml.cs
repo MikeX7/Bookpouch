@@ -140,6 +140,9 @@ namespace Libropouch
                     var bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);
                     var countryCode = "_unknown";
                     //If we can't get proper country code, this fall-back flag image name will be used
+                    
+                    if (filter.ContainsKey("title") && !((string)bookInfo["title"]).Contains(filter["title"]))
+                        continue;
 
                     if (filter.ContainsKey("category") && (string) bookInfo["category"] != filter["category"])
                         continue;
@@ -180,6 +183,27 @@ namespace Libropouch
             DebugConsole.WriteLine("Reloaded book grid. Book count: " + bookList.Count);
         }
 
+        /// <summary>
+        /// Filter the books displayed in the grid based on the string from the text field
+        /// </summary>
+        private void FilterName_OnkeyUp(object sender, KeyEventArgs e)
+        {
+            var textBox = (TextBox) sender;
+
+            filter["title"] = textBox.Text; //Add selected category name into the filter so only books in that category are displayed
+
+            if (textBox.Text == "" && e.Key == Key.Back)
+            {
+                filter.Remove("title"); //Remove category from the filter so all categories are displayed
+                textBox.Visibility = Visibility.Collapsed;
+            }
+
+            BookGrid_OnLoaded(BookGrid, null);
+        }
+
+        /// <summary>
+        /// Filter the books displayed in the grid based on the selected category
+        /// </summary>        
         private void FilterCategory_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (ComboBox) sender;            
@@ -247,17 +271,21 @@ namespace Libropouch
                 BookGrid_OnLoaded(BookGrid, null); //Reload grid in the main window
             }
         }
-
-        //If category column header gets left clicked display combobox for filtering categories
+        
+        //If name column header gets right clicked display text for live-filtering the book list
         private void BookGrid_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var obj = e.OriginalSource as TextBlock;             
+            var obj = e.OriginalSource as TextBlock;            
 
-            if (obj == null || obj.Text != "Category")
-                return;
+            //If category column header gets right clicked display combobox for filtering categories
+            if (obj != null && obj.Text == "Category")
+                FilterCategory.Visibility = Visibility.Visible;
 
-            FilterCategory.Visibility = Visibility.Visible;
-
+            if (obj != null && obj.Text == "Name")
+            {
+                FilterName.Visibility = Visibility.Visible;
+                FilterName.Focus();
+            }
         }
 
         private void Sync_OnClick(object sender, RoutedEventArgs e)
