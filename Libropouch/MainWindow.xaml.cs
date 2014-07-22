@@ -141,7 +141,7 @@ namespace Libropouch
                     var countryCode = "_unknown";
                     //If we can't get proper country code, this fall-back flag image name will be used
                     
-                    if (filter.ContainsKey("title") && !((string)bookInfo["title"]).Contains(filter["title"]))
+                    if (filter.ContainsKey("title") && !((string)bookInfo["title"]).ToLower().Contains(filter["title"].ToLower()))
                         continue;
 
                     if (filter.ContainsKey("category") && (string) bookInfo["category"] != filter["category"])
@@ -208,7 +208,7 @@ namespace Libropouch
         {
             var comboBox = (ComboBox) sender;            
 
-            filter["category"] = ((ComboBoxItem)comboBox.SelectedItem).Content.ToString(); //Add selected category name into the filter so only books in that category are displayed
+            filter["category"] = comboBox.SelectedItem.ToString(); //Add selected category name into the filter so only books in that category are displayed
 
             if (comboBox.SelectedIndex == 0)
             {
@@ -279,7 +279,19 @@ namespace Libropouch
 
             //If category column header gets right clicked display combobox for filtering categories
             if (obj != null && obj.Text == "Category")
+            {
+                var bookList = BookKeeper.List();
+                var categoryList = new HashSet<string>{"- - -"};
+
+                foreach (var info in bookList)
+                {
+                    if (!categoryList.Contains((string)info["category"]) && (string)info["category"] != "")
+                        categoryList.Add((string) info["category"]);
+                }
+
+                FilterCategory.ItemsSource = categoryList;
                 FilterCategory.Visibility = Visibility.Visible;
+            }
 
             if (obj != null && obj.Text == "Name")
             {

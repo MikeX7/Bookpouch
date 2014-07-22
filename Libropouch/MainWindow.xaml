@@ -45,9 +45,7 @@
                        RenderTransformOrigin="0.5,0.5" Foreground="Black"/>
         </Border>
 
-        <ComboBox HorizontalAlignment="Right" VerticalAlignment="Top" Name="FilterCategory" SelectionChanged="FilterCategory_OnSelectionChanged" Grid.Row="1" Visibility="Collapsed" Canvas.ZIndex="1">
-            <ComboBoxItem>- - -</ComboBoxItem>
-        </ComboBox>
+        <ComboBox HorizontalAlignment="Right" VerticalAlignment="Top" Name="FilterCategory" SelectionChanged="FilterCategory_OnSelectionChanged" Grid.Row="1" Visibility="Collapsed" Canvas.ZIndex="1" />
 
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="1" Visibility="Collapsed" Canvas.ZIndex="1"/>                   
 
