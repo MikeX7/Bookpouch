@@ -112,9 +112,6 @@ namespace Libropouch
                 return;
             }
 
-            var categories = new List<string> {"Sci-fi", "Action", "Fantasy", "Horror", "Poetry", "Biography", "Comic"};
-
-
             var grid = (DataGrid) sender;
             var extensions = Properties.Settings.Default.FileExtensions.Split(';');
             var dirs = Directory.EnumerateDirectories(Properties.Settings.Default.FilesDir).ToList();

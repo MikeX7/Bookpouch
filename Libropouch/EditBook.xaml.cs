@@ -177,11 +177,20 @@ namespace Libropouch
         private void Series_OnLoaded(object sender, RoutedEventArgs e)
         {
             TextBox_OnLoaded(sender, e);
+
+            var bookInfo = BookKeeper.List();
+            var hintSet = new HashSet<string>();
+
+            foreach (var info in bookInfo.Where(info => (string) info["series"] != ""))
+                hintSet.Add((string) info["series"]);
+
+            var hintList = hintSet.ToList();
+            hintList.Sort();
             
             new Whisperer
             {
                 TextBox = (TextBox) sender,
-                HintList = { "Sci", "Sex", "Science", "Action", "Fantasy", "Twilight fanfiction" }                
+                HintList = hintList   
             };            
         }
 
@@ -189,10 +198,20 @@ namespace Libropouch
         {
             TextBox_OnLoaded(sender, e);
 
+            var bookInfo = BookKeeper.List();
+            var defaultCategories = Properties.Settings.Default.DefaultCategories.Split(';');
+            var hintSet = new HashSet<string>(defaultCategories);
+
+            foreach (var info in bookInfo.Where(info => (string)info["category"] != ""))
+                hintSet.Add((string)info["category"]);
+
+            var hintList = hintSet.ToList();
+            hintList.Sort();
+
             new Whisperer
             {
                 TextBox = (TextBox)sender,
-                HintList = { "Sci-fi", "Sex", "Science", "Action", "Fantasy", "Twilight fanfiction" }
+                HintList = hintList
             };
         }
         private void Discard_OnClick(object sender, RoutedEventArgs e)

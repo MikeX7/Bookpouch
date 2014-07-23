@@ -29,5 +29,8 @@
     <Setting Name="SplashScreen" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="DefaultCategories" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Action;Biography;Essay;Fable;Fantasy;General;Historical;Horror;Humor;Kids;Manga;Mystery;Mythology;Play;Romance;Sci-Fi;Spiritual;Supernatural;Thriller;Western;Young Adult </Value>
+    </Setting>
   </Settings>
 </SettingsFile>

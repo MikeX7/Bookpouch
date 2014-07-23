@@ -124,5 +124,19 @@ namespace Libropouch.Properties {
                 this["SplashScreen"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Action;Biography;Essay;Fable;Fantasy;General;Historical;Horror;Humor;Kids;Manga;M" +
+            "ystery;Mythology;Play;Romance;Sci-Fi;Spiritual;Supernatural;Thriller;Western;You" +
+            "ng Adult ")]
+        public string DefaultCategories {
+            get {
+                return ((string)(this["DefaultCategories"]));
+            }
+            set {
+                this["DefaultCategories"] = value;
+            }
+        }
     }
 }
