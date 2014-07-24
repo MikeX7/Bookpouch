@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using ShadoLib;
+using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DataGrid = System.Windows.Controls.DataGrid;
+using Image = System.Windows.Controls.Image;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using TextBox = System.Windows.Controls.TextBox;
 using Timer = System.Timers.Timer;
 
 namespace Libropouch
@@ -28,6 +36,7 @@ namespace Libropouch
     public partial class MainWindow
     {
         public static MainWindow MW;
+        private readonly NotifyIcon _trayIcon;
 
         public MainWindow()
         {
@@ -36,6 +45,18 @@ namespace Libropouch
             //DebugConsole.Open();            
             
             InitializeComponent();
+            
+            _trayIcon = new NotifyIcon
+            {
+                Icon = new Icon(Application.GetResourceStream(new Uri("Img/kindle.ico", UriKind.Relative)).Stream),
+                Visible = false
+            };
+
+            _trayIcon.Click += (o, args) => 
+                {
+                    Show();
+                    _trayIcon.Visible = false;
+                };
 
             if (Properties.Settings.Default.UsbAutoSync)
                 new ReaderDetector(this);
@@ -441,6 +462,23 @@ namespace Libropouch
             if (e.Key == Key.F5)
                 BookGrid_OnLoaded(BookGrid, null); //Reload grid
         }
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e) //If the option is set, instead of closing the application minimize it into system tray
+        {
+            if (!Properties.Settings.Default.CloseIntoTray)
+                return;            
+
+            this.Hide();
+            _trayIcon.Visible = true;
+            _trayIcon.BalloonTipText = "I am become tray, destroyer of Start";
+            _trayIcon.ShowBalloonTip(5000);
+
+            DebugConsole.WriteLine("Minimizing Libropouch into tray.");
+            e.Cancel = true;
+        }
+
+      
+
 
         //Change value in existing info.dat file for a book
         private void BookInfoSet(string key, object value, string infoFilePath)

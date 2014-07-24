@@ -138,5 +138,17 @@ namespace Libropouch.Properties {
                 this["DefaultCategories"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CloseIntoTray {
+            get {
+                return ((bool)(this["CloseIntoTray"]));
+            }
+            set {
+                this["CloseIntoTray"] = value;
+            }
+        }
     }
 }

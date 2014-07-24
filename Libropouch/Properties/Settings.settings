@@ -32,5 +32,8 @@
     <Setting Name="DefaultCategories" Type="System.String" Scope="User">
       <Value Profile="(Default)">Action;Biography;Essay;Fable;Fantasy;General;Historical;Horror;Humor;Kids;Manga;Mystery;Mythology;Play;Romance;Sci-Fi;Spiritual;Supernatural;Thriller;Western;Young Adult </Value>
     </Setting>
+    <Setting Name="CloseIntoTray" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

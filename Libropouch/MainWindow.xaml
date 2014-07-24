@@ -2,7 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Libropouch" Height="700" Width="1000" MinWidth="500" MinHeight="350" x:Name="Window"
-        Background="#2d2d30" KeyUp="MainWindow_OnKeyUp">
+        Background="#2d2d30" KeyUp="MainWindow_OnKeyUp"
+        Closing="MainWindow_OnClosing">
     <Window.Resources>
         <ResourceDictionary Source="Style/Global.xaml" />
     </Window.Resources>
