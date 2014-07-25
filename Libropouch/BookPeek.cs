@@ -110,7 +110,7 @@ namespace Libropouch
             }
             catch (Exception)
             {
-                MainWindow.Info("I wasn't ale to get any information from the Epub file, it may be corrupted or is missing some key files.", 1);
+                MainWindow.Info(UiLang.Get("EpubCorrupted"), 1);
             }             
         }
 
@@ -164,7 +164,7 @@ namespace Libropouch
 
                 if (!headerFound) 
                 {
-                    MainWindow.Info(string.Format("{0} is missing the MOBI header and therefore I am not able to extract any information from it.", file.Name), 1);
+                    MainWindow.Info(string.Format(UiLang.Get("MobiHeaderMissing"), file.Name), 1);
                     return;
                 }
 
@@ -237,7 +237,7 @@ namespace Libropouch
 
             if (fs.Length == fs.Position) //If we reach the end of the stream without finding the EXTH header, then the file doesn't contain it
             {
-                MainWindow.Info(String.Format("{0} is missing the EXTH header, even though it claims that it has one and therefore I wasn't able to extract any information from it.", file.Name), 1);
+                MainWindow.Info(String.Format(UiLang.Get("ExthHeaderMissing"), file.Name), 1);
                 return;
             }
 
@@ -282,7 +282,7 @@ namespace Libropouch
             }
             catch (Exception e)
             {
-                MainWindow.Info(String.Format("I encountered some problems with fetching the EXTH header in {0}: {1}", file.Name, e), 1);
+                MainWindow.Info(String.Format(UiLang.Get("ExthProblemFetching"), file.Name, e), 1);
             }
         }
 

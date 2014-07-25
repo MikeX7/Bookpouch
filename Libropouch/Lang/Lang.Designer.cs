@@ -61,11 +61,137 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you really want to permanently delete {0} book/s?.
+        /// </summary>
+        internal static string DeleteBooksConfirm {
+            get {
+                return ResourceManager.GetString("DeleteBooksConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I wasn&apos;t able to find the specified directory ({0}) for storing books..
+        /// </summary>
+        internal static string DirNotFound {
+            get {
+                return ResourceManager.GetString("DirNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discard book?.
+        /// </summary>
+        internal static string DiscardBook {
+            get {
+                return ResourceManager.GetString("DiscardBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I wasn&apos;t ale to get any information from the Epub file, it may be corrupted or is missing some key files..
+        /// </summary>
+        internal static string EpubCorrupted {
+            get {
+                return ResourceManager.GetString("EpubCorrupted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is missing the EXTH header, even though it claims that it has one and therefore I wasn&apos;t able to extract any information from it..
+        /// </summary>
+        internal static string ExthHeaderMissing {
+            get {
+                return ResourceManager.GetString("ExthHeaderMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I encountered some problems with fetching the EXTH header in {0}: {1}.
+        /// </summary>
+        internal static string ExthProblemFetching {
+            get {
+                return ResourceManager.GetString("ExthProblemFetching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is missing the MOBI header and therefore I am not able to extract any information from it..
+        /// </summary>
+        internal static string MobiHeaderMissing {
+            get {
+                return ResourceManager.GetString("MobiHeaderMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adding new books....
+        /// </summary>
+        internal static string SyncAddingBooks {
+            get {
+                return ResourceManager.GetString("SyncAddingBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Searching for connected {0}....
         /// </summary>
-        internal static string InfoSyncDeviceSearch {
+        internal static string SyncDeviceSearch {
             get {
-                return ResourceManager.GetString("InfoSyncDeviceSearch", resourceCulture);
+                return ResourceManager.GetString("SyncDeviceSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected supported files are being added into the library....
+        /// </summary>
+        internal static string SyncFilesAdded {
+            get {
+                return ResourceManager.GetString("SyncFilesAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronization was successfully finished..
+        /// </summary>
+        internal static string SyncFinished {
+            get {
+                return ResourceManager.GetString("SyncFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No books found on the reader..
+        /// </summary>
+        internal static string SyncNoBooks {
+            get {
+                return ResourceManager.GetString("SyncNoBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I wasn&apos;t able to find any connected readers..
+        /// </summary>
+        internal static string SyncNoReadersFound {
+            get {
+                return ResourceManager.GetString("SyncNoReadersFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specified directory \&quot;{0}\&quot; wasn&apos;t found on the connected reader: {1}..
+        /// </summary>
+        internal static string SyncReaderDirNotFound {
+            get {
+                return ResourceManager.GetString("SyncReaderDirNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have selected an unknown reader device and therefore you will need to manually input the identification strings, so that your reader can be correctly recognized and handled by Libropouch.\nHover over the fields with your cursor to display tooltips..
+        /// </summary>
+        internal static string UnknownDeviceHint {
+            get {
+                return ResourceManager.GetString("UnknownDeviceHint", resourceCulture);
             }
         }
     }

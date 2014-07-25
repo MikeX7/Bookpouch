@@ -68,7 +68,7 @@ namespace Libropouch
                 
             }
 
-            MainWindow.Info("Synchronization was successfully finished.");
+            MainWindow.Info(UiLang.Get("SyncFinished"));
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Libropouch
 
             if (!Directory.Exists(@deviceDir)) //Specified directory on the reader which should contain ebook files doesn't exist
             {                
-                MainWindow.Info(String.Format("Specified directory \"{0}\" wasn't found on the connected reader: {1}.", Properties.Settings.Default.DeviceRootDir, Properties.Settings.Default.DeviceModel), 1);                
+                MainWindow.Info(String.Format(UiLang.Get("SyncReaderDirNotFound"), Properties.Settings.Default.DeviceRootDir, Properties.Settings.Default.DeviceModel), 1);                
 
                 return new String[0];            
             }
@@ -95,7 +95,7 @@ namespace Libropouch
             var files = Directory.EnumerateFiles(@deviceDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();            
 
             if (files.Length == 0)
-                MainWindow.Info("No books found on the reader.");
+                MainWindow.Info(UiLang.Get("SyncNoBooks"));
 
             return files;
         }
@@ -135,7 +135,7 @@ namespace Libropouch
                 Debug.WriteLine("Houston, we have a problem with getting the reader disk letter:\n" + e);
             }
 
-            MainWindow.Info("I wasn't able to find any connected readers.", 1);
+            MainWindow.Info(UiLang.Get("SyncNoReadersFound"), 1);
             return "";
         }
         

@@ -117,7 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InfoSyncDeviceSearch" xml:space="preserve">
+  <data name="DeleteBooksConfirm" xml:space="preserve">
+    <value>Do you really want to permanently delete {0} book/s?</value>
+  </data>
+  <data name="DirNotFound" xml:space="preserve">
+    <value>I wasn't able to find the specified directory ({0}) for storing books.</value>
+  </data>
+  <data name="DiscardBook" xml:space="preserve">
+    <value>Discard book?</value>
+  </data>
+  <data name="EpubCorrupted" xml:space="preserve">
+    <value>I wasn't ale to get any information from the Epub file, it may be corrupted or is missing some key files.</value>
+  </data>
+  <data name="ExthHeaderMissing" xml:space="preserve">
+    <value>{0} is missing the EXTH header, even though it claims that it has one and therefore I wasn't able to extract any information from it.</value>
+  </data>
+  <data name="ExthProblemFetching" xml:space="preserve">
+    <value>I encountered some problems with fetching the EXTH header in {0}: {1}</value>
+  </data>
+  <data name="MobiHeaderMissing" xml:space="preserve">
+    <value>{0} is missing the MOBI header and therefore I am not able to extract any information from it.</value>
+  </data>
+  <data name="SyncAddingBooks" xml:space="preserve">
+    <value>Adding new books...</value>
+  </data>
+  <data name="SyncDeviceSearch" xml:space="preserve">
     <value>Searching for connected {0}...</value>
+  </data>
+  <data name="SyncFilesAdded" xml:space="preserve">
+    <value>Selected supported files are being added into the library...</value>
+  </data>
+  <data name="SyncFinished" xml:space="preserve">
+    <value>Synchronization was successfully finished.</value>
+  </data>
+  <data name="SyncNoBooks" xml:space="preserve">
+    <value>No books found on the reader.</value>
+  </data>
+  <data name="SyncNoReadersFound" xml:space="preserve">
+    <value>I wasn't able to find any connected readers.</value>
+  </data>
+  <data name="SyncReaderDirNotFound" xml:space="preserve">
+    <value>Specified directory \"{0}\" wasn't found on the connected reader: {1}.</value>
+  </data>
+  <data name="UnknownDeviceHint" xml:space="preserve">
+    <value>You have selected an unknown reader device and therefore you will need to manually input the identification strings, so that your reader can be correctly recognized and handled by Libropouch.\nHover over the fields with your cursor to display tooltips.</value>
   </data>
 </root>

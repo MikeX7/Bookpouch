@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
@@ -36,7 +34,7 @@ namespace Libropouch
     public partial class MainWindow
     {
         public static MainWindow MW;
-        private readonly NotifyIcon _trayIcon;
+        private static NotifyIcon TrayIcon;
 
         public MainWindow()
         {
@@ -46,21 +44,21 @@ namespace Libropouch
             
             InitializeComponent();
             
-            _trayIcon = new NotifyIcon
+            TrayIcon = new NotifyIcon
             {
                 Icon = new Icon(Application.GetResourceStream(new Uri("Img/kindle.ico", UriKind.Relative)).Stream),
                 Visible = false
             };
 
-            _trayIcon.Click += (o, args) => 
+            TrayIcon.Click += (o, args) => 
                 {
                     Show();
-                    _trayIcon.Visible = false;
+                    TrayIcon.Visible = false;
                 };
 
             if (Properties.Settings.Default.UsbAutoSync)
                 new ReaderDetector(this);
-                    //Start reader detection which automatically triggers UsbSync when reader is connected to the pc                                  
+                    //Start reader detection which automatically triggers UsbSync when the reader is connected to the pc                                  
         }
 
         private static readonly Queue<Tuple<string, byte>> InfoQueue = new Queue<Tuple<string, byte>>();
@@ -69,7 +67,16 @@ namespace Libropouch
         public static void Info(string text, byte type = 0)
         {
             if (text != "")
+            {
                 DebugConsole.WriteLine((type == 0 ? "Info: " : "Error: ") + text);
+
+                if (TrayIcon.Visible)
+                {
+                    TrayIcon.BalloonTipText = text;
+                    TrayIcon.ShowBalloonTip(5000);
+                    return;
+                }                
+            }
 
             if (Properties.Settings.Default.UseInfoBanner == false)
             {
@@ -128,7 +135,7 @@ namespace Libropouch
             if (!Directory.Exists(Properties.Settings.Default.FilesDir))
             {
                 Info(
-                    String.Format("I wasn't able to find the specified directory ({0}) for storing books.",
+                    String.Format(UiLang.Get("DirNotFound"),
                         Properties.Settings.Default.FilesDir), 1);
                 return;
             }
@@ -250,8 +257,8 @@ namespace Libropouch
 
                 if (
                     MessageBox.Show(
-                        String.Format("Do you really want to permanently delete {0} book/s?",
-                            dataGrid.SelectedItems.Count), "Discard book?", MessageBoxButton.YesNo) !=
+                        String.Format(UiLang.Get("DeleteBooksConfirm"),
+                            dataGrid.SelectedItems.Count), UiLang.Get("DiscardBook"), MessageBoxButton.YesNo) !=
                     MessageBoxResult.Yes)
                     return;
 
@@ -320,7 +327,7 @@ namespace Libropouch
 
         private void Sync_OnClick(object sender, RoutedEventArgs e)
         {
-            Info(String.Format(UiLang.Get("InfoSyncDeviceSearch"), Properties.Settings.Default.DeviceModel));
+            Info(String.Format(UiLang.Get("SyncDeviceSearch"), Properties.Settings.Default.DeviceModel));
 
             new UsbSync();
         }
@@ -355,7 +362,7 @@ namespace Libropouch
             if (filesSelected != true)
                 return;
 
-            Info("Selected supported files are being added into the library...");
+            Info(UiLang.Get("SyncFilesAdded"));
 
             var selectedFiles = openFileDialog.FileNames;
 
@@ -367,7 +374,7 @@ namespace Libropouch
                 this.Dispatcher.Invoke(() =>
                 {
                     this.Title = this.Title.Substring(0, 2) == "▣•" ? "•▣" : "▣•";
-                    this.Title += " Libropouch - Adding new books...";
+                    this.Title += " Libropouch - " + UiLang.Get("SyncAddingBooks");
                 });
             };
 
@@ -469,9 +476,7 @@ namespace Libropouch
                 return;            
 
             this.Hide();
-            _trayIcon.Visible = true;
-            _trayIcon.BalloonTipText = "I am become tray, destroyer of Start";
-            _trayIcon.ShowBalloonTip(5000);
+            TrayIcon.Visible = true;            
 
             DebugConsole.WriteLine("Minimizing Libropouch into tray.");
             e.Cancel = true;

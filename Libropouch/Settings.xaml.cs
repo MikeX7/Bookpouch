@@ -88,7 +88,7 @@ namespace Libropouch
 
         private void UnknownDeviceHint_OnClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("You have selected an unknown reader device and therefore you will need to manually input the identification strings, so that your reader can be correctly recognized and handled by Libropouch.\nHover over the fields with your cursor to display tooltips.");
+            MessageBox.Show(UiLang.Get("UnknownDeviceHint"));
         }
 
         //Handle loading  values for all settings checkboxes
