@@ -61,6 +61,15 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string BookGridEdit {
+            get {
+                return ResourceManager.GetString("BookGridEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category.
         /// </summary>
         internal static string BookGridHeaderCategory {
@@ -70,7 +79,7 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ★.
+        ///   Looks up a localized string similar to  ★.
         /// </summary>
         internal static string BookGridHeaderFavorite {
             get {
@@ -79,7 +88,7 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ⇪.
+        ///   Looks up a localized string similar to  ⇪.
         /// </summary>
         internal static string BookGridHeaderSync {
             get {

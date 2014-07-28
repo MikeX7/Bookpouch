@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BookGridEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="BookGridHeaderCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="BookGridHeaderFavorite" xml:space="preserve">
+    <value> ★</value>
+  </data>
+  <data name="BookGridHeaderSync" xml:space="preserve">
+    <value> ⇪</value>
+  </data>
+  <data name="BookGridHeaderTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
   <data name="DeleteBooksConfirm" xml:space="preserve">
     <value>Do you really want to permanently delete {0} book/s?</value>
   </data>

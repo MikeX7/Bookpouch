@@ -1,7 +1,9 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Reflection;
 using System.Resources;
 using System.Threading;
+using System.Windows.Markup;
 
 namespace Libropouch
 {
@@ -21,6 +23,24 @@ namespace Libropouch
         public static string Get(string key)
         {
             return Translations.GetString(key);
+        }
+    }
+
+    /// <summary>
+    /// Replace placeholder localization variables in XAML files with translated strings
+    /// </summary>
+    public class Lng : MarkupExtension
+    {
+        public Lng(string value)
+        {
+            Value = value;
+        }
+
+        public string Value { get; set; }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return String.IsNullOrWhiteSpace(Value) ? Value : UiLang.Get(Value);
         }
     }
 }

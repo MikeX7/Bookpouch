@@ -90,6 +90,11 @@
     <Compile Include="EditBook.xaml.cs">
       <DependentUpon>EditBook.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Lang\Lang1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Lang.resx</DependentUpon>
+    </Compile>
     <Compile Include="UiLang.cs" />
     <Compile Include="Lang\Lang.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -164,7 +169,7 @@
     <EmbeddedResource Include="Lang\Lang.cs-CZ.resx" />
     <EmbeddedResource Include="Lang\Lang.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Lang.Designer.cs</LastGenOutput>
+      <LastGenOutput>Lang1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
