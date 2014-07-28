@@ -20,12 +20,12 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,5,5,5">
             <Button Click="Sync_OnClick" Style="{StaticResource MenuIconButton}"
-                    ToolTip="Synchronize files on the connected ebook reader with local Libropouch library">
+                    ToolTip="{local:Lng HintMenuSync}">
                 <Image Source="Img/arrows.png" />
             </Button>
 
             <Button Click="Add_OnClick" Style="{StaticResource MenuIconButton}" Margin="5,0,0,0"
-                    ToolTip="Add new books into the library">
+                    ToolTip="{local:Lng HintMenuAdd}">
                 <Image Source="Img/plus.png" />
             </Button>
 
@@ -33,10 +33,10 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0"
                     VerticalAlignment="Top" Margin="5,5,0,5" Opacity="0.3">
             <Button Margin="5,0,0,0" Click="Settings_OnClick" Style="{StaticResource MenuIconButton}"
-                    ToolTip="Settings">
+                    ToolTip="{local:Lng HintMenuSettings}">
                 <Image Source="Img/tools1.png" />
             </Button>
-            <Button Click="About_OnClick" Margin="5,0,0,0" Style="{StaticResource MenuIconButton}" ToolTip="About">
+            <Button Click="About_OnClick" Margin="5,0,0,0" Style="{StaticResource MenuIconButton}" ToolTip="{local:Lng HintMenuAbout}">
                 <Image Source="Img/silhouette.png" />
             </Button>
         </StackPanel>
@@ -99,7 +99,7 @@
                 <DataGridTemplateColumn Header="{local:Lng BookGridHeaderFavorite}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Tag="{Binding DirName}" Click="FavoriteToggle_OnClick" PreviewMouseDown="Favorite_OnPreviewMouseDown" ToolTip="Toggle to mark this book as one of your favorites.">
+                            <Button Tag="{Binding DirName}" Click="FavoriteToggle_OnClick" PreviewMouseDown="Favorite_OnPreviewMouseDown" ToolTip="{local:Lng HintBookGridFavorite}">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Img/star.png" Height="25" Opacity="{Binding FavoriteOpacity}" />
@@ -114,7 +114,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Tag="{Binding DirName}" Click="SyncToDeviceToggle_OnClick" PreviewMouseDown="Sync_OnPreviewMouseDown" 
-                                    ToolTip="Toggle to decide if you want to sync this book to your reader or not.">
+                                    ToolTip="{local:Lng HintBookGridSync}">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Readers/kindle.png" Height="25" Opacity="{Binding SyncOpacity}" />

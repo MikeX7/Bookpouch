@@ -133,6 +133,78 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Author:.
+        /// </summary>
+        internal static string EditBookAuthor {
+            get {
+                return ResourceManager.GetString("EditBookAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Category:.
+        /// </summary>
+        internal static string EditBookCategory {
+            get {
+                return ResourceManager.GetString("EditBookCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Favorite:.
+        /// </summary>
+        internal static string EditBookFavorite {
+            get {
+                return ResourceManager.GetString("EditBookFavorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Language:.
+        /// </summary>
+        internal static string EditBookLanguage {
+            get {
+                return ResourceManager.GetString("EditBookLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Published:.
+        /// </summary>
+        internal static string EditBookPublished {
+            get {
+                return ResourceManager.GetString("EditBookPublished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to S_eries:.
+        /// </summary>
+        internal static string EditBookSeries {
+            get {
+                return ResourceManager.GetString("EditBookSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Sync:.
+        /// </summary>
+        internal static string EditBookSync {
+            get {
+                return ResourceManager.GetString("EditBookSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Title:.
+        /// </summary>
+        internal static string EditBookTitle {
+            get {
+                return ResourceManager.GetString("EditBookTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I wasn&apos;t ale to get any information from the Epub file, it may be corrupted or is missing some key files..
         /// </summary>
         internal static string EpubCorrupted {
@@ -160,11 +232,155 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Toggle to mark this book as one of your favorites..
+        /// </summary>
+        internal static string HintBookGridFavorite {
+            get {
+                return ResourceManager.GetString("HintBookGridFavorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle to decide if you want to sync this book to your reader or not..
+        /// </summary>
+        internal static string HintBookGridSync {
+            get {
+                return ResourceManager.GetString("HintBookGridSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string HintMenuAbout {
+            get {
+                return ResourceManager.GetString("HintMenuAbout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add new books into the library.
+        /// </summary>
+        internal static string HintMenuAdd {
+            get {
+                return ResourceManager.GetString("HintMenuAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string HintMenuSettings {
+            get {
+                return ResourceManager.GetString("HintMenuSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronize files on the connected ebook reader with local Libropouch library.
+        /// </summary>
+        internal static string HintMenuSync {
+            get {
+                return ResourceManager.GetString("HintMenuSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is missing the MOBI header and therefore I am not able to extract any information from it..
         /// </summary>
         internal static string MobiHeaderMissing {
             get {
                 return ResourceManager.GetString("MobiHeaderMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _AutoSync:.
+        /// </summary>
+        internal static string SettingsAutosync {
+            get {
+                return ResourceManager.GetString("SettingsAutosync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Book directory:.
+        /// </summary>
+        internal static string SettingsBookDir {
+            get {
+                return ResourceManager.GetString("SettingsBookDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Debug:.
+        /// </summary>
+        internal static string SettingsDebug {
+            get {
+                return ResourceManager.GetString("SettingsDebug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Language:.
+        /// </summary>
+        internal static string SettingsLanguage {
+            get {
+                return ResourceManager.GetString("SettingsLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Model:.
+        /// </summary>
+        internal static string SettingsModel {
+            get {
+                return ResourceManager.GetString("SettingsModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _PnP ID:.
+        /// </summary>
+        internal static string SettingsPnp {
+            get {
+                return ResourceManager.GetString("SettingsPnp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Reader:.
+        /// </summary>
+        internal static string SettingsReader {
+            get {
+                return ResourceManager.GetString("SettingsReader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What is this?.
+        /// </summary>
+        internal static string SettingsReaderCustomHint {
+            get {
+                return ResourceManager.GetString("SettingsReaderCustomHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Splashscreen:.
+        /// </summary>
+        internal static string SettingsSplashScreen {
+            get {
+                return ResourceManager.GetString("SettingsSplashScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close into _tray:.
+        /// </summary>
+        internal static string SettingsTray {
+            get {
+                return ResourceManager.GetString("SettingsTray", resourceCulture);
             }
         }
         
