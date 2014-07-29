@@ -48,10 +48,10 @@
         </ComboBox>
 
         <Label Grid.Row="1" Grid.Column="0" Content="{local:Lng SettingsSplashScreen}" Target="{Binding ElementName=SplashScreen}"/>
-        <CheckBox Grid.Row="1" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="SplashScreen" ToolTip="Show splashscreen while the application loads"/>
+        <CheckBox Grid.Row="1" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="SplashScreen" ToolTip="{local:Lng HintSettingsSplashscreen}"/>
 
         <Label Grid.Row="2" Grid.Column="0" Content="{local:Lng SettingsReader}" Target="{Binding ElementName=Reader}"/>
-        <ComboBox Grid.Row="2" Grid.Column="1" Name="Reader" Width="150" Height="auto" Loaded="Reader_OnLoaded" SelectionChanged="Reader_OnSelectionChanged" ToolTip="Select the reader with which you are going to be using the Libropouch">
+        <ComboBox Grid.Row="2" Grid.Column="1" Name="Reader" Width="150" Height="auto" Loaded="Reader_OnLoaded" SelectionChanged="Reader_OnSelectionChanged" ToolTip="{local:Lng HintSettingsReader}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -82,24 +82,24 @@
                 <Button Content="{local:Lng SettingsReaderCustomHint}" Height="25" Click="UnknownDeviceHint_OnClick" Grid.Row="0" Grid.Column="1" />
 
                 <Label Grid.Row="1" Grid.Column="0" Content="{local:Lng SettingsModel}" Target="{Binding ElementName=DeviceModel}"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Width="150" Name="DeviceModel" LostFocus="TextBox_OnLostFocus" Loaded="TextBox_OnLoaded" ToolTip="Model name of the reader device, usually identical to the marketing name of the reader. (For example: kindle's model name is kindle) "/>
+                <TextBox Grid.Row="1" Grid.Column="1" Width="150" Name="DeviceModel" LostFocus="TextBox_OnLostFocus" Loaded="TextBox_OnLoaded" ToolTip="{local:Lng HintSettingsModel}"/>
 
                 <Label Grid.Row="2" Grid.Column="0" Content="{local:Lng SettingsPnp}" Target="{Binding ElementName=DevicePnpId}"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Width="150" Name="DevicePnpId" LostFocus="TextBox_OnLostFocus" Loaded="TextBox_OnLoaded" ToolTip="Device's Plug and play ID. Usually identical to the model name. But it can differ. "/>
+                <TextBox Grid.Row="2" Grid.Column="1" Width="150" Name="DevicePnpId" LostFocus="TextBox_OnLostFocus" Loaded="TextBox_OnLoaded" ToolTip="{local:Lng HintSettingsPnp}"/>
 
                 <Label Grid.Row="3" Grid.Column="0" Content="{local:Lng SettingsBookDir}" Target="{Binding ElementName=DeviceRootDir}" />
-                <TextBox Grid.Row="3" Grid.Column="1" Width="150" Name="DeviceRootDir" LostFocus="TextBox_OnLostFocus" Loaded="TextBox_OnLoaded" ToolTip="Directory on the device, where all the books are stored. This is the directory which Libropouch will use, while working with the device."/>                
+                <TextBox Grid.Row="3" Grid.Column="1" Width="150" Name="DeviceRootDir" LostFocus="TextBox_OnLostFocus" Loaded="TextBox_OnLoaded" ToolTip="{local:Lng HintSettingsDir}"/>                
             </Grid>
         </Border>
 
         <Label Grid.Row="4" Grid.Column="0" Content="{local:Lng SettingsAutosync}" Target="{Binding ElementName=UsbAutoSync}"/>
-        <CheckBox Grid.Row="4" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="UsbAutoSync" ToolTip="Automatically start sync, when compatible reader is connected to the computer"/>
+        <CheckBox Grid.Row="4" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="UsbAutoSync" ToolTip="{local:Lng HintSettingsAutosync}"/>
 
         <Label Grid.Row="5" Grid.Column="0" Content="{local:Lng SettingsTray}" Target="{Binding ElementName=CloseIntoTray}"/>
-        <CheckBox Grid.Row="5" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="CloseIntoTray" ToolTip="Closing this application causes it to minimize itself into the system tray instead. (AutoSync will be still working this way)"/>
+        <CheckBox Grid.Row="5" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="CloseIntoTray" ToolTip="{local:Lng HintSettingsTray}"/>
 
         <Label Grid.Row="6" Grid.Column="0" Content="{local:Lng SettingsDebug}" Target="{Binding ElementName=Debug}" />
-        <Button Grid.Row="6" Grid.Column="1" Name="Debug" Content="Show console" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Debug_OnClick" ToolTip="Debug console displays runtime information about this application, this information will be probably of no use to you as user."/>
+        <Button Grid.Row="6" Grid.Column="1" Name="Debug" Content="Show console" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Debug_OnClick" ToolTip="{local:Lng HintSettingsDebug}"/>
 
     </Grid>
 </Window>

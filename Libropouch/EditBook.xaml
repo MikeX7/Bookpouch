@@ -37,7 +37,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image Grid.Column="1" Grid.Row="0"  Grid.RowSpan="10" MouseLeftButtonUp="CoverImage_OnMouseLeftButtonUp" MouseRightButtonUp="CoverImage_OnMouseRightButtonUp" Loaded="CoverImage_OnLoaded" HorizontalAlignment="Right" VerticalAlignment="Top" MaxWidth="240" MaxHeight="240" ToolTip="Cover image for this book. You can select another image by clicking on this picture, or remove the existing image by right clicking on it." />
+        <Image Grid.Column="1" Grid.Row="0"  Grid.RowSpan="10" MouseLeftButtonUp="CoverImage_OnMouseLeftButtonUp" MouseRightButtonUp="CoverImage_OnMouseRightButtonUp" Loaded="CoverImage_OnLoaded" HorizontalAlignment="Right" VerticalAlignment="Top" MaxWidth="240" MaxHeight="240" ToolTip="{local:Lng HintEditBookCoverImage}" />
 
         <Label Grid.Row="0" Grid.Column="0" Content="{local:Lng EditBookTitle}" Target="{Binding ElementName=Title}"/>
         <TextBox Grid.Row="0" Grid.Column="1" Name="Title" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged"/>
@@ -67,12 +67,12 @@
         <TextBox Grid.Row="5" Grid.Column="1" Name="Category" Loaded="Category_OnLoaded"  LostFocus="TextBox_OnChanged"/>
 
         <Label Grid.Row="6" Grid.Column="0" Content="{local:Lng EditBookFavorite}" Target="{Binding ElementName=Favorite}"/>
-        <CheckBox Grid.Row="6" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Favorite" ToolTip="Mark this book as one of your favorites"/>
+        <CheckBox Grid.Row="6" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Favorite" ToolTip="{local:Lng HintEditBookFavorite}"/>
 
         <Label Grid.Row="7" Grid.Column="0" Content="{local:Lng EditBookSync}" Target="{Binding ElementName=Sync}"/>
-        <CheckBox Grid.Row="7" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Sync" ToolTip="This book will by copied into your reader during synchronization"/>
+        <CheckBox Grid.Row="7" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Sync" ToolTip="{local:Lng HintEditBookSync}"/>
 
-        <Button Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Discard" Click="Discard_OnClick" ToolTip="Remove this book from the library"/>
+        <Button Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Discard" Click="Discard_OnClick" ToolTip="{local:Lng HintEditBookRemove}"/>
 
     </Grid>
 </Window>

@@ -250,6 +250,42 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cover image for this book. You can select another image by clicking on this picture, or remove the existing image by right clicking on it..
+        /// </summary>
+        internal static string HintEditBookCoverImage {
+            get {
+                return ResourceManager.GetString("HintEditBookCoverImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark this book as one of your favorites.
+        /// </summary>
+        internal static string HintEditBookFavorite {
+            get {
+                return ResourceManager.GetString("HintEditBookFavorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove this book from the library.
+        /// </summary>
+        internal static string HintEditBookRemove {
+            get {
+                return ResourceManager.GetString("HintEditBookRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This book will by copied into your reader during synchronization.
+        /// </summary>
+        internal static string HintEditBookSync {
+            get {
+                return ResourceManager.GetString("HintEditBookSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
         internal static string HintMenuAbout {
@@ -282,6 +318,78 @@ namespace Libropouch.Lang {
         internal static string HintMenuSync {
             get {
                 return ResourceManager.GetString("HintMenuSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically start sync, when compatible reader is connected to the computer.
+        /// </summary>
+        internal static string HintSettingsAutosync {
+            get {
+                return ResourceManager.GetString("HintSettingsAutosync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debug console displays runtime information about this application, this information will be probably of no use to you as an user..
+        /// </summary>
+        internal static string HintSettingsDebug {
+            get {
+                return ResourceManager.GetString("HintSettingsDebug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Directory on the device, where all the books are stored. This is the directory which Libropouch will use, while working with the device..
+        /// </summary>
+        internal static string HintSettingsDir {
+            get {
+                return ResourceManager.GetString("HintSettingsDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Model name of the reader device, usually identical to the marketing name of the reader. (For example: kindle&apos;s model name is kindle).
+        /// </summary>
+        internal static string HintSettingsModel {
+            get {
+                return ResourceManager.GetString("HintSettingsModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device&apos;s Plug and play ID. Usually identical to the model name. But it can differ..
+        /// </summary>
+        internal static string HintSettingsPnp {
+            get {
+                return ResourceManager.GetString("HintSettingsPnp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the reader with which you are going to be using the Libropouch.
+        /// </summary>
+        internal static string HintSettingsReader {
+            get {
+                return ResourceManager.GetString("HintSettingsReader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show splashscreen while the application loads.
+        /// </summary>
+        internal static string HintSettingsSplashscreen {
+            get {
+                return ResourceManager.GetString("HintSettingsSplashscreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closing this application causes it to minimize itself into the system tray instead. (AutoSync will be still working this way).
+        /// </summary>
+        internal static string HintSettingsTray {
+            get {
+                return ResourceManager.GetString("HintSettingsTray", resourceCulture);
             }
         }
         
@@ -421,7 +529,7 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No books found on the reader..
+        ///   Looks up a localized string similar to No books found in the reader..
         /// </summary>
         internal static string SyncNoBooks {
             get {
