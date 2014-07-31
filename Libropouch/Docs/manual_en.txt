@@ -13,6 +13,7 @@ Libropouch natively supports Mobi and Epub formats, therefore if you add any boo
 If you wish to remove a book from the list, click on it and then hit the Delete key on your keyboard. You can also select and remove multiple books by holding down the Ctrl key and clicking on the books you want to remove.
 To sort the books by their category, simply left-click on the Category column name. If you want to display only books belonging to a certain category, right-click the Category column name instead, and choose the desired category from the dropdown menu.
 To display only books containing with a certain letter, or a string, right-click on the Name column name. A text field will appear and as you begin to type into it, the list of books will be automatically filtered, to match the searched string.
+If you wish to view only books belonging to a certain series, simply left-click on the series in the book detail.
 
 
 Editing book details

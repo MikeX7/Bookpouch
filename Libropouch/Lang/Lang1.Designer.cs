@@ -61,6 +61,15 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear filter.
+        /// </summary>
+        internal static string BookGridClearFilter {
+            get {
+                return ResourceManager.GetString("BookGridClearFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         internal static string BookGridEdit {
@@ -102,6 +111,15 @@ namespace Libropouch.Lang {
         internal static string BookGridHeaderTitle {
             get {
                 return ResourceManager.GetString("BookGridHeaderTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Series.
+        /// </summary>
+        internal static string BookGridSeries {
+            get {
+                return ResourceManager.GetString("BookGridSeries", resourceCulture);
             }
         }
         

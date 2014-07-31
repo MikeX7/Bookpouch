@@ -16,6 +16,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using ShadoLib;
 using Application = System.Windows.Application;
+using Brushes = System.Windows.Media.Brushes;
 using Button = System.Windows.Controls.Button;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DataGrid = System.Windows.Controls.DataGrid;
@@ -209,6 +210,61 @@ namespace Libropouch
         }
 
         /// <summary>
+        /// Reload the book grid to reflect any change made to it
+        /// FilterList textblock will be also reloaded
+        /// </summary>
+        public void BookGridReload()
+        {
+            BookGrid_OnLoaded(BookGrid, null);   //Reload the book grid
+
+            //Regenerate the filter list
+            if (filter.Count == 0)
+            {
+                Filter.Visibility = Visibility.Collapsed;                
+                return;
+            }
+
+            var keyNames = new Dictionary<string, string>()
+            {
+                {"title", UiLang.Get("BookGridHeaderTitle")},
+                {"category", UiLang.Get("BookGridHeaderCategory")},
+                {"series", UiLang.Get("BookGridSeries")},
+                
+            };
+
+            FilterList.Children.Clear();
+
+            foreach (var item in filter)
+            {
+                var value = new TextBlock()
+                {
+                    Foreground = Brushes.DodgerBlue,
+                    Text = item.Value
+                };
+
+                var name = new TextBlock()
+                {
+                    Foreground = Brushes.Gray,
+                    Text = keyNames[item.Key] + ": "
+                };
+
+                var separator = new TextBlock()
+                {
+                    Foreground = Brushes.Gray,
+                    Text = "; "
+                };
+
+                FilterList.Children.Add(name);
+                FilterList.Children.Add(value);
+                FilterList.Children.Add(separator);                
+                
+
+            }
+
+            Filter.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
         /// Filter the books displayed in the grid based on the string from the text field
         /// </summary>
         private void FilterName_OnkeyUp(object sender, KeyEventArgs e)
@@ -223,7 +279,7 @@ namespace Libropouch
                 textBox.Visibility = Visibility.Collapsed;
             }
 
-            BookGrid_OnLoaded(BookGrid, null);
+            BookGridReload();
         }
 
         /// <summary>
@@ -241,7 +297,7 @@ namespace Libropouch
                 comboBox.Visibility = Visibility.Collapsed;
             }
 
-            BookGrid_OnLoaded(BookGrid, null);
+            BookGridReload();
         }
 
 
@@ -274,7 +330,7 @@ namespace Libropouch
                     BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.DirName);
                 }
 
-                BookGrid_OnLoaded(BookGrid, null); //Reload grid in the main window
+                BookGridReload(); //Reload grid in the main window
             }
             else if (e.Key == Key.S)
             {
@@ -283,7 +339,7 @@ namespace Libropouch
                     BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.DirName);
                 }
 
-                BookGrid_OnLoaded(BookGrid, null); //Reload grid in the main window
+                BookGridReload(); //Reload grid in the main window
             }
             else if (e.Key == Key.D)
             {
@@ -293,7 +349,7 @@ namespace Libropouch
                     BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.DirName);
                 }
 
-                BookGrid_OnLoaded(BookGrid, null); //Reload grid in the main window
+                BookGridReload(); //Reload grid in the main window
             }
         }
         
@@ -302,8 +358,8 @@ namespace Libropouch
         {
             var obj = e.OriginalSource as TextBlock;            
 
-            //If category column header gets right clicked display combobox for filtering categories
-            if (obj != null && obj.Text == "Category")
+            //If the category column header gets right clicked display combobox for filtering categories
+            if (obj != null && obj.Text == UiLang.Get("BookGridHeaderCategory"))
             {
                 var bookList = BookKeeper.List();
                 var categoryList = new HashSet<string>{"- - -"};
@@ -318,11 +374,31 @@ namespace Libropouch
                 FilterCategory.Visibility = Visibility.Visible;
             }
 
-            if (obj != null && obj.Text == "Name")
+            if (obj != null && obj.Text == UiLang.Get("BookGridHeaderTitle"))
             {
                 FilterName.Visibility = Visibility.Visible;
                 FilterName.Focus();
             }
+        }
+
+        //Filter book list with only books from the selected series
+        private void FilterSeries_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var textBlock = (TextBlock) sender;
+
+            filter["series"] = textBlock.Text;
+
+            BookGridReload();
+        }
+
+        private void ClearFilter_OnMouseLeftButtonUp(object sender, RoutedEventArgs routedEventArgs)
+        {
+            filter.Clear();
+            FilterCategory.SelectedIndex = 0;
+            FilterCategory.Visibility = Visibility.Collapsed;
+            FilterName.Text = String.Empty;
+            FilterName.Visibility = Visibility.Collapsed;
+            BookGridReload();
         }
 
         private void Sync_OnClick(object sender, RoutedEventArgs e)
@@ -467,7 +543,7 @@ namespace Libropouch
         private void MainWindow_OnKeyUp(object sender, KeyEventArgs e) //Allow user to refresh the book list with F5
         {
             if (e.Key == Key.F5)
-                BookGrid_OnLoaded(BookGrid, null); //Reload grid
+                BookGridReload(); //Reload grid
         }
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e) //If the option is set, instead of closing the application minimize it into system tray
@@ -481,6 +557,7 @@ namespace Libropouch
             DebugConsole.WriteLine("Minimizing Libropouch into tray.");
             e.Cancel = true;
         }
+
 
       
 
@@ -583,6 +660,7 @@ namespace Libropouch
             }
 
         }
+ 
     }
 
 }

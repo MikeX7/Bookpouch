@@ -12,7 +12,8 @@
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -41,17 +42,23 @@
             </Button>
         </StackPanel>
 
-        <Border Panel.ZIndex="100" Grid.Row="1" Name="InfoBoxBorder" Grid.Column="0" CornerRadius="8"
+        <Border Panel.ZIndex="100" Grid.Row="0" Name="InfoBoxBorder" Grid.Column="0" CornerRadius="8"
                 Visibility="Hidden" VerticalAlignment="Top" IsVisibleChanged="InfoBox_OnIsVisibleChanged">
             <TextBlock Name="InfoBox" TextWrapping="Wrap" VerticalAlignment="Top" Padding="5" TextAlignment="Center"
                        RenderTransformOrigin="0.5,0.5" Foreground="Black"/>
         </Border>
 
-        <ComboBox HorizontalAlignment="Right" VerticalAlignment="Top" Name="FilterCategory" SelectionChanged="FilterCategory_OnSelectionChanged" Grid.Row="1" Visibility="Collapsed" Canvas.ZIndex="1" />
+        <DockPanel Name="Filter" Grid.Row="1" Visibility="Collapsed"  VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <StackPanel Name="FilterList" Orientation="Horizontal"></StackPanel>
+            <Button Name="ClearFilter" Click="ClearFilter_OnMouseLeftButtonUp" Padding="10 0 0 0" HorizontalAlignment="Right" Content="{local:Lng BookGridClearFilter}"/>
+            
+        </DockPanel>
 
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="1" Visibility="Collapsed" Canvas.ZIndex="1"/>                   
+        <ComboBox HorizontalAlignment="Right" VerticalAlignment="Top" Name="FilterCategory" SelectionChanged="FilterCategory_OnSelectionChanged" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1" />
 
-        <DataGrid x:Name="BookGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False"
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1"/>                   
+
+        <DataGrid x:Name="BookGrid" Grid.Row="2" IsReadOnly="True" AutoGenerateColumns="False"
                   Loaded="BookGrid_OnLoaded" VerticalAlignment="Top" CanUserResizeRows="False" RowHeaderWidth="1" KeyUp="BookGrid_OnKeyUp" PreviewMouseRightButtonUp="BookGrid_PreviewMouseRightButtonUp" PreviewMouseLeftButtonUp="BookGrid_PreviewMouseRightButtonUp"
                   HorizontalGridLinesBrush="#2b72ac" VerticalGridLinesBrush="#2b72ac" RowBackground="#5d5d5d" AlternatingRowBackground="#454545"  Background="#569cd6" Style="{DynamicResource DataGridStyle1}" >
             <DataGrid.Resources>
@@ -171,7 +178,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding SeriesVisibility}">
                                     <TextBlock FontSize="18" Text="📚 " FontWeight="Medium" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Series}" FontWeight="DemiBold" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Series}" MouseLeftButtonUp="FilterSeries_OnMouseLeftButtonUp" FontWeight="DemiBold" VerticalAlignment="Center" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding CountryFlagPath}" Height="18" Margin="0,0,5,0" />
@@ -187,6 +194,6 @@
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
 
-        </DataGrid>
+        </DataGrid>        
     </Grid>
 </Window>

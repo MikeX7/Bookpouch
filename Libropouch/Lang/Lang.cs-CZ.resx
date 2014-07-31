@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BookGridClearFilter" xml:space="preserve">
+    <value>Vyčistit filtr</value>
+  </data>
   <data name="BookGridEdit" xml:space="preserve">
     <value>Upravit</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="BookGridHeaderTitle" xml:space="preserve">
     <value>Název</value>
+  </data>
+  <data name="BookGridSeries" xml:space="preserve">
+    <value>Série</value>
   </data>
   <data name="DeleteBooksConfirm" xml:space="preserve">
     <value>Opravdu chcete nenávratně smazat {0} knížek?</value>
