@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Language" Type="System.String" Scope="User">
-      <Value Profile="(Default)">en-US</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DevicePnpId" Type="System.String" Scope="User">
       <Value Profile="(Default)">KINDLE</Value>

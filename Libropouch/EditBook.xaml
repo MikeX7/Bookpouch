@@ -72,7 +72,7 @@
         <Label Grid.Row="7" Grid.Column="0" Content="{local:Lng EditBookSync}" Target="{Binding ElementName=Sync}"/>
         <CheckBox Grid.Row="7" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Sync" ToolTip="{local:Lng HintEditBookSync}"/>
 
-        <Button Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Discard" Click="Discard_OnClick" ToolTip="{local:Lng HintEditBookRemove}"/>
+        <Button Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{local:Lng EditBookDiscard}" Click="Discard_OnClick" ToolTip="{local:Lng HintEditBookRemove}"/>
 
     </Grid>
 </Window>

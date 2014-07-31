@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -31,7 +32,8 @@ namespace Libropouch
 
         public EditBook()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            Debug.WriteLine("UI language: " + Thread.CurrentThread.CurrentUICulture);
         }
 
         private void CoverImage_OnLoaded(object sender, RoutedEventArgs e)

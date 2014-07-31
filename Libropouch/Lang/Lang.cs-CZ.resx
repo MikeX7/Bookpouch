@@ -147,6 +147,9 @@
   <data name="EditBookCategory" xml:space="preserve">
     <value>_Kategorie:</value>
   </data>
+  <data name="EditBookDiscard" xml:space="preserve">
+    <value>Zahodit</value>
+  </data>
   <data name="EditBookFavorite" xml:space="preserve">
     <value>_Oblíbené:</value>
   </data>
@@ -237,6 +240,9 @@
   </data>
   <data name="SettingsBookDir" xml:space="preserve">
     <value>_Složka knížek:</value>
+  </data>
+  <data name="SettingsConsole" xml:space="preserve">
+    <value>Zobraz konzoli</value>
   </data>
   <data name="SettingsDebug" xml:space="preserve">
     <value>_Debug:</value>

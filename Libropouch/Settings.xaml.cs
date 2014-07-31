@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ShadoLib;
 
+
 namespace Libropouch
 {
     /// <summary>
@@ -15,6 +16,7 @@ namespace Libropouch
 
     public partial class Settings
     {
+        private readonly string[] _supportedLanguages = {"en-US", "cs-CZ"}; //List of languages for which we have translation files
         public Settings()
         {            
             InitializeComponent();
@@ -25,15 +27,15 @@ namespace Libropouch
             var comboBox = (ComboBox) sender;
             var langList = new List<LanguageOption>
             {
-                new LanguageOption(CultureInfo.InvariantCulture),
+                //new LanguageOption(CultureInfo.CurrentUICulture),
                 new LanguageOption(CultureInfo.GetCultureInfo("en-US")),
                 new LanguageOption(CultureInfo.GetCultureInfo("cs-CZ"))
             };
 
-            var position = Array.IndexOf(new[] {"", "en-US", "cs-CZ"}, Properties.Settings.Default.Language);
+            var position = Array.IndexOf(_supportedLanguages, Properties.Settings.Default.Language);
             comboBox.ItemsSource = langList;
-            comboBox.SelectedIndex = (position > 0 ? position : 0);
-            
+            comboBox.SelectedIndex = position;
+
         }
 
         //Save language change and also start using the new language
@@ -45,7 +47,7 @@ namespace Libropouch
             Properties.Settings.Default.Language = language.CultureInfo.Name;            
             Properties.Settings.Default.Save();
 
-            Thread.CurrentThread.CurrentUICulture = language.CultureInfo;        
+            Thread.CurrentThread.CurrentUICulture = language.CultureInfo;
         }
 
         //Populating reader drop down list

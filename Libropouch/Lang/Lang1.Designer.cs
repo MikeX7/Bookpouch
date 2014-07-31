@@ -151,6 +151,15 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discard.
+        /// </summary>
+        internal static string EditBookDiscard {
+            get {
+                return ResourceManager.GetString("EditBookDiscard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Favorite:.
         /// </summary>
         internal static string EditBookFavorite {
@@ -417,6 +426,15 @@ namespace Libropouch.Lang {
         internal static string SettingsBookDir {
             get {
                 return ResourceManager.GetString("SettingsBookDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show console.
+        /// </summary>
+        internal static string SettingsConsole {
+            get {
+                return ResourceManager.GetString("SettingsConsole", resourceCulture);
             }
         }
         
