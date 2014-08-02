@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,20 +37,26 @@ namespace Libropouch
     public partial class MainWindow
     {
         public static MainWindow MW;
-        private static NotifyIcon TrayIcon;
+        private static NotifyIcon TrayIcon;        
 
         public MainWindow()
         {
-            MW = this;
+            if (Properties.Settings.Default.OnlyOne)
+                if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)).Count() > 1) Process.GetCurrentProcess().Kill(); //Only allow one instance of libropouch
 
-            //DebugConsole.Open();            
+            MW = this;
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location); 
             
-            InitializeComponent();
+            if (path != null) 
+                Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
+
+            InitializeComponent();            
             
             TrayIcon = new NotifyIcon
             {
                 Icon = new Icon(Application.GetResourceStream(new Uri("Img/kindle.ico", UriKind.Relative)).Stream),
-                Visible = false
+                Visible = false,
+                Text = "Libropouch"
             };
 
             TrayIcon.Click += (o, args) => 
@@ -56,6 +64,12 @@ namespace Libropouch
                     Show();
                     TrayIcon.Visible = false;
                 };
+            
+            if (Environment.GetCommandLineArgs().Contains("-tray")) 
+            {
+                this.Hide();
+                TrayIcon.Visible = true;  
+            }
 
             if (Properties.Settings.Default.UsbAutoSync)
                 new ReaderDetector(this);
@@ -405,7 +419,7 @@ namespace Libropouch
         {
             Info(String.Format(UiLang.Get("SyncDeviceSearch"), Properties.Settings.Default.DeviceModel));
 
-            new UsbSync();
+            UsbSync.Sync();
         }
 
         private void InfoBox_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

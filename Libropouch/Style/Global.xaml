@@ -3,7 +3,8 @@
 
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Controls.xaml" />        
+        <ResourceDictionary Source="Controls.xaml" />
+        
         <ResourceDictionary Source="ComboBox.xaml" />
         <ResourceDictionary Source="Info.xaml" />
     </ResourceDictionary.MergedDictionaries>

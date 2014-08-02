@@ -93,6 +93,28 @@ namespace Libropouch
             MessageBox.Show(UiLang.Get("UnknownDeviceHint"));
         }
 
+        private void AutoStart_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var checkBox = (CheckBox)sender;
+
+            Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
+
+            if (key.GetValue("Libropouch") != null)
+                checkBox.IsChecked = true;
+        }
+
+        //Add or remove this applications exe from the registry for the purposes of automatically starting during the system boot
+        private void AutoStart_OnChecked(object sender, RoutedEventArgs e)
+        {
+            var box = (CheckBox)sender;
+            Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            if (box.IsChecked == true)            
+                key.SetValue("Libropouch", Assembly.GetExecutingAssembly().Location);            
+            else
+                key.DeleteValue("Libropouch", false);
+        }
+
         //Handle loading  values for all settings checkboxes
         private void CheckBox_OnLoaded(object sender, RoutedEventArgs e)
         {

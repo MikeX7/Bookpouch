@@ -150,5 +150,17 @@ namespace Libropouch.Properties {
                 this["CloseIntoTray"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OnlyOne {
+            get {
+                return ((bool)(this["OnlyOne"]));
+            }
+            set {
+                this["OnlyOne"] = value;
+            }
+        }
     }
 }

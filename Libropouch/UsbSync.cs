@@ -8,12 +8,13 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Libropouch
 {
-    class UsbSync
+    static class UsbSync
     {
 
-        static private string deviceDir;
+        static private string _deviceDir;
+        static public bool ManuaSync;
 
-        public UsbSync()
+        public static void Sync()
         {
             var dirs = Directory.GetDirectories("books");
             var extensions = Properties.Settings.Default.FileExtensions.Split(';');
@@ -64,7 +65,7 @@ namespace Libropouch
 
                 DebugConsole.WriteLine("Copying " + file);                
                 
-                File.Copy(file, deviceDir + "/" + Path.GetFileName(file));
+                File.Copy(file, _deviceDir + "/" + Path.GetFileName(file));
                 
             }
 
@@ -81,9 +82,9 @@ namespace Libropouch
             if (drive == "") //Reader is not connected to the pc or wasn't found, so there is no point to go on                            
                 return new String[0];
 
-            deviceDir = drive + Properties.Settings.Default.DeviceRootDir;
+            _deviceDir = drive + Properties.Settings.Default.DeviceRootDir;
 
-            if (!Directory.Exists(@deviceDir)) //Specified directory on the reader which should contain ebook files doesn't exist
+            if (!Directory.Exists(_deviceDir)) //Specified directory on the reader which should contain ebook files doesn't exist
             {                
                 MainWindow.Info(String.Format(UiLang.Get("SyncReaderDirNotFound"), Properties.Settings.Default.DeviceRootDir, Properties.Settings.Default.DeviceModel), 1);                
 
@@ -92,7 +93,7 @@ namespace Libropouch
 
             var extensions = Properties.Settings.Default.FileExtensions.Split(';');
 
-            var files = Directory.EnumerateFiles(@deviceDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();            
+            var files = Directory.EnumerateFiles(_deviceDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();            
 
             if (files.Length == 0)
                 MainWindow.Info(UiLang.Get("SyncNoBooks"));
@@ -135,7 +136,11 @@ namespace Libropouch
                 Debug.WriteLine("Houston, we have a problem with getting the reader disk letter:\n" + e);
             }
 
-            MainWindow.Info(UiLang.Get("SyncNoReadersFound"), 1);
+            if(ManuaSync)
+                MainWindow.Info(UiLang.Get("SyncNoReadersFound"), 1);
+
+            ManuaSync = false;
+
             return "";
         }
         

@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using ListBox = System.Windows.Controls.ListBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
@@ -79,7 +80,6 @@ namespace Libropouch
 
         public void Pop() //Display the whisperer popup under an element
         {
-            //_lastPopup.Parent.
 
             var listBox = new ListBox(); 
             
@@ -95,7 +95,7 @@ namespace Libropouch
 
             foreach (var b in combedList)
             {
-                listBox.Items.Add(new ListBoxItem {Content = b});
+                listBox.Items.Add(new ListBoxItem {Content = b});                
             }
 
             listBox.SelectedIndex = 0;  

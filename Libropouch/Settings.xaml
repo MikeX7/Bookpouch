@@ -29,6 +29,8 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="90" />
@@ -98,8 +100,14 @@
         <Label Grid.Row="5" Grid.Column="0" Content="{local:Lng SettingsTray}" Target="{Binding ElementName=CloseIntoTray}"/>
         <CheckBox Grid.Row="5" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="CloseIntoTray" ToolTip="{local:Lng HintSettingsTray}"/>
 
-        <Label Grid.Row="6" Grid.Column="0" Content="{local:Lng SettingsDebug}" Target="{Binding ElementName=Debug}" />
-        <Button Grid.Row="6" Grid.Column="1" Name="Debug" Content="{local:Lng SettingsConsole}" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Debug_OnClick" ToolTip="{local:Lng HintSettingsDebug}"/>
+        <Label Grid.Row="6" Grid.Column="0" Content="{local:Lng SettingsAutoStart}" Target="{Binding ElementName=AutoStart}"/>
+        <CheckBox Grid.Row="6" Grid.Column="1" Checked="AutoStart_OnChecked" Unchecked="AutoStart_OnChecked" Loaded="AutoStart_OnLoaded" Name="AutoStart" ToolTip="{local:Lng HintAutoStart}"/>
+        
+        <Label Grid.Row="7" Grid.Column="0" Content="{local:Lng SettingsOnlyOne}" Target="{Binding ElementName=OnlyOne}"/>
+        <CheckBox Grid.Row="7" Grid.Column="1" Checked="AutoStart_OnChecked" Unchecked="AutoStart_OnChecked" Loaded="AutoStart_OnLoaded" Name="OnlyOne" ToolTip="{local:Lng HintOnlyOne}"/>
+
+        <Label Grid.Row="8" Grid.Column="0" Content="{local:Lng SettingsDebug}" Target="{Binding ElementName=Debug}" />
+        <Button Grid.Row="8" Grid.Column="1" Name="Debug" Content="{local:Lng SettingsConsole}" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Debug_OnClick" ToolTip="{local:Lng HintSettingsDebug}"/>
 
     </Grid>
 </Window>

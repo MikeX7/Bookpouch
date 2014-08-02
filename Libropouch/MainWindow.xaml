@@ -176,9 +176,9 @@
                                         </TextBlock.Effect>
                                     </TextBlock>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding SeriesVisibility}">
-                                    <TextBlock FontSize="18" Text="📚 " FontWeight="Medium" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Series}" MouseLeftButtonUp="FilterSeries_OnMouseLeftButtonUp" FontWeight="DemiBold" VerticalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding SeriesVisibility}" >
+                                    <TextBlock FontSize="18" Text="📚 " FontWeight="Medium" VerticalAlignment="Center" Foreground="DarkGray"/>
+                                    <TextBlock Text="{Binding Series}" MouseLeftButtonUp="FilterSeries_OnMouseLeftButtonUp" FontWeight="DemiBold" Foreground="LightGray" VerticalAlignment="Center" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding CountryFlagPath}" Height="18" Margin="0,0,5,0" />

@@ -184,6 +184,9 @@
     <value>Narazil jsem na problémy se čtěním EXTH hlavičky v {0}: {1}</value>
     <comment>{0} - Název souboru, {1} - Popis chyby</comment>
   </data>
+  <data name="HintAutoStart" xml:space="preserve">
+    <value>Automaticky zapnout Libropouch při bootu počítače a minimalizovat ho do systémové lišty.</value>
+  </data>
   <data name="HintBookGridFavorite" xml:space="preserve">
     <value>Přepínač pro označení knihy jako oblíbené.</value>
   </data>
@@ -214,6 +217,9 @@
   <data name="HintMenuSync" xml:space="preserve">
     <value>Synchronizovat knížky z lokální knihovny s připojenou čtečkou</value>
   </data>
+  <data name="HintOnlyOne" xml:space="preserve">
+    <value>Povolit pouze jednu spuštěnou instanci aplikace</value>
+  </data>
   <data name="HintSettingsAutosync" xml:space="preserve">
     <value>Automaticky spustit synchronizaci, když je čtečka připojena k počítači.</value>
   </data>
@@ -241,6 +247,9 @@
   <data name="MobiHeaderMissing" xml:space="preserve">
     <value>{0} postrádá MOBI hlavičku a nemohl jsem z ní proto extrahovat žádné informace.</value>
   </data>
+  <data name="SettingsAutoStart" xml:space="preserve">
+    <value>Aut_o start:</value>
+  </data>
   <data name="SettingsAutosync" xml:space="preserve">
     <value>_AutoSync:</value>
   </data>
@@ -258,6 +267,9 @@
   </data>
   <data name="SettingsModel" xml:space="preserve">
     <value>_Model:</value>
+  </data>
+  <data name="SettingsOnlyOne" xml:space="preserve">
+    <value>Jedna _instance</value>
   </data>
   <data name="SettingsPnp" xml:space="preserve">
     <value>_PnP ID:</value>

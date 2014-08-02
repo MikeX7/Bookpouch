@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 
 namespace Libropouch
 {
@@ -7,6 +8,7 @@ namespace Libropouch
     /// </summary>
     public partial class App : Application
     {
+        
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {

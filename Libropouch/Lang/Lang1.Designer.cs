@@ -259,6 +259,15 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Automatically start Libropouch during the computer boot and minimize it into tray.
+        /// </summary>
+        internal static string HintAutoStart {
+            get {
+                return ResourceManager.GetString("HintAutoStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Toggle to mark this book as one of your favorites..
         /// </summary>
         internal static string HintBookGridFavorite {
@@ -349,6 +358,15 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only allow one instance of Libropouch to run at the same time.
+        /// </summary>
+        internal static string HintOnlyOne {
+            get {
+                return ResourceManager.GetString("HintOnlyOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Automatically start sync, when compatible reader is connected to the computer.
         /// </summary>
         internal static string HintSettingsAutosync {
@@ -430,6 +448,15 @@ namespace Libropouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aut_o start:.
+        /// </summary>
+        internal static string SettingsAutoStart {
+            get {
+                return ResourceManager.GetString("SettingsAutoStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _AutoSync:.
         /// </summary>
         internal static string SettingsAutosync {
@@ -480,6 +507,15 @@ namespace Libropouch.Lang {
         internal static string SettingsModel {
             get {
                 return ResourceManager.GetString("SettingsModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One _instance:.
+        /// </summary>
+        internal static string SettingsOnlyOne {
+            get {
+                return ResourceManager.GetString("SettingsOnlyOne", resourceCulture);
             }
         }
         
