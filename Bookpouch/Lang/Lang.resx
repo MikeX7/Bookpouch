@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BookGridClearFilter" xml:space="preserve">
+    <value>Clear filter</value>
+  </data>
+  <data name="BookGridEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="BookGridHeaderCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="BookGridHeaderFavorite" xml:space="preserve">
+    <value> ★</value>
+  </data>
+  <data name="BookGridHeaderSync" xml:space="preserve">
+    <value> ⇪</value>
+  </data>
+  <data name="BookGridHeaderTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="BookGridSeries" xml:space="preserve">
+    <value>Series</value>
+  </data>
+  <data name="DeleteBooksConfirm" xml:space="preserve">
+    <value>Do you really want to permanently delete {0} book/s?</value>
+  </data>
+  <data name="DirNotFound" xml:space="preserve">
+    <value>I wasn't able to find the specified directory ({0}) for storing books.</value>
+  </data>
+  <data name="DiscardBook" xml:space="preserve">
+    <value>Discard book?</value>
+  </data>
+  <data name="EditBookAuthor" xml:space="preserve">
+    <value>_Author:</value>
+  </data>
+  <data name="EditBookCategory" xml:space="preserve">
+    <value>_Category:</value>
+  </data>
+  <data name="EditBookDiscard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="EditBookFavorite" xml:space="preserve">
+    <value>_Favorite:</value>
+  </data>
+  <data name="EditBookLanguage" xml:space="preserve">
+    <value>_Language:</value>
+  </data>
+  <data name="EditBookPublished" xml:space="preserve">
+    <value>_Published:</value>
+  </data>
+  <data name="EditBookSeries" xml:space="preserve">
+    <value>S_eries:</value>
+  </data>
+  <data name="EditBookSync" xml:space="preserve">
+    <value>_Sync:</value>
+  </data>
+  <data name="EditBookTitle" xml:space="preserve">
+    <value>_Title:</value>
+  </data>
+  <data name="EpubCorrupted" xml:space="preserve">
+    <value>I wasn't ale to get any information from the Epub file, it may be corrupted or is missing some key files.</value>
+  </data>
+  <data name="ExthHeaderMissing" xml:space="preserve">
+    <value>{0} is missing the EXTH header, even though it claims that it has one and therefore I wasn't able to extract any information from it.</value>
+  </data>
+  <data name="ExthProblemFetching" xml:space="preserve">
+    <value>I encountered some problems with fetching the EXTH header in {0}: {1}</value>
+    <comment>{0} - File name, {1} - Error description</comment>
+  </data>
+  <data name="HintAutoStart" xml:space="preserve">
+    <value>Automatically start Bookpouch during the computer boot and minimize it into tray</value>
+  </data>
+  <data name="HintBookGridFavorite" xml:space="preserve">
+    <value>Toggle to mark this book as one of your favorites.</value>
+  </data>
+  <data name="HintBookGridSync" xml:space="preserve">
+    <value>Toggle to decide if you want to sync this book to your reader or not.</value>
+  </data>
+  <data name="HintEditBookCoverImage" xml:space="preserve">
+    <value>Cover image for this book. You can select another image by clicking on this picture, or remove the existing image by right clicking on it.</value>
+  </data>
+  <data name="HintEditBookFavorite" xml:space="preserve">
+    <value>Mark this book as one of your favorites</value>
+  </data>
+  <data name="HintEditBookRemove" xml:space="preserve">
+    <value>Remove this book from the library</value>
+  </data>
+  <data name="HintEditBookSync" xml:space="preserve">
+    <value>This book will by copied into your reader during synchronization</value>
+  </data>
+  <data name="HintMenuAbout" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="HintMenuAdd" xml:space="preserve">
+    <value>Add new books into the library</value>
+  </data>
+  <data name="HintMenuSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="HintMenuSync" xml:space="preserve">
+    <value>Synchronize files on the connected ebook reader with local Bookpouch library</value>
+  </data>
+  <data name="HintOnlyOne" xml:space="preserve">
+    <value>Only allow one instance of Bookpouch to run at the same time</value>
+  </data>
+  <data name="HintSettingsAutosync" xml:space="preserve">
+    <value>Automatically start sync, when compatible reader is connected to the computer</value>
+  </data>
+  <data name="HintSettingsDebug" xml:space="preserve">
+    <value>Debug console displays runtime information about this application, this information will be probably of no use to you as an user.</value>
+  </data>
+  <data name="HintSettingsDir" xml:space="preserve">
+    <value>Directory on the device, where all the books are stored. This is the directory which Bookpouch will use, while working with the device.</value>
+  </data>
+  <data name="HintSettingsModel" xml:space="preserve">
+    <value>Model name of the reader device, usually identical to the marketing name of the reader. (For example: kindle's model name is kindle)</value>
+  </data>
+  <data name="HintSettingsPnp" xml:space="preserve">
+    <value>Device's Plug and play ID. Usually identical to the model name. But it can differ.</value>
+  </data>
+  <data name="HintSettingsReader" xml:space="preserve">
+    <value>Select the reader with which you are going to be using the Bookpouch</value>
+  </data>
+  <data name="HintSettingsSplashscreen" xml:space="preserve">
+    <value>Show splashscreen while the application loads</value>
+  </data>
+  <data name="HintSettingsTray" xml:space="preserve">
+    <value>Closing this application causes it to minimize itself into the system tray instead. (AutoSync will be still working this way)</value>
+  </data>
+  <data name="MobiHeaderMissing" xml:space="preserve">
+    <value>{0} is missing the MOBI header and therefore I am not able to extract any information from it.</value>
+  </data>
+  <data name="SettingsAutoStart" xml:space="preserve">
+    <value>Aut_o start:</value>
+  </data>
+  <data name="SettingsAutosync" xml:space="preserve">
+    <value>_AutoSync:</value>
+  </data>
+  <data name="SettingsBookDir" xml:space="preserve">
+    <value>_Book directory:</value>
+  </data>
+  <data name="SettingsConsole" xml:space="preserve">
+    <value>Show console</value>
+  </data>
+  <data name="SettingsDebug" xml:space="preserve">
+    <value>_Debug:</value>
+  </data>
+  <data name="SettingsLanguage" xml:space="preserve">
+    <value>_Language:</value>
+  </data>
+  <data name="SettingsModel" xml:space="preserve">
+    <value>_Model:</value>
+  </data>
+  <data name="SettingsOnlyOne" xml:space="preserve">
+    <value>One _instance:</value>
+  </data>
+  <data name="SettingsPnp" xml:space="preserve">
+    <value>_PnP ID:</value>
+  </data>
+  <data name="SettingsReader" xml:space="preserve">
+    <value>_Reader:</value>
+  </data>
+  <data name="SettingsReaderCustomHint" xml:space="preserve">
+    <value>What is this?</value>
+  </data>
+  <data name="SettingsSplashScreen" xml:space="preserve">
+    <value>_Splashscreen:</value>
+  </data>
+  <data name="SettingsTray" xml:space="preserve">
+    <value>Close into _tray:</value>
+  </data>
+  <data name="SyncAddingBooks" xml:space="preserve">
+    <value>Adding new books...</value>
+  </data>
+  <data name="SyncDeviceSearch" xml:space="preserve">
+    <value>Searching for connected {0}...</value>
+  </data>
+  <data name="SyncFilesAdded" xml:space="preserve">
+    <value>Selected supported files are being added into the library...</value>
+  </data>
+  <data name="SyncFinished" xml:space="preserve">
+    <value>Synchronization was successfully finished.</value>
+  </data>
+  <data name="SyncNoBooks" xml:space="preserve">
+    <value>No books found in the reader.</value>
+  </data>
+  <data name="SyncNoReadersFound" xml:space="preserve">
+    <value>I wasn't able to find any connected readers.</value>
+  </data>
+  <data name="SyncReaderDirNotFound" xml:space="preserve">
+    <value>Specified directory \"{0}\" wasn't found on the connected reader: {1}.</value>
+  </data>
+  <data name="UnknownDeviceHint" xml:space="preserve">
+    <value>You have selected an unknown reader device and therefore you will need to manually input the identification strings, so that your reader can be correctly recognized and handled by Bookpouch.\nHover over the fields with your cursor to display tooltips.</value>
+  </data>
+</root>

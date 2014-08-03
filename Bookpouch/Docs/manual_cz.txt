@@ -1,0 +1,46 @@
+﻿Bookpouch uživatelský manuál
+
+Bookpouch je aplikací, která Vám umožňuje ukládat, organizovat a synchronizovat všechny Vaše elektronické knížky se čtečkou.
+Umožňuje Vám rozdělit knížky do kategorií a sérií. Je možné také jednoduše editovat informace pro každou knihu.
+Bookpouch je navržen jako velmi malá, rychlá aplikace a proto obsahuje jen základní funkce pro manipulaci a organizaci knížek.
+Pokud potřebujete pokročilé funkce, jako čtení knih přímo v aplikaci, nebo pokročilé možnosti konverze knih mezi různými formáty, pak budete muset použít jinou aplikaci než Bookpouch, například Calibre.
+
+
+Organizace knih
+Bookpouch poskytuje hlavní okno ve kterém jsou přidané knihy zobrazeny jako seznam. K zobrazení informací o knize na ní jednoduše klikněte.
+Můžete přidat nové knihy kliknutím na ikonu plus, v levém horním rohu. Pro současné přidání více knih najednou, je jednoduše všechny vyberte  v otevřeném okně pro výběr knihy.
+Bookpouch nativně podporuje formáty Mobi a Epub, když proto tyto formáty přidáte do knihovny, budou z nich automaticky extrahovány informace o knize (pokud je soubor knihy obsahuje).
+Pokud si přejete odebrat knihu z knihovny, klikněte na ni a stiskněte klávesu Delete na Vaší klávesnici. Můžete také odebrat více knih najednou podržením klávesy Ctrl a poté klikáním levým tlačítkem myši na knihy, které chcete odebrat.
+K seřazení knih dle kategorie, jednoduše klikněte levým tlačítkem na název sloupečku kategorie. Pokud chcete zobrazit pouze knihy patřící do určité kategorie, klikněte na název sloupečku kategorie pravým tlačítkem myši, a vyberte požadovanou kategorii z rolety.
+Pro zobrazení knih jejichž název obsahuje určité písmeno, nebo řetězec, klikněte pravým tlačítkem myši na jméno sloupce název. Poté se objeví textové pole, do kterého můžete začít psát požadovaný řetězec a seznam knížek bude okamžitě filtrován, se zobrazením odpovídajících knih.
+Pokud si přejte zobrazit pouze knihy patřící do vybrané série, klikněte levým tlačítkem myši na název požadované série v detailu knihy.
+
+
+Editace detailů knihy
+Pro editaci detailů knihy, klikněte v seznamu na knihu kterou chcete editovat a poté klikněte na tlačítko Upravit.
+V editačním okně můžete změnit jakoukoliv informaci o knize jednoduchou úpravou příslušného pole. Všechny změny se ukládají automaticky, takže není přítomno žádné tlačítko pro uložení.
+Pro změnu obalu knihy, klikněte levým tlačítkem myši na obrázek obalu. K odebrání existujícího obalu na něj klikněte pravým tlačítkem myši.
+Pokud si přejete knihu smazat, jednoduše klikněte na tlačítko Zahodit.
+
+
+Synchronizace knih
+Boopouch můžete použít k synchronizaci Vašich knih s Vaší čtečkou. Vše co potřebujete udělat, je jednoduše připojit vaší čtečku k počítači přes USB a kliknout na synchronizační ikonu vlevo nahoře, v hlavním okně.
+Můžete také využít Bookpouch k automatické synchronizaci Vašich knih pokaždé když čtečku připojíte k počítači. Pokud chcete tuto funkci využít zaškrtněte v nastavení políčko AutoSync.
+AutoSync funguje pouze když je aplikace spuštěná, v nastavení můžete proto nastavit, aby se Bookpouch spouštěl automaticky při startu počítače, minimalizovaný do systémové lišty.
+Ne všechny knihy jsou synchronizovány, protože Vaše knihovna může být velice obsáhlá, pravděpodobné nechcete mít ve čtečce každou knihu z ní a proto budou synchronizovány pouze ty knihy, které jsou pro synchronizaci označeny.
+K označení knížky pro synchronizaci, jednoduše klikněte na ikonu čtečky vedle názvu knihy, v seznamu knih (průhledná ikona = nesynchronizovat, neprůhledná ikona = synchronizovat), nebo zaškrtněte příslušné pole v okně pro editaci knihy.
+
+
+Nastavení synchronizace knih
+Protože existuje velké množství různých modelů čteček, je potřeba říct aplikaci Bookpouch který model používáte, aby mohl Vaší čtečku správně detekovat a použít.
+Abyste tohoto dosáhli, jděte do nastavení a v roletě pro výběr čtečky vyberte čtečku kterou používáte. Pokud vaše čtečka není v seznamu, vyberte možnost -other- a vyplňte příslušná pole ručně.
+
+
+List klávesových zkratek (Všechny zkratky jsou použitelné v hlavním okně)
+F5 - Obnovit list knih
+Delete - Permanentně smazat všechny vybrané knihy
+F - Přepnout nastavení Oblíbené pro všechny vybrané knihy
+S - Přepnout nastavení Synchronizace pro všechny vybrané knihy
+D - Přepnout oboje nastavení Oblíbené a Synchronizace pro všechny vybrané knihy
+Shift + [Přepínací klávesová zkratka]- Když je použita přepínací klávesová zkratka a zároveň je stisknuta klávesa Shift, nastavení bude přepnuto vždy do polohy "zapnuto"
+Ctrl + [Přepínací klávesová zkratka] - Když je použita přepínací klávesová zkratka a zároveň je stisknuta klávesa Ctrl, nastavení bude přepnuto vždy do polohy "vypnuto"
