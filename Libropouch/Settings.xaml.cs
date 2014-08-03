@@ -110,7 +110,7 @@ namespace Libropouch
             Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
             if (box.IsChecked == true)            
-                key.SetValue("Libropouch", Assembly.GetExecutingAssembly().Location);            
+                key.SetValue("Libropouch", Assembly.GetExecutingAssembly().Location + " -tray");            
             else
                 key.DeleteValue("Libropouch", false);
         }
