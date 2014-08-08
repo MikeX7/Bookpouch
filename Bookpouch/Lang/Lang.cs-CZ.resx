@@ -150,11 +150,14 @@
   <data name="EditBookAuthor" xml:space="preserve">
     <value>_Autor:</value>
   </data>
+  <data name="EditBookAutoSavePopup" xml:space="preserve">
+    <value>Všechny změny v okně  pro editaci detailů knihy jsou automaticky ukládány a není zde proto přítomno tlačítko "Uložit".</value>
+  </data>
   <data name="EditBookCategory" xml:space="preserve">
     <value>_Kategorie:</value>
   </data>
   <data name="EditBookDiscard" xml:space="preserve">
-    <value>Zahodit</value>
+    <value>Smazat knihu</value>
   </data>
   <data name="EditBookFavorite" xml:space="preserve">
     <value>_Oblíbené:</value>

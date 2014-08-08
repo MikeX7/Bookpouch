@@ -34,6 +34,14 @@ namespace Bookpouch
         {
             InitializeComponent();
             Debug.WriteLine("UI language: " + Thread.CurrentThread.CurrentUICulture);
+
+            if (!Properties.Settings.Default.AutoSavedEditsPopupShown)
+            {
+                MessageBox.Show(UiLang.Get("EditBookAutoSavePopup"));
+                Properties.Settings.Default.AutoSavedEditsPopupShown = true;               
+                Properties.Settings.Default.Save();
+            }            
+
         }
 
         private void CoverImage_OnLoaded(object sender, RoutedEventArgs e)

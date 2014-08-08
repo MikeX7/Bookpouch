@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Net.Mime;
 using System.Runtime.InteropServices;
 
 namespace Bookpouch
@@ -37,11 +39,14 @@ namespace Bookpouch
         static public void WriteLine(string text)
         {
             if (!HasConsole)
-                return;
-
-            
+                return;            
             
             Console.WriteLine(text);
+
+            using (var sw = new StreamWriter("log.txt", true))
+            {                
+                sw.Write(text + "\n");               
+            }
         }
     }
 }

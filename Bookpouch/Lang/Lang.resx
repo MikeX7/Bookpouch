@@ -150,11 +150,14 @@
   <data name="EditBookAuthor" xml:space="preserve">
     <value>_Author:</value>
   </data>
+  <data name="EditBookAutoSavePopup" xml:space="preserve">
+    <value>All changes in the window for book details editing are automatically saved and therefore you don't need to click any "Save" button.</value>
+  </data>
   <data name="EditBookCategory" xml:space="preserve">
     <value>_Category:</value>
   </data>
   <data name="EditBookDiscard" xml:space="preserve">
-    <value>Discard</value>
+    <value>Delete book</value>
   </data>
   <data name="EditBookFavorite" xml:space="preserve">
     <value>_Favorite:</value>
