@@ -50,11 +50,11 @@ namespace Bookpouch
             if (path != null) 
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
 
-            InitializeComponent();            
+            InitializeComponent();
             
             TrayIcon = new NotifyIcon
             {
-                Icon = new Icon(Application.GetResourceStream(new Uri("Img/kindle.ico", UriKind.Relative)).Stream),
+                Icon = new Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Bookpouch;component/Img/kindle.ico")).Stream),
                 Visible = false,
                 Text = "Bookpouch"
             };
@@ -73,7 +73,8 @@ namespace Bookpouch
 
             if (Properties.Settings.Default.UsbAutoSync)
                 new ReaderDetector(this);
-                    //Start reader detection which automatically triggers UsbSync when the reader is connected to the pc                                  
+                    //Start reader detection which automatically triggers UsbSync when the reader is connected to the pc         
+            
         }
 
         private static readonly Queue<Tuple<string, byte>> InfoQueue = new Queue<Tuple<string, byte>>();
@@ -146,7 +147,7 @@ namespace Bookpouch
         private Dictionary<string, string> filter = new Dictionary<string, string>();
 
         public void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
-        {            
+        {
             if (!Directory.Exists(Properties.Settings.Default.FilesDir))
             {
                 Info(
@@ -626,6 +627,7 @@ namespace Bookpouch
                 {
                     var file = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
                     BitmapImage cover;
+                    
 
                     try
                     {
@@ -635,12 +637,12 @@ namespace Bookpouch
                         cover.CreateOptions = BitmapCreateOptions.PreservePixelFormat |
                                               BitmapCreateOptions.IgnoreColorProfile;
                         cover.CacheOption = BitmapCacheOption.OnLoad;
-                        cover.UriSource = new Uri(@file ?? "img/book.png", UriKind.RelativeOrAbsolute);
+                        cover.UriSource = new Uri(@file ?? "pack://application:,,,/Bookpouch;component/Img/book.png");
                         cover.EndInit();
                     }
                     catch (NotSupportedException)
                     {
-                        cover = new BitmapImage(new Uri("img/book.png", UriKind.Relative));
+                        cover = new BitmapImage(new Uri("pack://application:,,,/Bookpouch;component/Img/book.png"));
                             //Provide default image in case the book cover image exists but is faulty
                     }
 

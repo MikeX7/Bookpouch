@@ -5,13 +5,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CheckBox = System.Windows.Controls.CheckBox;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -33,15 +29,14 @@ namespace Bookpouch
         public EditBook()
         {
             InitializeComponent();
-            Debug.WriteLine("UI language: " + Thread.CurrentThread.CurrentUICulture);
+            Debug.WriteLine(Environment.CurrentDirectory);
 
-            if (!Properties.Settings.Default.AutoSavedEditsPopupShown)
-            {
-                MessageBox.Show(UiLang.Get("EditBookAutoSavePopup"));
-                Properties.Settings.Default.AutoSavedEditsPopupShown = true;               
-                Properties.Settings.Default.Save();
-            }            
+            if (Properties.Settings.Default.AutoSavedEditsPopupShown) 
+                return;
 
+            MessageBox.Show(UiLang.Get("EditBookAutoSavePopup"));
+            Properties.Settings.Default.AutoSavedEditsPopupShown = true;               
+            Properties.Settings.Default.Save();
         }
 
         private void CoverImage_OnLoaded(object sender, RoutedEventArgs e)
@@ -58,12 +53,12 @@ namespace Bookpouch
                 cover.CreateOptions = BitmapCreateOptions.PreservePixelFormat |
                                       BitmapCreateOptions.IgnoreColorProfile;
                 cover.CacheOption = BitmapCacheOption.OnLoad;
-                cover.UriSource = new Uri(@file ?? "img/book.png", UriKind.RelativeOrAbsolute);
+                cover.UriSource = new Uri(@file ?? "pack://application:,,,/Bookpouch;component/img/book.png", UriKind.Absolute);
                 cover.EndInit();
             }
             catch (NotSupportedException)
             {
-                cover = new BitmapImage(new Uri("img/book.png", UriKind.Relative)); //Provide default image in case the book cover image exists but is faulty
+                cover = new BitmapImage(new Uri("pack://application:,,,/Bookpouch;component/img/book.png", UriKind.Absolute)); //Provide default image in case the book cover image exists but is faulty
             }
             
 
@@ -113,7 +108,7 @@ namespace Bookpouch
             
             File.Delete(oldCover);
 
-            var cover = new BitmapImage(new Uri("img/book.png", UriKind.Relative));
+            var cover = new BitmapImage(new Uri("pack://application:,,,/Bookpouch;component/img/book.png"));
 
             image.Source = cover;
         }
@@ -234,9 +229,9 @@ namespace Bookpouch
         }
 
         private object BookInfoGet(string key) //Fetch data to fill the form fields, from the bookinfo dictionary based on the key
-        {
+        {            
             if (_bookInfo == null) //Singleton, so we don't have to reopen the file with saved info, after every form field loads and its load event handler calls BookInfoGet
-            {
+            {                
                 using (var infoFile = new FileStream(DirName + "/info.dat", FileMode.Open))
                 {
                     var bf = new BinaryFormatter();
@@ -249,7 +244,7 @@ namespace Bookpouch
 
         private void BookInfoSet(string key, object value)
         {
-            if (!_bookInfo.ContainsKey(key.ToLower()))
+            if (_bookInfo == null || !_bookInfo.ContainsKey(key.ToLower()))
                 return;
 
             _bookInfo[key.ToLower()] = value;
