@@ -95,6 +95,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Lang.resx</DependentUpon>
     </Compile>
+    <Compile Include="LibraryStructure.cs" />
     <Compile Include="UiLang.cs" />
     <Compile Include="Lang\Lang.Designer.cs">
       <AutoGen>True</AutoGen>

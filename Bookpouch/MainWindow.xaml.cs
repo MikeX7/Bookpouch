@@ -169,55 +169,50 @@ namespace Bookpouch
                     Directory.EnumerateFiles(dinfo.FullName)
                         .FirstOrDefault(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase)));
 
+
+                var bookInfo = BookKeeper.GetInfo(bookFilePath);
                 
-                if (!File.Exists(dinfo.FullName + "\\info.dat")) //If the info file is missing, attempt to generate a new one
-                    BookKeeper.GenerateInfo(bookFilePath);
-                
-                if (!File.Exists(dinfo.FullName + "\\info.dat"))
+                if (bookInfo == null)
                     continue;
-                
-                using (var infoFile = new FileStream(dinfo.FullName + "\\info.dat", FileMode.Open))
-                {
-                    var bf = new BinaryFormatter();
-                    var bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);
-                    var countryCode = "_unknown";
-                    //If we can't get proper country code, this fall-back flag image name will be used
+                              
+                var countryCode = "_unknown";
+                //If we can't get proper country code, this fall-back flag image name will be used
                     
-                    if (filter.ContainsKey("title") && !((string)bookInfo["title"]).ToLower().Contains(filter["title"].ToLower()))
-                        continue;
+                if (filter.ContainsKey("title") && !((string)bookInfo["title"]).ToLower().Contains(filter["title"].ToLower()))
+                    continue;
 
-                    if (filter.ContainsKey("category") && (string) bookInfo["category"] != filter["category"])
-                        continue;
+                if (filter.ContainsKey("category") && (string) bookInfo["category"] != filter["category"])
+                    continue;
 
-                    if (filter.ContainsKey("series") && (string) bookInfo["series"] != filter["series"])
-                        continue;
+                if (filter.ContainsKey("series") && (string) bookInfo["series"] != filter["series"])
+                    continue;
 
-                    if ((string) bookInfo["language"] != "" &&
-                        CultureInfo.GetCultures(CultureTypes.SpecificCultures)
-                            .FirstOrDefault(x => x.Name == (string) bookInfo["language"]) != null)
-                        //Make sure the book language is not neutral (ex: en instead of en-US), or invalid. This will make sure we don't display for example US flag for british english.                         
-                    {
-                        var cultureInfo = new CultureInfo((string) bookInfo["language"]);
-                        countryCode = new RegionInfo(cultureInfo.Name).TwoLetterISORegionName;
-                    }
-
-                    bookList.Add(new Book()
-                    {
-                        Title = (string) bookInfo["title"],
-                        Author = (string) bookInfo["author"],
-                        Publisher = (string) bookInfo["publisher"],
-                        CountryCode = countryCode,
-                        Published = (DateTime?) bookInfo["published"],
-                        Description = (string) bookInfo["description"],
-                        Series = (string) bookInfo["series"],
-                        Category = (string) bookInfo["category"],
-                        MobiType = (string) bookInfo["mobiType"],
-                        Size = Tools.BytesFormat((ulong) bookInfo["size"]),
-                        Favorite = (bool) bookInfo["favorite"],
-                        Sync = (bool) bookInfo["sync"],
-                        DirName = dinfo.FullName
-                    });
+                if ((string) bookInfo["language"] != "" &&
+                    CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                        .FirstOrDefault(x => x.Name == (string) bookInfo["language"]) != null)
+                    //Make sure the book language is not neutral (ex: en instead of en-US), or invalid. This will make sure we don't display for example US flag for british english.                         
+                {
+                    var cultureInfo = new CultureInfo((string) bookInfo["language"]);
+                    countryCode = new RegionInfo(cultureInfo.Name).TwoLetterISORegionName;
                 }
+
+                bookList.Add(new Book()
+                {
+                    Title = (string) bookInfo["title"],
+                    Author = (string) bookInfo["author"],
+                    Publisher = (string) bookInfo["publisher"],
+                    CountryCode = countryCode,
+                    Published = (DateTime?) bookInfo["published"],
+                    Description = (string) bookInfo["description"],
+                    Series = (string) bookInfo["series"],
+                    Category = (string) bookInfo["category"],
+                    MobiType = (string) bookInfo["mobiType"],
+                    Size = Tools.BytesFormat((ulong) bookInfo["size"]),
+                    Favorite = (bool) bookInfo["favorite"],
+                    Sync = (bool) bookInfo["sync"],
+                    DirName = dinfo.FullName
+                });
+                
             }
 
             grid.ItemsSource = bookList;

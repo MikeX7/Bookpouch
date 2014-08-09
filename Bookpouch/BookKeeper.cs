@@ -49,13 +49,13 @@ namespace Bookpouch
         /// <summary>
         /// Generate info.dat file containing information about a book (mostly extracted from the book file) and save it into the book's folder.
         /// </summary>
-        /// <param name="file">Path to the book file</param>
-        public static void GenerateInfo(string file) //Add a new book into the library
+        /// <param name="bookFile">Path to the book file</param>
+        public static void GenerateInfo(string bookFile) //Add a new book into the library
         {            
-            if (!File.Exists(file))
+            if (!File.Exists(bookFile))
                 return;
 
-            var finfo = new FileInfo(file);
+            var finfo = new FileInfo(bookFile);
             var bookPeek = new BookPeek(finfo);
 
             var bookData = new Dictionary<string, object>
@@ -75,12 +75,40 @@ namespace Bookpouch
                 {"created", DateTime.Now},
                 
             };
-            
-            using (var fs = new FileStream(finfo.Directory + "/info.dat", FileMode.Create))
+
+            var infoFile = finfo.Directory + "/" + Path.GetFileNameWithoutExtension(bookFile) + ".dat";
+
+            using (var fs = new FileStream(infoFile, FileMode.Create))
             {
+                File.SetAttributes(infoFile, FileAttributes.Hidden);
                 var bf = new BinaryFormatter();
                 bf.Serialize(fs, bookData);
             }           
+        }
+
+        /// <summary>
+        /// Read the info file associated with the supplied book and return the information
+        /// </summary>
+        /// <param name="bookFile">Path to the book file</param>
+        /// <returns>Dictionary containing saved information about the file</returns>
+        public static Dictionary<string, object> GetInfo(string bookFile)
+        {
+            if (!File.Exists(bookFile))
+                return null;
+
+            var infoFilePath = Path.GetFileNameWithoutExtension(bookFile) + ".dat";
+
+            if(!File.Exists(infoFilePath))
+                GenerateInfo(bookFile);
+
+            if (!File.Exists(infoFilePath))
+                return null;
+
+            using (var infoFile = new FileStream(infoFilePath, FileMode.Open))
+            {
+                var bf = new BinaryFormatter();
+                return (Dictionary<string, object>)bf.Deserialize(infoFile);                
+            }
         }
 
         /// <summary>
