@@ -155,26 +155,27 @@ namespace Bookpouch
                         Properties.Settings.Default.FilesDir), 1);
                 return;
             }
-
+            
             var grid = (DataGrid) sender;
             var extensions = Properties.Settings.Default.FileExtensions.Split(';');
             var dirs = Directory.EnumerateDirectories(Properties.Settings.Default.FilesDir).ToList();
             var bookList = new List<Book>();
 
             foreach (var dir in dirs)
-            {
+            {                
                 var dinfo = new FileInfo(dir);
+                
                 var bookFilePath =
                     Directory.EnumerateFiles(dinfo.FullName)
-                        .First(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase)));
+                        .FirstOrDefault(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase)));
 
-
-                if (!File.Exists(dinfo.FullName + "\\info.dat")) //If info file is missing, attempt to generate new one
+                
+                if (!File.Exists(dinfo.FullName + "\\info.dat")) //If the info file is missing, attempt to generate a new one
                     BookKeeper.GenerateInfo(bookFilePath);
-
+                
                 if (!File.Exists(dinfo.FullName + "\\info.dat"))
                     continue;
-
+                
                 using (var infoFile = new FileStream(dinfo.FullName + "\\info.dat", FileMode.Open))
                 {
                     var bf = new BinaryFormatter();
@@ -334,9 +335,7 @@ namespace Bookpouch
                     return;
 
                 foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
-                {
                     BookKeeper.Discard(book.DirName);
-                }
             }
             else if (e.Key == Key.F)
             {
@@ -434,9 +433,7 @@ namespace Bookpouch
                 Info("");
             }
             else
-            {
                 _infoBoxVisible = true;
-            }
         }
 
         private void Add_OnClick(object sender, RoutedEventArgs e)
@@ -488,11 +485,6 @@ namespace Bookpouch
                     this.Title = "Bookpouch";
                 });
             });
-
-
-
-
-
         }
 
         //Execute the button click event handling method manually from here and then cancel the click, since we need to prevent  showing of the row detail and therefore  cannot wait for full click to be performed
@@ -531,10 +523,27 @@ namespace Bookpouch
         private void EditBook_OnClick(object sender, RoutedEventArgs e)
         {
             var button = (Button) sender;
-            this.IsEnabled = false;
-            var editBook = new EditBook {Owner = this};
+            var dirName = button.Tag.ToString();
 
-            editBook.DirName = button.DataContext.ToString();
+            if(!File.Exists(dirName + "/info.dat"))
+            { 
+                DebugConsole.WriteLine("info.dat for " + dirName + " wasn't found.");
+                Info(UiLang.Get("BookInfoFileNotFound"), 1);
+                BookGridReload();
+
+                if (!File.Exists(dirName + "/info.dat"))
+                {
+                    Info(UiLang.Get("BookInfoFileRegenFail"), 1);
+                    return;
+                }
+            }
+
+            this.IsEnabled = false;
+            var editBook = new EditBook(dirName)
+            {
+                Owner = this, 
+            };
+            
             editBook.Closed += delegate { this.IsEnabled = true; };
             editBook.Show();
         }

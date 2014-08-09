@@ -187,7 +187,7 @@
                                 </StackPanel>
                                 <TextBlock Text="{Binding Description}" />
                             </StackPanel>
-                            <Button Content="{local:Lng BookGridEdit}" Click="EditBook_OnClick" DataContext="{Binding DirName}"
+                            <Button Content="{local:Lng BookGridEdit}" Click="EditBook_OnClick" Tag="{Binding DirName}"
                                     VerticalAlignment="Top" HorizontalAlignment="Right" />
                         </DockPanel>
                     </Border>

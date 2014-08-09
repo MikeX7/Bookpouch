@@ -21,14 +21,17 @@ namespace Bookpouch
     /// Interaction logic for EditBook.xaml
     /// </summary>
     public partial class EditBook
-    {        
-        public string DirName; //Name or name and path of the direcotry in which all the files related to the edited book are stored        
+    {
+        private readonly string _dirName; //Name or name and path of the directory in which all the files related to the edited book are stored        
         private Dictionary<string, object> _bookInfo; //Dictionary containing the data about the book         
         
 
-        public EditBook()
+        public EditBook(string dirName)
         {
+            _dirName = dirName;      
+                    
             InitializeComponent();
+            
             Debug.WriteLine(Environment.CurrentDirectory);
 
             if (Properties.Settings.Default.AutoSavedEditsPopupShown) 
@@ -42,7 +45,7 @@ namespace Bookpouch
         private void CoverImage_OnLoaded(object sender, RoutedEventArgs e)
         {
             var image = (Image) sender;
-            var file = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
+            var file = Directory.GetFiles(_dirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
             BitmapImage cover;
 
             try
@@ -75,12 +78,12 @@ namespace Bookpouch
 
             image.Source = null;
 
-            var oldCover = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();  
+            var oldCover = Directory.GetFiles(_dirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();  
 
             if(oldCover != null)
                 File.Delete(oldCover);
  
-            var file = File.Create(DirName + "/cover" + Path.GetExtension(openFileDialog.FileName));            
+            var file = File.Create(_dirName + "/cover" + Path.GetExtension(openFileDialog.FileName));            
             var newFile = openFileDialog.OpenFile();
 
             newFile.CopyTo(file);
@@ -101,7 +104,7 @@ namespace Bookpouch
         {
             var image = (Image)sender;            
 
-            var oldCover = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
+            var oldCover = Directory.GetFiles(_dirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
 
             if (oldCover == null)
                 return;
@@ -224,7 +227,7 @@ namespace Bookpouch
             if (MessageBox.Show(String.Format("Do you really want to pernamently delete {0}?", BookInfoGet("title")), "Discard book?", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
                 return;
 
-            BookKeeper.Discard(DirName);
+            BookKeeper.Discard(_dirName);
             Close();
         }
 
@@ -232,7 +235,7 @@ namespace Bookpouch
         {            
             if (_bookInfo == null) //Singleton, so we don't have to reopen the file with saved info, after every form field loads and its load event handler calls BookInfoGet
             {                
-                using (var infoFile = new FileStream(DirName + "/info.dat", FileMode.Open))
+                using (var infoFile = new FileStream(_dirName + "/info.dat", FileMode.Open))
                 {
                     var bf = new BinaryFormatter();
                     _bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);                    
@@ -249,7 +252,7 @@ namespace Bookpouch
 
             _bookInfo[key.ToLower()] = value;
 
-            using (var infoFile = new FileStream(DirName + "/info.dat", FileMode.Create))
+            using (var infoFile = new FileStream(_dirName + "/info.dat", FileMode.Create))
             {
                 var bf = new BinaryFormatter();
                 bf.Serialize(infoFile, _bookInfo);

@@ -124,6 +124,24 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I wasn&apos;t able to find the info file associated with this book. Have you perhaps accidentally deleted it?  I will now trigger book list reload, which should regenerate the missing info file..
+        /// </summary>
+        internal static string BookInfoFileNotFound {
+            get {
+                return ResourceManager.GetString("BookInfoFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempt to regenerate the info file failed for an unknown reason, sorry..
+        /// </summary>
+        internal static string BookInfoFileRegenFail {
+            get {
+                return ResourceManager.GetString("BookInfoFileRegenFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you really want to permanently delete {0} book/s?.
         /// </summary>
         internal static string DeleteBooksConfirm {
