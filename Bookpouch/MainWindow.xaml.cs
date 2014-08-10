@@ -49,7 +49,7 @@ namespace Bookpouch
             
             if (path != null) 
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
-
+            
             InitializeComponent();
             
             TrayIcon = new NotifyIcon

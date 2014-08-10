@@ -28,7 +28,7 @@ namespace Bookpouch
 
             var dirName = finfo.Name.Substring(0, (finfo.Name.Length - finfo.Extension.Length));
                 //Dir to store all book related files in, name derived from the file name
-            var dirPath = Properties.Settings.Default.FilesDir + "/" + dirName;
+            var dirPath = Properties.Settings.Default.BooksDir + "/" + dirName;
             var newDirPath = dirPath;
 
             int copyNumber;

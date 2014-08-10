@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Bookpouch"
-        Title="Settings" Height="500" Width="800" Background="#2d2d30">
+        Title="Settings" Height="550" Width="800" Background="#2d2d30">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,6 +26,7 @@
             <RowDefinition/>
             <RowDefinition Height="90"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
@@ -89,8 +90,8 @@
                 <Label Grid.Row="2" Grid.Column="0" Content="{local:Lng SettingsPnp}" Target="{Binding ElementName=DevicePnpId}"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Width="150" Name="DevicePnpId" LostFocus="TextBox_OnLostFocus" Loaded="TextBox_OnLoaded" ToolTip="{local:Lng HintSettingsPnp}"/>
 
-                <Label Grid.Row="3" Grid.Column="0" Content="{local:Lng SettingsBookDir}" Target="{Binding ElementName=DeviceRootDir}" />
-                <TextBox Grid.Row="3" Grid.Column="1" Width="150" Name="DeviceRootDir" LostFocus="TextBox_OnLostFocus" Loaded="TextBox_OnLoaded" ToolTip="{local:Lng HintSettingsDir}"/>                
+                <Label Grid.Row="3" Grid.Column="0" Content="{local:Lng SettingsBookDir}" Target="{Binding ElementName=DeviceBooksDir}" />
+                <TextBox Grid.Row="3" Grid.Column="1" Width="150" Name="DeviceBooksDir" LostFocus="TextBox_OnLostFocus" Loaded="TextBox_OnLoaded" ToolTip="{local:Lng HintSettingsDir}"/>                
             </Grid>
         </Border>
 
@@ -106,8 +107,11 @@
         <Label Grid.Row="7" Grid.Column="0" Content="{local:Lng SettingsOnlyOne}" Target="{Binding ElementName=OnlyOne}"/>
         <CheckBox Grid.Row="7" Grid.Column="1" Checked="AutoStart_OnChecked" Unchecked="AutoStart_OnChecked" Loaded="AutoStart_OnLoaded" Name="OnlyOne" ToolTip="{local:Lng HintOnlyOne}"/>
 
-        <Label Grid.Row="8" Grid.Column="0" Content="{local:Lng SettingsDebug}" Target="{Binding ElementName=Debug}" />
-        <Button Grid.Row="8" Grid.Column="1" Name="Debug" Content="{local:Lng SettingsConsole}" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Debug_OnClick" ToolTip="{local:Lng HintSettingsDebug}"/>
+        <Label Grid.Row="8" Grid.Column="0" Content="{local:Lng SettingsBooksDir}" Target="{Binding ElementName=BooksDir}" />
+        <Button Grid.Row="8" Grid.Column="1" Name="BooksDir"  HorizontalAlignment="Left" VerticalAlignment="Top" Loaded="BooksDir_OnLoaded" Click="BooksDir_OnClick" ToolTip="{local:Lng HintSettingsBooksDir}"/>
+        
+        <Label Grid.Row="9" Grid.Column="0" Content="{local:Lng SettingsDebug}" Target="{Binding ElementName=Debug}" />
+        <Button Grid.Row="9" Grid.Column="1" Name="Debug" Content="{local:Lng SettingsConsole}" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Debug_OnClick" ToolTip="{local:Lng HintSettingsDebug}"/>
 
     </Grid>
 </Window>

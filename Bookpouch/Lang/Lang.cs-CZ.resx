@@ -159,6 +159,9 @@
   <data name="DeleteBooksConfirm" xml:space="preserve">
     <value>Opravdu chcete nenávratně smazat {0} knížek?</value>
   </data>
+  <data name="DirAccessDenied" xml:space="preserve">
+    <value>Do této složky mi není povoleno zapisovat.</value>
+  </data>
   <data name="DirNotFound" xml:space="preserve">
     <value>Nepodařilo se mi nalézt specifikovanou složku ({0}) pro ukládání knížek.</value>
   </data>
@@ -247,6 +250,9 @@
   <data name="HintSettingsAutosync" xml:space="preserve">
     <value>Automaticky spustit synchronizaci, když je čtečka připojena k počítači.</value>
   </data>
+  <data name="HintSettingsBooksDir" xml:space="preserve">
+    <value>Složka ve které bude Bookpouch vyhledávat a pracovat s knihami.</value>
+  </data>
   <data name="HintSettingsDebug" xml:space="preserve">
     <value>Debug konzole zobrazuje informace o běhu programu. Pro běžné uživatele pravděpodobné nebude nijak užitečná.</value>
   </data>
@@ -274,6 +280,9 @@
   <data name="RegeneratingBookFileTree" xml:space="preserve">
     <value>Regeneruji strom knih...</value>
   </data>
+  <data name="SelectBookDirPrompt" xml:space="preserve">
+    <value>Vyberte prosím složku, ve které bude Bookpouch vyhledávat knihy a pracovat s nimi. Pokud výběr zrušíte, zůstanete u stávající složky {0}.</value>
+  </data>
   <data name="SettingsAutoStart" xml:space="preserve">
     <value>Aut_o start:</value>
   </data>
@@ -281,7 +290,10 @@
     <value>_AutoSync:</value>
   </data>
   <data name="SettingsBookDir" xml:space="preserve">
-    <value>_Složka knížek:</value>
+    <value>_Složka knih:</value>
+  </data>
+  <data name="SettingsBooksDir" xml:space="preserve">
+    <value>Složka _knih:</value>
   </data>
   <data name="SettingsConsole" xml:space="preserve">
     <value>Zobraz konzoli</value>

@@ -18,11 +18,11 @@ namespace Bookpouch
         public static void GenerateFileTree()
         {
             DebugConsole.WriteLine("Regenerating the file tree for the library books...");
-            //Info(      String.Format(UiLang.Get("DirNotFound"),    Properties.Settings.Default.FilesDir), 1);
-            if(!Directory.Exists(Properties.Settings.Default.FilesDir))
-                throw new DirectoryNotFoundException(); //Note to self: Change this to a folder selection dialog later
+            //Info(      String.Format(UiLang.Get("DirNotFound"),    Properties.Settings.Default.BooksDir), 1);
+            if(!Directory.Exists(Properties.Settings.Default.BooksDir))
+                Settings.SelectBooksDir();
 
-            var dirList = Tools.GetDirectoryList(Properties.Settings.Default.FilesDir);
+            var dirList = Tools.GetDirectoryList(Properties.Settings.Default.BooksDir);
             var bookFileList = new List<string>();
             var extensions = Properties.Settings.Default.FileExtensions.Split(';');
             

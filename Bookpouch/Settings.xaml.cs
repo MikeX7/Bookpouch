@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using ShadoLib;
+using Button = System.Windows.Controls.Button;
+using CheckBox = System.Windows.Controls.CheckBox;
+using ComboBox = System.Windows.Controls.ComboBox;
+using MessageBox = System.Windows.MessageBox;
+using TextBox = System.Windows.Controls.TextBox;
 
 
 namespace Bookpouch
@@ -20,6 +26,35 @@ namespace Bookpouch
         public Settings()
         {            
             InitializeComponent();
+        }
+
+        public static void SelectBooksDir()
+        {
+            var booksDirDialog = new System.Windows.Forms.FolderBrowserDialog
+            {
+                Description = String.Format(UiLang.Get("SelectBookDirPrompt"), Properties.Settings.Default.BooksDir)
+            };
+
+            if (Directory.Exists(Properties.Settings.Default.BooksDir))
+                booksDirDialog.SelectedPath = Properties.Settings.Default.BooksDir;
+
+            var result = booksDirDialog.ShowDialog();
+
+            if (result != System.Windows.Forms.DialogResult.OK) 
+                return;
+
+            try
+            {
+                File.GetAccessControl(booksDirDialog.SelectedPath);
+
+                Properties.Settings.Default.BooksDir = booksDirDialog.SelectedPath;
+                Properties.Settings.Default.BooksDirSelectionOffered = true;
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(UiLang.Get("DirAccessDenied"));
+            }                       
         }
 
         private void Language_OnLoaded(object sender, RoutedEventArgs e)
@@ -83,7 +118,7 @@ namespace Bookpouch
 
             Properties.Settings.Default.DeviceModel = readerOption.Model;
             Properties.Settings.Default.DevicePnpId = readerOption.PnpDeviceId;
-            Properties.Settings.Default.DeviceRootDir = readerOption.RootDir;
+            Properties.Settings.Default.DeviceBooksDir = readerOption.RootDir;
             Properties.Settings.Default.Save();
 
         }
@@ -162,6 +197,21 @@ namespace Bookpouch
             Properties.Settings.Default.Save();            
         }
 
+        private void BooksDir_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var button = (Button) sender;            
+            button.Content = Properties.Settings.Default.BooksDir;
+        }
+
+        private void BooksDir_OnClick(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+
+            SelectBooksDir();
+
+            button.Content = Properties.Settings.Default.BooksDir;
+        }
+
         private void Debug_OnClick(object sender, RoutedEventArgs e)
         {            
              DebugConsole.Open();
@@ -212,7 +262,6 @@ namespace Bookpouch
             }
 
         }
-      
     }
     
 }

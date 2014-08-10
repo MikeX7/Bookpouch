@@ -74,12 +74,12 @@ namespace Bookpouch.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("/Documents/")]
-        public string DeviceRootDir {
+        public string DeviceBooksDir {
             get {
-                return ((string)(this["DeviceRootDir"]));
+                return ((string)(this["DeviceBooksDir"]));
             }
             set {
-                this["DeviceRootDir"] = value;
+                this["DeviceBooksDir"] = value;
             }
         }
         
@@ -104,12 +104,12 @@ namespace Bookpouch.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("books")]
-        public string FilesDir {
+        public string BooksDir {
             get {
-                return ((string)(this["FilesDir"]));
+                return ((string)(this["BooksDir"]));
             }
             set {
-                this["FilesDir"] = value;
+                this["BooksDir"] = value;
             }
         }
         
@@ -172,6 +172,18 @@ namespace Bookpouch.Properties {
             }
             set {
                 this["AutoSavedEditsPopupShown"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BooksDirSelectionOffered {
+            get {
+                return ((bool)(this["BooksDirSelectionOffered"]));
+            }
+            set {
+                this["BooksDirSelectionOffered"] = value;
             }
         }
     }

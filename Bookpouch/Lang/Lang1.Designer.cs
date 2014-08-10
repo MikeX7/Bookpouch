@@ -187,6 +187,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I do not have write access to this folder..
+        /// </summary>
+        internal static string DirAccessDenied {
+            get {
+                return ResourceManager.GetString("DirAccessDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I wasn&apos;t able to find the specified directory ({0}) for storing books..
         /// </summary>
         internal static string DirNotFound {
@@ -448,6 +457,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Directory in which Bookpouch searches for book files to work with..
+        /// </summary>
+        internal static string HintSettingsBooksDir {
+            get {
+                return ResourceManager.GetString("HintSettingsBooksDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Debug console displays runtime information about this application, this information will be probably of no use to you as an user..
         /// </summary>
         internal static string HintSettingsDebug {
@@ -529,6 +547,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select the directory in which you keep your eBooks stored, or press cancel to stay with the current directory: {0}.
+        /// </summary>
+        internal static string SelectBookDirPrompt {
+            get {
+                return ResourceManager.GetString("SelectBookDirPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Aut_o start:.
         /// </summary>
         internal static string SettingsAutoStart {
@@ -552,6 +579,15 @@ namespace Bookpouch.Lang {
         internal static string SettingsBookDir {
             get {
                 return ResourceManager.GetString("SettingsBookDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book _directory:.
+        /// </summary>
+        internal static string SettingsBooksDir {
+            get {
+                return ResourceManager.GetString("SettingsBooksDir", resourceCulture);
             }
         }
         

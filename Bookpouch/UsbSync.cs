@@ -82,11 +82,11 @@ namespace Bookpouch
             if (drive == "") //Reader is not connected to the pc or wasn't found, so there is no point to go on                            
                 return new String[0];
 
-            _deviceDir = drive + Properties.Settings.Default.DeviceRootDir;
+            _deviceDir = drive + Properties.Settings.Default.DeviceBooksDir;
 
             if (!Directory.Exists(_deviceDir)) //Specified directory on the reader which should contain ebook files doesn't exist
             {                
-                MainWindow.Info(String.Format(UiLang.Get("SyncReaderDirNotFound"), Properties.Settings.Default.DeviceRootDir, Properties.Settings.Default.DeviceModel), 1);                
+                MainWindow.Info(String.Format(UiLang.Get("SyncReaderDirNotFound"), Properties.Settings.Default.DeviceBooksDir, Properties.Settings.Default.DeviceModel), 1);                
 
                 return new String[0];            
             }

@@ -14,7 +14,7 @@
     <Setting Name="UsbAutoSync" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DeviceRootDir" Type="System.String" Scope="User">
+    <Setting Name="DeviceBooksDir" Type="System.String" Scope="User">
       <Value Profile="(Default)">/Documents/</Value>
     </Setting>
     <Setting Name="UseInfoBanner" Type="System.Boolean" Scope="Application">
@@ -23,7 +23,7 @@
     <Setting Name="FileExtensions" Type="System.String" Scope="Application">
       <Value Profile="(Default)">mobi;epub;lit;pdf</Value>
     </Setting>
-    <Setting Name="FilesDir" Type="System.String" Scope="User">
+    <Setting Name="BooksDir" Type="System.String" Scope="User">
       <Value Profile="(Default)">books</Value>
     </Setting>
     <Setting Name="SplashScreen" Type="System.Boolean" Scope="User">
@@ -39,6 +39,9 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="AutoSavedEditsPopupShown" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="BooksDirSelectionOffered" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
