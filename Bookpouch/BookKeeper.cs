@@ -39,18 +39,17 @@ namespace Bookpouch
 
             Directory.CreateDirectory(dirPath); //Create the dir in the default book folder, specified in the settings        
             var fileName = Path.GetFileNameWithoutExtension(finfo.Name)  + (copyNumber > 1 ? " (" + (copyNumber - 1) + ")" : "") + finfo.Extension; //If the parent directory got a number added to its name, add it to the book file name as well
-            Debug.WriteLine(copyNumber);
 
             finfo.CopyTo(dirPath + "/" + fileName, true);
 
-            GenerateInfo(dirPath + "/" + fileName); //Generate info.xml file for this book file
+            GenerateInfo(dirPath + "/" + fileName); //Generate .dat file for this book 
         }        
 
         /// <summary>
-        /// Generate info.dat file containing information about a book (mostly extracted from the book file) and save it into the book's folder.
+        /// Generate *.dat file containing information about a book (mostly extracted from the book file) and save it into the book's folder.
         /// </summary>
         /// <param name="bookFile">Path to the book file</param>
-        public static void GenerateInfo(string bookFile) //Add a new book into the library
+        public static void GenerateInfo(string bookFile) 
         {            
             if (!File.Exists(bookFile))
                 return;
@@ -76,11 +75,11 @@ namespace Bookpouch
                 
             };
 
-            var infoFile = finfo.Directory + "/" + Path.GetFileNameWithoutExtension(bookFile) + ".dat";
+            var infoFile = bookFile + ".dat";
 
             using (var fs = new FileStream(infoFile, FileMode.Create))
             {
-                File.SetAttributes(infoFile, FileAttributes.Hidden);
+                File.SetAttributes(infoFile, File.GetAttributes(infoFile) | FileAttributes.Hidden);
                 var bf = new BinaryFormatter();
                 bf.Serialize(fs, bookData);
             }           
@@ -91,24 +90,48 @@ namespace Bookpouch
         /// </summary>
         /// <param name="bookFile">Path to the book file</param>
         /// <returns>Dictionary containing saved information about the file</returns>
+        /// <exception cref="FileNotFoundException">Book file associated with the .dat file doesn't exist or vice versa</exception>
         public static Dictionary<string, object> GetInfo(string bookFile)
         {
             if (!File.Exists(bookFile))
-                return null;
+                throw new FileNotFoundException();
 
-            var infoFilePath = Path.GetFileNameWithoutExtension(bookFile) + ".dat";
-
-            if(!File.Exists(infoFilePath))
+            var infoFile = bookFile + ".dat";
+            
+            if(!File.Exists(infoFile)) //If the .dat file is missing, attempt to generate it 
                 GenerateInfo(bookFile);
+            
+            if (!File.Exists(infoFile))
+                throw new FileNotFoundException();
 
-            if (!File.Exists(infoFilePath))
-                return null;
-
-            using (var infoFile = new FileStream(infoFilePath, FileMode.Open))
+            using (var fs = new FileStream(infoFile, FileMode.Open))
             {
                 var bf = new BinaryFormatter();
-                return (Dictionary<string, object>)bf.Deserialize(infoFile);                
+                
+                return (Dictionary<string, object>)bf.Deserialize(fs);                
             }
+        }
+
+        /// <summary>
+        /// Save dictionary with book info back into a file
+        /// </summary>
+        /// <param name="bookFile">Path to the .dat file into which the dictionary will be saved</param>
+        /// <param name="bookInfo">The dictionary object containing the book info</param>
+        public static void SaveInfo(string bookFile, Dictionary<string, object> bookInfo)
+        {
+            var infoFile = bookFile + ".dat";
+
+            if (!File.Exists(infoFile))
+                GenerateInfo(bookFile);
+
+            if(!File.Exists(infoFile))
+                return;
+            
+            using (var fs = new FileStream(infoFile, FileMode.OpenOrCreate))
+            {
+                var bf = new BinaryFormatter();
+                bf.Serialize(fs, bookInfo);
+            }   
         }
 
         /// <summary>
@@ -123,29 +146,6 @@ namespace Bookpouch
             Directory.Delete(dirName, true);
             MainWindow.MW.BookGrid_OnLoaded(MainWindow.MW.BookGrid, null); //Reload grid in the main window
         }        
-
-        /// <summary>
-        /// Generate a list of all books (including their full info) in the library
-        /// </summary>
-        public static List<Dictionary<string, object>> List()
-        {
-            var dirs = Directory.GetDirectories("books");
-            var extensions = Properties.Settings.Default.FileExtensions.Split(';');
-            var bookData = new List<Dictionary<string, object>>();
-
-            foreach (var dir in dirs.Where(dir => File.Exists(dir + "\\info.dat")))
-            {
-                using (var infoFile = new FileStream(dir + "\\info.dat", FileMode.Open))
-                {
-                    var bf = new BinaryFormatter();
-                    var bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);
-
-                    bookData.Add(bookInfo);
-                }
-            }
-
-            return bookData;
-        }
     }
     
 }

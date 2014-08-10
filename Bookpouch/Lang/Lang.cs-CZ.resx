@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BookDeleteConfirm" xml:space="preserve">
+    <value>Opravdu chcete nenávratně smazat {0}?</value>
+  </data>
+  <data name="BookDeleteConfirmTitle" xml:space="preserve">
+    <value>Smazat knihu?</value>
+  </data>
   <data name="BookGridClearFilter" xml:space="preserve">
     <value>Vyčistit filtr</value>
   </data>
@@ -143,6 +149,9 @@
   </data>
   <data name="BookInfoFileRegenFail" xml:space="preserve">
     <value>Pokus obnovit info soubor pro tuto knihu se z neznámého důvodu nezdařil. Omlouvám se.</value>
+  </data>
+  <data name="BookInfoSaveError" xml:space="preserve">
+    <value>Nepodařilo se mi uložit zadanou hodnotu do infosouboru o knize.</value>
   </data>
   <data name="DeleteBooksConfirm" xml:space="preserve">
     <value>Opravdu chcete nenávratně smazat {0} knížek?</value>
@@ -219,6 +228,9 @@
   </data>
   <data name="HintMenuAdd" xml:space="preserve">
     <value>Přidat nové knížky do knihovny</value>
+  </data>
+  <data name="HintMenuRegenerateTree" xml:space="preserve">
+    <value>Znovu vygenerovat strom se soubory knih. (Použijte, pokud jste manuálně manipulovali se složkami knihovny)</value>
   </data>
   <data name="HintMenuSettings" xml:space="preserve">
     <value>Nastavení</value>

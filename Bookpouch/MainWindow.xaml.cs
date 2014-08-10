@@ -146,34 +146,25 @@ namespace Bookpouch
 
         private Dictionary<string, string> filter = new Dictionary<string, string>();
 
-        public void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            if (!Directory.Exists(Properties.Settings.Default.FilesDir))
-            {
-                Info(
-                    String.Format(UiLang.Get("DirNotFound"),
-                        Properties.Settings.Default.FilesDir), 1);
-                return;
-            }
-            
+        public void BookGrid_OnLoaded(object sender, RoutedEventArgs e) 
+        {                  
             var grid = (DataGrid) sender;
-            var extensions = Properties.Settings.Default.FileExtensions.Split(';');
-            var dirs = Directory.EnumerateDirectories(Properties.Settings.Default.FilesDir).ToList();
+            var bookTree = LibraryStructure.GetFileTree();
             var bookList = new List<Book>();
-
-            foreach (var dir in dirs)
+            
+            foreach (var bookFile in bookTree)
             {                
-                var dinfo = new FileInfo(dir);
                 
-                var bookFilePath =
-                    Directory.EnumerateFiles(dinfo.FullName)
-                        .FirstOrDefault(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase)));
+                Dictionary<string, object> bookInfo;
 
-
-                var bookInfo = BookKeeper.GetInfo(bookFilePath);
-                
-                if (bookInfo == null)
+                try
+                {
+                    bookInfo = BookKeeper.GetInfo(bookFile);
+                }
+                catch (FileNotFoundException)
+                {                    
                     continue;
+                }                
                               
                 var countryCode = "_unknown";
                 //If we can't get proper country code, this fall-back flag image name will be used
@@ -195,7 +186,7 @@ namespace Bookpouch
                     var cultureInfo = new CultureInfo((string) bookInfo["language"]);
                     countryCode = new RegionInfo(cultureInfo.Name).TwoLetterISORegionName;
                 }
-
+                
                 bookList.Add(new Book()
                 {
                     Title = (string) bookInfo["title"],
@@ -210,7 +201,7 @@ namespace Bookpouch
                     Size = Tools.BytesFormat((ulong) bookInfo["size"]),
                     Favorite = (bool) bookInfo["favorite"],
                     Sync = (bool) bookInfo["sync"],
-                    DirName = dinfo.FullName
+                    BookFile = bookFile
                 });
                 
             }
@@ -330,13 +321,13 @@ namespace Bookpouch
                     return;
 
                 foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
-                    BookKeeper.Discard(book.DirName);
+                    BookKeeper.Discard(book.BookFile);
             }
             else if (e.Key == Key.F)
             {
                 foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
                 {
-                    BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.DirName);
+                    BookInfoSave("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
                 }
 
                 BookGridReload(); //Reload grid in the main window
@@ -345,7 +336,7 @@ namespace Bookpouch
             {
                 foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
                 {
-                    BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.DirName);
+                    BookInfoSave("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
                 }
 
                 BookGridReload(); //Reload grid in the main window
@@ -354,8 +345,8 @@ namespace Bookpouch
             {
                 foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
                 {
-                    BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.DirName);
-                    BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.DirName);
+                    BookInfoSave("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
+                    BookInfoSave("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
                 }
 
                 BookGridReload(); //Reload grid in the main window
@@ -370,7 +361,7 @@ namespace Bookpouch
             //If the category column header gets right clicked display combobox for filtering categories
             if (obj != null && obj.Text == UiLang.Get("BookGridHeaderCategory"))
             {
-                var bookList = BookKeeper.List();
+                var bookList = LibraryStructure.List();
                 var categoryList = new HashSet<string>{"- - -"};
 
                 foreach (var info in bookList)
@@ -482,51 +473,47 @@ namespace Bookpouch
             });
         }
 
+        private void TreeRegen_OnClick(object sender, RoutedEventArgs e)
+        {
+            LibraryStructure.GenerateFileTree();
+            BookGridReload();
+        }
+
         //Execute the button click event handling method manually from here and then cancel the click, since we need to prevent  showing of the row detail and therefore  cannot wait for full click to be performed
         private void Sync_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            SyncToDeviceToggle_OnClick(sender, e);
-            e.Handled = true;
-        }
-
-        private void SyncToDeviceToggle_OnClick(object sender, RoutedEventArgs e)
-        {
-
-            var button = (Button) sender;
-            var icon = (Image) VisualTreeHelper.GetChild(button, 0);
+            var button = (Button)sender;
+            var icon = (Image)VisualTreeHelper.GetChild(button, 0);
             icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
 
-            BookInfoSet("sync", (icon.Opacity > 0.9), (string) button.Tag);
+            BookInfoSave("sync", (icon.Opacity > 0.9), (string)button.Tag);
+            e.Handled = true;
         }
+        
 
         //Execute the button click event handling method manually from here and then cancel the click, since we need to prevent  showing of the row detail and therefore  cannot wait for full click to be performed
         private void Favorite_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            FavoriteToggle_OnClick(sender, e);
-            e.Handled = true;
-        }
-
-        private void FavoriteToggle_OnClick(object sender, RoutedEventArgs e)
-        {
-            var button = (Button) sender;
-            var icon = (Image) VisualTreeHelper.GetChild(button, 0);
+            var button = (Button)sender;
+            var icon = (Image)VisualTreeHelper.GetChild(button, 0);
             icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
-
-            BookInfoSet("favorite", (icon.Opacity > 0.9), (string) button.Tag);
-        }
+                        
+            BookInfoSave("favorite", (icon.Opacity > 0.9), (string)button.Tag);
+            e.Handled = true;
+        }        
 
         private void EditBook_OnClick(object sender, RoutedEventArgs e)
         {
             var button = (Button) sender;
-            var dirName = button.Tag.ToString();
-
-            if(!File.Exists(dirName + "/info.dat"))
+            var bookFile = button.Tag.ToString();
+            
+            if(!File.Exists(bookFile + ".dat"))
             { 
-                DebugConsole.WriteLine("info.dat for " + dirName + " wasn't found.");
+                DebugConsole.WriteLine(".dat for " + bookFile + " wasn't found.");
                 Info(UiLang.Get("BookInfoFileNotFound"), 1);
                 BookGridReload();
 
-                if (!File.Exists(dirName + "/info.dat"))
+                if (!File.Exists(bookFile))
                 {
                     Info(UiLang.Get("BookInfoFileRegenFail"), 1);
                     return;
@@ -534,7 +521,7 @@ namespace Bookpouch
             }
 
             this.IsEnabled = false;
-            var editBook = new EditBook(dirName)
+            var editBook = new EditBook(bookFile)
             {
                 Owner = this, 
             };
@@ -575,37 +562,24 @@ namespace Bookpouch
 
             DebugConsole.WriteLine("Minimizing Bookpouch into tray.");
             e.Cancel = true;
-        }
+        }     
 
-
-      
-
-
-        //Change value in existing info.dat file for a book
-        private void BookInfoSet(string key, object value, string infoFilePath)
-        {
-            infoFilePath += "/info.dat";
-
-            if (!File.Exists(infoFilePath))
-                return;
-
-            Dictionary<string, object> bookInfo;
-
-            using (var infoFile = new FileStream(infoFilePath, FileMode.Open))
+        //Change value in existing .dat file for a book
+        private static void BookInfoSave(string key, object value, string bookFile)
+        {            
+            try
             {
-                var bf = new BinaryFormatter();
-                bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);
+                var bookInfo = BookKeeper.GetInfo(bookFile);
+                
+                if (!bookInfo.ContainsKey(key)) 
+                    return;
+
+                bookInfo[key] = value;
+                BookKeeper.SaveInfo(bookFile, bookInfo);
             }
-
-            if (!bookInfo.ContainsKey(key))
-                return;
-
-            bookInfo[key.ToLower()] = value;
-
-            using (var infoFile = new FileStream(infoFilePath, FileMode.Create))
+            catch (FileNotFoundException)
             {
-                var bf = new BinaryFormatter();
-                bf.Serialize(infoFile, bookInfo);
+                Info(UiLang.Get("BookInfoSaveError"), 1);                
             }
         }
 
@@ -623,13 +597,13 @@ namespace Bookpouch
             public string Category { set; get; }
             public bool Favorite { set; get; }
             public bool Sync { set; get; }
-            public string DirName { set; get; }
+            public string BookFile { set; get; }
 
             public BitmapImage CoverImage
             {
                 get
                 {
-                    var file = Directory.GetFiles(DirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
+                    var file = Directory.GetFiles(BookFile, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
                     BitmapImage cover;
                     
 
@@ -680,7 +654,6 @@ namespace Bookpouch
             }
 
         }
- 
     }
 
 }

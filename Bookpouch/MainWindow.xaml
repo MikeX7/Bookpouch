@@ -30,6 +30,11 @@
                 <Image Source="Img/plus.png" />
             </Button>
 
+            <Button Click="TreeRegen_OnClick" Style="{StaticResource MenuIconButton}" Margin="5,0,0,0"
+                    ToolTip="{local:Lng HintMenuRegenerateTree}">
+                <Image Source="Img/ornament.png" />
+            </Button>
+
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0"
                     VerticalAlignment="Top" Margin="5,5,0,5" Opacity="0.3">
@@ -106,7 +111,7 @@
                 <DataGridTemplateColumn Header="{local:Lng BookGridHeaderFavorite}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Tag="{Binding DirName}" Click="FavoriteToggle_OnClick" PreviewMouseDown="Favorite_OnPreviewMouseDown" ToolTip="{local:Lng HintBookGridFavorite}">
+                            <Button Tag="{Binding BookFile}" PreviewMouseDown="Favorite_OnPreviewMouseDown" ToolTip="{local:Lng HintBookGridFavorite}">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Image Source="Img/star.png" Height="25" Opacity="{Binding FavoriteOpacity}" />
@@ -120,7 +125,7 @@
                 <DataGridTemplateColumn Header="{local:Lng BookGridHeaderSync}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Tag="{Binding DirName}" Click="SyncToDeviceToggle_OnClick" PreviewMouseDown="Sync_OnPreviewMouseDown" 
+                            <Button Tag="{Binding BookFile}" PreviewMouseDown="Sync_OnPreviewMouseDown" 
                                     ToolTip="{local:Lng HintBookGridSync}">
                                 <Button.Template>
                                     <ControlTemplate>
@@ -187,7 +192,7 @@
                                 </StackPanel>
                                 <TextBlock Text="{Binding Description}" />
                             </StackPanel>
-                            <Button Content="{local:Lng BookGridEdit}" Click="EditBook_OnClick" Tag="{Binding DirName}"
+                            <Button Content="{local:Lng BookGridEdit}" Click="EditBook_OnClick" Tag="{Binding BookFile}"
                                     VerticalAlignment="Top" HorizontalAlignment="Right" />
                         </DockPanel>
                     </Border>

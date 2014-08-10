@@ -40,7 +40,6 @@ namespace Bookpouch
 
         private void Epub(FileSystemInfo file)
         {
-
             try
             {          
                 using (var zip = ZipFile.Open(file.FullName, ZipArchiveMode.Read))
@@ -81,7 +80,7 @@ namespace Bookpouch
                             ? dir.Parent + "/"
                             : "") + cover.Attribute("href").Value;
                         
-                        zip.GetEntry(coverFullPath).ExtractToFile(DirName + "/cover.jpg");                        
+                        zip.GetEntry(coverFullPath).ExtractToFile(DirName + "/cover.jpg", true);                        
                     }
 
                     var meta = from el in metaData.Descendants() where el.Name.Namespace == customNs select el;
@@ -108,8 +107,9 @@ namespace Bookpouch
                         List.Add("published", DateTime.Parse(published.Value));
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                DebugConsole.WriteLine("Problem occurred during info extraction from an epub file: " + e);
                 MainWindow.Info(UiLang.Get("EpubCorrupted"), 1);
             }             
         }

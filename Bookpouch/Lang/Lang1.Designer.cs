@@ -61,6 +61,24 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you really want to permanently delete {0}?.
+        /// </summary>
+        internal static string BookDeleteConfirm {
+            get {
+                return ResourceManager.GetString("BookDeleteConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete book?.
+        /// </summary>
+        internal static string BookDeleteConfirmTitle {
+            get {
+                return ResourceManager.GetString("BookDeleteConfirmTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear filter.
         /// </summary>
         internal static string BookGridClearFilter {
@@ -138,6 +156,15 @@ namespace Bookpouch.Lang {
         internal static string BookInfoFileRegenFail {
             get {
                 return ResourceManager.GetString("BookInfoFileRegenFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I wasn&apos;t able to save the supplied value into the book&apos;s info file..
+        /// </summary>
+        internal static string BookInfoSaveError {
+            get {
+                return ResourceManager.GetString("BookInfoSaveError", resourceCulture);
             }
         }
         
@@ -363,6 +390,15 @@ namespace Bookpouch.Lang {
         internal static string HintMenuAdd {
             get {
                 return ResourceManager.GetString("HintMenuAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Re-generate the book file tree. (Use this, if you manually manipulated with folders included in the library).
+        /// </summary>
+        internal static string HintMenuRegenerateTree {
+            get {
+                return ResourceManager.GetString("HintMenuRegenerateTree", resourceCulture);
             }
         }
         

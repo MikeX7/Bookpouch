@@ -22,17 +22,15 @@ namespace Bookpouch
     /// </summary>
     public partial class EditBook
     {
-        private readonly string _dirName; //Name or name and path of the directory in which all the files related to the edited book are stored        
+        private readonly string _bookFile; //Name or name and path of the directory in which all the files related to the edited book are stored        
         private Dictionary<string, object> _bookInfo; //Dictionary containing the data about the book         
         
 
-        public EditBook(string dirName)
+        public EditBook(string bookFile)
         {
-            _dirName = dirName;      
+            _bookFile = bookFile;      
                     
-            InitializeComponent();
-            
-            Debug.WriteLine(Environment.CurrentDirectory);
+            InitializeComponent();           
 
             if (Properties.Settings.Default.AutoSavedEditsPopupShown) 
                 return;
@@ -45,7 +43,7 @@ namespace Bookpouch
         private void CoverImage_OnLoaded(object sender, RoutedEventArgs e)
         {
             var image = (Image) sender;
-            var file = Directory.GetFiles(_dirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
+            var file = Directory.GetFiles(_bookFile, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
             BitmapImage cover;
 
             try
@@ -78,12 +76,12 @@ namespace Bookpouch
 
             image.Source = null;
 
-            var oldCover = Directory.GetFiles(_dirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();  
+            var oldCover = Directory.GetFiles(_bookFile, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();  
 
             if(oldCover != null)
                 File.Delete(oldCover);
  
-            var file = File.Create(_dirName + "/cover" + Path.GetExtension(openFileDialog.FileName));            
+            var file = File.Create(_bookFile + "/cover" + Path.GetExtension(openFileDialog.FileName));            
             var newFile = openFileDialog.OpenFile();
 
             newFile.CopyTo(file);
@@ -104,7 +102,7 @@ namespace Bookpouch
         {
             var image = (Image)sender;            
 
-            var oldCover = Directory.GetFiles(_dirName, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
+            var oldCover = Directory.GetFiles(_bookFile, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
 
             if (oldCover == null)
                 return;
@@ -186,7 +184,7 @@ namespace Bookpouch
         {
             TextBox_OnLoaded(sender, e);
 
-            var bookInfo = BookKeeper.List();
+            var bookInfo = LibraryStructure.List();
             var hintSet = new HashSet<string>();
 
             foreach (var info in bookInfo.Where(info => (string) info["series"] != ""))
@@ -206,7 +204,7 @@ namespace Bookpouch
         {
             TextBox_OnLoaded(sender, e);
 
-            var bookInfo = BookKeeper.List();
+            var bookInfo = LibraryStructure.List();
             var defaultCategories = Properties.Settings.Default.DefaultCategories.Split(';');
             var hintSet = new HashSet<string>(defaultCategories);
 
@@ -224,23 +222,28 @@ namespace Bookpouch
         }
         private void Discard_OnClick(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show(String.Format("Do you really want to pernamently delete {0}?", BookInfoGet("title")), "Discard book?", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+            if (MessageBox.Show(String.Format(UiLang.Get("BookDeleteConfirm"), BookInfoGet("title")), UiLang.Get("BookDeleteConfirmTitle"), MessageBoxButton.YesNo) != MessageBoxResult.Yes)
                 return;
 
-            BookKeeper.Discard(_dirName);
+            BookKeeper.Discard(_bookFile);
             Close();
         }
 
         private object BookInfoGet(string key) //Fetch data to fill the form fields, from the bookinfo dictionary based on the key
-        {            
+        {
             if (_bookInfo == null) //Singleton, so we don't have to reopen the file with saved info, after every form field loads and its load event handler calls BookInfoGet
-            {                
-                using (var infoFile = new FileStream(_dirName + "/info.dat", FileMode.Open))
+            {
+                try
                 {
-                    var bf = new BinaryFormatter();
-                    _bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);                    
+                    _bookInfo = BookKeeper.GetInfo(_bookFile);
+                }
+                catch (FileNotFoundException)
+                {
+                    this.Close();
+                    return null;
                 }
             }
+            
 
             return _bookInfo.ContainsKey(key.ToLower()) ? _bookInfo[key.ToLower()] : null;
         }
@@ -252,11 +255,7 @@ namespace Bookpouch
 
             _bookInfo[key.ToLower()] = value;
 
-            using (var infoFile = new FileStream(_dirName + "/info.dat", FileMode.Create))
-            {
-                var bf = new BinaryFormatter();
-                bf.Serialize(infoFile, _bookInfo);
-            }            
+            BookKeeper.SaveInfo(_bookFile, _bookInfo);         
 
         }
     }
