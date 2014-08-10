@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -43,7 +42,8 @@ namespace Bookpouch
         private void CoverImage_OnLoaded(object sender, RoutedEventArgs e)
         {
             var image = (Image) sender;
-            var file = Directory.GetFiles(_bookFile, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
+            var coverArray = (byte[]) BookInfoGet("cover");
+
             BitmapImage cover;
 
             try
@@ -54,12 +54,17 @@ namespace Bookpouch
                 cover.CreateOptions = BitmapCreateOptions.PreservePixelFormat |
                                       BitmapCreateOptions.IgnoreColorProfile;
                 cover.CacheOption = BitmapCacheOption.OnLoad;
-                cover.UriSource = new Uri(@file ?? "pack://application:,,,/Bookpouch;component/img/book.png", UriKind.Absolute);
+
+                if (coverArray == null)
+                    cover.UriSource = new Uri("pack://application:,,,/Bookpouch;component/Img/book.png");
+                else
+                    cover.StreamSource = new MemoryStream(coverArray);    
+
                 cover.EndInit();
             }
             catch (NotSupportedException)
             {
-                cover = new BitmapImage(new Uri("pack://application:,,,/Bookpouch;component/img/book.png", UriKind.Absolute)); //Provide default image in case the book cover image exists but is faulty
+                cover = new BitmapImage(new Uri("pack://application:,,,/Bookpouch;component/img/book.png")); //Provide default image in case the book cover image exists but is faulty
             }
             
 
@@ -73,45 +78,27 @@ namespace Bookpouch
 
             if (openFileDialog.ShowDialog() != true) 
                 return;            
-
-            image.Source = null;
-
-            var oldCover = Directory.GetFiles(_bookFile, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();  
-
-            if(oldCover != null)
-                File.Delete(oldCover);
- 
-            var file = File.Create(_bookFile + "/cover" + Path.GetExtension(openFileDialog.FileName));            
-            var newFile = openFileDialog.OpenFile();
-
-            newFile.CopyTo(file);
-            newFile.Close();
-            file.Close();
-
+          
             var cover = new BitmapImage();
             cover.BeginInit();
             cover.CreateOptions = BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile;
             cover.CacheOption = BitmapCacheOption.OnLoad;
-            cover.UriSource = new Uri(openFileDialog.FileName, UriKind.Absolute);
+            cover.StreamSource = openFileDialog.OpenFile();
             cover.EndInit();
 
             image.Source = cover;
+
+            BookInfoSet("cover", File.ReadAllBytes(openFileDialog.FileName));
         }
 
         private void CoverImage_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e) //Remove existing book cover picture
         {
             var image = (Image)sender;            
-
-            var oldCover = Directory.GetFiles(_bookFile, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
-
-            if (oldCover == null)
-                return;
-            
-            File.Delete(oldCover);
-
             var cover = new BitmapImage(new Uri("pack://application:,,,/Bookpouch;component/img/book.png"));
 
             image.Source = cover;
+
+            BookInfoSet("cover", null);
         }
 
         private void Language_OnLoaded(object sender, RoutedEventArgs e)
@@ -237,9 +224,10 @@ namespace Bookpouch
                 {
                     _bookInfo = BookKeeper.GetInfo(_bookFile);
                 }
-                catch (FileNotFoundException)
+                catch (Exception)
                 {
-                    this.Close();
+                    MainWindow.Info(UiLang.Get("DatFileNotAvailable"), 1);
+                    Close();
                     return null;
                 }
             }
@@ -254,8 +242,17 @@ namespace Bookpouch
                 return;
 
             _bookInfo[key.ToLower()] = value;
-
-            BookKeeper.SaveInfo(_bookFile, _bookInfo);         
+            
+            try
+            {
+                BookKeeper.SaveInfo(_bookFile, _bookInfo);
+            }
+            catch (Exception e)
+            {
+                MainWindow.Info(String.Format(UiLang.Get("DatFileNotAvailable"),  _bookInfo["title"]), 1);
+                DebugConsole.WriteLine("Edit book: It was not possible to save the provided value into the " + _bookFile + ".dat file: " + e.Message);
+                Close();
+            }         
 
         }
     }

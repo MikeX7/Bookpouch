@@ -28,8 +28,7 @@ namespace Bookpouch
             public BitmapImage CoverImage
             {
                 get
-                {
-                    //var file = Directory.GetFiles(BookFile, "cover.*", SearchOption.TopDirectoryOnly).FirstOrDefault();
+                {                    
                     BitmapImage cover;
 
                     try

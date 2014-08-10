@@ -115,7 +115,7 @@ namespace Bookpouch
             }
             catch (Exception e)
             {
-                DebugConsole.WriteLine("Problem occurred during info extraction from an epub file: " + e);
+                DebugConsole.WriteLine("Problem occurred during info extraction from an epub file: " + e.Message);
                 MainWindow.Info(UiLang.Get("EpubCorrupted"), 1);
             }             
         }

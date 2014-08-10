@@ -153,6 +153,9 @@
   <data name="BookInfoSaveError" xml:space="preserve">
     <value>Nepodařilo se mi uložit zadanou hodnotu do infosouboru o knize.</value>
   </data>
+  <data name="DatFileNotAvailable" xml:space="preserve">
+    <value>Nepodařilo se mi otevřít .dat soubor asociovaný s knihou {0}</value>
+  </data>
   <data name="DeleteBooksConfirm" xml:space="preserve">
     <value>Opravdu chcete nenávratně smazat {0} knížek?</value>
   </data>

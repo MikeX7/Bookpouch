@@ -133,7 +133,7 @@ namespace Bookpouch
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Houston, we have a problem with getting the reader disk letter:\n" + e);
+                Debug.WriteLine("Houston, we have a problem with getting the reader disk letter:\n" + e.Message);
             }
 
             if(ManuaSync)

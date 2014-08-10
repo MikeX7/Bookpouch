@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -108,23 +109,24 @@ namespace Bookpouch
             {
                 using (var fs = new FileStream(infoFile, FileMode.Open))
                 {
-                    var bf = new BinaryFormatter();
-                
+                    var bf = new BinaryFormatter();                
                     var bookInfo = (Dictionary<string, object>)bf.Deserialize(fs);
-                    bookInfo.Add("path", bookFile);
+                    bookInfo.Add("path", bookFile);          
 
                     return bookInfo;
                 }
             }
             catch (Exception e)
             {
+                DebugConsole.WriteLine("Book keeper: Problem with reading the " + infoFile + " file: " + e.Message);
+
                 try
                 {
                     File.Delete(infoFile);
                 }
                 catch (Exception) { }
-                
-                throw new FileNotFoundException();
+
+                throw;
             }
             
         }
@@ -134,21 +136,33 @@ namespace Bookpouch
         /// </summary>
         /// <param name="bookFile">Path to the .dat file into which the dictionary will be saved</param>
         /// <param name="bookInfo">The dictionary object containing the book info</param>
+        /// <exception cref="FileNotFoundException">It was not possible to access the info file belonging to the given book</exception>
         public static void SaveInfo(string bookFile, Dictionary<string, object> bookInfo)
         {
             var infoFile = bookFile + ".dat";
+            
 
             if (!File.Exists(infoFile))
                 GenerateInfo(bookFile);
 
             if(!File.Exists(infoFile))
-                return;
-            
-            using (var fs = new FileStream(infoFile, FileMode.OpenOrCreate))
+                throw new FileNotFoundException();
+
+            bookInfo.Remove("path");
+
+            try
             {
-                var bf = new BinaryFormatter();
-                bf.Serialize(fs, bookInfo);
-            }   
+                using (var fs = new FileStream(infoFile, FileMode.OpenOrCreate))
+                {
+                    var bf = new BinaryFormatter();
+                    bf.Serialize(fs, bookInfo);
+                }
+            }
+            catch (Exception e)
+            {                
+                DebugConsole.WriteLine("Book keeper: Saving info failed: " + e.Message);
+                throw;
+            }
         }
 
         /// <summary>

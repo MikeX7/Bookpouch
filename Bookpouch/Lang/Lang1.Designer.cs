@@ -169,6 +169,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I was not able to access the .dat file associated with the {0} book..
+        /// </summary>
+        internal static string DatFileNotAvailable {
+            get {
+                return ResourceManager.GetString("DatFileNotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you really want to permanently delete {0} book/s?.
         /// </summary>
         internal static string DeleteBooksConfirm {

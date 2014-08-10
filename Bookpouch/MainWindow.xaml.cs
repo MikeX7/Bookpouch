@@ -319,7 +319,7 @@ namespace Bookpouch
             {
                 foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
                 {
-                    BookInfoSave("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
+                    BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
                 }
 
                 BookGridReload(); //Reload grid in the main window
@@ -328,7 +328,7 @@ namespace Bookpouch
             {
                 foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
                 {
-                    BookInfoSave("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
+                    BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
                 }
 
                 BookGridReload(); //Reload grid in the main window
@@ -337,8 +337,8 @@ namespace Bookpouch
             {
                 foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
                 {
-                    BookInfoSave("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
-                    BookInfoSave("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
+                    BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
+                    BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
                 }
 
                 BookGridReload(); //Reload grid in the main window
@@ -483,7 +483,7 @@ namespace Bookpouch
             var icon = (Image)VisualTreeHelper.GetChild(button, 0);
             icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
 
-            BookInfoSave("sync", (icon.Opacity > 0.9), (string)button.Tag);
+            BookInfoSet("sync", (icon.Opacity > 0.9), (string)button.Tag);
             e.Handled = true;
         }
         
@@ -495,7 +495,7 @@ namespace Bookpouch
             var icon = (Image)VisualTreeHelper.GetChild(button, 0);
             icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
                         
-            BookInfoSave("favorite", (icon.Opacity > 0.9), (string)button.Tag);
+            BookInfoSet("favorite", (icon.Opacity > 0.9), (string)button.Tag);
             e.Handled = true;
         }        
 
@@ -562,7 +562,7 @@ namespace Bookpouch
         }     
 
         //Change value in existing .dat file for a book
-        private static void BookInfoSave(string key, object value, string bookFile)
+        private static void BookInfoSet(string key, object value, string bookFile)
         {            
             try
             {
@@ -574,7 +574,7 @@ namespace Bookpouch
                 bookInfo[key] = value;
                 BookKeeper.SaveInfo(bookFile, bookInfo);
             }
-            catch (FileNotFoundException)
+            catch (Exception)
             {
                 Info(UiLang.Get("BookInfoSaveError"), 1);                
             }

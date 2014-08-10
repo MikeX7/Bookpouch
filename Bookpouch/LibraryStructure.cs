@@ -49,7 +49,7 @@ namespace Bookpouch
                 }
                 catch (Exception e)
                 {
-                    DebugConsole.WriteLine("I was not able to delete a dead .dat file: " + e);
+                    DebugConsole.WriteLine("I was not able to delete a dead .dat file: " + e.Message);
                 }
 
                 DebugConsole.WriteLine("Removed a dead .dat file: " + datFile);
@@ -87,6 +87,7 @@ namespace Bookpouch
         {
             List<string> books;
             var bookData = new List<Dictionary<string, object>>();
+            var someBooksMissing = false;
 
             try
             {
@@ -104,8 +105,15 @@ namespace Bookpouch
                     var bookInfo = BookKeeper.GetInfo(book);
                     bookData.Add(bookInfo);
                 }
-                catch (FileNotFoundException){}                
+                catch (FileNotFoundException)
+                {
+                    someBooksMissing = true;
+                }
+                catch (Exception) { }
             }
+
+            if(someBooksMissing)
+                GenerateFileTree();
 
             return bookData;
         }
