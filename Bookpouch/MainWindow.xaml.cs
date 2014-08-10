@@ -322,6 +322,8 @@ namespace Bookpouch
 
                 foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
                     BookKeeper.Discard(book.BookFile);
+
+                LibraryStructure.GenerateFileTree();
             }
             else if (e.Key == Key.F)
             {
@@ -460,7 +462,11 @@ namespace Bookpouch
                 {
                     BookKeeper.Add(file);
 
-                    this.Dispatcher.Invoke(() => BookGrid_OnLoaded(BookGrid, null));
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        LibraryStructure.GenerateFileTree();
+                        BookGridReload();
+                    });
                         //Refresh the data grid displaying info about books, so we can see any newly added books 
                 }
 
