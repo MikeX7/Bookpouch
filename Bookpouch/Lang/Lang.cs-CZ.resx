@@ -268,6 +268,9 @@
   <data name="MobiHeaderMissing" xml:space="preserve">
     <value>{0} postrádá MOBI hlavičku a nemohl jsem z ní proto extrahovat žádné informace.</value>
   </data>
+  <data name="RegeneratingBookFileTree" xml:space="preserve">
+    <value>Regeneruji strom knih...</value>
+  </data>
   <data name="SettingsAutoStart" xml:space="preserve">
     <value>Aut_o start:</value>
   </data>

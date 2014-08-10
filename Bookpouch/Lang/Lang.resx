@@ -268,6 +268,9 @@
   <data name="MobiHeaderMissing" xml:space="preserve">
     <value>{0} is missing the MOBI header and therefore I am not able to extract any information from it.</value>
   </data>
+  <data name="RegeneratingBookFileTree" xml:space="preserve">
+    <value>Regenerating the book tree...</value>
+  </data>
   <data name="SettingsAutoStart" xml:space="preserve">
     <value>Aut_o start:</value>
   </data>

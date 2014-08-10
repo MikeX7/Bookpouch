@@ -80,7 +80,13 @@ namespace Bookpouch
                             ? dir.Parent + "/"
                             : "") + cover.Attribute("href").Value;
                         
-                        zip.GetEntry(coverFullPath).ExtractToFile(DirName + "/cover.jpg", true);                        
+                        //zip.GetEntry(coverFullPath).ExtractToFile(DirName + "/cover.jpg", true);                            
+
+                        using (var ms = new MemoryStream())
+                        {
+                            zip.GetEntry(coverFullPath).Open().CopyTo(ms);
+                            List.Add("cover", ms.ToArray());
+                        }
                     }
 
                     var meta = from el in metaData.Descendants() where el.Name.Namespace == customNs select el;
@@ -199,11 +205,13 @@ namespace Bookpouch
 
                 if (img.Length > 0)
                 {
-                    using (var fileStream = File.Create(DirName + "/cover.jpg")) //Save cover image
+                    List.Add("cover", img.ToArray());
+                    
+                    /*using (var fileStream = File.Create(DirName + "/cover.jpg")) //Save cover image
                     {
                         img.Seek(0, SeekOrigin.Begin);
                         img.CopyTo(fileStream);
-                    }
+                    }*/
                 }
 
                 if (List.ContainsKey("title")) //If exth contained the book title, no need to continue

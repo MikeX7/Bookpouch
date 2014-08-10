@@ -83,6 +83,7 @@
     <Compile Include="AboutBox.xaml.cs">
       <DependentUpon>AboutBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainWindowBook.cs" />
     <Compile Include="BookData.cs" />
     <Compile Include="BookKeeper.cs" />
     <Compile Include="BookPeek.cs" />

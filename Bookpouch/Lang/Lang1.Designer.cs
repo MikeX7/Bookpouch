@@ -511,6 +511,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Regenerating the book tree....
+        /// </summary>
+        internal static string RegeneratingBookFileTree {
+            get {
+                return ResourceManager.GetString("RegeneratingBookFileTree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Aut_o start:.
         /// </summary>
         internal static string SettingsAutoStart {

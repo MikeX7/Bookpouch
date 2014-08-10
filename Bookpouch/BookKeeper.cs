@@ -72,7 +72,7 @@ namespace Bookpouch
                 {"favorite", false},
                 {"sync", false},                                
                 {"created", DateTime.Now},
-                
+                {"cover", bookPeek.List.ContainsKey("cover") ? bookPeek.List["cover"] : null},                
             };
 
             var infoFile = bookFile + ".dat";
@@ -104,12 +104,29 @@ namespace Bookpouch
             if (!File.Exists(infoFile))
                 throw new FileNotFoundException();
 
-            using (var fs = new FileStream(infoFile, FileMode.Open))
+            try
             {
-                var bf = new BinaryFormatter();
+                using (var fs = new FileStream(infoFile, FileMode.Open))
+                {
+                    var bf = new BinaryFormatter();
                 
-                return (Dictionary<string, object>)bf.Deserialize(fs);                
+                    var bookInfo = (Dictionary<string, object>)bf.Deserialize(fs);
+                    bookInfo.Add("path", bookFile);
+
+                    return bookInfo;
+                }
             }
+            catch (Exception e)
+            {
+                try
+                {
+                    File.Delete(infoFile);
+                }
+                catch (Exception) { }
+                
+                throw new FileNotFoundException();
+            }
+            
         }
 
         /// <summary>
