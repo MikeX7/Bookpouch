@@ -38,9 +38,11 @@ namespace Bookpouch
         static public void WriteLine(string text)
         {
             if (!HasConsole)
-                return;            
-            
-            Console.WriteLine(text);            
+                return;
+
+            var time = DateTime.Now;
+
+            Console.WriteLine("[" + time + "] " + text);            
 
             using (var sw = new StreamWriter("Debug_log.txt", true))       
                 sw.Write(text + "\n");               

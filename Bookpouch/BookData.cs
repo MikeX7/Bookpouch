@@ -2,21 +2,25 @@
 
 namespace Bookpouch
 {
-    //BookData is used to store serialized data about books in info.xml
+    /// <summary>
+    /// Class for storing data available about a book
+    /// </summary>
     public class BookData
-    {        
-        public String Title;
-        public String Author;
-        public String Publisher;
-        public String Language;
+    {       
+        public string Title;
+        public string Author;
+        public string Publisher;
+        public string Language;
         public DateTime? Published;
-        public String MobiType;
-
-        public String Description;
+        public string MobiType;
+        public string Description;
+        public string Series;
         public DateTime Created;
         public ulong Size;
         public bool Favorite = false;
         public bool Sync = false;
-        public int Category;
+        public string Category;
+        public byte[] Cover;
+        public string Path;
     }
 }

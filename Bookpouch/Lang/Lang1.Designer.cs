@@ -61,6 +61,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There was a problem with copying {0} into the library..
+        /// </summary>
+        internal static string BookCopyError {
+            get {
+                return ResourceManager.GetString("BookCopyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you really want to permanently delete {0}?.
         /// </summary>
         internal static string BookDeleteConfirm {
@@ -142,38 +151,20 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I wasn&apos;t able to find the info file associated with this book. Have you perhaps accidentally deleted it?  I will now trigger book list reload, which should regenerate the missing info file..
+        ///   Looks up a localized string similar to I was not able to retrieve infomartion about the book from the storage..
         /// </summary>
-        internal static string BookInfoFileNotFound {
+        internal static string BookInfoNotAvailable {
             get {
-                return ResourceManager.GetString("BookInfoFileNotFound", resourceCulture);
+                return ResourceManager.GetString("BookInfoNotAvailable", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempt to regenerate the info file failed for an unknown reason, sorry..
-        /// </summary>
-        internal static string BookInfoFileRegenFail {
-            get {
-                return ResourceManager.GetString("BookInfoFileRegenFail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to I wasn&apos;t able to save the supplied value into the book&apos;s info file..
+        ///   Looks up a localized string similar to I wasn&apos;t able to save the supplied value about the book..
         /// </summary>
         internal static string BookInfoSaveError {
             get {
                 return ResourceManager.GetString("BookInfoSaveError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to I was not able to access the .dat file associated with the {0} book..
-        /// </summary>
-        internal static string DatFileNotAvailable {
-            get {
-                return ResourceManager.GetString("DatFileNotAvailable", resourceCulture);
             }
         }
         

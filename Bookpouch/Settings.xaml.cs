@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
+using Microsoft.Win32;
 using ShadoLib;
 using Button = System.Windows.Controls.Button;
 using CheckBox = System.Windows.Controls.CheckBox;
@@ -30,13 +32,13 @@ namespace Bookpouch
 
         public static void SelectBooksDir()
         {
-            var booksDirDialog = new System.Windows.Forms.FolderBrowserDialog
+            var booksDirDialog = new FolderBrowserDialog
             {
                 Description = String.Format(UiLang.Get("SelectBookDirPrompt"), Properties.Settings.Default.BooksDir)
             };
 
             if (Directory.Exists(Properties.Settings.Default.BooksDir))
-                booksDirDialog.SelectedPath = Properties.Settings.Default.BooksDir;
+                booksDirDialog.SelectedPath = Directory.Exists(Properties.Settings.Default.BooksDir) ? Path.GetFullPath(Properties.Settings.Default.BooksDir) : Path.GetFullPath("books");
 
             var result = booksDirDialog.ShowDialog();
 
@@ -132,7 +134,7 @@ namespace Bookpouch
         {
             var checkBox = (CheckBox)sender;
 
-            Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
 
             if (key.GetValue("Bookpouch") != null)
                 checkBox.IsChecked = true;
@@ -142,7 +144,7 @@ namespace Bookpouch
         private void AutoStart_OnChecked(object sender, RoutedEventArgs e)
         {
             var box = (CheckBox)sender;
-            Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
             if (box.IsChecked == true)            
                 key.SetValue("Bookpouch", Assembly.GetExecutingAssembly().Location + " -tray");            
@@ -227,7 +229,7 @@ namespace Bookpouch
 
             public LanguageOption(CultureInfo cultureInfo)
             {
-                this.CultureInfo = cultureInfo;
+                CultureInfo = cultureInfo;
                 var countryCode = (cultureInfo.Name != "" ? new RegionInfo(cultureInfo.Name).TwoLetterISORegionName : "_unknown");
                 Name = cultureInfo.DisplayName;
                 NativeName = cultureInfo.NativeName;

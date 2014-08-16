@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -22,7 +21,7 @@ namespace Bookpouch
     public partial class EditBook
     {
         private readonly string _bookFile; //Name or name and path of the directory in which all the files related to the edited book are stored        
-        private Dictionary<string, object> _bookInfo; //Dictionary containing the data about the book         
+        private BookData _bookData; //Dictionary containing the data about the book         
         
 
         public EditBook(string bookFile)
@@ -171,11 +170,11 @@ namespace Bookpouch
         {
             TextBox_OnLoaded(sender, e);
 
-            var bookInfo = LibraryStructure.List();
+            var bookData = LibraryStructure.List();
             var hintSet = new HashSet<string>();
 
-            foreach (var info in bookInfo.Where(info => (string) info["series"] != ""))
-                hintSet.Add((string) info["series"]);
+            foreach (var info in bookData.Where(info => info.Series != ""))
+                hintSet.Add(info.Series);
 
             var hintList = hintSet.ToList();
             hintList.Sort();
@@ -195,8 +194,8 @@ namespace Bookpouch
             var defaultCategories = Properties.Settings.Default.DefaultCategories.Split(';');
             var hintSet = new HashSet<string>(defaultCategories);
 
-            foreach (var info in bookInfo.Where(info => (string)info["category"] != ""))
-                hintSet.Add((string)info["category"]);
+            foreach (var info in bookInfo.Where(info => info.Category!= ""))
+                hintSet.Add(info.Category);
 
             var hintList = hintSet.ToList();
             hintList.Sort();
@@ -218,39 +217,38 @@ namespace Bookpouch
 
         private object BookInfoGet(string key) //Fetch data to fill the form fields, from the bookinfo dictionary based on the key
         {
-            if (_bookInfo == null) //Singleton, so we don't have to reopen the file with saved info, after every form field loads and its load event handler calls BookInfoGet
+            if (_bookData == null) //Singleton, so we don't have to reopen the file with saved info, after every form field loads and its load event handler calls BookInfoGet
             {
                 try
                 {
-                    _bookInfo = BookKeeper.GetInfo(_bookFile);
+                    _bookData = BookKeeper.GetData(_bookFile);
                 }
                 catch (Exception)
                 {
-                    MainWindow.Info(UiLang.Get("DatFileNotAvailable"), 1);
+                    MainWindow.Info(UiLang.Get("BookInfoNotAvailable"), 1);
                     Close();
                     return null;
                 }
             }
             
-
-            return _bookInfo.ContainsKey(key.ToLower()) ? _bookInfo[key.ToLower()] : null;
+            return typeof(BookData).GetProperty(key).GetValue(_bookData);
         }
 
         private void BookInfoSet(string key, object value)
         {
-            if (_bookInfo == null || !_bookInfo.ContainsKey(key.ToLower()))
+            if (_bookData == null)
                 return;
 
-            _bookInfo[key.ToLower()] = value;
+            typeof(BookData).GetProperty(key).SetValue(_bookData, value);
             
             try
             {
-                BookKeeper.SaveInfo(_bookFile, _bookInfo);
+                BookKeeper.SaveData(_bookFile, _bookData);
             }
             catch (Exception e)
             {
-                MainWindow.Info(String.Format(UiLang.Get("DatFileNotAvailable"),  _bookInfo["title"]), 1);
-                DebugConsole.WriteLine("Edit book: It was not possible to save the provided value into the " + _bookFile + ".dat file: " + e.Message);
+                MainWindow.Info(String.Format(UiLang.Get("DatFileNotAvailable"),  _bookData.Title), 1);
+                DebugConsole.WriteLine("Edit book: It was not possible to save the provided value into the data file: " + e.Message);
                 Close();
             }         
 

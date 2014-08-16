@@ -7,7 +7,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,7 +14,6 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
 using ShadoLib;
 using Application = System.Windows.Application;
 using Brushes = System.Windows.Media.Brushes;
@@ -49,6 +47,8 @@ namespace Bookpouch
             
             if (path != null) 
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
+
+            LibraryStructure.GenerateFileTree();
             
             InitializeComponent();
             
@@ -67,7 +67,7 @@ namespace Bookpouch
             
             if (Environment.GetCommandLineArgs().Contains("-tray")) 
             {
-                this.Hide();
+                Hide();
                 TrayIcon.Visible = true;  
             }
 
@@ -112,7 +112,7 @@ namespace Bookpouch
             text = info.Item1;
             type = info.Item2;
             var delay = (int) (text.Length*0.09);
-                //How long will be the infobox displayed, based in the text length, 1 letter = 0.09 sec
+                //How long will be the infobox displayed, based on the text length, 1 letter = 0.09 sec
 
             MW.InfoBox.Text = text;
 
@@ -147,51 +147,51 @@ namespace Bookpouch
         private Dictionary<string, string> filter = new Dictionary<string, string>();
 
         public void BookGrid_OnLoaded(object sender, RoutedEventArgs e) 
-        {                  
+        {
             var grid = (DataGrid) sender;
             var bookTree = LibraryStructure.List();
             var bookList = new List<Book>();
             
-            foreach (var bookInfo in bookTree)
+            foreach (var bookData in bookTree)
             {                
-                                              
+                                                           
                 var countryCode = "_unknown";
                 //If we can't get proper country code, this fall-back flag image name will be used
                     
-                if (filter.ContainsKey("title") && !((string)bookInfo["title"]).ToLower().Contains(filter["title"].ToLower()))
+                if (filter.ContainsKey("title") && !(bookData.Title).ToLower().Contains(filter["title"].ToLower()))
                     continue;
 
-                if (filter.ContainsKey("category") && (string) bookInfo["category"] != filter["category"])
+                if (filter.ContainsKey("category") && bookData.Category != filter["category"])
                     continue;
 
-                if (filter.ContainsKey("series") && (string) bookInfo["series"] != filter["series"])
+                if (filter.ContainsKey("series") && bookData.Series != filter["series"])
                     continue;
 
-                if ((string) bookInfo["language"] != "" &&
+                if (bookData.Language != "" &&
                     CultureInfo.GetCultures(CultureTypes.SpecificCultures)
-                        .FirstOrDefault(x => x.Name == (string) bookInfo["language"]) != null)
+                        .FirstOrDefault(x => x.Name == bookData.Language) != null)
                     //Make sure the book language is not neutral (ex: en instead of en-US), or invalid. This will make sure we don't display for example US flag for british english.                         
                 {
-                    var cultureInfo = new CultureInfo((string) bookInfo["language"]);
+                    var cultureInfo = new CultureInfo(bookData.Language);
                     countryCode = new RegionInfo(cultureInfo.Name).TwoLetterISORegionName;
                 }
                 
-                bookList.Add(new Book()
+                bookList.Add(new Book
                 {
-                    Title = (string) bookInfo["title"],
-                    Author = (string) bookInfo["author"],
-                    Publisher = (string) bookInfo["publisher"],
+                    Title = bookData.Title,
+                    Author = bookData.Author,
+                    Publisher = bookData.Publisher,
                     CountryCode = countryCode,
-                    Published = (DateTime?) bookInfo["published"],
-                    Description = (string) bookInfo["description"],
-                    Series = (string) bookInfo["series"],
-                    Category = (string) bookInfo["category"],
-                    MobiType = (string) bookInfo["mobiType"],
-                    Size = Tools.BytesFormat((ulong) bookInfo["size"]),
-                    Favorite = (bool) bookInfo["favorite"],
-                    Sync = (bool) bookInfo["sync"],
-                    Cover = (byte[]) bookInfo["cover"],
-                    BookFile = (string) bookInfo["path"],                    
+                    Published = bookData.Published,
+                    Description = bookData.Description,
+                    Series = bookData.Series,
+                    Category = bookData.Category,
+                    MobiType = bookData.MobiType,
+                    Size = Tools.BytesFormat(bookData.Size),
+                    Favorite = bookData.Favorite,
+                    Sync = bookData.Sync,
+                    Cover = bookData.Cover,
+                    BookFile = bookData.Path,                    
                 });
                 
             }
@@ -210,6 +210,7 @@ namespace Bookpouch
             BookGrid_OnLoaded(BookGrid, null);   //Reload the book grid
 
             //Regenerate the filter list
+
             if (filter.Count == 0)
             {
                 Filter.Visibility = Visibility.Collapsed;                
@@ -358,8 +359,8 @@ namespace Bookpouch
 
                 foreach (var info in bookList)
                 {
-                    if (!categoryList.Contains((string)info["category"]) && (string)info["category"] != "")
-                        categoryList.Add((string) info["category"]);
+                    if (!categoryList.Contains(info.Category) && info.Category != "")
+                        categoryList.Add(info.Category);
                 }
 
                 FilterCategory.ItemsSource = categoryList;
@@ -435,36 +436,36 @@ namespace Bookpouch
             //Fancy animated loading icon in the window title
             var timer = new Timer(300);
 
+            timer.Disposed += delegate { Title = "Bookpouch"; Debug.WriteLine(4); };
+
             timer.Elapsed += delegate
             {
-                this.Dispatcher.Invoke(() =>
+                Dispatcher.Invoke(() =>
                 {
-                    this.Title = this.Title.Substring(0, 2) == "▣•" ? "•▣" : "▣•";
-                    this.Title += " Bookpouch - " + UiLang.Get("SyncAddingBooks");
+                    Title = Title.Substring(0, 2) == "▣•" ? "•▣" : "▣•";
+                    Title += " Bookpouch - " + UiLang.Get("SyncAddingBooks");
+                    Debug.WriteLine(2);
+              
                 });
             };
-
+            Debug.WriteLine(1);
             timer.Start();
+           
 
             Task.Factory.StartNew(() =>
             {
                 foreach (var file in selectedFiles)
-                {
-                    BookKeeper.Add(file);
-
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        LibraryStructure.GenerateFileTree();
-                        BookGridReload();
-                    });
-                        //Refresh the data grid displaying info about books, so we can see any newly added books 
-                }
-
-                this.Dispatcher.Invoke(() =>
-                {
-                    timer.Stop();
-                    timer.Close();
-                    this.Title = "Bookpouch";
+                    BookKeeper.Add(file);                    
+                
+                Dispatcher.Invoke(() =>
+                { 
+                    Dispatcher.Invoke(LibraryStructure.GenerateFileTree);
+                    BookGridReload();
+                    //Refresh the data grid displaying info about books, so we can see any newly added books 
+                    Debug.WriteLine(3);
+                    timer.Dispose();                    
+                    
+                    
                 });
             });
         }
@@ -504,7 +505,7 @@ namespace Bookpouch
             var button = (Button) sender;
             var bookFile = button.Tag.ToString();
             
-            if(!File.Exists(bookFile + ".dat"))
+            /*if(!File.Exists(bookFile + ".dat"))
             { 
                 DebugConsole.WriteLine(".dat for " + bookFile + " wasn't found.");
                 Info(UiLang.Get("BookInfoFileNotFound"), 1);
@@ -515,31 +516,31 @@ namespace Bookpouch
                     Info(UiLang.Get("BookInfoFileRegenFail"), 1);
                     return;
                 }
-            }
+            }*/
 
-            this.IsEnabled = false;
+            IsEnabled = false;
             var editBook = new EditBook(bookFile)
             {
                 Owner = this, 
             };
             
-            editBook.Closed += delegate { this.IsEnabled = true; };
+            editBook.Closed += delegate { IsEnabled = true; };
             editBook.Show();
         }
 
         private void Settings_OnClick(object sender, RoutedEventArgs e)
         {
-            this.IsEnabled = false;
+            IsEnabled = false;
             var settings = new Settings {Owner = this};
-            settings.Closed += delegate { this.IsEnabled = true; };
+            settings.Closed += delegate { IsEnabled = true; };
             settings.Show();
         }
 
         private void About_OnClick(object sender, RoutedEventArgs e)
         {
-            this.IsEnabled = false;
+            IsEnabled = false;
             var about = new AboutBox {Owner = this};
-            about.Closed += delegate { this.IsEnabled = true; };
+            about.Closed += delegate { IsEnabled = true; };
             about.Show();
         }
 
@@ -554,7 +555,7 @@ namespace Bookpouch
             if (!Properties.Settings.Default.CloseIntoTray)
                 return;            
 
-            this.Hide();
+            Hide();
             TrayIcon.Visible = true;            
 
             DebugConsole.WriteLine("Minimizing Bookpouch into tray.");
@@ -564,20 +565,21 @@ namespace Bookpouch
         //Change value in existing .dat file for a book
         private static void BookInfoSet(string key, object value, string bookFile)
         {            
-            try
+            /*try
             {
-                var bookInfo = BookKeeper.GetInfo(bookFile);
+                var bookInfo = BookKeeper.GetData(bookFile);
                 
                 if (!bookInfo.ContainsKey(key)) 
                     return;
 
                 bookInfo[key] = value;
-                BookKeeper.SaveInfo(bookFile, bookInfo);
+                BookKeeper.SaveData(bookFile, bookInfo);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Info(UiLang.Get("BookInfoSaveError"), 1);                
-            }
+                Info(UiLang.Get("BookInfoSaveError"), 1);
+                DebugConsole.WriteLine("Edit book: It was not possible to save the provided value file: " + e.Message);
+            }*/
         }
 
         

@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using ShadoLib;
 
 namespace Bookpouch
@@ -13,7 +11,7 @@ namespace Bookpouch
     static class LibraryStructure
     {
         /// <summary>
-        /// Regenerate the library book file tree and save it into a file
+        /// Scan the given root directory, along with subfolders and save paths of all files with supported extensions into a LibraryTree.dat file
         /// </summary>
         public static void GenerateFileTree()
         {
@@ -35,26 +33,7 @@ namespace Bookpouch
                 var bf = new BinaryFormatter();
                 bf.Serialize(treeFile, bookFileList);
             }
-
-            //Clean up dead .dat files
-            foreach (var datFile in dirList.Select(dir => Directory.EnumerateFiles(dir)
-                .Where(f => extensions.Any(ext => f.EndsWith(ext + ".dat", StringComparison.OrdinalIgnoreCase))))
-                .SelectMany(
-                    datFiles => datFiles.Where(datFile => !File.Exists(Path.GetDirectoryName(datFile) + "/" + Path.GetFileNameWithoutExtension(datFile)))))
-            {
-                Debug.WriteLine(Path.GetFileNameWithoutExtension(datFile));
-                try
-                {
-                    File.Delete(datFile);
-                }
-                catch (Exception e)
-                {
-                    DebugConsole.WriteLine("I was not able to delete a dead .dat file: " + e.Message);
-                }
-
-                DebugConsole.WriteLine("Removed a dead .dat file: " + datFile);
-            }
-
+          
             DebugConsole.WriteLine("File tree regeneration finished.");
         }
 
@@ -62,7 +41,7 @@ namespace Bookpouch
         /// Return list of all book files (obtained from the LibraryTree.dat file) in the library.
         /// </summary>
         /// <returns>List of all book files in the library, including their paths</returns>
-        /// <exception cref="FileNotFoundException">It was not possible to access or find the LibraryTree.dat file.</exception>
+        /// <exception cref="FileNotFoundException">It was not possible to find, or re-generate the LibraryTree.dat file. </exception>
         public static List<string> GetFileTree()
         {
             if (!File.Exists("LibraryTree.dat"))
@@ -81,38 +60,42 @@ namespace Bookpouch
         }
 
         /// <summary>
-        /// Generate a list of all books (including their full info) in the library
+        /// Generate a list of BookData objects, where each of them contains information about a book
         /// </summary>
-        public static List<Dictionary<string, object>> List()
+        public static List<BookData> List()
         {
             List<string> books;
-            var bookData = new List<Dictionary<string, object>>();
-            var someBooksMissing = false;
+            var bookData = new List<BookData>();
+            var fileTreeIsOutdated = false;
 
             try
             {
                 books = GetFileTree();
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException e)
             {
-                return new List<Dictionary<string, object>>();
+                DebugConsole.WriteLine("Library structure: An error occurred while fetching the file tree: " + e);
+                return new List<BookData>();
             }
 
             foreach (var book in books)
             {
                 try
-                {
-                    var bookInfo = BookKeeper.GetInfo(book);
+                {                    
+                    var bookInfo = BookKeeper.GetData(book);
                     bookData.Add(bookInfo);
                 }
                 catch (FileNotFoundException)
-                {
-                    someBooksMissing = true;
+                {                    
+                    fileTreeIsOutdated = true;
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                    DebugConsole.WriteLine("Library structure: An error occurred while fetching the book info for " + book + ": " + e);
+                }
             }
 
-            if(someBooksMissing)
+            if (fileTreeIsOutdated) //If some of the book files saved in the file tree were not found, the user (or some other app) probably manually changed the file structure, so regenerate the file tree
                 GenerateFileTree();
 
             return bookData;
