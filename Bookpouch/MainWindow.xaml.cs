@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using ShadoLib;
 using Application = System.Windows.Application;
 using Brushes = System.Windows.Media.Brushes;
@@ -436,37 +437,36 @@ namespace Bookpouch
             //Fancy animated loading icon in the window title
             var timer = new Timer(300);
 
-            timer.Disposed += delegate { Title = "Bookpouch"; Debug.WriteLine(4); };
+            timer.Disposed += delegate
+            {                
+                Dispatcher.Invoke(() => { Title = "Bookpouch"; }); //After the timer gets disposed of, set the window title back to default
+            };
 
             timer.Elapsed += delegate
             {
                 Dispatcher.Invoke(() =>
                 {
-                    Title = Title.Substring(0, 2) == "▣•" ? "•▣" : "▣•";
-                    Title += " Bookpouch - " + UiLang.Get("SyncAddingBooks");
-                    Debug.WriteLine(2);
-              
+                    Title = Title.Substring(0, 2) == "▣•" ? "•▣" : "▣•"; //Switch between these two sets of symbols in the window's title, to make it look like a simple animation
+                    Title += " Bookpouch - " + UiLang.Get("SyncAddingBooks");              
                 });
             };
-            Debug.WriteLine(1);
+
             timer.Start();
            
 
             Task.Factory.StartNew(() =>
             {
                 foreach (var file in selectedFiles)
-                    BookKeeper.Add(file);                    
+                    BookKeeper.Add(file);
                 
                 Dispatcher.Invoke(() =>
                 { 
-                    Dispatcher.Invoke(LibraryStructure.GenerateFileTree);
-                    BookGridReload();
-                    //Refresh the data grid displaying info about books, so we can see any newly added books 
-                    Debug.WriteLine(3);
-                    timer.Dispose();                    
-                    
-                    
+                    LibraryStructure.GenerateFileTree();
+                    BookGridReload();           
                 });
+
+                timer.Stop();
+                timer.Dispose();
             });
         }
 
@@ -564,22 +564,18 @@ namespace Bookpouch
 
         //Change value in existing .dat file for a book
         private static void BookInfoSet(string key, object value, string bookFile)
-        {            
-            /*try
-            {
-                var bookInfo = BookKeeper.GetData(bookFile);
-                
-                if (!bookInfo.ContainsKey(key)) 
-                    return;
-
-                bookInfo[key] = value;
-                BookKeeper.SaveData(bookFile, bookInfo);
+        {                                
+            try
+            {                
+                var bookData = BookKeeper.GetData(bookFile);
+                typeof(BookData).GetProperty(key).SetValue(bookData, value);
+                BookKeeper.SaveData(bookData);
             }
             catch (Exception e)
             {
-                Info(UiLang.Get("BookInfoSaveError"), 1);
-                DebugConsole.WriteLine("Edit book: It was not possible to save the provided value file: " + e.Message);
-            }*/
+                Info(String.Format(UiLang.Get("DatFileNotAvailable"), bookFile), 1);
+                DebugConsole.WriteLine("Edit book: It was not possible to save the provided book data: " + e.Message);  
+            }    
         }
 
         

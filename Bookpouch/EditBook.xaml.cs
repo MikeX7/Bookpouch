@@ -243,7 +243,7 @@ namespace Bookpouch
             
             try
             {
-                BookKeeper.SaveData(_bookFile, _bookData);
+                BookKeeper.SaveData(_bookData);
             }
             catch (Exception e)
             {

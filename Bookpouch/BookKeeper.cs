@@ -138,25 +138,25 @@ namespace Bookpouch
             }                            
 
             query.Read();
-           
+
            var bookData = new BookData
-            {
-                Title = (string) query["Title"],
-                Author = (string) query["Author"],
-                Publisher = (string) query["Publisher"],
-                Language = (string) query["Language"],
-                Published = (DateTime?) query["Published"],
-                Description = (string) query["Description"],
-                Series = (string) query["Series"],
-                Category = (string) query["Category"],
-                MobiType = (string) query["MobiType"],
-                Size = Convert.ToUInt64(query["Size"]),
-                Favorite = (bool) query["Favorite"],
-                Sync = (bool) query["Sync"],
-                Created = (DateTime) query["Created"],
-                Cover = (byte[]) query["Cover"],
-                Path = bookFile
-            };         
+                {
+                    Title = (string) query["Title"],
+                    Author = (string) query["Author"],
+                    Publisher = (string) query["Publisher"],
+                    Language = (string) query["Language"],
+                    Published = (DateTime?)(query["Published"].ToString() != String.Empty ? query["Published"] : null),
+                    Description = (string) query["Description"],
+                    Series = (string) query["Series"],
+                    Category = (string) query["Category"],
+                    MobiType = (string) query["MobiType"],
+                    Size = Convert.ToUInt64(query["Size"]),
+                    Favorite = (bool) query["Favorite"],
+                    Sync = (bool) query["Sync"],
+                    Created = (DateTime) query["Created"],
+                    Cover = (byte[]) (query["Cover"].ToString() != String.Empty ? query["Cover"] : null),
+                    Path = bookFile
+                };
 
             query.Dispose();
 
@@ -170,15 +170,15 @@ namespace Bookpouch
         /// <param name="bookData">The dictionary object containing the book info</param>
         /// <exception cref="FileNotFoundException">Supplied book file was not found</exception>
         /// <exception cref="RowNotInTableException">Database record for the supplied book file doesn't exists and it was not possible to regenerate it</exception>
-        public static void SaveData(string bookFile, BookData bookData)
+        public static void SaveData(BookData bookData)
         {
             const string sql = "SELECT EXISTS( SELECT * FROM books WHERE Path = @Path LIMIT 1)";
-            var parameters = new[] { new SQLiteParameter("Path", bookFile) };
+            var parameters = new[] { new SQLiteParameter("Path", bookData.Path) };
             var exists = Db.QueryExists(sql, parameters);
 
             if (!exists)
             {
-                GenerateData(bookFile);
+                GenerateData(bookData.Path);
 
                 exists = Db.QueryExists(sql, parameters);
 

@@ -1,0 +1,155 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.Diagnostics;
+using System.IO;
+using System.Data.SQLite;
+
+namespace Bookpouch
+{
+    static class Db
+    {
+        private const string DbFile = "Library.db";
+        private static SQLiteConnection Connection
+        {
+            get
+            {
+                CheckFile();
+
+                var parameters = new SQLiteConnectionStringBuilder
+                {
+                    DataSource = DbFile,
+                    Version = 3,
+                    JournalMode = SQLiteJournalModeEnum.Wal
+                };
+
+                var connection = new SQLiteConnection(parameters.ToString());
+                connection.Open();
+                
+                return connection;
+            }
+        }
+
+        /// <summary>
+        /// Execute supplied query and return the result
+        /// </summary>        
+        /// <param name="sql">The query as a string</param>
+        /// <param name="parameters">Parameters to be inserted into the query</param>
+        /// <returns>Result of the query</returns>
+        public static SQLiteDataReader Query(string sql, SQLiteParameter[] parameters)
+        {
+
+            using (var command = new SQLiteCommand(sql, Connection))
+            {
+                command.Parameters.AddRange(parameters);
+
+                var reader = default(SQLiteDataReader);
+                Debug.WriteLine(command.CommandText + ": " + parameters[0].Value);    
+                try
+                {
+                    reader = command.ExecuteReader();
+                    Connection.Close();
+                    Connection.Dispose();                    
+                    return reader;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Db " + e);
+                    DebugConsole.WriteLine("Db: " + e);
+                }
+                Connection.Close();
+                Connection.Dispose();
+                return reader;
+            }            
+        }
+
+        /// <summary>
+        /// Execute supplied non query
+        /// </summary>        
+        /// <param name="sql">The query as a string</param>
+        /// <param name="parameters">Parameters to be inserted into the query</param>
+        public static void NonQuery(string sql, SQLiteParameter[] parameters)
+        {
+
+            using (var command = new SQLiteCommand(sql, Connection))
+            {
+                command.Parameters.AddRange(parameters);
+
+                Debug.WriteLine(command.CommandText + ": " + parameters[0].Value);                
+
+                try
+                {
+                    command.ExecuteNonQuery();
+                    Connection.Close();
+                    Connection.Dispose();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Db " + e);
+                    DebugConsole.WriteLine("Db: " + e);
+                }
+
+                
+            }
+        }
+
+        public static bool QueryExists(string sql, SQLiteParameter[] parameters)
+        {
+            bool exists;
+
+            using (var command = new SQLiteCommand(sql, Connection))
+            {
+                command.Parameters.AddRange(parameters);
+
+                exists = SQLiteConvert.ToBoolean(command.ExecuteScalar());
+
+                Connection.Close();
+            }
+
+            return exists;
+        }
+
+        private static void CheckFile()
+        {
+            if (File.Exists(DbFile)) 
+                return;            
+
+            SQLiteConnection.CreateFile(DbFile);
+            GenerateDbStructure();
+        }
+
+        /// <summary>
+        /// If the db file is empty, generate table structure 
+        /// </summary>
+        private static void GenerateDbStructure()
+        {
+            const string sql = 
+                "CREATE TABLE books (" +
+                "Path VARCHAR(255) NOT NULL PRIMARY KEY," +
+                "Title VARCHAR(255) NOT NULL," +
+                "Author VARCHAR(255)," +
+                "Publisher VARCHAR(255)," +
+                "Language VARCHAR(10)," +
+                "Published DATE," +
+                "Description TEXT," +
+                "Series VARCHAR(255)," +
+                "Category VARCHAR(100)," +
+                "MobiType VARCHAR(100)," +
+                "Size INT NOT NULL," +
+                "Favorite BOOLEAN NOT NULL," +
+                "Sync BOOLEAN NOT NULL," +
+                "Created DATE NOT NULL," +
+                "Cover BLOB" +                      
+                ")";
+
+            using (var command = new SQLiteCommand(sql, Connection))
+            {
+                command.ExecuteNonQuery();
+            }
+            
+
+        }
+
+
+    }
+}
