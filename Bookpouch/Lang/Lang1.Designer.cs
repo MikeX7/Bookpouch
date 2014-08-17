@@ -205,6 +205,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I was not able to remove this book: {0}.
+        /// </summary>
+        internal static string DiscardingBookFailed {
+            get {
+                return ResourceManager.GetString("DiscardingBookFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Author:.
         /// </summary>
         internal static string EditBookAuthor {

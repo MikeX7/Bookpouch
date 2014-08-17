@@ -44,7 +44,7 @@ namespace Bookpouch
                 command.Parameters.AddRange(parameters);
 
                 var reader = default(SQLiteDataReader);
-                Debug.WriteLine(command.CommandText + ": " + parameters[0].Value);    
+                //Debug.WriteLine(command.CommandText + ": " + parameters[0].Value);    
                 try
                 {
                     reader = command.ExecuteReader();
@@ -75,7 +75,7 @@ namespace Bookpouch
             {
                 command.Parameters.AddRange(parameters);
 
-                Debug.WriteLine(command.CommandText + ": " + parameters[0].Value);                
+                //Debug.WriteLine(command.CommandText + ": " + parameters[0].Value);                
 
                 try
                 {

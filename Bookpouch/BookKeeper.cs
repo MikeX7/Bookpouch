@@ -77,7 +77,7 @@ namespace Bookpouch
             }
 
             DebugConsole.WriteLine("Book keeper: Generating data for " + bookFile);
-            var relativePath = bookFile.Replace(Properties.Settings.Default.BooksDir + Path.DirectorySeparatorChar, String.Empty);
+            var bookFileRelativePath = bookFile.Replace(Properties.Settings.Default.BooksDir + Path.DirectorySeparatorChar, String.Empty);
 
             var finfo = new FileInfo(bookFile);
             var bookPeek = new BookPeek(finfo);            
@@ -85,7 +85,7 @@ namespace Bookpouch
             Db.NonQuery("INSERT OR IGNORE INTO books VALUES(@Path, @Title, @Author, @Publisher, @Language, @Published, @Description, @Series, @Category, @MobiType, @Size, @Favorite, @Sync, @Created, @Cover)", 
                 new[]
                 {
-                    new SQLiteParameter("Path", relativePath), 
+                    new SQLiteParameter("Path", bookFileRelativePath), 
                     new SQLiteParameter("Title", bookPeek.List["title"].ToString()), 
                     new SQLiteParameter("Author", (bookPeek.List.ContainsKey("author") ? bookPeek.List["author"] : String.Empty).ToString()), 
                     new SQLiteParameter("Publisher", (bookPeek.List.ContainsKey("publisher") ? bookPeek.List["publisher"] : String.Empty).ToString()), 
@@ -117,8 +117,8 @@ namespace Bookpouch
                 throw new FileNotFoundException();
 
             const string sql = "SELECT * FROM books WHERE Path = @Path LIMIT 1";
-            var relativePath = bookFile.Replace(Properties.Settings.Default.BooksDir + Path.DirectorySeparatorChar, String.Empty);
-            var parameters = new[] {new SQLiteParameter("Path", relativePath)};
+            var bookFileRelativePath = bookFile.Replace(Properties.Settings.Default.BooksDir + Path.DirectorySeparatorChar, String.Empty);
+            var parameters = new[] {new SQLiteParameter("Path", bookFileRelativePath)};
             var query = Db.Query(sql, parameters);
 
             if (!query.HasRows) //If the row is missing, attempt to generate it 
@@ -157,9 +157,9 @@ namespace Bookpouch
                     Cover = (byte[]) (query["Cover"].ToString() != String.Empty ? query["Cover"] : null),
                     Path = bookFile
                 };
-
+           
             query.Dispose();
-
+            
             return bookData;
         }
 
@@ -172,6 +172,8 @@ namespace Bookpouch
         /// <exception cref="RowNotInTableException">Database record for the supplied book file doesn't exists and it was not possible to regenerate it</exception>
         public static void SaveData(BookData bookData)
         {
+            //var bookFileRelativePath = bookData.Path.Replace(Properties.Settings.Default.BooksDir + Path.DirectorySeparatorChar, String.Empty);
+            //bookData.Path = bookFileRelativePath;
             const string sql = "SELECT EXISTS( SELECT * FROM books WHERE Path = @Path LIMIT 1)";
             var parameters = new[] { new SQLiteParameter("Path", bookData.Path) };
             var exists = Db.QueryExists(sql, parameters);
@@ -194,14 +196,29 @@ namespace Bookpouch
         /// <summary>
         /// Remove a book from the library
         /// </summary>
-        /// <param name="dirName">Path to the folder which contains the book files</param>
-        public static void Discard(string dirName) //Permanently remove a book from the library
+        /// <param name="bookFile">Path to the folder which contains the book files</param>
+        public static void Discard(string bookFile) //Permanently remove a book from the library
         {
-            if (!Directory.Exists(dirName))
+            if (!File.Exists(bookFile))
                 return;
 
-            Directory.Delete(dirName, true);
-            MainWindow.MW.BookGrid_OnLoaded(MainWindow.MW.BookGrid, null); //Reload grid in the main window
+            var bookFileRelativePath = bookFile.Replace(Properties.Settings.Default.BooksDir + Path.DirectorySeparatorChar, String.Empty);            
+
+            try
+            {
+                File.Delete(bookFile);
+
+                Db.NonQuery("DELETE FROM books WHERE Path = @Path LIMIT 1", new[]{ new SQLiteParameter("Path", bookFileRelativePath)});
+
+                LibraryStructure.GenerateFileTree();
+                MainWindow.MW.BookGridReload();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                MainWindow.Info(String.Format(UiLang.Get("DiscardingBookFailed"), bookFile));
+                DebugConsole.WriteLine("Book keeper: I was unable to delete " + bookFile + ": " + e);
+            }
         }        
     }
     

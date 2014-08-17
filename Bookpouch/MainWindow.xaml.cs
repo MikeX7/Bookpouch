@@ -194,6 +194,8 @@ namespace Bookpouch
                     Cover = bookData.Cover,
                     BookFile = bookData.Path,                    
                 });
+
+                //Debug.WriteLine(bookData.Path);
                 
             }
 
@@ -302,48 +304,41 @@ namespace Bookpouch
                 ? true
                 : (Keyboard.IsKeyDown(Key.LeftCtrl) ? false : (bool?) null));
 
-            if (e.Key == Key.Delete)
+            switch (e.Key)
             {
-
-                if (
-                    MessageBox.Show(
-                        String.Format(UiLang.Get("DeleteBooksConfirm"),
-                            dataGrid.SelectedItems.Count), UiLang.Get("DiscardBook"), MessageBoxButton.YesNo) !=
-                    MessageBoxResult.Yes)
-                    return;
-
-                foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
-                    BookKeeper.Discard(book.BookFile);
-
-                LibraryStructure.GenerateFileTree();
-            }
-            else if (e.Key == Key.F)
-            {
-                foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
-                {
-                    BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
-                }
-
-                BookGridReload(); //Reload grid in the main window
-            }
-            else if (e.Key == Key.S)
-            {
-                foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
-                {
-                    BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
-                }
-
-                BookGridReload(); //Reload grid in the main window
-            }
-            else if (e.Key == Key.D)
-            {
-                foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
-                {
-                    BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
-                    BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
-                }
-
-                BookGridReload(); //Reload grid in the main window
+                case Key.Delete:
+                    if (
+                        MessageBox.Show(
+                            String.Format(UiLang.Get("DeleteBooksConfirm"),
+                                dataGrid.SelectedItems.Count), UiLang.Get("DiscardBook"), MessageBoxButton.YesNo) !=
+                        MessageBoxResult.Yes)
+                        return;
+                    foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
+                        BookKeeper.Discard(book.BookFile);
+                    LibraryStructure.GenerateFileTree();
+                    break;
+                case Key.F:
+                    foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
+                    {
+                        BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
+                    }
+                    BookGridReload(); //Reload grid in the main window
+                    break;
+                case Key.S:
+                    foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
+                    {
+                        BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
+                    }
+                    BookGridReload(); //Reload grid in the main window
+                    break;
+                case Key.D:
+                    foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
+                    {
+                        BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
+                        BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
+                    }
+                    BookGridReload(); //Reload grid in the main window
+                    break;
             }
         }
         
@@ -503,20 +498,7 @@ namespace Bookpouch
         private void EditBook_OnClick(object sender, RoutedEventArgs e)
         {
             var button = (Button) sender;
-            var bookFile = button.Tag.ToString();
-            
-            /*if(!File.Exists(bookFile + ".dat"))
-            { 
-                DebugConsole.WriteLine(".dat for " + bookFile + " wasn't found.");
-                Info(UiLang.Get("BookInfoFileNotFound"), 1);
-                BookGridReload();
-
-                if (!File.Exists(bookFile))
-                {
-                    Info(UiLang.Get("BookInfoFileRegenFail"), 1);
-                    return;
-                }
-            }*/
+            var bookFile = button.Tag.ToString();             
 
             IsEnabled = false;
             var editBook = new EditBook(bookFile)

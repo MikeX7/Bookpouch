@@ -165,6 +165,9 @@
   <data name="DiscardBook" xml:space="preserve">
     <value>Discard book?</value>
   </data>
+  <data name="DiscardingBookFailed" xml:space="preserve">
+    <value>I was not able to remove this book: {0}</value>
+  </data>
   <data name="EditBookAuthor" xml:space="preserve">
     <value>_Author:</value>
   </data>
