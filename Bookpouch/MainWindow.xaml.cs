@@ -48,8 +48,6 @@ namespace Bookpouch
             
             if (path != null) 
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
-
-            //LibraryStructure.GenerateFileTree();
             
             InitializeComponent();
             
@@ -149,6 +147,7 @@ namespace Bookpouch
 
         public void BookGrid_OnLoaded(object sender, RoutedEventArgs e) 
         {
+            DebugConsole.WriteLine("Loading the book grid...");
             var grid = (DataGrid) sender;
             var bookTree = LibraryStructure.List();
             var bookList = new List<Book>();
@@ -201,7 +200,7 @@ namespace Bookpouch
 
             grid.ItemsSource = bookList;
 
-            DebugConsole.WriteLine("Reloaded book grid. Book count: " + bookList.Count);
+            DebugConsole.WriteLine("Book grid loaded. Book count: " + bookList.Count);
         }
 
         /// <summary>
@@ -467,8 +466,7 @@ namespace Bookpouch
         private void DataStructureSync_OnClick(object sender, RoutedEventArgs e)
         {
             Info(UiLang.Get("SyncingDataStructure"));
-            LibraryStructure.SyncDbWithFileTree();
-            BookGridReload();
+            LibraryStructure.SyncDbWithFileTree();           
         }
 
         //Execute the button click event handling method manually from here and then cancel the click, since we need to prevent  showing of the row detail and therefore  cannot wait for full click to be performed

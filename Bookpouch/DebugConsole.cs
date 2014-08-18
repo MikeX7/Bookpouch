@@ -45,7 +45,7 @@ namespace Bookpouch
             Console.WriteLine("[" + time + "] " + text);            
 
             using (var sw = new StreamWriter("Debug_log.txt", true))       
-                sw.Write(text + "\n");               
+                sw.Write("[" + time + "] " + text + "\n");               
         }
     }
 }

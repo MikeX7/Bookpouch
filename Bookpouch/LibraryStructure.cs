@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 using ShadoLib;
 
 namespace Bookpouch
@@ -68,33 +70,45 @@ namespace Bookpouch
         /// </summary>
         public static void SyncDbWithFileTree()
         {
-            GenerateFileTree();
-            Tools.RemoveEmptyDirectories(Properties.Settings.Default.BooksDir);
-            var fileTree = GetFileTree();
-            const string sql = "SELECT Path FROM books";
-            const string sqlDelete = "DELETE FROM books WHERE Path = @Path";
-            var query = Db.Query(sql);
-            var pathList = new List<string>();
+           // Task.Factory.StartNew(() =>
+            //{
+                GenerateFileTree();
+                Tools.RemoveEmptyDirectories(Properties.Settings.Default.BooksDir);
+                var fileTree = GetFileTree();
+                const string sql = "SELECT Path FROM books";
+                const string sqlDelete = "DELETE FROM books WHERE Path = @Path";
+                var query = Db.Query(sql);
+                var pathList = new List<string>();
 
-            while (query.Read())
-            {
-                if(File.Exists(BookKeeper.GetAbsoluteBookFilePath(query["Path"].ToString())))
-                    pathList.Add(query["Path"].ToString());
-                else
-                    Db.NonQuery(sqlDelete, new[] { new SQLiteParameter("Path", query["Path"].ToString()) });
-            }
+                while (query.Read())
+                {
+                    if (File.Exists(BookKeeper.GetAbsoluteBookFilePath(query["Path"].ToString())))
+                        pathList.Add(query["Path"].ToString());
+                    else
+                        Db.NonQuery(sqlDelete, new[] {new SQLiteParameter("Path", query["Path"].ToString())});
+                }
 
-            foreach (var bookFile in fileTree.Where(bookFile => !pathList.Contains(BookKeeper.GetRelativeBookFilePath(bookFile))))
-            {
-                try
+                foreach (
+                    var bookFile in
+                        fileTree.Where(bookFile => !pathList.Contains(BookKeeper.GetRelativeBookFilePath(bookFile))))
                 {
-                    BookKeeper.GetData(bookFile);
+                    try
+                    {
+                        BookKeeper.GetData(bookFile);
+                    }
+                    catch (Exception e)
+                    {
+                        DebugConsole.WriteLine(
+                            "Library structure: I found a book file without any entry in the database (" + bookFile +
+                            "), but an error occurred during attempted adding: " + e);
+                    }
                 }
-                catch (Exception e)
+
+                MainWindow.MW.Dispatcher.Invoke(() =>
                 {
-                    DebugConsole.WriteLine("Library structure: I found a book file without any entry in the database (" + bookFile + "), but an error occurred during attempted adding: " + e);
-                }
-            }
+                    MainWindow.MW.BookGridReload();                    
+                });
+           // });
         }
 
         /// <summary>
