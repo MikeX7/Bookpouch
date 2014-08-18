@@ -70,24 +70,8 @@ namespace Bookpouch
         /// then attempt to generate database entries for all book files, which don't have them.
         /// </summary>
         public static void SyncDbWithFileTree()
-        {
-            var timer = new Timer(300);
-
-            timer.Disposed += delegate
-            {
-                MainWindow.MW.Dispatcher.Invoke(() => { MainWindow.MW.Title = "Bookpouch"; }); //After the timer gets disposed of, set the window title back to default
-            };
-
-            timer.Elapsed += delegate
-            {
-                MainWindow.MW.Dispatcher.Invoke(() =>
-                {
-                    MainWindow.MW.Title = MainWindow.MW.Title.Substring(0, 2) == "▣•" ? "•▣" : "▣•"; //Switch between these two sets of symbols in the window's title, to make it look like a simple animation
-                    MainWindow.MW.Title += " Bookpouch - " + UiLang.Get("Working");
-                });
-            };
-
-            timer.Start();
+        {           
+            MainWindow.Busy(true);
 
             Task.Factory.StartNew(() =>
             {
@@ -128,8 +112,7 @@ namespace Bookpouch
                     MainWindow.MW.BookGridReload();                    
                 });
 
-                timer.Stop();
-                timer.Dispose();
+                MainWindow.Busy(false);
             });
         }
 
@@ -141,8 +124,7 @@ namespace Bookpouch
             var bookData = new List<BookData>();
             const string sql = "SELECT * FROM books";
             var query = Db.Query(sql);
-            
-            Debug.WriteLine("fast");
+                        
             while (query.Read())
             {
                 if (!File.Exists(BookKeeper.GetAbsoluteBookFilePath(query["Path"].ToString())))
@@ -151,10 +133,8 @@ namespace Bookpouch
 
                 bookData.Add(BookKeeper.CastSqlBookRowToBookData(query));                                
             }
-
-            Debug.WriteLine("fast1");
+            
             query.Dispose();
-
             
             return bookData;
         }

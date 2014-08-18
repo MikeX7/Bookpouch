@@ -85,6 +85,7 @@
       <DependentUpon>AboutBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Db.cs" />
+    <Compile Include="MainWindowInfo.cs" />
     <Compile Include="MainWindowBook.cs" />
     <Compile Include="BookData.cs" />
     <Compile Include="BookKeeper.cs" />

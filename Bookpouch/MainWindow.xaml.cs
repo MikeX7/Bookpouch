@@ -49,7 +49,7 @@ namespace Bookpouch
             if (path != null) 
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
             
-            InitializeComponent();
+            InitializeComponent();            
             
             TrayIcon = new NotifyIcon
             {
@@ -76,71 +76,41 @@ namespace Bookpouch
             
         }
 
-        private static readonly Queue<Tuple<string, byte>> InfoQueue = new Queue<Tuple<string, byte>>();
-        private static bool _infoBoxVisible;
+        private static Timer _busyTitleTimer;
+        /// <summary>
+        /// Displays or removes busy indicator from the main window
+        /// </summary>
+        /// <param name="toggle">true = turn the indicator on, false = turn it off</param>
+        public static void Busy(bool toggle)
+        {           
+            if (_busyTitleTimer == null && toggle)
+            {             
+                _busyTitleTimer = new Timer(300);
 
-        public static void Info(string text, byte type = 0)
-        {
-            if (text != "")
-            {
-                DebugConsole.WriteLine((type == 0 ? "Info: " : "Error: ") + text);
-
-                if (TrayIcon.Visible)
+                _busyTitleTimer.Disposed += delegate
                 {
-                    TrayIcon.BalloonTipText = text;
-                    TrayIcon.ShowBalloonTip(5000);
-                    return;
-                }                
+                    MW.Dispatcher.Invoke(() => { MW.Title = "Bookpouch"; });
+                        //After the timer gets disposed of, set the window title back to default
+                };
+
+                _busyTitleTimer.Elapsed += delegate
+                {
+                    MW.Dispatcher.Invoke(() =>
+                    {
+                        MW.Title = MW.Title.Substring(0, 2) == "▣•" ? "•▣" : "▣•";
+                            //Switch between these two sets of symbols in the window's title, to make it look like a simple animation
+                        MW.Title += " Bookpouch - " + UiLang.Get("Working");
+                    });
+                };
+
+                _busyTitleTimer.Start();                                 
             }
-
-            if (Properties.Settings.Default.UseInfoBanner == false)
-            {
-                MessageBox.Show(text);
-                return;
+            else if (!toggle && _busyTitleTimer != null)
+            {                
+                _busyTitleTimer.Stop();
+                _busyTitleTimer.Dispose();
+                _busyTitleTimer = default(Timer);
             }
-
-            if (text != "")
-                InfoQueue.Enqueue(Tuple.Create(text, type));
-                    //Add info into the info queue                                                              
-
-            if (_infoBoxVisible || InfoQueue.Count == 0)
-                //Proceed only if infobox isn't currently displayed and if the info queue isn't empty
-                return;
-
-            var info = InfoQueue.Dequeue(); //item1 = text, item2 = type
-            text = info.Item1;
-            type = info.Item2;
-            var delay = (int) (text.Length*0.09);
-                //How long will be the infobox displayed, based on the text length, 1 letter = 0.09 sec
-
-            MW.InfoBox.Text = text;
-
-            var border = (Border) LogicalTreeHelper.GetParent(MW.InfoBox);
-
-            if (type == 0)
-                //Change colors of the infobox depending on the type of info being displayed (normal info, or error)
-                border.Style = (Style) MW.FindResource("InfoBoxOkBg");
-            else
-                border.Style = (Style) MW.FindResource("InfoBoxErrorBg");
-
-            _infoBoxVisible = true;
-
-            var sb = (Storyboard) MW.FindResource("InfoDissolve");
-
-            foreach (
-                var animation in
-                    sb.Children.OfType<DoubleAnimation>().Where(animation => animation.Name == "OutOpacity"))
-                animation.BeginTime = new TimeSpan(0, 0, delay);
-
-            foreach (
-                var keyFrame in
-                    sb.Children.OfType<ObjectAnimationUsingKeyFrames>()
-                        .Where(oaukf => oaukf.Name == "OutVisibility")
-                        .SelectMany(oaukf => oaukf.KeyFrames.Cast<DiscreteObjectKeyFrame>()))
-                keyFrame.KeyTime = new TimeSpan(0, 0, delay + 2);
-
-            Storyboard.SetTarget(sb, border);
-            sb.Begin();
         }
 
         private Dictionary<string, string> filter = new Dictionary<string, string>();
@@ -393,21 +363,7 @@ namespace Bookpouch
 
             UsbSync.Sync();
         }
-
-        private void InfoBox_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-            //Upon closing (hiding) the infobox, trigger the info method, to check if there is another info waiting in the queue
-        {
-            var border = (Border) sender;
-
-            if (border.Visibility == Visibility.Hidden)
-            {
-                _infoBoxVisible = false;
-                Info("");
-            }
-            else
-                _infoBoxVisible = true;
-        }
-
+   
         private void Add_OnClick(object sender, RoutedEventArgs e)
         {
             var supportedFiles = "*." + Properties.Settings.Default.FileExtensions.Replace(";", ";*.");
@@ -424,27 +380,9 @@ namespace Bookpouch
 
             Info(UiLang.Get("SyncFilesAdded"));
 
-            var selectedFiles = openFileDialog.FileNames;
-
-            //Fancy animated loading icon in the window title
-            var timer = new Timer(300);
-
-            timer.Disposed += delegate
-            {                
-                Dispatcher.Invoke(() => { Title = "Bookpouch"; }); //After the timer gets disposed of, set the window title back to default
-            };
-
-            timer.Elapsed += delegate
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    Title = Title.Substring(0, 2) == "▣•" ? "•▣" : "▣•"; //Switch between these two sets of symbols in the window's title, to make it look like a simple animation
-                    Title += " Bookpouch - " + UiLang.Get("SyncAddingBooks");              
-                });
-            };
-
-            timer.Start();
+            var selectedFiles = openFileDialog.FileNames;     
            
+            Busy(true);
 
             Task.Factory.StartNew(() =>
             {
@@ -457,8 +395,7 @@ namespace Bookpouch
                     BookGridReload();           
                 });
 
-                timer.Stop();
-                timer.Dispose();
+                Busy(false);
             });
         }
 
@@ -566,9 +503,7 @@ namespace Bookpouch
             {
                 DebugConsole.WriteLine("Edit book: It was not possible to save the provided book data: " + e.Message);  
             }    
-        }
-
-        
+        }      
     }
 
 }
