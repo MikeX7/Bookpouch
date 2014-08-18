@@ -277,9 +277,6 @@
   <data name="MobiHeaderMissing" xml:space="preserve">
     <value>{0} postrádá MOBI hlavičku a nemohl jsem z ní proto extrahovat žádné informace.</value>
   </data>
-  <data name="RegeneratingBookFileTree" xml:space="preserve">
-    <value>Regeneruji strom knih...</value>
-  </data>
   <data name="SelectBookDirPrompt" xml:space="preserve">
     <value>Vyberte prosím složku, ve které bude Bookpouch vyhledávat knihy a pracovat s nimi. Pokud výběr zrušíte, zůstanete u stávající složky {0}.</value>
   </data>
@@ -336,6 +333,9 @@
   </data>
   <data name="SyncFinished" xml:space="preserve">
     <value>Synchronizace byla úspěšně dokončena.</value>
+  </data>
+  <data name="SyncingDataStructure" xml:space="preserve">
+    <value>Regeneruji a uklízím datovou strukturu knihovny...</value>
   </data>
   <data name="SyncNoBooks" xml:space="preserve">
     <value>Ve čtečce nebyly nalezeny žádné knihy.</value>

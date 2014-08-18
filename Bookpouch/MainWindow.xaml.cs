@@ -49,7 +49,7 @@ namespace Bookpouch
             if (path != null) 
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
 
-            LibraryStructure.GenerateFileTree();
+            //LibraryStructure.GenerateFileTree();
             
             InitializeComponent();
             
@@ -313,29 +313,28 @@ namespace Bookpouch
                                 dataGrid.SelectedItems.Count), UiLang.Get("DiscardBook"), MessageBoxButton.YesNo) !=
                         MessageBoxResult.Yes)
                         return;
+
                     foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
                         BookKeeper.Discard(book.BookFile);
-                    LibraryStructure.GenerateFileTree();
+
                     break;
                 case Key.F:
                     foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
-                    {
-                        BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
-                    }
+                        BookInfoSet("Favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
+
                     BookGridReload(); //Reload grid in the main window
                     break;
                 case Key.S:
                     foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
-                    {
-                        BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
-                    }
+                        BookInfoSet("Sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
+
                     BookGridReload(); //Reload grid in the main window
                     break;
                 case Key.D:
                     foreach (var book in dataGrid.SelectedItems.Cast<Book>().ToList())
                     {
-                        BookInfoSet("sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
-                        BookInfoSet("favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
+                        BookInfoSet("Sync", (forcedSettingValue ?? (!book.Sync)), book.BookFile);
+                        BookInfoSet("Favorite", (forcedSettingValue ?? (!book.Favorite)), book.BookFile);
                     }
                     BookGridReload(); //Reload grid in the main window
                     break;
@@ -465,10 +464,10 @@ namespace Bookpouch
             });
         }
 
-        private void TreeRegen_OnClick(object sender, RoutedEventArgs e)
+        private void DataStructureSync_OnClick(object sender, RoutedEventArgs e)
         {
-            Info(UiLang.Get("RegeneratingBookFileTree"));
-            LibraryStructure.GenerateFileTree();
+            Info(UiLang.Get("SyncingDataStructure"));
+            LibraryStructure.SyncDbWithFileTree();
             BookGridReload();
         }
 
@@ -479,7 +478,7 @@ namespace Bookpouch
             var icon = (Image)VisualTreeHelper.GetChild(button, 0);
             icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
 
-            BookInfoSet("sync", (icon.Opacity > 0.9), (string)button.Tag);
+            BookInfoSet("Sync", (icon.Opacity > 0.9), (string)button.Tag);
             e.Handled = true;
         }
         
@@ -491,7 +490,7 @@ namespace Bookpouch
             var icon = (Image)VisualTreeHelper.GetChild(button, 0);
             icon.Opacity = (icon.Opacity <= 0.12 ? 1 : 0.12);
                         
-            BookInfoSet("favorite", (icon.Opacity > 0.9), (string)button.Tag);
+            BookInfoSet("Favorite", (icon.Opacity > 0.9), (string)button.Tag);
             e.Handled = true;
         }        
 
@@ -550,12 +549,15 @@ namespace Bookpouch
             try
             {                
                 var bookData = BookKeeper.GetData(bookFile);
-                typeof(BookData).GetProperty(key).SetValue(bookData, value);
+
+                if ((typeof (BookData)).GetField("Sync") == null)
+                    return;                
+
+                typeof(BookData).GetField(key).SetValue(bookData, value);
                 BookKeeper.SaveData(bookData);
             }
             catch (Exception e)
             {
-                Info(String.Format(UiLang.Get("DatFileNotAvailable"), bookFile), 1);
                 DebugConsole.WriteLine("Edit book: It was not possible to save the provided book data: " + e.Message);  
             }    
         }

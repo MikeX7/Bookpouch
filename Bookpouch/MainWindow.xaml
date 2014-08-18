@@ -30,7 +30,7 @@
                 <Image Source="Img/plus.png" />
             </Button>
 
-            <Button Click="TreeRegen_OnClick" Style="{StaticResource MenuIconButton}" Margin="5,0,0,0"
+            <Button Click="DataStructureSync_OnClick" Style="{StaticResource MenuIconButton}" Margin="5,0,0,0"
                     ToolTip="{local:Lng HintMenuRegenerateTree}">
                 <Image Source="Img/ornament.png" />
             </Button>

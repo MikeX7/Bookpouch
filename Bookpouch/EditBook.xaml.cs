@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ using TextBox = System.Windows.Controls.TextBox;
 namespace Bookpouch
 {
     /// <summary>
-    /// Interaction logic for EditBook.xaml
+    /// Interaction logic for EditBook.xaml, containing the form for editing book details
     /// </summary>
     public partial class EditBook
     {
@@ -41,7 +42,7 @@ namespace Bookpouch
         private void CoverImage_OnLoaded(object sender, RoutedEventArgs e)
         {
             var image = (Image) sender;
-            var coverArray = (byte[]) BookInfoGet("cover");
+            var coverArray = (byte[]) BookInfoGet("Cover");
 
             BitmapImage cover;
 
@@ -87,7 +88,7 @@ namespace Bookpouch
 
             image.Source = cover;
 
-            BookInfoSet("cover", File.ReadAllBytes(openFileDialog.FileName));
+            BookInfoSet("Cover", File.ReadAllBytes(openFileDialog.FileName));
         }
 
         private void CoverImage_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e) //Remove existing book cover picture
@@ -97,7 +98,7 @@ namespace Bookpouch
 
             image.Source = cover;
 
-            BookInfoSet("cover", null);
+            BookInfoSet("Cover", null);
         }
 
         private void Language_OnLoaded(object sender, RoutedEventArgs e)
@@ -105,37 +106,45 @@ namespace Bookpouch
             var comboBox = (ComboBox) sender;
             var cultureList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
             var languageOptions = cultureList.Select(culture => new Settings.LanguageOption(culture)).ToList();
-            var language = (string) BookInfoGet("language");               
+            var language = (string) BookInfoGet("Language");               
          
             comboBox.ItemsSource = languageOptions;
             comboBox.SelectedIndex = cultureList.Select(culture => culture.Name).ToList().IndexOf(language); //Set combobox position to the book's language            
         }
 
-        //Save book language change
+        /// <summary>
+        /// Save the language in which the book is written
+        /// </summary>        
         private void Language_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (ComboBox)sender;
             var language = (Settings.LanguageOption) comboBox.SelectedItem;
 
-            BookInfoSet("language", language.CultureInfo.Name);                        
+            BookInfoSet("Language", language.CultureInfo.Name);                        
         }
 
 
-        //Handle loading  values for all checkboxes
+        /// <summary>
+        /// Handle loading  values for all checkboxes
+        /// </summary>        
         private void CheckBox_OnLoaded(object sender, RoutedEventArgs e)
         {
             var box = (CheckBox)sender;
             box.IsChecked = (bool) BookInfoGet(box.Name);
         }
 
-        //Handle saving  values for all checkboxes
+        /// <summary>
+        /// Handle saving  values for all checkboxes
+        /// </summary>        
         private void CheckBox_OnChecked(object sender, RoutedEventArgs e)
         {
             var box = (CheckBox)sender;            
             BookInfoSet(box.Name, box.IsChecked);
         }
 
-        //Handle loading  values for all  textboxes
+        /// <summary>
+        /// Handle loading  values for all  textboxes
+        /// </summary>        
         private void TextBox_OnLoaded(object sender, RoutedEventArgs e)
         {
             var textBox = (TextBox) sender;
@@ -145,21 +154,27 @@ namespace Bookpouch
                 base.Title = textBox.Text; //Set the window title to the name of the book
         }
 
-        //Handle saving  values for all  textboxes
+        /// <summary>
+        /// Handle saving  values for all  textboxes
+        /// </summary>        
         private void TextBox_OnChanged(object sender, RoutedEventArgs e)
         {            
             var textBox = (TextBox)sender;
             BookInfoSet(textBox.Name, textBox.Text);
         }
 
-        //Handle loading  values for all  dateboxes
+        /// <summary>
+        /// Handle loading  values for all  dateboxes
+        /// </summary>        
         private void DatePicker_OnLoaded(object sender, RoutedEventArgs e)
         {
             var datePicker = (DatePicker) sender;
             datePicker.SelectedDate = (DateTime?) BookInfoGet(datePicker.Name);
         }
 
-        //Handle saving values for all  dateboxes
+        /// <summary>
+        /// Handle saving values for all  dateboxes
+        /// </summary>        
         private void DatePicker_OnChanged(object sender, RoutedEventArgs e)
         {            
             var datePicker = (DatePicker) sender;                       
@@ -208,16 +223,21 @@ namespace Bookpouch
         }
         private void Discard_OnClick(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show(String.Format(UiLang.Get("BookDeleteConfirm"), BookInfoGet("title")), UiLang.Get("BookDeleteConfirmTitle"), MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+            if (MessageBox.Show(String.Format(UiLang.Get("BookDeleteConfirm"), BookInfoGet("Title")), UiLang.Get("BookDeleteConfirmTitle"), MessageBoxButton.YesNo) != MessageBoxResult.Yes)
                 return;
 
             BookKeeper.Discard(_bookFile);
             Close();
         }
 
-        private object BookInfoGet(string key) //Fetch data to fill the form fields, from the bookinfo dictionary based on the key
+        /// <summary>
+        /// Fetch data to fill the form fields, from the BookInfo object based on the key
+        /// </summary>
+        /// <param name="key">Name of the BookData field from which to get the data</param>
+        /// <returns>Value from the BookData field specified by the given key</returns>
+        private object BookInfoGet(string key) 
         {
-            if (_bookData == null) //Singleton, so we don't have to reopen the file with saved info, after every form field loads and its load event handler calls BookInfoGet
+            if (_bookData == null) //Singleton, so we don't have to reopen the DB with saved info, after every form field loads and its load event handler calls BookInfoGet
             {
                 try
                 {
@@ -231,15 +251,20 @@ namespace Bookpouch
                 }
             }
             
-            return typeof(BookData).GetProperty(key).GetValue(_bookData);
+            return (typeof(BookData).GetField(key) != null ? typeof(BookData).GetField(key).GetValue(_bookData) : null);
         }
 
+        /// <summary>
+        /// Save data from the EditBook fields into the database
+        /// </summary>
+        /// <param name="key">Name of the BookData field to which to save the data</param>
+        /// <param name="value">Value to be saved into the specified field</param>
         private void BookInfoSet(string key, object value)
         {
             if (_bookData == null)
                 return;
 
-            typeof(BookData).GetProperty(key).SetValue(_bookData, value);
+            typeof(BookData).GetField(key).SetValue(_bookData, value);
             
             try
             {

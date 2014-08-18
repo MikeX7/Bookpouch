@@ -538,15 +538,6 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Regenerating the book tree....
-        /// </summary>
-        internal static string RegeneratingBookFileTree {
-            get {
-                return ResourceManager.GetString("RegeneratingBookFileTree", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Please select the directory in which you keep your eBooks stored, or press cancel to stay with the current directory: {0}.
         /// </summary>
         internal static string SelectBookDirPrompt {
@@ -714,6 +705,15 @@ namespace Bookpouch.Lang {
         internal static string SyncFinished {
             get {
                 return ResourceManager.GetString("SyncFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Re-scanning and cleaning up the library data structure....
+        /// </summary>
+        internal static string SyncingDataStructure {
+            get {
+                return ResourceManager.GetString("SyncingDataStructure", resourceCulture);
             }
         }
         

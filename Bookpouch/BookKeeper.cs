@@ -9,7 +9,7 @@ using System.Linq;
 namespace Bookpouch
 {    
     /// <summary>
-    /// Tools for editing and reading the existing library of books
+    /// Tools for editing and manipulating single books in the library
     /// </summary>
     static class BookKeeper
     {
@@ -77,7 +77,7 @@ namespace Bookpouch
             }
 
             DebugConsole.WriteLine("Book keeper: Generating data for " + bookFile);
-            var bookFileRelativePath = bookFile.Replace(Properties.Settings.Default.BooksDir + Path.DirectorySeparatorChar, String.Empty);
+            var bookFileRelativePath = GetRelativeBookFilePath(bookFile);
 
             var finfo = new FileInfo(bookFile);
             var bookPeek = new BookPeek(finfo);            
@@ -117,7 +117,7 @@ namespace Bookpouch
                 throw new FileNotFoundException();
 
             const string sql = "SELECT * FROM books WHERE Path = @Path LIMIT 1";
-            var bookFileRelativePath = bookFile.Replace(Properties.Settings.Default.BooksDir + Path.DirectorySeparatorChar, String.Empty);
+            var bookFileRelativePath = GetRelativeBookFilePath(bookFile);
             var parameters = new[] {new SQLiteParameter("Path", bookFileRelativePath)};
             var query = Db.Query(sql, parameters);
 
@@ -172,12 +172,11 @@ namespace Bookpouch
         /// <exception cref="RowNotInTableException">Database record for the supplied book file doesn't exists and it was not possible to regenerate it</exception>
         public static void SaveData(BookData bookData)
         {
-            //var bookFileRelativePath = bookData.Path.Replace(Properties.Settings.Default.BooksDir + Path.DirectorySeparatorChar, String.Empty);
-            //bookData.Path = bookFileRelativePath;
+            bookData.Path = GetRelativeBookFilePath(bookData.Path);
             const string sql = "SELECT EXISTS( SELECT * FROM books WHERE Path = @Path LIMIT 1)";
             var parameters = new[] { new SQLiteParameter("Path", bookData.Path) };
             var exists = Db.QueryExists(sql, parameters);
-
+            
             if (!exists)
             {
                 GenerateData(bookData.Path);
@@ -187,10 +186,10 @@ namespace Bookpouch
                 if(!exists)
                     throw new RowNotInTableException("Row for the specified book file was not found in the database, and the attempted regeneration failed.");
             }
-
+           
             Db.NonQuery(
-                "UPDATE books SET Title = @Title, Author = @Author, Publisher = @Publisher, Language = @Language, Published = @Published, Description = @Description, Series = @series, Category = @Category, MobiType = @MobiType, Size = @Size, Favorite = @Favorite, Sync = @Sync, Create = @Create, Cover = @Cover WHERE Path = @Path LIMIT 1",
-                typeof (BookData).GetProperties().Select(property => new SQLiteParameter(property.Name, property.GetValue(bookData))).ToArray());
+              "UPDATE books SET Title = @Title, Author = @Author, Publisher = @Publisher, Language = @Language, Published = @Published, Description = @Description, Series = @Series, Category = @Category, MobiType = @MobiType, Size = @Size, Favorite = @Favorite, Sync = @Sync, Created = @Created, Cover = @Cover WHERE Path = @Path",
+                typeof (BookData).GetFields().Select(property => new SQLiteParameter(property.Name, property.GetValue(bookData))).ToArray());                
         }
 
         /// <summary>
@@ -202,13 +201,15 @@ namespace Bookpouch
             if (!File.Exists(bookFile))
                 return;
 
-            var bookFileRelativePath = bookFile.Replace(Properties.Settings.Default.BooksDir + Path.DirectorySeparatorChar, String.Empty);            
+            const string sql = "DELETE FROM books WHERE Path = @Path";
+
+            var bookFileRelativePath = GetRelativeBookFilePath(bookFile);
 
             try
             {
                 File.Delete(bookFile);
 
-                Db.NonQuery("DELETE FROM books WHERE Path = @Path LIMIT 1", new[]{ new SQLiteParameter("Path", bookFileRelativePath)});
+                Db.NonQuery(sql, new[]{ new SQLiteParameter("Path", bookFileRelativePath)});
 
                 LibraryStructure.GenerateFileTree();
                 MainWindow.MW.BookGridReload();
@@ -219,7 +220,31 @@ namespace Bookpouch
                 MainWindow.Info(String.Format(UiLang.Get("DiscardingBookFailed"), bookFile));
                 DebugConsole.WriteLine("Book keeper: I was unable to delete " + bookFile + ": " + e);
             }
-        }        
+        }
+
+        /// <summary>
+        /// If relative path to a book file is given, it will be returned unchanged, if absolute path to a book file is given, it will be turned into a relative path and returned.
+        /// This only works with book files placed within the specified library root directory
+        /// </summary>
+        /// <param name="path">Relative or absolute path to a book file from the library</param>
+        /// <returns>Relative path to the book file</returns>
+        public static string GetRelativeBookFilePath(string path)
+        {
+            return path.Replace(Properties.Settings.Default.BooksDir + Path.DirectorySeparatorChar, String.Empty);            
+        }
+
+        /// <summary>
+        /// If absolute path to a book file is given, it will be returned unchanged, if relative path to a book file is given, it will be turned into a absolute  path and returned.
+        /// This only works with book files placed within the specified library root directory
+        /// </summary>
+        /// <param name="path">Relative or absolute path to a book file from the library</param>
+        /// <returns>Absolute path to the book file</returns>
+        public static string GetAbsoluteBookFilePath(string path)
+        {
+            return (path.StartsWith(Properties.Settings.Default.BooksDir)
+                ? path
+                : Path.Combine(Properties.Settings.Default.BooksDir, path));
+        }
     }
     
 }

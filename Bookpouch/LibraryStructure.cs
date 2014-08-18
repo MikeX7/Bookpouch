@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using ShadoLib;
 
@@ -60,43 +63,69 @@ namespace Bookpouch
         }
 
         /// <summary>
+        /// Go through all database records along with all book files in the library root folder and remove any database entries which point to non-existing files, 
+        /// then attempt to generate database entries for all book files, which don't have them.
+        /// </summary>
+        public static void SyncDbWithFileTree()
+        {
+            GenerateFileTree();
+            Tools.RemoveEmptyDirectories(Properties.Settings.Default.BooksDir);
+            var fileTree = GetFileTree();
+            const string sql = "SELECT Path FROM books";
+            const string sqlDelete = "DELETE FROM books WHERE Path = @Path";
+            var query = Db.Query(sql);
+            var pathList = new List<string>();
+
+            while (query.Read())
+            {
+                if(File.Exists(BookKeeper.GetAbsoluteBookFilePath(query["Path"].ToString())))
+                    pathList.Add(query["Path"].ToString());
+                else
+                    Db.NonQuery(sqlDelete, new[] { new SQLiteParameter("Path", query["Path"].ToString()) });
+            }
+
+            foreach (var bookFile in fileTree.Where(bookFile => !pathList.Contains(BookKeeper.GetRelativeBookFilePath(bookFile))))
+            {
+                try
+                {
+                    BookKeeper.GetData(bookFile);
+                }
+                catch (Exception e)
+                {
+                    DebugConsole.WriteLine("Library structure: I found a book file without any entry in the database (" + bookFile + "), but an error occurred during attempted adding: " + e);
+                }
+            }
+        }
+
+        /// <summary>
         /// Generate a list of BookData objects, where each of them contains information about a book
         /// </summary>
         public static List<BookData> List()
         {
-            List<string> books;
             var bookData = new List<BookData>();
-            var fileTreeIsOutdated = false;
+            const string sql = "SELECT path FROM books";
+            var query = Db.Query(sql);
+            var syncDbWithFileTree = false;
 
-            try
-            {
-                books = GetFileTree();
-            }
-            catch (FileNotFoundException e)
-            {
-                DebugConsole.WriteLine("Library structure: An error occurred while fetching the file tree: " + e);
-                return new List<BookData>();
-            }
-
-            foreach (var book in books)
+            while (query.Read())
             {
                 try
-                {                    
-                    var bookInfo = BookKeeper.GetData(book);
-                    bookData.Add(bookInfo);
+                {
+                    var bookInfo = BookKeeper.GetData(BookKeeper.GetAbsoluteBookFilePath(query["Path"].ToString()));
+                    bookData.Add(bookInfo); 
                 }
                 catch (FileNotFoundException)
-                {                    
-                    fileTreeIsOutdated = true;
-                }
-                catch (Exception e)
                 {
-                    DebugConsole.WriteLine("Library structure: An error occurred while fetching the book info for " + book + ": " + e);
+                    syncDbWithFileTree = true;                   
                 }
+                catch (RowNotInTableException) { }
+                
             }
 
-            if (fileTreeIsOutdated) //If some of the book files saved in the file tree were not found, the user (or some other app) probably manually changed the file structure, so regenerate the file tree
-                GenerateFileTree();
+            query.Dispose();
+
+            if(syncDbWithFileTree)
+                SyncDbWithFileTree();
 
             return bookData;
         }

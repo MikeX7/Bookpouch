@@ -36,18 +36,18 @@ namespace Bookpouch
         /// <param name="sql">The query as a string</param>
         /// <param name="parameters">Parameters to be inserted into the query</param>
         /// <returns>Result of the query</returns>
-        public static SQLiteDataReader Query(string sql, SQLiteParameter[] parameters)
+        public static SQLiteDataReader Query(string sql, SQLiteParameter[] parameters = null)
         {
 
             using (var command = new SQLiteCommand(sql, Connection))
             {
-                command.Parameters.AddRange(parameters);
-
-                var reader = default(SQLiteDataReader);
+                if(parameters != null)
+                    command.Parameters.AddRange(parameters);
+                
                 //Debug.WriteLine(command.CommandText + ": " + parameters[0].Value);    
                 try
                 {
-                    reader = command.ExecuteReader();
+                    var reader = command.ExecuteReader();
                     Connection.Close();
                     Connection.Dispose();                    
                     return reader;
@@ -56,10 +56,8 @@ namespace Bookpouch
                 {
                     Debug.WriteLine("Db " + e);
                     DebugConsole.WriteLine("Db: " + e);
-                }
-                Connection.Close();
-                Connection.Dispose();
-                return reader;
+                    throw;
+                }                
             }            
         }
 
@@ -68,12 +66,13 @@ namespace Bookpouch
         /// </summary>        
         /// <param name="sql">The query as a string</param>
         /// <param name="parameters">Parameters to be inserted into the query</param>
-        public static void NonQuery(string sql, SQLiteParameter[] parameters)
+        public static void NonQuery(string sql, SQLiteParameter[] parameters = null)
         {
 
             using (var command = new SQLiteCommand(sql, Connection))
             {
-                command.Parameters.AddRange(parameters);
+                if (parameters != null)
+                    command.Parameters.AddRange(parameters);
 
                 //Debug.WriteLine(command.CommandText + ": " + parameters[0].Value);                
 
@@ -93,17 +92,19 @@ namespace Bookpouch
             }
         }
 
-        public static bool QueryExists(string sql, SQLiteParameter[] parameters)
+        public static bool QueryExists(string sql, SQLiteParameter[] parameters = null)
         {
             bool exists;
 
             using (var command = new SQLiteCommand(sql, Connection))
             {
-                command.Parameters.AddRange(parameters);
+                if (parameters != null)
+                    command.Parameters.AddRange(parameters);
 
                 exists = SQLiteConvert.ToBoolean(command.ExecuteScalar());
 
                 Connection.Close();
+                Connection.Dispose();
             }
 
             return exists;

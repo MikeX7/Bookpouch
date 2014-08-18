@@ -277,9 +277,6 @@
   <data name="MobiHeaderMissing" xml:space="preserve">
     <value>{0} is missing the MOBI header and therefore I am not able to extract any information from it.</value>
   </data>
-  <data name="RegeneratingBookFileTree" xml:space="preserve">
-    <value>Regenerating the book tree...</value>
-  </data>
   <data name="SelectBookDirPrompt" xml:space="preserve">
     <value>Please select the directory in which you keep your eBooks stored, or press cancel to stay with the current directory: {0}</value>
   </data>
@@ -336,6 +333,9 @@
   </data>
   <data name="SyncFinished" xml:space="preserve">
     <value>Synchronization was successfully finished.</value>
+  </data>
+  <data name="SyncingDataStructure" xml:space="preserve">
+    <value>Re-scanning and cleaning up the library data structure...</value>
   </data>
   <data name="SyncNoBooks" xml:space="preserve">
     <value>No books found in the reader.</value>
