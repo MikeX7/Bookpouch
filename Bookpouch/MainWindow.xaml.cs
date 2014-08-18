@@ -527,8 +527,17 @@ namespace Bookpouch
 
         private void MainWindow_OnKeyUp(object sender, KeyEventArgs e) //Allow user to refresh the book list with F5
         {
-            if (e.Key == Key.F5)
-                BookGridReload(); //Reload grid
+            switch (e.Key)
+            {
+                case Key.F5:
+                    BookGridReload(); //Reload grid
+                    break;
+                case Key.F12:
+                    //Clear the info stack
+                    InfoQueue.Clear();
+                    Info(UiLang.Get("InfoQueueDeleted"));
+                    break;
+            }
         }
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e) //If the option is set, instead of closing the application minimize it into system tray

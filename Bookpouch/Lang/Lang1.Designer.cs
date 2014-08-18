@@ -529,6 +529,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The info queue was deleted..
+        /// </summary>
+        internal static string InfoQueueDeleted {
+            get {
+                return ResourceManager.GetString("InfoQueueDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is missing the MOBI header and therefore I am not able to extract any information from it..
         /// </summary>
         internal static string MobiHeaderMissing {

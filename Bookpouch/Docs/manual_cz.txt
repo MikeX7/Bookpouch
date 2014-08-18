@@ -38,6 +38,7 @@ Abyste tohoto dosáhli, jděte do nastavení a v roletě pro výběr čtečky vy
 
 List klávesových zkratek (Všechny zkratky jsou použitelné v hlavním okně)
 F5 - Obnovit list knih
+F12 - Vymazat info frontu (Užitečné pokud jste například do knihovny přidali několikset knih, a 50 z nich vygenerovalo info dialog o chybějící hlavičce)
 Delete - Permanentně smazat všechny vybrané knihy
 F - Přepnout nastavení Oblíbené pro všechny vybrané knihy
 S - Přepnout nastavení Synchronizace pro všechny vybrané knihy

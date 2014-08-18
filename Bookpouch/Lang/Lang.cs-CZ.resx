@@ -349,4 +349,7 @@
   <data name="UnknownDeviceHint" xml:space="preserve">
     <value>Vybrali jste neznámé zařízení a proto je potřeba manuálně vložit identifikační údaje, abych mohl úspěšně rozpoznat Vaší čtečku. Najeďte kurzorem myši na jednotlivá pole, pro zobrazení nápovědy.</value>
   </data>
+  <data name="InfoQueueDeleted" xml:space="preserve">
+    <value>Info fronta byla vymazána.</value>
+  </data>
 </root>

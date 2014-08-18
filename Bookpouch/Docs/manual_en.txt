@@ -38,6 +38,7 @@ To do so, go to settings and in the Reader drop down menu, select the reader whi
 
 Hotkey list (All hotkeys are used in the main window)
 F5 - Reload book list
+F12 - Delete the info queue (Useful, if you for example added several hundred new books into the library and 50 of them generated the "missing header" info dialog.)
 Delete - Permanently delete all selected books
 F - Toggle the Favorite setting for all selected books
 S - Toggle the Sync setting for all selected books

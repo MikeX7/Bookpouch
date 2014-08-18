@@ -349,4 +349,7 @@
   <data name="UnknownDeviceHint" xml:space="preserve">
     <value>You have selected an unknown reader device and therefore you will need to manually input the identification strings, so that your reader can be correctly recognized and handled by Bookpouch.\nHover over the fields with your cursor to display tooltips.</value>
   </data>
+  <data name="InfoQueueDeleted" xml:space="preserve">
+    <value>The info queue was deleted.</value>
+  </data>
 </root>
