@@ -352,4 +352,7 @@
   <data name="InfoQueueDeleted" xml:space="preserve">
     <value>The info queue was deleted.</value>
   </data>
+  <data name="Working" xml:space="preserve">
+    <value>Working...</value>
+  </data>
 </root>

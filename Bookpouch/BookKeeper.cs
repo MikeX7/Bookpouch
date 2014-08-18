@@ -115,12 +115,12 @@ namespace Bookpouch
         {
             if (!File.Exists(bookFile))
                 throw new FileNotFoundException();
-
+            
             const string sql = "SELECT * FROM books WHERE Path = @Path LIMIT 1";
             var bookFileRelativePath = GetRelativeBookFilePath(bookFile);
             var parameters = new[] {new SQLiteParameter("Path", bookFileRelativePath)};
             var query = Db.Query(sql, parameters);
-
+            //return new BookData();
             if (!query.HasRows) //If the row is missing, attempt to generate it 
             {
                 query.Dispose();
@@ -139,27 +139,39 @@ namespace Bookpouch
 
             query.Read();
 
-           var bookData = new BookData
-                {
-                    Title = (string) query["Title"],
-                    Author = (string) query["Author"],
-                    Publisher = (string) query["Publisher"],
-                    Language = (string) query["Language"],
-                    Published = (DateTime?)(query["Published"].ToString() != String.Empty ? query["Published"] : null),
-                    Description = (string) query["Description"],
-                    Series = (string) query["Series"],
-                    Category = (string) query["Category"],
-                    MobiType = (string) query["MobiType"],
-                    Size = Convert.ToUInt64(query["Size"]),
-                    Favorite = (bool) query["Favorite"],
-                    Sync = (bool) query["Sync"],
-                    Created = (DateTime) query["Created"],
-                    Cover = (byte[]) (query["Cover"].ToString() != String.Empty ? query["Cover"] : null),
-                    Path = bookFile
-                };
+            var bookData = CastSqlBookRowToBookData(query);
            
             query.Dispose();
             
+            return bookData;
+        }
+
+        /// <summary>
+        /// Casts book row from a sql query to a BookData object
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns>Filled in BookData object</returns>
+        public static BookData CastSqlBookRowToBookData(SQLiteDataReader query)
+        {            
+            var bookData = new BookData
+            {
+                Title = (string) query["Title"],
+                Author = (string) query["Author"],
+                Publisher = (string) query["Publisher"],
+                Language = (string) query["Language"],
+                Published = (DateTime?) (query["Published"].ToString() != String.Empty ? query["Published"] : null),
+                Description = (string) query["Description"],
+                Series = (string) query["Series"],
+                Category = (string) query["Category"],
+                MobiType = (string) query["MobiType"],
+                Size = Convert.ToUInt64(query["Size"]),
+                Favorite = (bool) query["Favorite"],
+                Sync = (bool) query["Sync"],
+                Created = (DateTime) query["Created"],
+                Cover = (byte[]) (query["Cover"].ToString() != String.Empty ? query["Cover"] : null),
+                Path = GetAbsoluteBookFilePath((string) query["Path"])
+            };
+         
             return bookData;
         }
 

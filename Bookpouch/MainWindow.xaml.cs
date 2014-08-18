@@ -148,10 +148,9 @@ namespace Bookpouch
         public void BookGrid_OnLoaded(object sender, RoutedEventArgs e) 
         {
             DebugConsole.WriteLine("Loading the book grid...");
-            var grid = (DataGrid) sender;
-            var bookTree = LibraryStructure.List();
-            var bookList = new List<Book>();
-            
+            var grid = (DataGrid) sender;            
+            var bookTree = LibraryStructure.List();           
+            var bookList = new List<Book>();            
             foreach (var bookData in bookTree)
             {                
                                                            

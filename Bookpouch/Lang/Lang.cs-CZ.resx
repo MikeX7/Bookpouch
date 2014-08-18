@@ -352,4 +352,7 @@
   <data name="InfoQueueDeleted" xml:space="preserve">
     <value>Info fronta byla vymazána.</value>
   </data>
+  <data name="Working" xml:space="preserve">
+    <value>Pracuji...</value>
+  </data>
 </root>

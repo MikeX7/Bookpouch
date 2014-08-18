@@ -761,5 +761,14 @@ namespace Bookpouch.Lang {
                 return ResourceManager.GetString("UnknownDeviceHint", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working....
+        /// </summary>
+        internal static string Working {
+            get {
+                return ResourceManager.GetString("Working", resourceCulture);
+            }
+        }
     }
 }

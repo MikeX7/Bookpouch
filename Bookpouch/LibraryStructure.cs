@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Threading;
 using ShadoLib;
 
@@ -70,8 +71,26 @@ namespace Bookpouch
         /// </summary>
         public static void SyncDbWithFileTree()
         {
-           // Task.Factory.StartNew(() =>
-            //{
+            var timer = new Timer(300);
+
+            timer.Disposed += delegate
+            {
+                MainWindow.MW.Dispatcher.Invoke(() => { MainWindow.MW.Title = "Bookpouch"; }); //After the timer gets disposed of, set the window title back to default
+            };
+
+            timer.Elapsed += delegate
+            {
+                MainWindow.MW.Dispatcher.Invoke(() =>
+                {
+                    MainWindow.MW.Title = MainWindow.MW.Title.Substring(0, 2) == "▣•" ? "•▣" : "▣•"; //Switch between these two sets of symbols in the window's title, to make it look like a simple animation
+                    MainWindow.MW.Title += " Bookpouch - " + UiLang.Get("Working");
+                });
+            };
+
+            timer.Start();
+
+            Task.Factory.StartNew(() =>
+            {
                 GenerateFileTree();
                 Tools.RemoveEmptyDirectories(Properties.Settings.Default.BooksDir);
                 var fileTree = GetFileTree();
@@ -108,7 +127,10 @@ namespace Bookpouch
                 {
                     MainWindow.MW.BookGridReload();                    
                 });
-           // });
+
+                timer.Stop();
+                timer.Dispose();
+            });
         }
 
         /// <summary>
@@ -117,30 +139,23 @@ namespace Bookpouch
         public static List<BookData> List()
         {
             var bookData = new List<BookData>();
-            const string sql = "SELECT path FROM books";
+            const string sql = "SELECT * FROM books";
             var query = Db.Query(sql);
-            var syncDbWithFileTree = false;
-
+            
+            Debug.WriteLine("fast");
             while (query.Read())
             {
-                try
-                {
-                    var bookInfo = BookKeeper.GetData(BookKeeper.GetAbsoluteBookFilePath(query["Path"].ToString()));
-                    bookData.Add(bookInfo); 
-                }
-                catch (FileNotFoundException)
-                {
-                    syncDbWithFileTree = true;                   
-                }
-                catch (RowNotInTableException) { }
+                if (!File.Exists(BookKeeper.GetAbsoluteBookFilePath(query["Path"].ToString())))
+                    continue;
                 
+
+                bookData.Add(BookKeeper.CastSqlBookRowToBookData(query));                                
             }
 
+            Debug.WriteLine("fast1");
             query.Dispose();
 
-            if(syncDbWithFileTree)
-                SyncDbWithFileTree();
-
+            
             return bookData;
         }
     }
