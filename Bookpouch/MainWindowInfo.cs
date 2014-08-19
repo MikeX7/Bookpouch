@@ -48,28 +48,32 @@ namespace Bookpouch
             var delay = (int)(text.Length * 0.09);
             //How long will be the infobox displayed, based on the text length, 1 letter = 0.09 sec
 
-            MW.InfoBox.Text = text;
+            MW.Dispatcher.Invoke(() => //In case the info is called from another thread, make sure all MW references to the main are executed from the GUI thread
+            {
+                MW.InfoBox.Text = text;
 
-            var border = (Border)LogicalTreeHelper.GetParent(MW.InfoBox);
+                var border = (Border) LogicalTreeHelper.GetParent(MW.InfoBox);
 
-            if (type == 0)
-                //Change colors of the infobox depending on the type of info being displayed (normal info, or error)
-                border.Style = (Style)MW.FindResource("InfoBoxOkBg");
-            else
-                border.Style = (Style)MW.FindResource("InfoBoxErrorBg");
+                if (type == 0)
+                    //Change colors of the infobox depending on the type of info being displayed (normal info, or error)
+                    border.Style = (Style) MW.FindResource("InfoBoxOkBg");
+                else
+                    border.Style = (Style) MW.FindResource("InfoBoxErrorBg");
 
-            _infoBoxVisible = true;
+                _infoBoxVisible = true;
 
-            var sb = (Storyboard)MW.FindResource("InfoDissolve");            
-            sb.Children.OfType<DoubleAnimation>().First(animation => animation.Name == "OutOpacity")
-                .BeginTime = new TimeSpan(0, 0, delay);
+                var sb = (Storyboard) MW.FindResource("InfoDissolve");
+                sb.Children.OfType<DoubleAnimation>().First(animation => animation.Name == "OutOpacity")
+                    .BeginTime = new TimeSpan(0, 0, delay);
 
-            sb.Children.OfType<ObjectAnimationUsingKeyFrames>()
-                        .Where(oaukf => oaukf.Name == "OutVisibility")
-                        .SelectMany(oaukf => oaukf.KeyFrames.Cast<DiscreteObjectKeyFrame>()).First().KeyTime = new TimeSpan(0, 0, 0, delay + 1);
+                sb.Children.OfType<ObjectAnimationUsingKeyFrames>()
+                    .Where(oaukf => oaukf.Name == "OutVisibility")
+                    .SelectMany(oaukf => oaukf.KeyFrames.Cast<DiscreteObjectKeyFrame>()).First().KeyTime =
+                    new TimeSpan(0, 0, 0, delay + 1);
 
-            Storyboard.SetTarget(sb, border);
-            sb.Begin();
+                Storyboard.SetTarget(sb, border);
+                sb.Begin();
+            });
         }
         private void InfoBox_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         //Upon closing (hiding) the infobox, trigger the info method, to check if there is another info waiting in the queue

@@ -9,7 +9,7 @@
         <ResourceDictionary Source="Style/Global.xaml" />
     </Window.Resources>
 
-    <Grid Margin="5">
+    <Grid Margin="5">        
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -18,8 +18,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,5,5,5">
+        <ProgressBar Grid.Row="0" Grid.Column="0" Name="BusyBar" Visibility="Collapsed" IsIndeterminate="True" Width="500" Height="25"/>
+        <StackPanel Name="MenuStack" Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,5,5,5">
             <Button Click="Sync_OnClick" Style="{StaticResource MenuIconButton}"
                     ToolTip="{local:Lng HintMenuSync}">
                 <Image Source="Img/arrows.png" />

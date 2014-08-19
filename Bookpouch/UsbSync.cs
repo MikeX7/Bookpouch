@@ -5,6 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Bookpouch
 {
@@ -12,64 +15,66 @@ namespace Bookpouch
     {
 
         static private string _deviceDir;
-        static public bool ManuaSync;
+        static public bool ManualSync = false;
 
+        /// <summary>
+        /// Starts the synchronization process, possibly in a new thread.
+        /// </summary>
         public static void Sync()
         {
-            var dirs = Directory.GetDirectories("books");
-            var extensions = Properties.Settings.Default.FileExtensions.Split(';');
-            var localBookList = new List<string>();
+            MainWindow.Busy(true);
+            Task.Factory.StartNew(SyncBookFiles);
+        }
 
-            foreach (var dir in dirs)
+        private static void r()
+        {
+            
+        }
+
+        /// <summary>
+        /// Take all books files marked for sync and copy them onto the reader device, if one is found.
+        /// If any book files are found on the reader device, which are not marked for sync in the local library, they will be deleted from the device.
+        /// </summary>
+        private static void SyncBookFiles()
+        {            
+            var localBookList = LibraryStructure.List();
+            var localBookListForSync = (from bookData in localBookList where bookData.Sync select BookKeeper.GetAbsoluteBookFilePath(bookData.Path)).ToList();
+            var bookList = GetFileList();
+
+            foreach (var file in from file in bookList let fileName = Path.GetFileName(file) where !localBookListForSync.Select(Path.GetFileName).Contains(fileName) select file)
             {
-                if (!File.Exists(dir + "\\info.dat")) 
-                    continue;
+                DebugConsole.WriteLine("Usb sync: Deleting " + file);
 
-                using (var infoFile = new FileStream(dir + "\\info.dat", FileMode.Open))
+                try
                 {
-                    var bf = new BinaryFormatter();
-                    var bookInfo = (Dictionary<string, object>) bf.Deserialize(infoFile);
-                    
-                    if ((bool) bookInfo["sync"])
-                    {
-                        localBookList.Add(
-                            
-                                Directory.EnumerateFiles(dir)
-                                    .FirstOrDefault(
-                                        f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))));
-                    }
+                    File.Delete(file);
+                }
+                catch (Exception e)
+                {
+                    DebugConsole.WriteLine("Usb sync: Failed to delete " + file + ": " + e);
+                }
+            }
+            
+            foreach (var file in localBookListForSync.Where(file => File.Exists(file) && !bookList.Select(Path.GetFileName).Contains(Path.GetFileName(file))))
+            {
+                if (File.Exists(Path.Combine(_deviceDir, Path.GetFileName(file))))
+                    continue;
+                ;
+                DebugConsole.WriteLine("Copying " + file);
+
+                try
+                {
+                    File.Copy(file, Path.Combine(_deviceDir, Path.GetFileName(file)));
+                }
+                catch (Exception e)
+                {
+                    MainWindow.Info(String.Format(UiLang.Get("SyncFileCopyFailed"), file));
+                    DebugConsole.WriteLine("Usb sync: Error while copying " + file + ": " + e);
                 }
             }
 
-            var fileList = GetFileList();
-
-            if (fileList.Length == 0)
-                return;
-            
-            foreach (var file in fileList) //Remove any files from the reader which aren't books marked for sync in the Bookpouch
-            {
-                var fileName = Path.GetFileName(file);
-
-                if (localBookList.Select(Path.GetFileName).Contains(fileName))                
-                    continue;
-
-                DebugConsole.WriteLine("Deleting " + file);
-
-                File.Delete(file);                
-            }
-
-            foreach (var file in localBookList) //Copy all books marked for sync from the local storage to the reader device, skip books which already exist on the reader
-            {
-                if (fileList.Select(Path.GetFileName).Contains(Path.GetFileName(file)))
-                    continue;
-
-                DebugConsole.WriteLine("Copying " + file);                
-                
-                File.Copy(file, _deviceDir + "/" + Path.GetFileName(file));
-                
-            }
-
             MainWindow.Info(UiLang.Get("SyncFinished"));
+            MainWindow.Busy(false);
         }
 
         /// <summary>
@@ -92,11 +97,7 @@ namespace Bookpouch
             }
 
             var extensions = Properties.Settings.Default.FileExtensions.Split(';');
-
-            var files = Directory.EnumerateFiles(_deviceDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();            
-
-            if (files.Length == 0)
-                MainWindow.Info(UiLang.Get("SyncNoBooks"));
+            var files = Directory.EnumerateFiles(_deviceDir).Where(f => extensions.Any(ext => f.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();                        
 
             return files;
         }
@@ -136,10 +137,10 @@ namespace Bookpouch
                 Debug.WriteLine("Houston, we have a problem with getting the reader disk letter:\n" + e.Message);
             }
 
-            if(ManuaSync)
+            if(ManualSync)
                 MainWindow.Info(UiLang.Get("SyncNoReadersFound"), 1);
 
-            ManuaSync = false;
+            ManualSync = false;
 
             return "";
         }

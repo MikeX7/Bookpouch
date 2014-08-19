@@ -337,9 +337,6 @@
   <data name="SyncingDataStructure" xml:space="preserve">
     <value>Regeneruji a uklízím datovou strukturu knihovny...</value>
   </data>
-  <data name="SyncNoBooks" xml:space="preserve">
-    <value>Ve čtečce nebyly nalezeny žádné knihy.</value>
-  </data>
   <data name="SyncNoReadersFound" xml:space="preserve">
     <value>Nepodařilo se mi nalézt žádné připojené čtečky.</value>
   </data>
@@ -354,5 +351,8 @@
   </data>
   <data name="Working" xml:space="preserve">
     <value>Pracuji...</value>
+  </data>
+  <data name="SyncFileCopyFailed" xml:space="preserve">
+    <value>Nepodařilo se mi synchronizovat {0}.</value>
   </data>
 </root>

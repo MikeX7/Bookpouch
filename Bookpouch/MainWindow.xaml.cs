@@ -35,6 +35,9 @@ namespace Bookpouch
     /// </summary>
     public partial class MainWindow
     {
+        /// <summary>
+        /// Instance of the main window object, containing the GUI
+        /// </summary>
         public static MainWindow MW;
         private static NotifyIcon TrayIcon;        
 
@@ -84,7 +87,13 @@ namespace Bookpouch
         public static void Busy(bool toggle)
         {           
             if (_busyTitleTimer == null && toggle)
-            {             
+            {
+                MW.Dispatcher.Invoke(() =>
+                {
+                    MW.BusyBar.Visibility = Visibility.Visible;
+                    MW.MenuStack.IsEnabled = false;
+                });
+          
                 _busyTitleTimer = new Timer(300);
 
                 _busyTitleTimer.Disposed += delegate
@@ -106,7 +115,14 @@ namespace Bookpouch
                 _busyTitleTimer.Start();                                 
             }
             else if (!toggle && _busyTitleTimer != null)
-            {                
+            {
+                MW.Dispatcher.Invoke(() =>
+                {
+                    MW.BusyBar.Visibility = Visibility.Collapsed;
+                    MW.MenuStack.IsEnabled = true;
+                    
+                });
+
                 _busyTitleTimer.Stop();
                 _busyTitleTimer.Dispose();
                 _busyTitleTimer = default(Timer);
@@ -360,7 +376,7 @@ namespace Bookpouch
         private void Sync_OnClick(object sender, RoutedEventArgs e)
         {
             Info(String.Format(UiLang.Get("SyncDeviceSearch"), Properties.Settings.Default.DeviceModel));
-
+            UsbSync.ManualSync = true;
             UsbSync.Sync();
         }
    

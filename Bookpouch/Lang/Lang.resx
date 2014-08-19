@@ -337,9 +337,6 @@
   <data name="SyncingDataStructure" xml:space="preserve">
     <value>Re-scanning and cleaning up the library data structure...</value>
   </data>
-  <data name="SyncNoBooks" xml:space="preserve">
-    <value>No books found in the reader.</value>
-  </data>
   <data name="SyncNoReadersFound" xml:space="preserve">
     <value>I wasn't able to find any connected readers.</value>
   </data>
@@ -354,5 +351,8 @@
   </data>
   <data name="Working" xml:space="preserve">
     <value>Working...</value>
+  </data>
+  <data name="SyncFileCopyFailed" xml:space="preserve">
+    <value>I was unable to sync {0}.</value>
   </data>
 </root>

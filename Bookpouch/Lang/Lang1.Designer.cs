@@ -700,6 +700,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I was unable to sync {0}..
+        /// </summary>
+        internal static string SyncFileCopyFailed {
+            get {
+                return ResourceManager.GetString("SyncFileCopyFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selected supported files are being added into the library....
         /// </summary>
         internal static string SyncFilesAdded {
@@ -723,15 +732,6 @@ namespace Bookpouch.Lang {
         internal static string SyncingDataStructure {
             get {
                 return ResourceManager.GetString("SyncingDataStructure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No books found in the reader..
-        /// </summary>
-        internal static string SyncNoBooks {
-            get {
-                return ResourceManager.GetString("SyncNoBooks", resourceCulture);
             }
         }
         
