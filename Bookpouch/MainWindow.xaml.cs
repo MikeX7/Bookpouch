@@ -49,7 +49,7 @@ namespace Bookpouch
             if (path != null) 
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
             
-            InitializeComponent();            
+            InitializeComponent();     
             
             TrayIcon = new NotifyIcon
             {
@@ -115,7 +115,7 @@ namespace Bookpouch
 
         private Dictionary<string, string> filter = new Dictionary<string, string>();
 
-        public void BookGrid_OnLoaded(object sender, RoutedEventArgs e) 
+        public void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
         {
             DebugConsole.WriteLine("Loading the book grid...");
             var grid = (DataGrid) sender;            

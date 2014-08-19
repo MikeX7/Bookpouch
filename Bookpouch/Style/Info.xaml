@@ -19,7 +19,7 @@
         <DoubleAnimation              
               x:Name="OutOpacity"
               Storyboard.TargetProperty="Opacity"            
-               BeginTime="0:0:3" From="1.0" To="0.0" Duration="0:0:2"/>
+               BeginTime="0:0:3" From="1.0" To="0.0" Duration="0:0:1"/>
     </Storyboard>
     
     <Style x:Key="InfoBoxErrorBg" TargetType="Border">

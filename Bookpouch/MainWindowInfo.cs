@@ -60,19 +60,13 @@ namespace Bookpouch
 
             _infoBoxVisible = true;
 
-            var sb = (Storyboard)MW.FindResource("InfoDissolve");
+            var sb = (Storyboard)MW.FindResource("InfoDissolve");            
+            sb.Children.OfType<DoubleAnimation>().First(animation => animation.Name == "OutOpacity")
+                .BeginTime = new TimeSpan(0, 0, delay);
 
-            foreach (
-                var animation in
-                    sb.Children.OfType<DoubleAnimation>().Where(animation => animation.Name == "OutOpacity"))
-                animation.BeginTime = new TimeSpan(0, 0, delay);
-
-            foreach (
-                var keyFrame in
-                    sb.Children.OfType<ObjectAnimationUsingKeyFrames>()
+            sb.Children.OfType<ObjectAnimationUsingKeyFrames>()
                         .Where(oaukf => oaukf.Name == "OutVisibility")
-                        .SelectMany(oaukf => oaukf.KeyFrames.Cast<DiscreteObjectKeyFrame>()))
-                keyFrame.KeyTime = new TimeSpan(0, 0, delay + 2);
+                        .SelectMany(oaukf => oaukf.KeyFrames.Cast<DiscreteObjectKeyFrame>()).First().KeyTime = new TimeSpan(0, 0, 0, delay + 1);
 
             Storyboard.SetTarget(sb, border);
             sb.Begin();
@@ -93,9 +87,17 @@ namespace Bookpouch
 
 
         private void InfoBox_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            var border = (Border)sender;
-            InfoBoxBorder.Width = 10;
+        {            
+            var sb = (Storyboard)MW.FindResource("InfoDissolve");
+
+            sb.Children.OfType<DoubleAnimation>().First(animation => animation.Name == "OutOpacity")
+                .BeginTime = new TimeSpan(0, 0, 0);
+
+            sb.Children.OfType<ObjectAnimationUsingKeyFrames>()
+                        .Where(oaukf => oaukf.Name == "OutVisibility")
+                        .SelectMany(oaukf => oaukf.KeyFrames.Cast<DiscreteObjectKeyFrame>()).First().KeyTime = new TimeSpan(0, 0, 1);
+           
+            sb.Begin();
         }
     }
 }
