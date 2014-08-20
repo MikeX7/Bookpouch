@@ -61,9 +61,9 @@
 
         <ComboBox HorizontalAlignment="Right" VerticalAlignment="Top" Name="FilterCategory" SelectionChanged="FilterCategory_OnSelectionChanged" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1" />
 
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1"/>                   
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1"/>
 
-        <DataGrid x:Name="BookGrid" Grid.Row="2" IsReadOnly="True" AutoGenerateColumns="False"
+        <DataGrid x:Name="BookGrid" Grid.Row="2" IsReadOnly="True" AutoGenerateColumns="False" 
                   Loaded="BookGrid_OnLoaded" VerticalAlignment="Top" CanUserResizeRows="False" RowHeaderWidth="1" KeyUp="BookGrid_OnKeyUp" PreviewMouseRightButtonUp="BookGrid_PreviewMouseRightButtonUp" PreviewMouseLeftButtonUp="BookGrid_PreviewMouseRightButtonUp"
                   HorizontalGridLinesBrush="#2b72ac" VerticalGridLinesBrush="#2b72ac" RowBackground="#5d5d5d" AlternatingRowBackground="#454545"  Background="#569cd6" Style="{DynamicResource DataGridStyle1}" >
             <DataGrid.Resources>
@@ -137,7 +137,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="{local:Lng BookGridHeaderCategory}" Binding="{Binding Category}" Width="auto"  >
+                <DataGridTextColumn Header="{local:Lng BookGridHeaderCategory}" Binding="{Binding Category}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Padding" Value="5" />
@@ -148,8 +148,7 @@
 
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <Border Padding="5" Margin="6" CornerRadius="8"
-                            MaxWidth="{Binding ElementName=Window, Path=ActualWidth }">
+                    <Border Padding="5" Margin="6" CornerRadius="8">
                         <Border.Effect>
                             <DropShadowEffect Color="#797777" />
                         </Border.Effect>
@@ -160,17 +159,31 @@
                             </RadialGradientBrush>
                         </Border.Background>
 
-                        <DockPanel>
+                        <DockPanel>                            
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Right"  VerticalAlignment="Top" DockPanel.Dock="Right" >
+                                <Button Click="BookDir_OnClick" Style="{StaticResource MenuIconButton}" Tag="{Binding BookFile}" Width="30" Margin="0 0 0 5">
+                                    <Image Source="Img/folder.png" />
+                                </Button>
+                                <Button Click="EditBook_OnClick" Style="{StaticResource MenuIconButton}" Tag="{Binding BookFile}" Width="30">
+                                    <Image Source="Img/tools1.png" />
+                                </Button>                                
+                            </StackPanel>
+
+                            <TextBlock Text="{Binding Description}"  DockPanel.Dock="Bottom"/>
+
                             <Image Source="{Binding CoverImage}" MaxHeight="128" MaxWidth="128" DockPanel.Dock="Left"
-                                   FlowDirection="LeftToRight" Margin="0,0,10,0" />
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock FontSize="21" FontWeight="Regular" TextWrapping="Wrap"
-                                           Foreground="WhiteSmoke" Text="{Binding Title}" VerticalAlignment="Center">
+                                   FlowDirection="LeftToRight" Margin="0,0,10,0" />                            
+
+                            <DockPanel Name="DetailInnerDock" LastChildFill="False" DockPanel.Dock="Left" >                                
+                                
+                                <TextBlock FontSize="21" FontWeight="Regular" TextWrapping="Wrap"  DockPanel.Dock="Top"
+                                           Foreground="WhiteSmoke" Text="{Binding Title}" VerticalAlignment="Center" Width="{Binding ActualWidth, ElementName=DetailInnerDock}">
                                     <TextBlock.Effect>
                                         <DropShadowEffect Color="Black" ShadowDepth="5" BlurRadius="5" />
                                     </TextBlock.Effect>
                                 </TextBlock>
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding AuthorVisibility}">
+                                
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding AuthorVisibility}" DockPanel.Dock="Top">
                                     <Image Source="Img/silhouette.png" Height="16" Margin="0,0,5,0"
                                            HorizontalAlignment="Left" />
                                     <TextBlock FontSize="16" Text="{Binding Author}" Foreground="#92caf4"
@@ -181,21 +194,19 @@
                                         </TextBlock.Effect>
                                     </TextBlock>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding SeriesVisibility}" >
+                                
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding SeriesVisibility}" DockPanel.Dock="Top">
                                     <TextBlock FontSize="18" Text="📚 " FontWeight="Medium" VerticalAlignment="Center" Foreground="DarkGray"/>
                                     <TextBlock Text="{Binding Series}" MouseLeftButtonUp="FilterSeries_OnMouseLeftButtonUp" FontWeight="DemiBold" Foreground="LightGray" VerticalAlignment="Center" />
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal">
+                                
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                                     <Image Source="{Binding CountryFlagPath}" Height="18" Margin="0,0,5,0" />
                                     <TextBlock Text="{Binding Publisher}" Margin="0,0,5,0" />
                                     <TextBlock Text="{Binding Published}" Foreground="#FF292929" />
-                                </StackPanel>
-                                <TextBlock Text="{Binding Description}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" >                             
-                                <Button Content="{local:Lng BookGridOpenDir}" Click="BookDir_OnClick" Tag="{Binding BookFile}" Margin="0 0 5 0"/>
-                                <Button Content="{local:Lng BookGridEdit}" Click="EditBook_OnClick" Tag="{Binding BookFile}"/>
-                            </StackPanel>
+                                </StackPanel>                                
+                            </DockPanel>                            
+                                                                             
                         </DockPanel>
                     </Border>
                 </DataTemplate>
