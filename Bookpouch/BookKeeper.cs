@@ -91,7 +91,7 @@ namespace Bookpouch
                     new SQLiteParameter("Publisher", (bookPeek.List.ContainsKey("publisher") ? bookPeek.List["publisher"] : String.Empty).ToString()), 
                     new SQLiteParameter("Language", (bookPeek.List.ContainsKey("language") ? bookPeek.List["language"] : String.Empty).ToString()),
                     new SQLiteParameter("Published", (DateTime?) (bookPeek.List.ContainsKey("published") ? bookPeek.List["published"] : null)),
-                    new SQLiteParameter("Description", String.Empty), 
+                    new SQLiteParameter("Description", (bookPeek.List.ContainsKey("description") ? bookPeek.List["description"] : String.Empty).ToString()), 
                     new SQLiteParameter("Series", String.Empty),
                     new SQLiteParameter("Category", String.Empty),
                     new SQLiteParameter("MobiType", (bookPeek.List.ContainsKey("type") ? bookPeek.List["type"] : "").ToString()),

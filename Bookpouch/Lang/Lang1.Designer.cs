@@ -142,6 +142,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dir.
+        /// </summary>
+        internal static string BookGridOpenDir {
+            get {
+                return ResourceManager.GetString("BookGridOpenDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Series.
         /// </summary>
         internal static string BookGridSeries {

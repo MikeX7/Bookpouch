@@ -355,4 +355,7 @@
   <data name="SyncFileCopyFailed" xml:space="preserve">
     <value>Nepodařilo se mi synchronizovat {0}.</value>
   </data>
+  <data name="BookGridOpenDir" xml:space="preserve">
+    <value>Složka</value>
+  </data>
 </root>

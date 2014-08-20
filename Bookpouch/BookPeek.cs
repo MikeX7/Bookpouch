@@ -230,7 +230,7 @@ namespace Bookpouch
             }
         }
 
-        private void MobiExth(FileStream fs, FileSystemInfo file) //Attempt to find and process the EXTH header from the mobi file stream
+        private void MobiExth(Stream fs, FileSystemInfo file) //Attempt to find and process the EXTH header from the mobi file stream
         {
             var records = new Dictionary<UInt32, string>();
             var headerIdent = new byte[4];
@@ -278,6 +278,9 @@ namespace Bookpouch
 
                 if (records.ContainsKey(101))
                     List.Add("publisher", records[101]);
+
+                if (records.ContainsKey(103))
+                    List.Add("description", records[103]);
 
                 if (records.ContainsKey(524) && !List.ContainsKey("language")) //Only add language from the exth header, if it wasn't found in the mobi header
                 {
@@ -338,26 +341,20 @@ namespace Bookpouch
             img.Seek(0, SeekOrigin.Begin);
             
             //Check if the image file we extracted is actually valid image
-            if (img.Length > 0)
+            if (img.Length <= 0)
+                return img;
+
+            try
             {
-                try
-                {
-                    using (var imgCheck = Image.FromStream(img))
-                    {
-                        if (imgCheck.RawFormat.Equals(ImageFormat.Gif))
-                            Debug.WriteLine("YIFF");
-
-                        if (imgCheck.RawFormat.Equals(ImageFormat.Jpeg))
-                            Debug.WriteLine("JAYPEG");
-
-                        if (!imgCheck.RawFormat.Equals(ImageFormat.Jpeg) && !imgCheck.RawFormat.Equals(ImageFormat.Gif))
-                            throw new FormatException();
-                    }
+                using (var imgCheck = Image.FromStream(img))
+                {                        
+                    if (!imgCheck.RawFormat.Equals(ImageFormat.Jpeg) && !imgCheck.RawFormat.Equals(ImageFormat.Gif))
+                        throw new FormatException();
                 }
-                catch (Exception)
-                {
-                    img.SetLength(0);
-                }
+            }
+            catch (Exception)
+            {
+                img.SetLength(0);
             }
 
             return img;

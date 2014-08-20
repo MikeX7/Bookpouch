@@ -355,4 +355,7 @@
   <data name="SyncFileCopyFailed" xml:space="preserve">
     <value>I was unable to sync {0}.</value>
   </data>
+  <data name="BookGridOpenDir" xml:space="preserve">
+    <value>Dir</value>
+  </data>
 </root>

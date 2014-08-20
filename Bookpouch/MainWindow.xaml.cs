@@ -460,6 +460,16 @@ namespace Bookpouch
             editBook.Show();
         }
 
+        private void BookDir_OnClick(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            var bookFile = button.Tag.ToString();
+            var path = Path.GetDirectoryName(bookFile);
+
+            if (path != null && Directory.Exists(path))
+                Process.Start(@path);
+        }
+
         private void Settings_OnClick(object sender, RoutedEventArgs e)
         {
             IsEnabled = false;
