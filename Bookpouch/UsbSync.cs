@@ -26,11 +26,6 @@ namespace Bookpouch
             Task.Factory.StartNew(SyncBookFiles);
         }
 
-        private static void r()
-        {
-            
-        }
-
         /// <summary>
         /// Take all books files marked for sync and copy them onto the reader device, if one is found.
         /// If any book files are found on the reader device, which are not marked for sync in the local library, they will be deleted from the device.

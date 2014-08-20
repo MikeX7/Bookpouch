@@ -57,7 +57,7 @@ namespace Bookpouch
             }
             catch (Exception e)
             {
-                MainWindow.Info(String.Format(UiLang.Get("BookCopyError"), file));
+                MainWindow.Info(String.Format(UiLang.Get("BookCopyError"), file), 1);
                 DebugConsole.WriteLine("Book keeper: Copying of the book file " + file + " failed because: " + e);
 
             }            

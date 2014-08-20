@@ -24,7 +24,7 @@ namespace Bookpouch
             DebugConsole.WriteLine("Regenerating the file tree for the library books...");
             //Info(      String.Format(UiLang.Get("DirNotFound"),    Properties.Settings.Default.BooksDir), 1);
             if(!Directory.Exists(Properties.Settings.Default.BooksDir))
-                Settings.SelectBooksDir();
+                MainWindow.MW.Dispatcher.Invoke(()=> { Settings.SelectBooksDir(); });
 
             var dirList = Tools.GetDirectoryList(Properties.Settings.Default.BooksDir);
             var bookFileList = new List<string>();

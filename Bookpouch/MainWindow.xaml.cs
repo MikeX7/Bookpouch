@@ -53,6 +53,7 @@ namespace Bookpouch
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
             
             InitializeComponent();     
+            DebugConsole.Open();
             
             TrayIcon = new NotifyIcon
             {

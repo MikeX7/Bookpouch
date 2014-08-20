@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -200,7 +201,7 @@ namespace Bookpouch
                     MobiExth(fs, file);
 
                 //Attempt to get the cover image from the mobi file and save it
-                var img = getJpegFromStream(fs);
+                var img = GetJpegFromStream(fs);
 
                 if (img.Length > 0)
                 {
@@ -293,11 +294,16 @@ namespace Bookpouch
             }
         }
 
-        private MemoryStream getJpegFromStream(Stream fs) //Fetch the first jpg image from the file stream
-        {            
+        private static MemoryStream GetJpegFromStream(Stream fs) //Fetch the first jpg image from the file stream
+        {
             var img = new MemoryStream();
             var fsc = new MemoryStream();
             var saving = false;
+            var chunk = new Byte[4];
+            Byte[] endMagic = null;
+            //Byte sequences marking beginning and end of image files
+            var jpegMagic = new Tuple<byte[], byte[]>(new byte[] {0xff, 0xd8}, new byte[] { 0xff, 0xd9 }); 
+            var gifMagic = new Tuple<byte[], byte[]>(new byte[] {0x47, 0x49, 0x46, 0x38}, new byte[] {0x00, 0x3b});
 
             fs.Seek(0, SeekOrigin.Begin);
 
@@ -307,19 +313,26 @@ namespace Bookpouch
             for (var index = 0; index < bytes.Length; index++)
             {
                 var b = bytes[index];
+                chunk[0] = b;
+                
+                for (var chunkIndex = 1; chunkIndex < chunk.Length; chunkIndex++) //Read several bytes ahead so we can compare whole sequences and not just single bytes
+                    chunk[chunkIndex] = ((chunkIndex + index) < bytes.Length ? bytes[index + chunkIndex] : default(byte));
 
-                if ((b != 0xFF || bytes[index + 1] != 0xD8) && !saving)
+                if (!chunk.Take(2).SequenceEqual(jpegMagic.Item1) && !chunk.SequenceEqual(gifMagic.Item1) && !saving)
                     continue;
+
+                if(endMagic == null)
+                    endMagic = (chunk.Take(2).SequenceEqual(jpegMagic.Item1) ? jpegMagic.Item2 : gifMagic.Item2);
 
                 saving = true;
 
                 img.WriteByte(b);
 
-                if (b == 0xFF && bytes[index + 1] == 0xD9)
-                {
-                    img.WriteByte(bytes[index + 1]);
-                    break;
-                }
+                if (!chunk.Take(2).SequenceEqual(endMagic)) 
+                    continue;
+
+                img.WriteByte(chunk[1]);
+                break;
             }
 
             img.Seek(0, SeekOrigin.Begin);
@@ -331,9 +344,13 @@ namespace Bookpouch
                 {
                     using (var imgCheck = Image.FromStream(img))
                     {
-                        var isBitmap = imgCheck.RawFormat.Equals(ImageFormat.Jpeg);
+                        if (imgCheck.RawFormat.Equals(ImageFormat.Gif))
+                            Debug.WriteLine("YIFF");
 
-                        if (!isBitmap)
+                        if (imgCheck.RawFormat.Equals(ImageFormat.Jpeg))
+                            Debug.WriteLine("JAYPEG");
+
+                        if (!imgCheck.RawFormat.Equals(ImageFormat.Jpeg) && !imgCheck.RawFormat.Equals(ImageFormat.Gif))
                             throw new FormatException();
                     }
                 }
