@@ -38,6 +38,9 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0"
                     VerticalAlignment="Top" Margin="5,5,0,5" Opacity="0.3">
+            <Button Click="RootDir_OnClick" Margin="5,0,0,0" Style="{StaticResource MenuIconButton}" ToolTip="{local:Lng HintMenuRootDir}">
+                <Image Source="Img/folderSmall.png" />
+            </Button>
             <Button Margin="5,0,0,0" Click="Settings_OnClick" Style="{StaticResource MenuIconButton}"
                     ToolTip="{local:Lng HintMenuSettings}">
                 <Image Source="Img/tools1.png" />
@@ -162,7 +165,7 @@
                         <DockPanel>                            
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Right"  VerticalAlignment="Top" DockPanel.Dock="Right" >
                                 <Button Click="BookDir_OnClick" Style="{StaticResource MenuIconButton}" Tag="{Binding BookFile}" Width="30" Margin="0 0 0 5">
-                                    <Image Source="Img/folder.png" />
+                                    <Image Source="Img/folderSmall.png" />
                                 </Button>
                                 <Button Click="EditBook_OnClick" Style="{StaticResource MenuIconButton}" Tag="{Binding BookFile}" Width="30">
                                     <Image Source="Img/tools1.png" />

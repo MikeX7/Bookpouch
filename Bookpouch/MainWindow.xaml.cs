@@ -470,6 +470,12 @@ namespace Bookpouch
                 Process.Start(@path);
         }
 
+        private void RootDir_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Directory.Exists(Properties.Settings.Default.BooksDir))
+                Process.Start(@Properties.Settings.Default.BooksDir);
+        }
+
         private void Settings_OnClick(object sender, RoutedEventArgs e)
         {
             IsEnabled = false;
@@ -530,7 +536,8 @@ namespace Bookpouch
             {
                 DebugConsole.WriteLine("Edit book: It was not possible to save the provided book data: " + e.Message);  
             }    
-        }      
+        }
+    
     }
 
 }

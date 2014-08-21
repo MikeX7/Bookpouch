@@ -358,4 +358,7 @@
   <data name="BookGridOpenDir" xml:space="preserve">
     <value>Dir</value>
   </data>
+  <data name="HintMenuRootDir" xml:space="preserve">
+    <value>Open library's root directory</value>
+  </data>
 </root>

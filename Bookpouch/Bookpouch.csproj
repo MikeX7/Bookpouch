@@ -536,6 +536,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Img\folder.png" />
+    <Resource Include="Img\folderSmall.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

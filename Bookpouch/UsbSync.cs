@@ -49,12 +49,13 @@ namespace Bookpouch
                     DebugConsole.WriteLine("Usb sync: Failed to delete " + file + ": " + e);
                 }
             }
-            
-            foreach (var file in localBookListForSync.Where(file => File.Exists(file) && !bookList.Select(Path.GetFileName).Contains(Path.GetFileName(file))))
+
+            foreach (
+                var file in
+                    localBookListForSync.Where(
+                        file => File.Exists(file) && !bookList.Select(Path.GetFileName).Contains(Path.GetFileName(file)))
+                        .Where(file => !File.Exists(Path.Combine(_deviceDir, Path.GetFileName(file)))))
             {
-                if (File.Exists(Path.Combine(_deviceDir, Path.GetFileName(file))))
-                    continue;
-                ;
                 DebugConsole.WriteLine("Copying " + file);
 
                 try

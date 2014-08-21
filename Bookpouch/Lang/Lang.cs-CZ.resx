@@ -358,4 +358,7 @@
   <data name="BookGridOpenDir" xml:space="preserve">
     <value>Složka</value>
   </data>
+  <data name="HintMenuRootDir" xml:space="preserve">
+    <value>Otevřít kořenovou složku knihovny</value>
+  </data>
 </root>

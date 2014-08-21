@@ -430,6 +430,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open library&apos;s root directory.
+        /// </summary>
+        internal static string HintMenuRootDir {
+            get {
+                return ResourceManager.GetString("HintMenuRootDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string HintMenuSettings {
