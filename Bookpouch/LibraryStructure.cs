@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SQLite;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
-using System.Timers;
-using System.Windows.Threading;
 using ShadoLib;
 
 namespace Bookpouch
@@ -83,7 +78,8 @@ namespace Bookpouch
                 var query = Db.Query(sql);
                 var pathList = new List<string>();
 
-                while (query.Read())
+                //Delete rows pointing to non-existing files
+                while (query.Read()) 
                 {
                     if (File.Exists(BookKeeper.GetAbsoluteBookFilePath(query["Path"].ToString())))
                         pathList.Add(query["Path"].ToString());
@@ -91,10 +87,18 @@ namespace Bookpouch
                         Db.NonQuery(sqlDelete, new[] {new SQLiteParameter("Path", query["Path"].ToString())});
                 }
 
+                MainWindow.BusyMax(fileTree.Count(bookFile => !pathList.Contains(BookKeeper.GetRelativeBookFilePath(bookFile))));
+
+                var i = 0;
+
+                //Generate rows for any books missing them
                 foreach (
                     var bookFile in
                         fileTree.Where(bookFile => !pathList.Contains(BookKeeper.GetRelativeBookFilePath(bookFile))))
                 {
+                    MainWindow.Busy(BookKeeper.GetRelativeBookFilePath(bookFile));
+                    MainWindow.Busy(i++);
+
                     try
                     {
                         BookKeeper.GetData(bookFile);

@@ -13,8 +13,6 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Threading;
 using ShadoLib;
 using Application = System.Windows.Application;
 using Brushes = System.Windows.Media.Brushes;
@@ -80,56 +78,6 @@ namespace Bookpouch
                 new ReaderDetector(this);
                     //Start reader detection which automatically triggers UsbSync when the reader is connected to the pc         
             
-        }
-
-        private static Timer _busyTitleTimer;
-        /// <summary>
-        /// Displays or removes busy indicator from the main window
-        /// </summary>
-        /// <param name="toggle">true = turn the indicator on, false = turn it off</param>
-        public static void Busy(bool toggle)
-        {           
-            if (_busyTitleTimer == null && toggle)
-            {
-                MW.Dispatcher.Invoke(() =>
-                {
-                    MW.BusyBar.Visibility = Visibility.Visible;
-                    MW.MenuStack.IsEnabled = false;
-                });
-          
-                _busyTitleTimer = new Timer(300);
-
-                _busyTitleTimer.Disposed += delegate
-                {
-                    MW.Dispatcher.Invoke(() => { MW.Title = "Bookpouch"; });
-                        //After the timer gets disposed of, set the window title back to default
-                };
-
-                _busyTitleTimer.Elapsed += delegate
-                {
-                    MW.Dispatcher.Invoke(() =>
-                    {
-                        MW.Title = MW.Title.Substring(0, 2) == "▣•" ? "•▣" : "▣•";
-                            //Switch between these two sets of symbols in the window's title, to make it look like a simple animation
-                        MW.Title += " Bookpouch - " + UiLang.Get("Working");
-                    });
-                };
-
-                _busyTitleTimer.Start();                                 
-            }
-            else if (!toggle && _busyTitleTimer != null)
-            {
-                MW.Dispatcher.Invoke(() =>
-                {
-                    MW.BusyBar.Visibility = Visibility.Collapsed;
-                    MW.MenuStack.IsEnabled = true;
-                    
-                });
-
-                _busyTitleTimer.Stop();
-                _busyTitleTimer.Dispose();
-                _busyTitleTimer = default(Timer);
-            }
         }
 
         private Dictionary<string, string> filter = new Dictionary<string, string>();

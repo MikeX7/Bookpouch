@@ -9,16 +9,23 @@
         <ResourceDictionary Source="Style/Global.xaml" />
     </Window.Resources>
 
-    <Grid Margin="5">        
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ProgressBar Grid.Row="0" Grid.Column="0" Name="BusyBar" Visibility="Collapsed" IsIndeterminate="True" Width="500" Height="25"/>
+
+        <ProgressBar Grid.Row="0" Grid.Column="0" Name="BusyBar" Visibility="Collapsed" IsIndeterminate="True" Width="500" Height="25" />
+        <TextBlock  Grid.Row="0" Grid.Column="0"  FontSize="12" Foreground="#3c3f41" Visibility="Collapsed" HorizontalAlignment="Center" Name="BusyText" Text="That feel when no girlfriend">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="Gray" ShadowDepth="1" BlurRadius="2" />
+            </TextBlock.Effect>
+        </TextBlock>
+
         <StackPanel Name="MenuStack" Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,5,5,5">
             <Button Click="Sync_OnClick" Style="{StaticResource MenuIconButton}"
                     ToolTip="{local:Lng HintMenuSync}">
@@ -34,7 +41,6 @@
                     ToolTip="{local:Lng HintMenuRegenerateTree}">
                 <Image Source="Img/ornament.png" />
             </Button>
-
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0"
                     VerticalAlignment="Top" Margin="5,5,0,5" Opacity="0.3">
@@ -53,28 +59,26 @@
         <Border Panel.ZIndex="100" Grid.Row="0" Name="InfoBoxBorder" Grid.Column="0" CornerRadius="8" Width="700"
                 Visibility="Hidden" VerticalAlignment="Top" IsVisibleChanged="InfoBox_OnIsVisibleChanged" MouseLeftButtonUp="InfoBox_OnMouseLeftButtonUp">
             <TextBlock Name="InfoBox" TextWrapping="Wrap" VerticalAlignment="Top" Padding="5" TextAlignment="Center"
-                       RenderTransformOrigin="0.5,0.5" Foreground="Black"/>
+                       RenderTransformOrigin="0.5,0.5" Foreground="Black" />
         </Border>
 
         <DockPanel Name="Filter" Grid.Row="1" Visibility="Collapsed"  VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <StackPanel Name="FilterList" Orientation="Horizontal"></StackPanel>
-            <Button Name="ClearFilter" Click="ClearFilter_OnMouseLeftButtonUp" Padding="10 0 0 0" HorizontalAlignment="Right" Content="{local:Lng BookGridClearFilter}"/>
-            
+            <Button Name="ClearFilter" Click="ClearFilter_OnMouseLeftButtonUp" Padding="10 0 0 0" HorizontalAlignment="Right" Content="{local:Lng BookGridClearFilter}" />
         </DockPanel>
 
         <ComboBox HorizontalAlignment="Right" VerticalAlignment="Top" Name="FilterCategory" SelectionChanged="FilterCategory_OnSelectionChanged" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1" />
 
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1"/>
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1" />
 
-        <DataGrid x:Name="BookGrid" Grid.Row="2" IsReadOnly="True" AutoGenerateColumns="False" 
+        <DataGrid x:Name="BookGrid" Grid.Row="2" IsReadOnly="True" AutoGenerateColumns="False"
                   Loaded="BookGrid_OnLoaded" VerticalAlignment="Top" CanUserResizeRows="False" RowHeaderWidth="1" KeyUp="BookGrid_OnKeyUp" PreviewMouseRightButtonUp="BookGrid_PreviewMouseRightButtonUp" PreviewMouseLeftButtonUp="BookGrid_PreviewMouseRightButtonUp"
-                  HorizontalGridLinesBrush="#2b72ac" VerticalGridLinesBrush="#2b72ac" RowBackground="#5d5d5d" AlternatingRowBackground="#454545"  Background="#569cd6" Style="{DynamicResource DataGridStyle1}" >
+                  HorizontalGridLinesBrush="#2b72ac" VerticalGridLinesBrush="#2b72ac" RowBackground="#5d5d5d" AlternatingRowBackground="#454545"  Background="#569cd6" Style="{DynamicResource DataGridStyle1}">
             <DataGrid.Resources>
                 <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
-                    <Setter Property="Opacity" Value="0"/>  
-                </Style>                
+                    <Setter Property="Opacity" Value="0" />
+                </Style>
             </DataGrid.Resources>
-
 
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
@@ -128,7 +132,7 @@
                 <DataGridTemplateColumn Header="{local:Lng BookGridHeaderSync}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Tag="{Binding BookFile}" PreviewMouseDown="Sync_OnPreviewMouseDown" 
+                            <Button Tag="{Binding BookFile}" PreviewMouseDown="Sync_OnPreviewMouseDown"
                                     ToolTip="{local:Lng HintBookGridSync}">
                                 <Button.Template>
                                     <ControlTemplate>
@@ -140,7 +144,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="{local:Lng BookGridHeaderCategory}" Binding="{Binding Category}" >
+                <DataGridTextColumn Header="{local:Lng BookGridHeaderCategory}" Binding="{Binding Category}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Padding" Value="5" />
@@ -162,59 +166,57 @@
                             </RadialGradientBrush>
                         </Border.Background>
 
-                        <DockPanel>                            
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Right"  VerticalAlignment="Top" DockPanel.Dock="Right" >
+                        <DockPanel>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Right"  VerticalAlignment="Top" DockPanel.Dock="Right">
                                 <Button Click="BookDir_OnClick" Style="{StaticResource MenuIconButton}" Tag="{Binding BookFile}" Width="30" Margin="0 0 0 5">
                                     <Image Source="Img/folderSmall.png" />
                                 </Button>
                                 <Button Click="EditBook_OnClick" Style="{StaticResource MenuIconButton}" Tag="{Binding BookFile}" Width="30">
                                     <Image Source="Img/tools1.png" />
-                                </Button>                                
+                                </Button>
                             </StackPanel>
 
-                            <TextBlock Text="{Binding Description}"  DockPanel.Dock="Bottom"/>
+                            <TextBlock Text="{Binding Description}"  DockPanel.Dock="Bottom" />
 
                             <Image Source="{Binding CoverImage}" MaxHeight="128" MaxWidth="128" DockPanel.Dock="Left"
-                                   FlowDirection="LeftToRight" Margin="0,0,10,0" />                            
+                                   FlowDirection="LeftToRight" Margin="0,0,10,0" />
 
-                            <DockPanel Name="DetailInnerDock" LastChildFill="False" DockPanel.Dock="Left" >                                
-                                
+                            <DockPanel Name="DetailInnerDock" LastChildFill="False" DockPanel.Dock="Left">
+
                                 <TextBlock FontSize="21" FontWeight="Regular" TextWrapping="Wrap"  DockPanel.Dock="Top"
                                            Foreground="WhiteSmoke" Text="{Binding Title}" VerticalAlignment="Center" Width="{Binding ActualWidth, ElementName=DetailInnerDock}">
                                     <TextBlock.Effect>
                                         <DropShadowEffect Color="Black" ShadowDepth="5" BlurRadius="5" />
                                     </TextBlock.Effect>
                                 </TextBlock>
-                                
+
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding AuthorVisibility}" DockPanel.Dock="Top">
                                     <Image Source="Img/silhouette.png" Height="16" Margin="0,0,5,0"
                                            HorizontalAlignment="Left" />
                                     <TextBlock FontSize="16" Text="{Binding Author}" Foreground="#92caf4"
-                                               FontWeight="Medium" 
+                                               FontWeight="Medium"
                                                VerticalAlignment="Center">
                                         <TextBlock.Effect>
                                             <DropShadowEffect Color="#0a395c" ShadowDepth="3" BlurRadius="3" />
                                         </TextBlock.Effect>
                                     </TextBlock>
                                 </StackPanel>
-                                
+
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding SeriesVisibility}" DockPanel.Dock="Top">
-                                    <TextBlock FontSize="18" Text="📚 " FontWeight="Medium" VerticalAlignment="Center" Foreground="DarkGray"/>
+                                    <TextBlock FontSize="18" Text="📚 " FontWeight="Medium" VerticalAlignment="Center" Foreground="DarkGray" />
                                     <TextBlock Text="{Binding Series}" MouseLeftButtonUp="FilterSeries_OnMouseLeftButtonUp" FontWeight="DemiBold" Foreground="LightGray" VerticalAlignment="Center" />
                                 </StackPanel>
-                                
+
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                                     <Image Source="{Binding CountryFlagPath}" Height="18" Margin="0,0,5,0" />
                                     <TextBlock Text="{Binding Publisher}" Margin="0,0,5,0" />
                                     <TextBlock Text="{Binding Published}" Foreground="#FF292929" />
-                                </StackPanel>                                
-                            </DockPanel>                            
-                                                                             
+                                </StackPanel>
+                            </DockPanel>
                         </DockPanel>
                     </Border>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
-
-        </DataGrid>        
+        </DataGrid>
     </Grid>
 </Window>

@@ -84,6 +84,7 @@
     <Compile Include="AboutBox.xaml.cs">
       <DependentUpon>AboutBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BusyBar.cs" />
     <Compile Include="Db.cs" />
     <Compile Include="MainWindowInfo.cs" />
     <Compile Include="MainWindowBook.cs" />
