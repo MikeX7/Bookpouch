@@ -1,4 +1,8 @@
-﻿namespace Bookpouch
+﻿using System.Diagnostics;
+using System.Reflection;
+using System.Windows.Forms;
+
+namespace Bookpouch
 {
     /// <summary>
     /// Interaction logic for AboutBox.xaml
@@ -8,6 +12,8 @@
         public AboutBox()
         {
             InitializeComponent();
+
+            Version.Text = "Version: " + Application.ProductVersion;
         }
     }
 }

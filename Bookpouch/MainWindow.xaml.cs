@@ -53,7 +53,9 @@ namespace Bookpouch
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
             
             InitializeComponent();     
-            DebugConsole.Open();
+
+            if(Properties.Settings.Default.DebugOnStart)
+                DebugConsole.Open();
             
             TrayIcon = new NotifyIcon
             {
@@ -473,7 +475,7 @@ namespace Bookpouch
         private void RootDir_OnClick(object sender, RoutedEventArgs e)
         {
             if (Directory.Exists(Properties.Settings.Default.BooksDir))
-                Process.Start(@Properties.Settings.Default.BooksDir);
+                Process.Start(Properties.Settings.Default.BooksDir);            
         }
 
         private void Settings_OnClick(object sender, RoutedEventArgs e)

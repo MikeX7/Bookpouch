@@ -186,5 +186,14 @@ namespace Bookpouch.Properties {
                 this["BooksDirSelectionOffered"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DebugOnStart {
+            get {
+                return ((bool)(this["DebugOnStart"]));
+            }
+        }
     }
 }
