@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
 
         <ProgressBar Grid.Row="0" Grid.Column="0" Name="BusyBar" Visibility="Collapsed" IsIndeterminate="True" Width="500" Height="25" />
-        <TextBlock  Grid.Row="0" Grid.Column="0"  FontSize="12" Foreground="#3c3f41" Visibility="Collapsed" HorizontalAlignment="Center" Name="BusyText" Text="That feel when no girlfriend">
+        <TextBlock  Grid.Row="0" Grid.Column="0"  FontSize="12" Foreground="#3c3f41" Visibility="Collapsed" HorizontalAlignment="Center" Name="BusyText">
             <TextBlock.Effect>
                 <DropShadowEffect Color="Gray" ShadowDepth="1" BlurRadius="2" />
             </TextBlock.Effect>
@@ -176,10 +176,10 @@
                                 </Button>
                             </StackPanel>
 
-                            <TextBlock Text="{Binding Description}"  DockPanel.Dock="Bottom" />
+                            
 
-                            <Image Source="{Binding CoverImage}" MaxHeight="128" MaxWidth="128" DockPanel.Dock="Left"
-                                   FlowDirection="LeftToRight" Margin="0,0,10,0" />
+                            <Image Source="{Binding CoverImage}" MaxHeight="128" MaxWidth="128" VerticalAlignment="Top" DockPanel.Dock="Left"
+                                   FlowDirection="LeftToRight" Margin="0,0,10,0" />                            
 
                             <DockPanel Name="DetailInnerDock" LastChildFill="False" DockPanel.Dock="Left">
 
@@ -212,7 +212,10 @@
                                     <TextBlock Text="{Binding Publisher}" Margin="0,0,5,0" />
                                     <TextBlock Text="{Binding Published}" Foreground="#FF292929" />
                                 </StackPanel>
+                                
+                                <TextBlock Text="{Binding Description}" TextAlignment="Justify" DockPanel.Dock="Top" Foreground="LightGray" Width="{Binding ActualWidth, ElementName=DetailInnerDock}" TextWrapping="Wrap"/>
                             </DockPanel>
+                            
                         </DockPanel>
                     </Border>
                 </DataTemplate>

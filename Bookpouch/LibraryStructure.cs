@@ -78,6 +78,8 @@ namespace Bookpouch
                 var query = Db.Query(sql);
                 var pathList = new List<string>();
 
+                MainWindow.Busy(UiLang.Get("BusyCleaningDb"));
+
                 //Delete rows pointing to non-existing files
                 while (query.Read()) 
                 {

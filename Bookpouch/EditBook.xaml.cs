@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.SQLite;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -110,6 +113,7 @@ namespace Bookpouch
             comboBox.ItemsSource = languageOptions;
             comboBox.SelectedIndex = cultureList.Select(culture => culture.Name).ToList().IndexOf(language); //Set combobox position to the book's language            
         }
+        
 
         /// <summary>
         /// Save the language in which the book is written
@@ -200,18 +204,35 @@ namespace Bookpouch
             };            
         }
 
+        ObservableCollection<CategoryTag> categoryTagList = new ObservableCollection<CategoryTag>();
+
         private void Category_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            TextBox_OnLoaded(sender, e);
+        {                        
+            var query = Db.Query("SELECT Name FROM categories WHERE Path = @Path", new []{new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookData.Path)), });            
 
-            var bookInfo = LibraryStructure.List();
+            while (query.Read())
+            {                
+                var category = new CategoryTag()
+                {
+                    Name = query["Name"].ToString()
+                };
+                
+                categoryTagList.Add(category);            
+                
+            }
+
+            if(categoryTagList.Count > 0)
+                CategoryTagsBorder.Visibility = Visibility.Visible;
+
+            Categories.ItemsSource = categoryTagList;
+
             var defaultCategories = Properties.Settings.Default.DefaultCategories.Split(';');
-            var hintSet = new HashSet<string>(defaultCategories);
+            var hintList = new List<string>(defaultCategories);
+            query = Db.Query("SELECT DISTINCT Name FROM categories");
 
-            foreach (var info in bookInfo.Where(info => info.Category!= ""))
-                hintSet.Add(info.Category);
-
-            var hintList = hintSet.ToList();
+            while(query.Read())
+                hintList.Add(query["Name"].ToString());
+            
             hintList.Sort();
 
             new Whisperer
@@ -219,7 +240,71 @@ namespace Bookpouch
                 TextBox = (TextBox)sender,
                 HintList = hintList
             };
+        }    
+
+        /// <summary>
+        /// Remove category from the book
+        /// </summary>
+        private void CategoryTag_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {            
+            var categoryTag = (CategoryTag) (((Button) sender).DataContext);
+
+            categoryTagList.Remove(categoryTag);
+
+            if (categoryTagList.Count == 0)
+                CategoryTagsBorder.Visibility = Visibility.Collapsed;
+
+            Db.NonQuery("DELETE FROM categories WHERE Name = @Name AND Path = @Path", new []
+                {
+                    new SQLiteParameter("Name", categoryTag.Name),
+                    new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookData.Path)),
+                });
         }
+
+        /// <summary>
+        /// Add category to the book
+        /// </summary>        
+        private void Category_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            var textBox = (TextBox) sender;
+            
+            if(textBox.Text.Length == 0 || (textBox.Text.Substring(textBox.Text.Length - 1) != ";" && textBox.Text.Substring(textBox.Text.Length - 1) != ","))
+                return;
+
+            var category = textBox.Text.Substring(0, textBox.Text.Length - 1);
+            textBox.Text = String.Empty;
+
+            if (categoryTagList.Any(categoryTag => categoryTag.Name == category))
+                return;
+
+            CategoryTagsBorder.Visibility = Visibility.Visible;
+            categoryTagList.Add(new CategoryTag { Name = category});            
+
+            Db.NonQuery("INSERT OR IGNORE INTO categories VALUES(@Path, @Name)", new []
+            {
+                new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookData.Path)), 
+                new SQLiteParameter("Name", category)
+            });
+
+        }
+
+        private void Category_OnLostFocus(object sender, RoutedEventArgs e)
+        {            
+        /*    var textBox = (TextBox)sender;
+
+            if (textBox.Text == String.Empty)
+                return;
+            textBox.Text += ";";
+
+            Category_OnKeyUp(sender, null);*/
+        }
+
+        private class CategoryTag
+        {
+            public string Name { set; get; }        
+
+        }
+
         private void Discard_OnClick(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show(String.Format(UiLang.Get("BookDeleteConfirm"), BookInfoGet("Title")), UiLang.Get("BookDeleteConfirmTitle"), MessageBoxButton.YesNo) != MessageBoxResult.Yes)
@@ -276,6 +361,6 @@ namespace Bookpouch
                 Close();
             }         
 
-        }
+        }   
     }
 }

@@ -122,7 +122,7 @@ namespace Bookpouch
         /// </summary>
         private static void GenerateDbStructure()
         {
-            const string sql = 
+            const string sqlBooks = 
                 "CREATE TABLE books (" +
                 "Path VARCHAR(255) NOT NULL PRIMARY KEY," +
                 "Title VARCHAR(255) NOT NULL," +
@@ -141,12 +141,18 @@ namespace Bookpouch
                 "Cover BLOB" +                      
                 ")";
 
-            using (var command = new SQLiteCommand(sql, Connection))
-            {
-                command.ExecuteNonQuery();
-            }
-            
+            const string sqlCategories =
+                "CREATE TABLE categories (" +
+                "Path VARCHAR(255) NOT NULL," +
+                "Name VARCHAR(255) NOT NULL," +
+                "PRIMARY KEY(Path, Name)" +                
+                ")";
 
+            using (var command = new SQLiteCommand(sqlBooks, Connection))
+                command.ExecuteNonQuery();
+
+            using (var command = new SQLiteCommand(sqlCategories, Connection))
+                command.ExecuteNonQuery();
         }
 
 

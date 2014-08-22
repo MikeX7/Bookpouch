@@ -9,6 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace Bookpouch.Lang {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -175,6 +178,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cleaning the library database....
+        /// </summary>
+        internal static string BusyCleaningDb {
+            get {
+                return ResourceManager.GetString("BusyCleaningDb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you really want to permanently delete {0} book/s?.
         /// </summary>
         internal static string DeleteBooksConfirm {
@@ -243,6 +255,15 @@ namespace Bookpouch.Lang {
         internal static string EditBookCategory {
             get {
                 return ResourceManager.GetString("EditBookCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Description: .
+        /// </summary>
+        internal static string EditBookDescription {
+            get {
+                return ResourceManager.GetString("EditBookDescription", resourceCulture);
             }
         }
         
@@ -360,6 +381,15 @@ namespace Bookpouch.Lang {
         internal static string HintBookGridSync {
             get {
                 return ResourceManager.GetString("HintBookGridSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When you are done typing the category&apos;s name, type ; (semicolon) or , (comma) to add it to the list..
+        /// </summary>
+        internal static string HintEditBookCategory {
+            get {
+                return ResourceManager.GetString("HintEditBookCategory", resourceCulture);
             }
         }
         

@@ -361,4 +361,13 @@
   <data name="HintMenuRootDir" xml:space="preserve">
     <value>Otevřít kořenovou složku knihovny</value>
   </data>
+  <data name="BusyCleaningDb" xml:space="preserve">
+    <value>Čistím databázi knihovny...</value>
+  </data>
+  <data name="EditBookDescription" xml:space="preserve">
+    <value>_Popis: </value>
+  </data>
+  <data name="HintEditBookCategory" xml:space="preserve">
+    <value>Poté co vepíšete název kategorie, napište ; (středník) nebo , (čárku) pro přidání do listu.</value>
+  </data>
 </root>

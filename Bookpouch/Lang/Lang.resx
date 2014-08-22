@@ -361,4 +361,13 @@
   <data name="HintMenuRootDir" xml:space="preserve">
     <value>Open library's root directory</value>
   </data>
+  <data name="BusyCleaningDb" xml:space="preserve">
+    <value>Cleaning the library database...</value>
+  </data>
+  <data name="EditBookDescription" xml:space="preserve">
+    <value>_Description: </value>
+  </data>
+  <data name="HintEditBookCategory" xml:space="preserve">
+    <value>When you are done typing the category's name, type ; (semicolon) or , (comma) to add it to the list.</value>
+  </data>
 </root>

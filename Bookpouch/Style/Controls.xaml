@@ -87,7 +87,7 @@
     </Style>
 
     <!--Style for all butons-->
-    <Style TargetType="Button">
+    <Style TargetType="Button" x:Key="DefaultButton">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="Template">
@@ -179,6 +179,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="Button" BasedOn="{StaticResource DefaultButton}"/>
 
     <!--Style for all menu butons-->
     <Style x:Key="MenuIconButton" TargetType="Button">

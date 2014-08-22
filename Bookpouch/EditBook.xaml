@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Bookpouch"
-        Title="EditBook" Height="400" Width="620" Background="#2d2d30">
+        Title="EditBook" Height="500" Width="620" Background="#2d2d30">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -27,17 +27,18 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition Height="*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="90" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image Grid.Column="1" Grid.Row="0"  Grid.RowSpan="10" MouseLeftButtonUp="CoverImage_OnMouseLeftButtonUp" MouseRightButtonUp="CoverImage_OnMouseRightButtonUp" Loaded="CoverImage_OnLoaded" HorizontalAlignment="Right" VerticalAlignment="Top" MaxWidth="240" MaxHeight="240" ToolTip="{local:Lng HintEditBookCoverImage}" />
+        <Image Grid.Column="1" Grid.Row="0"  Grid.RowSpan="10" MouseLeftButtonUp="CoverImage_OnMouseLeftButtonUp" MouseRightButtonUp="CoverImage_OnMouseRightButtonUp" Loaded="CoverImage_OnLoaded" HorizontalAlignment="Right" VerticalAlignment="Top" MaxWidth="240" MaxHeight="235" ToolTip="{local:Lng HintEditBookCoverImage}" />
 
         <Label Grid.Row="0" Grid.Column="0" Content="{local:Lng EditBookTitle}" Target="{Binding ElementName=Title}"/>
         <TextBox Grid.Row="0" Grid.Column="1" Name="Title" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged"/>
@@ -64,15 +65,42 @@
         <DatePicker Grid.Row="4" Grid.Column="1" Name="Published" Loaded="DatePicker_OnLoaded" LostFocus="DatePicker_OnChanged" SelectedDateFormat="Short" Width="125"/>
 
         <Label Grid.Row="5" Grid.Column="0" Content="{local:Lng EditBookCategory}" Target="{Binding ElementName=Category}"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Name="Category" Loaded="Category_OnLoaded"  LostFocus="TextBox_OnChanged"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Name="Category" KeyUp="Category_OnKeyUp" Loaded="Category_OnLoaded"  LostFocus="Category_OnLostFocus" ToolTip="{local:Lng HintEditBookCategory}"/>
 
-        <Label Grid.Row="6" Grid.Column="0" Content="{local:Lng EditBookFavorite}" Target="{Binding ElementName=Favorite}"/>
-        <CheckBox Grid.Row="6" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Favorite" ToolTip="{local:Lng HintEditBookFavorite}"/>
+        <Border Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" CornerRadius="4" Background="#58585f" Width="250" Name="CategoryTagsBorder" Visibility="Visible" Padding="5 5 5 0" MinHeight="25">
+            <Border.Resources>
+                <Style BasedOn="{StaticResource DefaultButton}" TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="0,0,5,5"/>
+                    <Setter Property="FontWeight" Value="Medium"/>
+                </Style>
+            </Border.Resources>
 
-        <Label Grid.Row="7" Grid.Column="0" Content="{local:Lng EditBookSync}" Target="{Binding ElementName=Sync}"/>
-        <CheckBox Grid.Row="7" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Sync" ToolTip="{local:Lng HintEditBookSync}"/>
+            <ItemsControl x:Name="Categories">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Name}" PreviewMouseLeftButtonUp="CategoryTag_OnPreviewMouseLeftButtonUp"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>                
 
-        <Button Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{local:Lng EditBookDiscard}" Click="Discard_OnClick" ToolTip="{local:Lng HintEditBookRemove}"/>
+        </Border>
+
+        <Label Grid.Row="7" Grid.Column="0" Content="{local:Lng EditBookFavorite}" Target="{Binding ElementName=Favorite}"/>
+        <CheckBox Grid.Row="7" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Favorite" ToolTip="{local:Lng HintEditBookFavorite}"/>
+
+        <Label Grid.Row="8" Grid.Column="0" Content="{local:Lng EditBookSync}" Target="{Binding ElementName=Sync}"/>
+        <CheckBox Grid.Row="8" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Sync" ToolTip="{local:Lng HintEditBookSync}"/>
+
+        <Label Grid.Row="9" Grid.Column="0" Content="{local:Lng EditBookDescription}"  Target="{Binding ElementName=Description}"/>
+        <TextBox Grid.Row="9" Grid.Column="1" AcceptsReturn="True" Name="Description" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Width="auto" Height="auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        
+        <Button Grid.Row="10" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{local:Lng EditBookDiscard}" Click="Discard_OnClick" ToolTip="{local:Lng HintEditBookRemove}"/>
 
     </Grid>
 </Window>
