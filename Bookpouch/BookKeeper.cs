@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows.Documents;
 
 namespace Bookpouch
 {    
@@ -98,8 +101,27 @@ namespace Bookpouch
                     new SQLiteParameter("Sync", false), 
                     new SQLiteParameter("Created", DateTime.Now), 
                     new SQLiteParameter("Cover", (bookPeek.List.ContainsKey("cover") ? bookPeek.List["cover"] : null))
-                });            
+                });     
+       
+            if(!bookPeek.List.ContainsKey("categories"))
+                return;
             
+
+            var categories = (List<string>) bookPeek.List["categories"];
+            var categoryInserts = new List<string>();
+            var categoryParameters = new List<SQLiteParameter> { new SQLiteParameter("Path", bookFileRelativePath) };
+            var i = 0;
+
+            foreach (var category in categories)
+            {
+                i++;
+                categoryInserts.Add("(@Path, @Category" + i + ", 1)");    
+                categoryParameters.Add(new SQLiteParameter("Category" + i, category));
+            }
+
+            var sqlCategories =  String.Join(",", categoryInserts);
+            Debug.WriteLine(sqlCategories);
+            Db.NonQuery("INSERT OR IGNORE INTO categories VALUES " + sqlCategories, categoryParameters.ToArray());
         }
 
         /// <summary>
@@ -211,7 +233,8 @@ namespace Bookpouch
             if (!File.Exists(bookFile))
                 return;
 
-            const string sql = "DELETE FROM books WHERE Path = @Path";
+            const string sqlDeleteBook = "DELETE FROM books WHERE Path = @Path";
+            const string sqlDeleteCategories = "DELETE FROM categories WHERE Path = @Path";
 
             var bookFileRelativePath = GetRelativeBookFilePath(bookFile);
 
@@ -219,7 +242,8 @@ namespace Bookpouch
             {
                 File.Delete(bookFile);
 
-                Db.NonQuery(sql, new[]{ new SQLiteParameter("Path", bookFileRelativePath)});
+                Db.NonQuery(sqlDeleteBook, new[]{ new SQLiteParameter("Path", bookFileRelativePath)});
+                Db.NonQuery(sqlDeleteCategories, new[] { new SQLiteParameter("Path", bookFileRelativePath) });
 
                 LibraryStructure.GenerateFileTree();
                 MainWindow.MW.BookGridReload();

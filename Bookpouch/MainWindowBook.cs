@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -16,7 +18,14 @@ namespace Bookpouch
             public string Publisher { set; get; }
             public DateTime? Published { set; get; }
             public string CountryCode;
-            public string Description { set; get; }
+
+            private string _description;
+            public string Description
+            {
+                set { _description = value; }
+                get { return Regex.Replace(_description.Replace("<p", "\n<p"), "<[^>]+>", ""); } //Remove html tags and replace block tags with new line marks
+            }
+
             public string MobiType { set; get; }
             public string Size { set; get; }
             public string Category { set; get; }

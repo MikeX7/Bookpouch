@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -83,25 +84,31 @@ namespace Bookpouch
         private Dictionary<string, string> filter = new Dictionary<string, string>();
 
         public void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
-        {
+        {            
             DebugConsole.WriteLine("Loading the book grid...");
-            var grid = (DataGrid) sender;            
-            var bookTree = LibraryStructure.List();           
-            var bookList = new List<Book>();            
-            foreach (var bookData in bookTree)
-            {                
-                                                           
+
+            var grid = (DataGrid) sender;
+            var sql = AssembleQuery(filter);
+            var query = Db.Query(sql.Item1, sql.Item2);
+            var bookDataList = new List<BookData>();
+            var bookList = new List<Book>();
+
+            while (query.Read())
+                bookDataList.Add(BookKeeper.CastSqlBookRowToBookData(query));
+
+            foreach (var bookData in bookDataList)
+            {               
                 var countryCode = "_unknown";
                 //If we can't get proper country code, this fall-back flag image name will be used
                     
-                if (filter.ContainsKey("title") && !(bookData.Title).ToLower().Contains(filter["title"].ToLower()))
+             /*   if (filter.ContainsKey("title") && !(bookData.Title).ToLower().Contains(filter["title"].ToLower()))
                     continue;
 
                 if (filter.ContainsKey("category") && bookData.Category != filter["category"])
                     continue;
 
                 if (filter.ContainsKey("series") && bookData.Series != filter["series"])
-                    continue;
+                    continue;*/
 
                 if (bookData.Language != "" &&
                     CultureInfo.GetCultures(CultureTypes.SpecificCultures)
@@ -111,6 +118,8 @@ namespace Bookpouch
                     var cultureInfo = new CultureInfo(bookData.Language);
                     countryCode = new RegionInfo(cultureInfo.Name).TwoLetterISORegionName;
                 }
+
+
                 
                 bookList.Add(new Book
                 {
@@ -284,24 +293,22 @@ namespace Bookpouch
             //If the category column header gets right clicked display combobox for filtering categories
             if (obj != null && obj.Text == UiLang.Get("BookGridHeaderCategory"))
             {
-                var bookList = LibraryStructure.List();
                 var categoryList = new HashSet<string>{"- - -"};
 
-                foreach (var info in bookList)
-                {
-                    if (!categoryList.Contains(info.Category) && info.Category != "")
-                        categoryList.Add(info.Category);
-                }
+                var query = Db.Query("SELECT DISTINCT Name FROM categories ORDER BY Name");
+
+                while (query.Read())
+                    categoryList.Add(query["Name"].ToString());
 
                 FilterCategory.ItemsSource = categoryList;
                 FilterCategory.Visibility = Visibility.Visible;
             }
 
-            if (obj != null && obj.Text == UiLang.Get("BookGridHeaderTitle"))
-            {
-                FilterName.Visibility = Visibility.Visible;
-                FilterName.Focus();
-            }
+            if (obj == null || obj.Text != UiLang.Get("BookGridHeaderTitle")) 
+                return;
+
+            FilterName.Visibility = Visibility.Visible;
+            FilterName.Focus();
         }
 
         //Filter book list with only books from the selected series

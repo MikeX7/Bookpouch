@@ -93,9 +93,11 @@ namespace Bookpouch
                     var author = metaData.Descendants(customNs + "creator").FirstOrDefault();
                     var title = metaData.Descendants(customNs + "title").FirstOrDefault();
                     var description = metaData.Descendants(customNs + "description").FirstOrDefault();
+                    var categories = metaData.Descendants(customNs + "subject").Select(category => category.Value).ToList();
                     var publisher = metaData.Descendants(customNs + "publisher").FirstOrDefault();
                     var language = metaData.Descendants(customNs + "language").FirstOrDefault();
-                    var published = metaData.Descendants(customNs + "date").FirstOrDefault();                                       
+                    var published = metaData.Descendants(customNs + "date").FirstOrDefault();
+                    
 
                     if (author != null)
                         List.Add("author", author.Value);
@@ -105,6 +107,9 @@ namespace Bookpouch
 
                     if (description != null)
                         List.Add("description", description.Value);
+
+                    if(categories.Count > 0)
+                        List.Add("categories", categories);
 
                     if (publisher != null)
                         List.Add("publisher", publisher.Value);

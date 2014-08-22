@@ -212,7 +212,7 @@
                                     <TextBlock Text="{Binding Publisher}" Margin="0,0,5,0" />
                                     <TextBlock Text="{Binding Published}" Foreground="#FF292929" />
                                 </StackPanel>
-                                
+                                                                
                                 <TextBlock Text="{Binding Description}" TextAlignment="Justify" DockPanel.Dock="Top" Foreground="LightGray" Width="{Binding ActualWidth, ElementName=DetailInnerDock}" TextWrapping="Wrap"/>
                             </DockPanel>
                             

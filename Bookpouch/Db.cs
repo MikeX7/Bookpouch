@@ -145,6 +145,7 @@ namespace Bookpouch
                 "CREATE TABLE categories (" +
                 "Path VARCHAR(255) NOT NULL," +
                 "Name VARCHAR(255) NOT NULL," +
+                "FromFile BOOLEAN NOT NULL," +                
                 "PRIMARY KEY(Path, Name)" +                
                 ")";
 

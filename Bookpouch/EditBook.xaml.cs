@@ -280,7 +280,7 @@ namespace Bookpouch
             CategoryTagsBorder.Visibility = Visibility.Visible;
             categoryTagList.Add(new CategoryTag { Name = category});            
 
-            Db.NonQuery("INSERT OR IGNORE INTO categories VALUES(@Path, @Name)", new []
+            Db.NonQuery("INSERT OR IGNORE INTO categories VALUES(@Path, @Name, 0)", new []
             {
                 new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookData.Path)), 
                 new SQLiteParameter("Name", category)

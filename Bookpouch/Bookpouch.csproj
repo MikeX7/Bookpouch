@@ -86,6 +86,7 @@
     </Compile>
     <Compile Include="BusyBar.cs" />
     <Compile Include="Db.cs" />
+    <Compile Include="Filter.cs" />
     <Compile Include="MainWindowInfo.cs" />
     <Compile Include="MainWindowBook.cs" />
     <Compile Include="BookData.cs" />
