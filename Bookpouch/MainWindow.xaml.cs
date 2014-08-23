@@ -20,6 +20,8 @@ using Brushes = System.Windows.Media.Brushes;
 using Button = System.Windows.Controls.Button;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DataGrid = System.Windows.Controls.DataGrid;
+using DataObject = System.Windows.DataObject;
+using DragEventArgs = System.Windows.DragEventArgs;
 using Image = System.Windows.Controls.Image;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.MessageBox;
@@ -36,9 +38,11 @@ namespace Bookpouch
     {
         /// <summary>
         /// Instance of the main window object, containing the GUI
-        /// </summary>
+        /// </summary>      
+        // ReSharper disable once InconsistentNaming
         public static MainWindow MW;
-        private static NotifyIcon TrayIcon;        
+        private static NotifyIcon _trayIcon;
+        private readonly Dictionary<string, string> _filter = new Dictionary<string, string>();
 
         public MainWindow()
         {
@@ -51,28 +55,29 @@ namespace Bookpouch
             if (path != null) 
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
             
-            InitializeComponent();     
-
+            InitializeComponent();
+            AllowDrop = true;
+            Drop += Add_OnDrop;
             if(Properties.Settings.Default.DebugOnStart)
                 DebugConsole.Open();
             
-            TrayIcon = new NotifyIcon
+            _trayIcon = new NotifyIcon
             {
                 Icon = new Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Bookpouch;component/Img/kindle.ico")).Stream),
                 Visible = false,
                 Text = "Bookpouch"
             };
 
-            TrayIcon.Click += (o, args) => 
+            _trayIcon.Click += (o, args) => 
                 {
                     Show();
-                    TrayIcon.Visible = false;
+                    _trayIcon.Visible = false;
                 };
             
             if (Environment.GetCommandLineArgs().Contains("-tray")) 
             {
                 Hide();
-                TrayIcon.Visible = true;  
+                _trayIcon.Visible = true;  
             }
 
             if (Properties.Settings.Default.UsbAutoSync)
@@ -81,14 +86,28 @@ namespace Bookpouch
             
         }
 
-        private Dictionary<string, string> filter = new Dictionary<string, string>();
+        private static void Add_OnDrop(object sender, DragEventArgs e)
+        {
+            if (!(e.Data is DataObject) || !((DataObject) e.Data).ContainsFileDropList()) 
+                return;
 
-        public void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
+            var list = new List<string>();
+
+            foreach (var filePath in ((DataObject)e.Data).GetFileDropList())
+            {
+                Debug.WriteLine(filePath);
+                list.Add(filePath);
+            }
+
+            AddBooksFromList(list);
+        }
+
+        private void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
         {            
             DebugConsole.WriteLine("Loading the book grid...");
 
             var grid = (DataGrid) sender;
-            var sql = AssembleQuery(filter);
+            var sql = AssembleQuery(_filter);
             var query = Db.Query(sql.Item1, sql.Item2);
             var bookDataList = new List<BookData>();
             var bookList = new List<Book>();
@@ -158,7 +177,7 @@ namespace Bookpouch
 
             //Regenerate the filter list
 
-            if (filter.Count == 0)
+            if (_filter.Count == 0)
             {
                 Filter.Visibility = Visibility.Collapsed;                
                 return;
@@ -174,7 +193,7 @@ namespace Bookpouch
 
             FilterList.Children.Clear();
 
-            foreach (var item in filter)
+            foreach (var item in _filter)
             {
                 var value = new TextBlock()
                 {
@@ -211,11 +230,11 @@ namespace Bookpouch
         {
             var textBox = (TextBox) sender;
 
-            filter["title"] = textBox.Text; //Add selected category name into the filter so only books in that category are displayed
+            _filter["title"] = textBox.Text; //Add selected category name into the filter so only books in that category are displayed
 
             if (textBox.Text == "" && e.Key == Key.Back)
             {
-                filter.Remove("title"); //Remove category from the filter so all categories are displayed
+                _filter.Remove("title"); //Remove category from the filter so all categories are displayed
                 textBox.Visibility = Visibility.Collapsed;
             }
 
@@ -229,11 +248,11 @@ namespace Bookpouch
         {
             var comboBox = (ComboBox) sender;            
 
-            filter["category"] = comboBox.SelectedItem.ToString(); //Add selected category name into the filter so only books in that category are displayed
+            _filter["category"] = comboBox.SelectedItem.ToString(); //Add selected category name into the filter so only books in that category are displayed
 
             if (comboBox.SelectedIndex == 0)
             {
-                filter.Remove("category"); //Remove category from the filter so all categories are displayed
+                _filter.Remove("category"); //Remove category from the filter so all categories are displayed
                 comboBox.Visibility = Visibility.Collapsed;
             }
 
@@ -316,14 +335,14 @@ namespace Bookpouch
         {
             var textBlock = (TextBlock) sender;
 
-            filter["series"] = textBlock.Text;
+            _filter["series"] = textBlock.Text;
 
             BookGridReload();
         }
 
         private void ClearFilter_OnMouseLeftButtonUp(object sender, RoutedEventArgs routedEventArgs)
         {
-            filter.Clear();
+            _filter.Clear();
             FilterCategory.SelectedIndex = 0;
             FilterCategory.Visibility = Visibility.Collapsed;
             FilterName.Text = String.Empty;
@@ -356,17 +375,22 @@ namespace Bookpouch
 
             var selectedFiles = openFileDialog.FileNames;     
            
+            AddBooksFromList(selectedFiles);
+        }
+
+        private static void AddBooksFromList(IEnumerable<string> list)
+        {
             Busy(true);
 
             Task.Factory.StartNew(() =>
             {
-                foreach (var file in selectedFiles)
+                foreach (var file in list)
                     BookKeeper.Add(file);
-                
-                Dispatcher.Invoke(() =>
-                { 
+
+                MW.Dispatcher.Invoke(() =>
+                {
                     LibraryStructure.GenerateFileTree();
-                    BookGridReload();           
+                    MW.BookGridReload();
                 });
 
                 Busy(false);
@@ -470,7 +494,7 @@ namespace Bookpouch
                 return;            
 
             Hide();
-            TrayIcon.Visible = true;            
+            _trayIcon.Visible = true;            
 
             DebugConsole.WriteLine("Minimizing Bookpouch into tray.");
             e.Cancel = true;

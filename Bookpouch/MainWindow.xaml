@@ -71,7 +71,7 @@
 
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1" />
 
-        <DataGrid x:Name="BookGrid" Grid.Row="2" IsReadOnly="True" AutoGenerateColumns="False"
+        <DataGrid x:Name="BookGrid" Grid.Row="2" IsReadOnly="True" AutoGenerateColumns="False" 
                   Loaded="BookGrid_OnLoaded" VerticalAlignment="Top" CanUserResizeRows="False" RowHeaderWidth="1" KeyUp="BookGrid_OnKeyUp" PreviewMouseRightButtonUp="BookGrid_PreviewMouseRightButtonUp" PreviewMouseLeftButtonUp="BookGrid_PreviewMouseRightButtonUp"
                   HorizontalGridLinesBrush="#2b72ac" VerticalGridLinesBrush="#2b72ac" RowBackground="#5d5d5d" AlternatingRowBackground="#454545"  Background="#569cd6" Style="{DynamicResource DataGridStyle1}">
             <DataGrid.Resources>

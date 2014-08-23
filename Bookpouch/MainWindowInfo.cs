@@ -19,10 +19,10 @@ namespace Bookpouch
             {
                 DebugConsole.WriteLine((type == 0 ? "Info: " : "Error: ") + text);
 
-                if (TrayIcon.Visible)
+                if (_trayIcon.Visible)
                 {
-                    TrayIcon.BalloonTipText = text;
-                    TrayIcon.ShowBalloonTip(5000);
+                    _trayIcon.BalloonTipText = text;
+                    _trayIcon.ShowBalloonTip(5000);
                     return;
                 }
             }
