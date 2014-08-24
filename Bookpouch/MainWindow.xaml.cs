@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -105,6 +106,8 @@ namespace Bookpouch
         private void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
         {            
             DebugConsole.WriteLine("Loading the book grid...");
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             var grid = (DataGrid) sender;
             var sql = AssembleQuery(_filter);
@@ -164,7 +167,8 @@ namespace Bookpouch
 
             grid.ItemsSource = bookList;
 
-            DebugConsole.WriteLine("Book grid loaded. Book count: " + bookList.Count);
+            stopwatch.Stop();
+            DebugConsole.WriteLine("Book grid loaded. Book count: " + bookList.Count + ", load time: " + stopwatch.Elapsed);                        
         }
 
         /// <summary>
@@ -223,22 +227,43 @@ namespace Bookpouch
             Filter.Visibility = Visibility.Visible;
         }
 
+        private readonly Timer _searchStartTimer = new Timer(1000);   
+
         /// <summary>
         /// Filter the books displayed in the grid based on the string from the text field
         /// </summary>
         private void FilterName_OnkeyUp(object sender, KeyEventArgs e)
         {
-            var textBox = (TextBox) sender;
-
-            _filter["title"] = textBox.Text; //Add selected category name into the filter so only books in that category are displayed
+            var textBox = (TextBox)sender;
 
             if (textBox.Text == "" && e.Key == Key.Back)
             {
                 _filter.Remove("title"); //Remove category from the filter so all categories are displayed
                 textBox.Visibility = Visibility.Collapsed;
+                _searchStartTimer.Stop();
             }
 
-            BookGridReload();
+            if (_searchStartTimer.Enabled)
+            {
+                _searchStartTimer.Stop();
+                _searchStartTimer.Start();
+                return;
+            }
+
+            _searchStartTimer.Elapsed += FilterNameSearch;
+            _searchStartTimer.AutoReset = false;
+            _searchStartTimer.Start();
+        }
+
+        private void FilterNameSearch(object sender, ElapsedEventArgs e)
+        {            
+            Dispatcher.Invoke(() => 
+            {
+                _filter["title"] = FilterName.Text;
+                //Add selected category name into the filter so only books in that category are displayed
+
+                BookGridReload();
+            });
         }
 
         /// <summary>

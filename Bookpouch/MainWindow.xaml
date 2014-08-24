@@ -83,7 +83,7 @@
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#569cd6" />
-                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="Padding" Value="5 2 5 2" />
                     <Setter Property="FontWeight" Value="Heavy" />
                 </Style>
             </DataGrid.ColumnHeaderStyle>
