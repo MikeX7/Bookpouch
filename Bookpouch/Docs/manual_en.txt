@@ -21,7 +21,7 @@ To edit book details, click on the book you want to edit in the list and then cl
 In the book edit window you can edit any information about the book by simply editing the fields. All changes are saved automatically, so there is no Save button present.
 To change a book cover, left-click on the cover image. To remove a book cover, right-click on the cover image.
 To add a new category associated with the book, type its name into the category field and then type , (comma) or ; (semicolon) to add it into the list. 
-Red border around a category indicates, that it was added manually by a user. If the border is blue, then the category name was extracted from the book file itself. 
+Red border around a category indicates, that it was added manually by a user. If the border is blue, then the category name was extracted from the book file itself. If you right-click on a blue category, it will be marked as manually added.
 If you wish to remove the book, simply click on the Discard button.
 
 

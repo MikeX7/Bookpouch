@@ -10,7 +10,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Brushes = System.Windows.Media.Brushes;
 using CheckBox = System.Windows.Controls.CheckBox;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Image = System.Windows.Controls.Image;
@@ -261,6 +263,26 @@ namespace Bookpouch
         }
 
         /// <summary>
+        /// Mark automatically added category as user added category
+        /// </summary>
+        private void CategoryTag_OnPreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var categoryTag = (CategoryTag)(((Button)sender).DataContext);
+
+            if (categoryTagList.Count == 0)
+                CategoryTagsBorder.Visibility = Visibility.Collapsed;
+
+            Db.NonQuery("UPDATE categories SET FromFile = 0 WHERE Name = @Name AND Path = @Path", new[]
+                {
+                    new SQLiteParameter("Name", categoryTag.Name),
+                    new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookFile)),
+                });
+
+            categoryTag.FromFile = false;
+            ((Button) sender).BorderBrush = Brushes.DarkRed;
+        }
+
+        /// <summary>
         /// Add category to the book
         /// </summary>        
         private void Category_OnKeyUp(object sender, KeyEventArgs e)
@@ -368,6 +390,7 @@ namespace Bookpouch
                 Close();
             }         
 
-        }   
+        }
+
     }
 }
