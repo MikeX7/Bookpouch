@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
@@ -143,6 +144,17 @@ namespace Bookpouch
             query.Dispose();
             
             return bookData;
+        }
+
+        public static List<string> CategoryList()
+        {
+            var query = Db.Query("SELECT DISTINCT Name FROM categories " + (Properties.Settings.Default.OnlyManualCategories ? "WHERE FromFile = 0" : String.Empty) + " ORDER BY Name");
+            var categoryList = new List<string>();
+
+            while(query.Read())
+                categoryList.Add(query["Name"].ToString());
+
+            return categoryList;
         }
     }
 }

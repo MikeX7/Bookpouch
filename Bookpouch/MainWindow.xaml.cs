@@ -312,13 +312,8 @@ namespace Bookpouch
             //If the category column header gets right clicked display combobox for filtering categories
             if (obj != null && obj.Text == UiLang.Get("BookGridHeaderCategory"))
             {
-                var categoryList = new HashSet<string>{"- - -"};
-
-                var query = Db.Query("SELECT DISTINCT Name FROM categories ORDER BY Name");
-
-                while (query.Read())
-                    categoryList.Add(query["Name"].ToString());
-
+                var categoryList = LibraryStructure.CategoryList();                
+                categoryList.Insert(0, "- - -");
                 FilterCategory.ItemsSource = categoryList;
                 FilterCategory.Visibility = Visibility.Visible;
             }

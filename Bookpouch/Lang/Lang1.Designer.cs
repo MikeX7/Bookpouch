@@ -160,7 +160,7 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I was not able to retrieve infomartion about the book from the storage..
+        ///   Looks up a localized string similar to I was not able to retrieve infomartion about the book from the storage. Maybe the book file wasn&apos;t found, or the database record is corrupted..
         /// </summary>
         internal static string BookInfoNotAvailable {
             get {
@@ -484,6 +484,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to While displaying a list of categories, or using the categories for search, only use categories manually added to books. (Categories are also extracted and added automatically from some books, but they can often be vague, or too broad and can litter the category list.).
+        /// </summary>
+        internal static string HintOnlyManualCategories {
+            get {
+                return ResourceManager.GetString("HintOnlyManualCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only allow one instance of Bookpouch to run at the same time.
         /// </summary>
         internal static string HintOnlyOne {
@@ -669,6 +678,15 @@ namespace Bookpouch.Lang {
         internal static string SettingsModel {
             get {
                 return ResourceManager.GetString("SettingsModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manual _categ.:.
+        /// </summary>
+        internal static string SettingsOnlyManualCategories {
+            get {
+                return ResourceManager.GetString("SettingsOnlyManualCategories", resourceCulture);
             }
         }
         

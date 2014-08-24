@@ -148,7 +148,7 @@
     <value>Series</value>
   </data>
   <data name="BookInfoNotAvailable" xml:space="preserve">
-    <value>I was not able to retrieve infomartion about the book from the storage.</value>
+    <value>I was not able to retrieve infomartion about the book from the storage. Maybe the book file wasn't found, or the database record is corrupted.</value>
   </data>
   <data name="BookInfoSaveError" xml:space="preserve">
     <value>I wasn't able to save the supplied value about the book.</value>
@@ -369,5 +369,11 @@
   </data>
   <data name="HintEditBookCategory" xml:space="preserve">
     <value>When you are done typing the category's name, type ; (semicolon) or , (comma) to add it to the list.</value>
+  </data>
+  <data name="HintOnlyManualCategories" xml:space="preserve">
+    <value>While displaying a list of categories, or using the categories for search, only use categories manually added to books. (Categories are also extracted and added automatically from some books, but they can often be vague, or too broad and can litter the category list.)</value>
+  </data>
+  <data name="SettingsOnlyManualCategories" xml:space="preserve">
+    <value>Manual _categ.:</value>
   </data>
 </root>

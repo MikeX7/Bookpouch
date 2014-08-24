@@ -90,14 +90,15 @@
     <Style TargetType="Button" x:Key="DefaultButton">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="Template">
+        <Setter Property="BorderBrush" Value="DarkRed"   />
+        <Setter Property="Template">         
 
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="RootElement" CornerRadius="4">
-                        <Border.Background>
-                            <SolidColorBrush x:Name="BorderBrush" Color="DarkRed" />
-                        </Border.Background>
+                    <Border x:Name="RootElement" CornerRadius="4" Background="{TemplateBinding BorderBrush}">
+                <!--        <Border.Background>
+                            <SolidColorBrush x:Name="BorderBrush" Color="{TemplateBinding BorderBrush}" />
+                        </Border.Background>-->
 
                         <Border.Effect>
                             <DropShadowEffect x:Name="BorderShadow" Opacity="1" BlurRadius="10" Color="#383838"
@@ -110,8 +111,8 @@
 
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="BorderBrush"
-                                                        Storyboard.TargetProperty="Color" To="OrangeRed"
+                                        <ColorAnimation Storyboard.TargetName="RootElement"
+                                                        Storyboard.TargetProperty="Background.Color" To="OrangeRed"
                                                         Duration="0:0:0.5" />
 
                                         <ColorAnimation
@@ -136,8 +137,8 @@
                                             Storyboard.TargetProperty="Color"
                                             To="#6B6B6B" Duration="0" />
 
-                                        <ColorAnimation Storyboard.TargetName="BorderBrush"
-                                                        Storyboard.TargetProperty="Color" To="#380000" Duration="0" />
+                                        <ColorAnimation Storyboard.TargetName="RootElement"
+                                                        Storyboard.TargetProperty="Background.Color" To="#380000" Duration="0" />
                                     </Storyboard>
                                 </VisualState>
 

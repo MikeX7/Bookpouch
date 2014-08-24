@@ -84,7 +84,7 @@
                 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Content="{Binding Name}" PreviewMouseLeftButtonUp="CategoryTag_OnPreviewMouseLeftButtonUp"/>
+                        <Button Content="{Binding Name}" BorderBrush="{Binding Color}" PreviewMouseLeftButtonUp="CategoryTag_OnPreviewMouseLeftButtonUp"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>                

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using CheckBox = System.Windows.Controls.CheckBox;
 using ComboBox = System.Windows.Controls.ComboBox;
+using Image = System.Windows.Controls.Image;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using TextBox = System.Windows.Controls.TextBox;
@@ -208,13 +210,14 @@ namespace Bookpouch
 
         private void Category_OnLoaded(object sender, RoutedEventArgs e)
         {                        
-            var query = Db.Query("SELECT Name FROM categories WHERE Path = @Path", new []{new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookData.Path)), });            
+            var query = Db.Query("SELECT Name, FromFile FROM categories WHERE Path = @Path", new []{new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookFile)), });            
 
             while (query.Read())
             {                
                 var category = new CategoryTag()
                 {
-                    Name = query["Name"].ToString()
+                    Name = query["Name"].ToString(),
+                    FromFile = SQLiteConvert.ToBoolean(query["FromFile"])
                 };
                 
                 categoryTagList.Add(category);            
@@ -228,11 +231,7 @@ namespace Bookpouch
 
             var defaultCategories = Properties.Settings.Default.DefaultCategories.Split(';');
             var hintList = new List<string>(defaultCategories);
-            query = Db.Query("SELECT DISTINCT Name FROM categories");
-
-            while(query.Read())
-                hintList.Add(query["Name"].ToString());
-            
+            hintList.AddRange(LibraryStructure.CategoryList());                        
             hintList.Sort();
 
             new Whisperer
@@ -257,7 +256,7 @@ namespace Bookpouch
             Db.NonQuery("DELETE FROM categories WHERE Name = @Name AND Path = @Path", new []
                 {
                     new SQLiteParameter("Name", categoryTag.Name),
-                    new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookData.Path)),
+                    new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookFile)),
                 });
         }
 
@@ -268,7 +267,7 @@ namespace Bookpouch
         {
             var textBox = (TextBox) sender;
             
-            if(textBox.Text.Length == 0 || (textBox.Text.Substring(textBox.Text.Length - 1) != ";" && textBox.Text.Substring(textBox.Text.Length - 1) != ","))
+            if(textBox.Text.Length <= 1 || (textBox.Text.Substring(textBox.Text.Length - 1) != ";" && textBox.Text.Substring(textBox.Text.Length - 1) != ","))
                 return;
 
             var category = textBox.Text.Substring(0, textBox.Text.Length - 1);
@@ -282,7 +281,7 @@ namespace Bookpouch
 
             Db.NonQuery("INSERT OR IGNORE INTO categories VALUES(@Path, @Name, 0)", new []
             {
-                new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookData.Path)), 
+                new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookFile)), 
                 new SQLiteParameter("Name", category)
             });
 
@@ -301,8 +300,14 @@ namespace Bookpouch
 
         private class CategoryTag
         {
-            public string Name { set; get; }        
+            public bool FromFile;
+            public string Name { set; get; }
 
+            public string Color
+            {
+                get { return (FromFile ? "RoyalBlue" : "DarkRed");} 
+            }
+            
         }
 
         private void Discard_OnClick(object sender, RoutedEventArgs e)
@@ -319,8 +324,8 @@ namespace Bookpouch
         /// </summary>
         /// <param name="key">Name of the BookData field from which to get the data</param>
         /// <returns>Value from the BookData field specified by the given key</returns>
-        private object BookInfoGet(string key) 
-        {
+        private object BookInfoGet(string key)
+        { 
             if (_bookData == null) //Singleton, so we don't have to reopen the DB with saved info, after every form field loads and its load event handler calls BookInfoGet
             {
                 try
@@ -330,7 +335,9 @@ namespace Bookpouch
                 catch (Exception)
                 {
                     MainWindow.Info(UiLang.Get("BookInfoNotAvailable"), 1);
+                    IsEnabled = false;
                     Close();
+                    _bookData = new BookData();
                     return null;
                 }
             }

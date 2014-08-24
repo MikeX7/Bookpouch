@@ -167,7 +167,8 @@ namespace Bookpouch
         private void CheckBox_OnChecked(object sender, RoutedEventArgs e)
         {           
             var box = (CheckBox) sender;
-            var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);             
+            var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);
+            System.Diagnostics.Debug.WriteLine(box.Name);
 
             if(prop != null)
                 prop.SetValue(Properties.Settings.Default, box.IsChecked);                      

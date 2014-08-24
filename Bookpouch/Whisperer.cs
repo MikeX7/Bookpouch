@@ -79,9 +79,8 @@ namespace Bookpouch
         public void Pop() //Display the whisperer popup under an element
         {
 
-            var listBox = new ListBox(); 
-            
-            var combedList = HintList.Where(hl => hl.ToLower().StartsWith(TextBox.Text.ToLower()));
+            var listBox = new ListBox();             
+            var combedList = HintList.Distinct().Where(hl => hl.ToLower().StartsWith(TextBox.Text.ToLower()));
 
             if (!combedList.Any())
             {

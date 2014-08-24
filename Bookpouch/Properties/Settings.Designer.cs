@@ -195,5 +195,17 @@ namespace Bookpouch.Properties {
                 return ((bool)(this["DebugOnStart"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OnlyManualCategories {
+            get {
+                return ((bool)(this["OnlyManualCategories"]));
+            }
+            set {
+                this["OnlyManualCategories"] = value;
+            }
+        }
     }
 }

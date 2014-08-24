@@ -71,15 +71,27 @@
 
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1" />
 
-        <DataGrid x:Name="BookGrid" Grid.Row="2" IsReadOnly="True" AutoGenerateColumns="False" 
+        <DataGrid x:Name="BookGrid" Grid.Row="2" IsReadOnly="True" AutoGenerateColumns="False"
                   Loaded="BookGrid_OnLoaded" VerticalAlignment="Top" CanUserResizeRows="False" RowHeaderWidth="1" KeyUp="BookGrid_OnKeyUp" PreviewMouseRightButtonUp="BookGrid_PreviewMouseRightButtonUp" PreviewMouseLeftButtonUp="BookGrid_PreviewMouseRightButtonUp"
-                  HorizontalGridLinesBrush="#2b72ac" VerticalGridLinesBrush="#2b72ac" RowBackground="#5d5d5d" AlternatingRowBackground="#454545"  Background="#569cd6" Style="{DynamicResource DataGridStyle1}">
+                  GridLinesVisibility="None"  RowBackground="#5d5d5d" AlternatingRowBackground="#454545"   Background="#569cd6"
+                  Template="{StaticResource DataGrid}">                      
             <DataGrid.Resources>
                 <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
                     <Setter Property="Opacity" Value="0" />
                 </Style>
             </DataGrid.Resources>
-
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#569cd6" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="FontWeight" Value="Heavy" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="{x:Type DataGridRowHeader}">
+                    <Setter Property="Background" Value="Transparent" />
+                </Style>
+            </DataGrid.RowHeaderStyle>
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Style.Triggers>
@@ -92,19 +104,6 @@
                     <Setter Property="FontWeight" Value="SemiBold" />
                 </Style>
             </DataGrid.CellStyle>
-            <DataGrid.ColumnHeaderStyle>
-                <Style TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="#569cd6" />
-                    <Setter Property="Padding" Value="5" />
-                    <Setter Property="FontWeight" Value="Heavy" />
-                </Style>
-            </DataGrid.ColumnHeaderStyle>
-            <DataGrid.RowHeaderStyle>
-                <Style TargetType="{x:Type DataGridRowHeader}">
-                    <Setter Property="Background" Value="#569cd6" />
-                    <Setter Property="Padding" Value="2" />
-                </Style>
-            </DataGrid.RowHeaderStyle>
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{local:Lng BookGridHeaderTitle}" Binding="{Binding Title}" Width="*">
@@ -176,10 +175,8 @@
                                 </Button>
                             </StackPanel>
 
-                            
-
                             <Image Source="{Binding CoverImage}" MaxHeight="128" MaxWidth="128" VerticalAlignment="Top" DockPanel.Dock="Left"
-                                   FlowDirection="LeftToRight" Margin="0,0,10,0" />                            
+                                   FlowDirection="LeftToRight" Margin="0,0,10,0" />
 
                             <DockPanel Name="DetailInnerDock" LastChildFill="False" DockPanel.Dock="Left">
 
@@ -212,10 +209,9 @@
                                     <TextBlock Text="{Binding Publisher}" Margin="0,0,5,0" />
                                     <TextBlock Text="{Binding Published}" Foreground="#FF292929" />
                                 </StackPanel>
-                                                                
-                                <TextBlock Text="{Binding Description}" TextAlignment="Justify" DockPanel.Dock="Top" Foreground="LightGray" Width="{Binding ActualWidth, ElementName=DetailInnerDock}" TextWrapping="Wrap"/>
+
+                                <TextBlock Text="{Binding Description}" TextAlignment="Justify" DockPanel.Dock="Top" Foreground="LightGray" Width="{Binding ActualWidth, ElementName=DetailInnerDock}" TextWrapping="Wrap" />
                             </DockPanel>
-                            
                         </DockPanel>
                     </Border>
                 </DataTemplate>

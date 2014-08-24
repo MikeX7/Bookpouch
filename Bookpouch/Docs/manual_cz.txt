@@ -20,6 +20,8 @@ Editace detailů knihy
 Pro editaci detailů knihy, klikněte v seznamu na knihu kterou chcete editovat a poté klikněte na tlačítko Upravit.
 V editačním okně můžete změnit jakoukoliv informaci o knize jednoduchou úpravou příslušného pole. Všechny změny se ukládají automaticky, takže není přítomno žádné tlačítko pro uložení.
 Pro změnu obalu knihy, klikněte levým tlačítkem myši na obrázek obalu. K odebrání existujícího obalu na něj klikněte pravým tlačítkem myši.
+Pro přidání kategorie asociované s knihou, vepište její název do pole kategorie a poté napište znank , (čárka), nebo ; (středník) a kategorie bude přidána do seznamu.
+Pokud má kategorie kolem sebe červený rámeček, znamená to, že byla manuálně přidána uživatelem. V případě modrého rámečku, byla extrahována automaticky ze souboru knihy.
 Pokud si přejete knihu smazat, jednoduše klikněte na tlačítko Zahodit.
 
 

@@ -370,4 +370,10 @@
   <data name="HintEditBookCategory" xml:space="preserve">
     <value>Poté co vepíšete název kategorie, napište ; (středník) nebo , (čárku) pro přidání do listu.</value>
   </data>
+  <data name="HintOnlyManualCategories" xml:space="preserve">
+    <value>Při zobrazování listů kategorií a při používání kategorií pro vyhledávání, využít pouze kategorie ručně přidané ke knihám. (Kategorie jsou také automaticky extrahovány z knih a tyto mohou obsahovat nesmyslné, nebo příliš detailní názvy, které by pak znepřehledňovaly práci s kategoriemi v listu knih.)</value>
+  </data>
+  <data name="SettingsOnlyManualCategories" xml:space="preserve">
+    <value>Ruční _kategorie.:</value>
+  </data>
 </root>
