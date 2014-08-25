@@ -56,8 +56,8 @@ namespace Bookpouch
             {
                 sqlWhere = "WHERE " + String.Join(" AND ", sqlConditions);
             }
-            
-            var sql = "SELECT * FROM books b LEFT JOIN categories c ON b.Path = c.Path " + sqlWhere + "  GROUP BY b.Path ORDER BY b.Title";   
+           
+            var sql = "SELECT * FROM books b LEFT JOIN categories c ON b.Path = c.Path " + sqlWhere + "  GROUP BY b.Path";
 
             return new Tuple<string, SQLiteParameter[]>(sql, parameters.ToArray());
         }

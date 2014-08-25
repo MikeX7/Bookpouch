@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -107,41 +108,31 @@ namespace Bookpouch
         {            
             DebugConsole.WriteLine("Loading the book grid...");
             var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
+            stopwatch.Start();            
             var grid = (DataGrid) sender;
             var sql = AssembleQuery(_filter);
+            var stop = new Stopwatch();
+            stop.Start();
             var query = Db.Query(sql.Item1, sql.Item2);
+            stop.Stop();
+            DebugConsole.WriteLine("qv " + stop.Elapsed.ToString());
             var bookDataList = new List<BookData>();
             var bookList = new List<Book>();
+            var cultureList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
 
             while (query.Read())
-                bookDataList.Add(BookKeeper.CastSqlBookRowToBookData(query));
+                bookDataList.Add(BookKeeper.CastSqlBookRowToBookData(query));            
 
             foreach (var bookData in bookDataList)
             {               
                 var countryCode = "_unknown";
-                //If we can't get proper country code, this fall-back flag image name will be used
-                    
-             /*   if (filter.ContainsKey("title") && !(bookData.Title).ToLower().Contains(filter["title"].ToLower()))
-                    continue;
-
-                if (filter.ContainsKey("category") && bookData.Category != filter["category"])
-                    continue;
-
-                if (filter.ContainsKey("series") && bookData.Series != filter["series"])
-                    continue;*/
 
                 if (bookData.Language != "" &&
-                    CultureInfo.GetCultures(CultureTypes.SpecificCultures)
-                        .FirstOrDefault(x => x.Name == bookData.Language) != null)
+                    cultureList.FirstOrDefault(x => x.Name == bookData.Language) != null)
                     //Make sure the book language is not neutral (ex: en instead of en-US), or invalid. This will make sure we don't display for example US flag for british english.                         
-                {
-                    var cultureInfo = new CultureInfo(bookData.Language);
-                    countryCode = new RegionInfo(cultureInfo.Name).TwoLetterISORegionName;
+                {                    
+                    countryCode = new RegionInfo((new CultureInfo(bookData.Language)).Name).TwoLetterISORegionName;
                 }
-
-
                 
                 bookList.Add(new Book
                 {
@@ -160,12 +151,10 @@ namespace Bookpouch
                     Cover = bookData.Cover,
                     BookFile = bookData.Path,                    
                 });
-
-                //Debug.WriteLine(bookData.Path);
                 
             }
-
-            grid.ItemsSource = bookList;
+                        
+            grid.ItemsSource = bookList.OrderBy(x => x.Title); //By default, the list is sorted by book titles. Note: this is much faster than ORDER BY Title directly in the sqlite query
 
             stopwatch.Stop();
             DebugConsole.WriteLine("Book grid loaded. Book count: " + bookList.Count + ", load time: " + stopwatch.Elapsed);                        
@@ -230,8 +219,8 @@ namespace Bookpouch
         private readonly Timer _searchStartTimer = new Timer(1000);   
 
         /// <summary>
-        /// Filter the books displayed in the grid based on the string from the text field
-        /// </summary>
+        /// Trigger filtered search by title, after the user stops typing into the field
+        /// </summary>        
         private void FilterName_OnkeyUp(object sender, KeyEventArgs e)
         {
             var textBox = (TextBox)sender;
@@ -255,6 +244,9 @@ namespace Bookpouch
             _searchStartTimer.Start();
         }
 
+        /// <summary>
+        /// Filter the books displayed in the grid based on the string from the text field
+        /// </summary>
         private void FilterNameSearch(object sender, ElapsedEventArgs e)
         {            
             Dispatcher.Invoke(() => 
