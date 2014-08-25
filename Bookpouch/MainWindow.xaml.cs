@@ -86,7 +86,7 @@ namespace Bookpouch
                 new ReaderDetector(this);
                     //Start reader detection which automatically triggers UsbSync when the reader is connected to the pc         
             
-        }
+        }        
 
         private static void Add_OnDrop(object sender, DragEventArgs e)
         {
@@ -530,7 +530,8 @@ namespace Bookpouch
                 DebugConsole.WriteLine("Edit book: It was not possible to save the provided book data: " + e.Message);  
             }    
         }
-    
+
+  
     }
 
 }

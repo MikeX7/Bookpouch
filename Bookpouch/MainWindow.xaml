@@ -6,6 +6,9 @@
         Title="Bookpouch" Height="700" Width="1000" MinWidth="500" MinHeight="350" x:Name="Window"
         Background="#2d2d30" KeyUp="MainWindow_OnKeyUp"
         Closing="MainWindow_OnClosing">
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo ProgressState="None" x:Name="TaskBar"></TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

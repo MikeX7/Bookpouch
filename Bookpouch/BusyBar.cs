@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using System.Windows.Shell;
 
 namespace Bookpouch
 {
@@ -28,6 +30,7 @@ namespace Bookpouch
                 {
                     MW.BusyText.Visibility = MW.BusyBar.Visibility = Visibility.Visible;
                     MW.MenuStack.IsEnabled = false;
+                    MW.TaskBar.ProgressState = TaskbarItemProgressState.Indeterminate;
                 });
 
                 _busyTitleTimer = new Timer(300);
@@ -56,6 +59,7 @@ namespace Bookpouch
                 {
                     MW.BusyText.Visibility = MW.BusyBar.Visibility = Visibility.Collapsed;
                     MW.BusyBar.IsIndeterminate = true;
+                    MW.TaskBar.ProgressState = TaskbarItemProgressState.None;
                     MW.MenuStack.IsEnabled = true;
                     MW.BusyText.Text = String.Empty;
 
@@ -92,6 +96,7 @@ namespace Bookpouch
             {
                 MW.BusyBar.Maximum = max;
                 MW.BusyBar.IsIndeterminate = false;
+                MW.TaskBar.ProgressState = TaskbarItemProgressState.Normal;
             });
         }
 
@@ -104,6 +109,7 @@ namespace Bookpouch
             MW.Dispatcher.Invoke(() =>
             {
                 MW.BusyBar.Value = current;
+                MW.TaskBar.ProgressValue = ((1 / MW.BusyBar.Maximum) * current);                
             });
         }
 
