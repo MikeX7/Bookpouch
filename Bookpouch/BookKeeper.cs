@@ -81,21 +81,24 @@ namespace Bookpouch
             var bookFileRelativePath = GetRelativeBookFilePath(bookFile);
 
             var finfo = new FileInfo(bookFile);
-            var bookPeek = new BookPeek(finfo);            
-            
-            Db.NonQuery("INSERT OR IGNORE INTO books VALUES(@Path, @Title, @Author, @Publisher, @Language, @Published, @Description, @Series, @Category, @MobiType, @Size, @Favorite, @Sync, @Created, @Cover)", 
+            var bookPeek = new BookPeek(finfo);
+
+            Db.NonQuery("INSERT OR IGNORE INTO books VALUES(@Path, @Title, @Author, @Contributor, @Publisher, @Language, @Published, @Description, @Series, @Coverage, @MobiType, @Identifier, @Relation, @Size, @Favorite, @Sync, @Created, @Cover)", 
                 new[]
                 {
                     new SQLiteParameter("Path", bookFileRelativePath), 
                     new SQLiteParameter("Title", bookPeek.List["title"].ToString()), 
                     new SQLiteParameter("Author", (bookPeek.List.ContainsKey("author") ? bookPeek.List["author"] : String.Empty).ToString()), 
+                    new SQLiteParameter("Contributor", (bookPeek.List.ContainsKey("contributor") ? bookPeek.List["contributor"] : String.Empty).ToString()), 
                     new SQLiteParameter("Publisher", (bookPeek.List.ContainsKey("publisher") ? bookPeek.List["publisher"] : String.Empty).ToString()), 
                     new SQLiteParameter("Language", (bookPeek.List.ContainsKey("language") ? bookPeek.List["language"] : String.Empty).ToString()),
                     new SQLiteParameter("Published", (DateTime?) (bookPeek.List.ContainsKey("published") ? bookPeek.List["published"] : null)),
                     new SQLiteParameter("Description", (bookPeek.List.ContainsKey("description") ? bookPeek.List["description"] : String.Empty).ToString()), 
                     new SQLiteParameter("Series", String.Empty),
-                    new SQLiteParameter("Category", String.Empty),
-                    new SQLiteParameter("MobiType", (bookPeek.List.ContainsKey("type") ? bookPeek.List["type"] : "").ToString()),
+                    new SQLiteParameter("Coverage", (bookPeek.List.ContainsKey("coverage") ? bookPeek.List["coverage"] : String.Empty).ToString()), 
+                    new SQLiteParameter("MobiType", (bookPeek.List.ContainsKey("type") ? bookPeek.List["type"] : String.Empty).ToString()),
+                    new SQLiteParameter("Identifier", (bookPeek.List.ContainsKey("identifier") ? bookPeek.List["identifier"] : String.Empty).ToString()), 
+                    new SQLiteParameter("Relation", (bookPeek.List.ContainsKey("relation") ? bookPeek.List["relation"] : String.Empty).ToString()), 
                     new SQLiteParameter("Size",  (ulong) finfo.Length), 
                     new SQLiteParameter("Favorite", false),
                     new SQLiteParameter("Sync", false), 
@@ -181,8 +184,7 @@ namespace Bookpouch
                 Language = (string) query["Language"],
                 Published = (DateTime?) (query["Published"].ToString() != String.Empty ? query["Published"] : null),
                 Description = (string) query["Description"],
-                Series = (string) query["Series"],
-                Category = (string) query["Category"],
+                Series = (string) query["Series"],                
                 MobiType = (string) query["MobiType"],
                 Size = Convert.ToUInt64(query["Size"]),
                 Favorite = (bool) query["Favorite"],
@@ -220,7 +222,7 @@ namespace Bookpouch
             }
            
             Db.NonQuery(
-              "UPDATE books SET Title = @Title, Author = @Author, Publisher = @Publisher, Language = @Language, Published = @Published, Description = @Description, Series = @Series, Category = @Category, MobiType = @MobiType, Size = @Size, Favorite = @Favorite, Sync = @Sync, Created = @Created, Cover = @Cover WHERE Path = @Path",
+              "UPDATE books SET Title = @Title, Author = @Author, Contributor = @Contributor, Publisher = @Publisher, Language = @Language, Published = @Published, Description = @Description, Series = @Series, Coverage = @Coverage, MobiType = @MobiType, Identifier = @Identifier, Relation = @Relation, Size = @Size, Favorite = @Favorite, Sync = @Sync, Created = @Created, Cover = @Cover WHERE Path = @Path",
                 typeof (BookData).GetFields().Select(property => new SQLiteParameter(property.Name, property.GetValue(bookData))).ToArray());                
         }
 

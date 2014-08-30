@@ -9,9 +9,9 @@ Pokud potřebujete pokročilé funkce, jako čtení knih přímo v aplikaci, neb
 Organizace knih
 Bookpouch poskytuje hlavní okno ve kterém jsou přidané knihy zobrazeny jako seznam. K zobrazení informací o knize na ní jednoduše klikněte.
 Můžete přidat nové knihy kliknutím na ikonu plus, v levém horním rohu. Pro současné přidání více knih najednou, je jednoduše všechny vyberte  v otevřeném okně pro výběr knihy.
-Bookpouch nativně podporuje formáty Mobi a Epub, když proto tyto formáty přidáte do knihovny, budou z nich automaticky extrahovány informace o knize (pokud je soubor knihy obsahuje).
-Pokud si přejete odebrat knihu z knihovny, klikněte na ni a stiskněte klávesu Delete na Vaší klávesnici. Můžete také odebrat více knih najednou podržením klávesy Ctrl a poté klikáním levým tlačítkem myši na knihy, které chcete odebrat.
-K seřazení knih dle kategorie, jednoduše klikněte levým tlačítkem na název sloupečku kategorie. Pokud chcete zobrazit pouze knihy patřící do určité kategorie, klikněte na název sloupečku kategorie pravým tlačítkem myši, a vyberte požadovanou kategorii z rolety.
+Bookpouch nativně podporuje formáty Mobi a Epub, když proto tyto formáty přidáte do knihovny, budou z nich automaticky extrahovány informace o knize (pokud je soubor knihy obsahuje). 
+Do knihovny můžete přidat i knihy v jiných formátech, nebudou z nich však, kromě názvu souboru, automaticky extrahovány žádné informace o knize.
+Pokud si přejete odebrat knihu z knihovny, klikněte na ni a stiskněte klávesu Delete na Vaší klávesnici. Můžete také odebrat více knih najednou podržením klávesy Ctrl a poté klikáním levým tlačítkem myši na knihy, které chcete odebrat. 
 Pro zobrazení knih jejichž název obsahuje určité písmeno, nebo řetězec, klikněte pravým tlačítkem myši na jméno sloupce název. Poté se objeví textové pole, do kterého můžete začít psát požadovaný řetězec a seznam knížek bude okamžitě filtrován, se zobrazením odpovídajících knih.
 Pokud si přejte zobrazit pouze knihy patřící do vybrané série, klikněte levým tlačítkem myši na název požadované série v detailu knihy.
 

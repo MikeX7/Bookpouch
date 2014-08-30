@@ -9,7 +9,7 @@ namespace Bookpouch
 {
     partial class MainWindow
     {
-        internal sealed class Book
+        public class Book
         {
             public byte[] Cover;
             public string Title { set; get; }

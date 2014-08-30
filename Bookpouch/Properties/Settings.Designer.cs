@@ -207,5 +207,17 @@ namespace Bookpouch.Properties {
                 this["OnlyManualCategories"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CheckCoverDimensions {
+            get {
+                return ((bool)(this["CheckCoverDimensions"]));
+            }
+            set {
+                this["CheckCoverDimensions"] = value;
+            }
+        }
     }
 }

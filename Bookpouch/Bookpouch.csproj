@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>kindle.ico</ApplicationIcon>
+    <ApplicationIcon>BookPouch1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ShadoLib">
@@ -87,6 +87,9 @@
     <Compile Include="BusyBar.cs" />
     <Compile Include="Db.cs" />
     <Compile Include="Filter.cs" />
+    <Compile Include="FilterWindow.xaml.cs">
+      <DependentUpon>FilterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindowInfo.cs" />
     <Compile Include="MainWindowBook.cs" />
     <Compile Include="BookData.cs" />
@@ -122,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditBook.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FilterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -539,6 +546,10 @@
   <ItemGroup>
     <Resource Include="Img\folder.png" />
     <Resource Include="Img\folderSmall.png" />
+    <Resource Include="BookPouch1.ico" />
+    <Resource Include="Img\aim.png" />
+    <Resource Include="Img\aim32x32.png" />
+    <Resource Include="Img\BookPouch1.ico" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

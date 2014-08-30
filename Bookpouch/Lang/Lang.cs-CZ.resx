@@ -376,4 +376,25 @@
   <data name="SettingsOnlyManualCategories" xml:space="preserve">
     <value>Ruční _kategorie.:</value>
   </data>
+  <data name="BookGridHeaderAuthor" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="BookGridHeaderSeries" xml:space="preserve">
+    <value>Série</value>
+  </data>
+  <data name="EditBookCreated" xml:space="preserve">
+    <value>_Vytvořeno:</value>
+  </data>
+  <data name="EditBookPath" xml:space="preserve">
+    <value>_Cesta:</value>
+  </data>
+  <data name="HintMenuFilter" xml:space="preserve">
+    <value>Filtrovat seznam knih a zobrazit jen ty položky, které odpovídají zadaným parametrům.</value>
+  </data>
+  <data name="HintCheckCoverDimensions" xml:space="preserve">
+    <value>Přu extrahování obalů ze souborů knížek, pouze extrahovat obrázky která mají větší výšku než šířku. (Toto zabrání použití některých nekorektních obrázků jako obalů)</value>
+  </data>
+  <data name="SettingsCheckCoverDimensions" xml:space="preserve">
+    <value>Kontrola obalů:</value>
+  </data>
 </root>

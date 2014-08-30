@@ -106,6 +106,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        internal static string BookGridHeaderAuthor {
+            get {
+                return ResourceManager.GetString("BookGridHeaderAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category.
         /// </summary>
         internal static string BookGridHeaderCategory {
@@ -120,6 +129,15 @@ namespace Bookpouch.Lang {
         internal static string BookGridHeaderFavorite {
             get {
                 return ResourceManager.GetString("BookGridHeaderFavorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Series.
+        /// </summary>
+        internal static string BookGridHeaderSeries {
+            get {
+                return ResourceManager.GetString("BookGridHeaderSeries", resourceCulture);
             }
         }
         
@@ -259,6 +277,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Created:.
+        /// </summary>
+        internal static string EditBookCreated {
+            get {
+                return ResourceManager.GetString("EditBookCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Description: .
         /// </summary>
         internal static string EditBookDescription {
@@ -291,6 +318,15 @@ namespace Bookpouch.Lang {
         internal static string EditBookLanguage {
             get {
                 return ResourceManager.GetString("EditBookLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Path:.
+        /// </summary>
+        internal static string EditBookPath {
+            get {
+                return ResourceManager.GetString("EditBookPath", resourceCulture);
             }
         }
         
@@ -385,6 +421,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to When covers are extracted from the book files, only extract covers where height is larger than width. (This can filter out some incorrect images being used as covers).
+        /// </summary>
+        internal static string HintCheckCoverDimensions {
+            get {
+                return ResourceManager.GetString("HintCheckCoverDimensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to When you are done typing the category&apos;s name, type ; (semicolon) or , (comma) to add it to the list..
         /// </summary>
         internal static string HintEditBookCategory {
@@ -444,6 +489,15 @@ namespace Bookpouch.Lang {
         internal static string HintMenuAdd {
             get {
                 return ResourceManager.GetString("HintMenuAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter the list of books and display only entries matching the given parameters.
+        /// </summary>
+        internal static string HintMenuFilter {
+            get {
+                return ResourceManager.GetString("HintMenuFilter", resourceCulture);
             }
         }
         
@@ -642,6 +696,15 @@ namespace Bookpouch.Lang {
         internal static string SettingsBooksDir {
             get {
                 return ResourceManager.GetString("SettingsBooksDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check _covers:.
+        /// </summary>
+        internal static string SettingsCheckCoverDimensions {
+            get {
+                return ResourceManager.GetString("SettingsCheckCoverDimensions", resourceCulture);
             }
         }
         

@@ -320,7 +320,7 @@ namespace Bookpouch
             Category_OnKeyUp(sender, null);*/
         }
 
-        private class CategoryTag
+        public class CategoryTag
         {
             public bool FromFile;
             public string Name { set; get; }

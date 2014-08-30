@@ -32,7 +32,8 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition />
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="90" />
@@ -111,11 +112,14 @@
         <Label Grid.Row="8" Grid.Column="0" Content="{local:Lng SettingsOnlyManualCategories}" Target="{Binding ElementName=OnlyManualCategories}"/>
         <CheckBox Grid.Row="8" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="OnlyManualCategories" ToolTip="{local:Lng HintOnlyManualCategories}"/>
 
-        <Label Grid.Row="9" Grid.Column="0" Content="{local:Lng SettingsBooksDir}" Target="{Binding ElementName=BooksDir}" />
-        <Button Grid.Row="9" Grid.Column="1" Name="BooksDir"  HorizontalAlignment="Left" VerticalAlignment="Top" Loaded="BooksDir_OnLoaded" Click="BooksDir_OnClick" ToolTip="{local:Lng HintSettingsBooksDir}"/>
+        <Label Grid.Row="9" Grid.Column="0" Content="{local:Lng SettingsCheckCoverDimensions}" Target="{Binding ElementName=CheckCoverDimensions}"/>
+        <CheckBox Grid.Row="9" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="CheckCoverDimensions" ToolTip="{local:Lng HintCheckCoverDimensions}"/>
         
-        <Label Grid.Row="10" Grid.Column="0" Content="{local:Lng SettingsDebug}" Target="{Binding ElementName=Debug}" />
-        <Button Grid.Row="10" Grid.Column="1" Name="Debug" Content="{local:Lng SettingsConsole}" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Debug_OnClick" ToolTip="{local:Lng HintSettingsDebug}"/>
+        <Label Grid.Row="10" Grid.Column="0" Content="{local:Lng SettingsBooksDir}" Target="{Binding ElementName=BooksDir}" />
+        <Button Grid.Row="10" Grid.Column="1" Name="BooksDir"  HorizontalAlignment="Left" VerticalAlignment="Top" Loaded="BooksDir_OnLoaded" Click="BooksDir_OnClick" ToolTip="{local:Lng HintSettingsBooksDir}"/>
+        
+        <Label Grid.Row="11" Grid.Column="0" Content="{local:Lng SettingsDebug}" Target="{Binding ElementName=Debug}" />
+        <Button Grid.Row="11" Grid.Column="1" Name="Debug" Content="{local:Lng SettingsConsole}" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Debug_OnClick" ToolTip="{local:Lng HintSettingsDebug}"/>
 
     </Grid>
 </Window>

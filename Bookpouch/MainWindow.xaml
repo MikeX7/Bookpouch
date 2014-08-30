@@ -14,7 +14,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Style/Global.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:BookGridMaxRowDetailWidth x:Key="BookGridMaxRowDetailWidth" />
         </ResourceDictionary>
+        
     </Window.Resources>
 
     <Grid Margin="5">
@@ -49,12 +51,17 @@
                     ToolTip="{local:Lng HintMenuRegenerateTree}">
                 <Image Source="Img/ornament.png" />
             </Button>
+
+            <Button Click="Filter_OnClick" Style="{StaticResource MenuIconButton}" Margin="5,0,0,0"
+                    ToolTip="{local:Lng HintMenuFilter}">
+                <Image Source="Img/aim32x32.png" />
+            </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0"
                     VerticalAlignment="Top" Margin="5,5,0,5" Opacity="0.3">
             <Button Click="RootDir_OnClick" Margin="5,0,0,0" Style="{StaticResource MenuIconButton}" ToolTip="{local:Lng HintMenuRootDir}">
                 <Image Source="Img/folderSmall.png" />
-            </Button>
+            </Button>            
             <Button Margin="5,0,0,0" Click="Settings_OnClick" Style="{StaticResource MenuIconButton}"
                     ToolTip="{local:Lng HintMenuSettings}">
                 <Image Source="Img/tools1.png" />
@@ -70,16 +77,14 @@
                        RenderTransformOrigin="0.5,0.5" Foreground="Black" />
         </Border>
 
-        <DockPanel Name="Filter" Grid.Row="1" Visibility="Collapsed"  VerticalAlignment="Top" HorizontalAlignment="Stretch">
+        <DockPanel Name="FilterWrap" Grid.Row="1" Visibility="Collapsed"  VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <StackPanel Name="FilterList" Orientation="Horizontal"></StackPanel>
             <Button Name="ClearFilter" Click="ClearFilter_OnMouseLeftButtonUp" Padding="10 0 0 0" HorizontalAlignment="Right" Content="{local:Lng BookGridClearFilter}" />
-        </DockPanel>
-
-        <ComboBox HorizontalAlignment="Right" VerticalAlignment="Top" Name="FilterCategory" SelectionChanged="FilterCategory_OnSelectionChanged" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1" />
+        </DockPanel>        
 
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1" />
 
-        <DataGrid x:Name="BookGrid" Grid.Row="2" IsReadOnly="True" AutoGenerateColumns="False"
+        <DataGrid x:Name="BookGrid" Grid.Row="2" IsReadOnly="True" AutoGenerateColumns="False" EnableColumnVirtualization="True" EnableRowVirtualization="True"
                   Loaded="BookGrid_OnLoaded" VerticalAlignment="Top" CanUserResizeRows="False" RowHeaderWidth="1" KeyUp="BookGrid_OnKeyUp" PreviewMouseRightButtonUp="BookGrid_PreviewMouseRightButtonUp" PreviewMouseLeftButtonUp="BookGrid_PreviewMouseRightButtonUp"
                   GridLinesVisibility="None"  RowBackground="#5d5d5d" AlternatingRowBackground="#454545"   Background="#569cd6" CanUserSortColumns="True"
                   Template="{StaticResource DataGrid}">                      
@@ -150,26 +155,19 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
-             <!--   <DataGridTextColumn Header="{local:Lng BookGridHeaderCategory}" Binding="{Binding Category}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Padding" Value="5" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>-->
             </DataGrid.Columns>
 
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <Border Padding="5" Margin="6" CornerRadius="8">
+                    <Border Padding="5" Margin="6" CornerRadius="8" BorderBrush="#696970" BorderThickness="1" MaxWidth="{Binding ActualWidth, ElementName=BookGrid, Converter={StaticResource BookGridMaxRowDetailWidth}}">
+                   <!-- Note to self: Figure out how to fix the text getting blurry when this effect is used, it has something to do with the text being rasterized and cleartype not doing its thing  
                         <Border.Effect>
-                            <DropShadowEffect Color="#797777" />
-                        </Border.Effect>
+                            <DropShadowEffect Color="#797777" /> 
+                        </Border.Effect>-->
                         <Border.Background>
                             <RadialGradientBrush>
                                 <GradientStop Color="#FF515157" Offset="1" />
-                                <GradientStop Color="#FF7D7D86" />
+                                <GradientStop Color="#75757d" />
                             </RadialGradientBrush>
                         </Border.Background>
 
@@ -218,8 +216,8 @@
                                     <TextBlock Text="{Binding Published}" Foreground="#FF292929" />
                                 </StackPanel>
 
-                                <TextBlock Text="{Binding Description}" TextAlignment="Justify" DockPanel.Dock="Top" Foreground="LightGray" Width="{Binding ActualWidth, ElementName=DetailInnerDock}" TextWrapping="Wrap" />
-                            </DockPanel>
+                                <TextBlock Text="{Binding Description}" TextAlignment="Justify" DockPanel.Dock="Top" Foreground="LightGray" MaxWidth="{Binding ActualWidth, ElementName=DetailInnerDock}" TextWrapping="Wrap" />
+                            </DockPanel>                            
                         </DockPanel>
                     </Border>
                 </DataTemplate>

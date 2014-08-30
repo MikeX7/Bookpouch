@@ -376,4 +376,25 @@
   <data name="SettingsOnlyManualCategories" xml:space="preserve">
     <value>Manual _categ.:</value>
   </data>
+  <data name="BookGridHeaderAuthor" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="BookGridHeaderSeries" xml:space="preserve">
+    <value>Series</value>
+  </data>
+  <data name="EditBookCreated" xml:space="preserve">
+    <value>_Created:</value>
+  </data>
+  <data name="EditBookPath" xml:space="preserve">
+    <value>_Path:</value>
+  </data>
+  <data name="HintMenuFilter" xml:space="preserve">
+    <value>Filter the list of books and display only entries matching the given parameters</value>
+  </data>
+  <data name="HintCheckCoverDimensions" xml:space="preserve">
+    <value>When covers are extracted from the book files, only extract covers where height is larger than width. (This can filter out some incorrect images being used as covers)</value>
+  </data>
+  <data name="SettingsCheckCoverDimensions" xml:space="preserve">
+    <value>Check _covers:</value>
+  </data>
 </root>

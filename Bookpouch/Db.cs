@@ -127,14 +127,17 @@ namespace Bookpouch
                 "Path VARCHAR(255) NOT NULL PRIMARY KEY," +
                 "Title VARCHAR(255) NOT NULL," +
                 "Author VARCHAR(255)," +
+                "Contributor VARCHAR(255)," +
                 "Publisher VARCHAR(255)," +
                 "Language VARCHAR(10)," +
                 "Published DATE," +
                 "Description TEXT," +
                 "Series VARCHAR(255)," +
-                "Category VARCHAR(100)," +
+                "Coverage VARCHAR(255)," +                
                 "MobiType VARCHAR(100)," +
-                "Size INT NOT NULL," +
+                "Identifier VARCHAR(255)," +
+                "Relation VARCHAR(255)," +
+                "Size INT NOT NULL," +                
                 "Favorite BOOLEAN NOT NULL," +
                 "Sync BOOLEAN NOT NULL," +
                 "Created DATE NOT NULL," +
@@ -149,11 +152,22 @@ namespace Bookpouch
                 "PRIMARY KEY(Path, Name)" +                
                 ")";
 
+            const string sqlFilters =
+                "CREATE TABLE filters (" +
+                "Name VARCHAR(255) NOT NULL PRIMARY KEY," +
+                "Parameters BLOB NOT NULL" +                
+                ")";
+
             using (var command = new SQLiteCommand(sqlBooks, Connection))
+            {                
                 command.ExecuteNonQuery();
 
-            using (var command = new SQLiteCommand(sqlCategories, Connection))
+                command.CommandText = sqlCategories;
                 command.ExecuteNonQuery();
+
+                command.CommandText = sqlFilters;
+                command.ExecuteNonQuery();
+            }            
         }
 
 

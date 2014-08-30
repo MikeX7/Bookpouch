@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -88,19 +89,28 @@ namespace Bookpouch
                         }
                     }
 
+                    //3.4.6 The DCMES Optional Elements: contributor | coverage | creator | date | description | format | publisher | relation | rights | source | subject | type
+
                     var meta = from el in metaData.Descendants() where el.Name.Namespace == customNs select el;
 
                     var author = metaData.Descendants(customNs + "creator").FirstOrDefault();
+                    var contributor = metaData.Descendants(customNs + "contributor").FirstOrDefault();
                     var title = metaData.Descendants(customNs + "title").FirstOrDefault();
                     var description = metaData.Descendants(customNs + "description").FirstOrDefault();
                     var categories = metaData.Descendants(customNs + "subject").Select(category => category.Value).ToList();
+                    var coverage = metaData.Descendants(customNs + "coverage").FirstOrDefault();
                     var publisher = metaData.Descendants(customNs + "publisher").FirstOrDefault();
                     var language = metaData.Descendants(customNs + "language").FirstOrDefault();
                     var published = metaData.Descendants(customNs + "date").FirstOrDefault();
+                    var identifier = metaData.Descendants(customNs + "identifier").FirstOrDefault();
+                    var relation = metaData.Descendants(customNs + "relation").FirstOrDefault();
                     
 
                     if (author != null)
                         List.Add("author", author.Value);
+
+                    if (contributor != null)
+                        List.Add("contributor", contributor.Value);
 
                     if (title != null)
                         List.Add("title", title.Value);
@@ -111,6 +121,9 @@ namespace Bookpouch
                     if(categories.Count > 0)
                         List.Add("categories", categories);
 
+                    if (coverage != null)
+                        List.Add("coverage", coverage.Value);
+
                     if (publisher != null)
                         List.Add("publisher", publisher.Value);
 
@@ -119,6 +132,12 @@ namespace Bookpouch
 
                     if (published != null)
                         List.Add("published", DateTime.Parse(published.Value));
+
+                    if (identifier != null)
+                        List.Add("identifier", identifier.Value);
+
+                    if (relation != null)
+                        List.Add("relation", relation.Value);
                 }
             }
             catch (Exception e)
@@ -348,16 +367,16 @@ namespace Bookpouch
 
             img.Seek(0, SeekOrigin.Begin);
             
-            //Check if the image file we extracted is actually valid image
+            //Check if the image file we extracted is actually a valid image
             if (img.Length <= 0)
                 return img;
 
             try
             {
                 using (var imgCheck = Image.FromStream(img))
-                {                        
-                    if (!imgCheck.RawFormat.Equals(ImageFormat.Jpeg) && !imgCheck.RawFormat.Equals(ImageFormat.Gif))
-                        throw new FormatException();
+                {                 
+                    if ((!imgCheck.RawFormat.Equals(ImageFormat.Jpeg) && !imgCheck.RawFormat.Equals(ImageFormat.Gif)) || (imgCheck.Width > imgCheck.Height && Properties.Settings.Default.CheckCoverDimensions))
+                        throw new BadImageFormatException();
                 }
             }
             catch (Exception)

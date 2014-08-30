@@ -44,7 +44,6 @@ namespace Bookpouch
         // ReSharper disable once InconsistentNaming
         public static MainWindow MW;
         private static NotifyIcon _trayIcon;
-        private readonly Dictionary<string, string> _filter = new Dictionary<string, string>();
 
         public MainWindow()
         {
@@ -58,6 +57,7 @@ namespace Bookpouch
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
             
             InitializeComponent();
+            
             AllowDrop = true;
             Drop += Add_OnDrop;
             if(Properties.Settings.Default.DebugOnStart)
@@ -65,7 +65,7 @@ namespace Bookpouch
             
             _trayIcon = new NotifyIcon
             {
-                Icon = new Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Bookpouch;component/Img/kindle.ico")).Stream),
+                Icon = new Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Bookpouch;component/Img/BookPouch1.ico")).Stream),
                 Visible = false,
                 Text = "Bookpouch"
             };
@@ -110,12 +110,8 @@ namespace Bookpouch
             var stopwatch = new Stopwatch();
             stopwatch.Start();            
             var grid = (DataGrid) sender;
-            var sql = AssembleQuery(_filter);
-            var stop = new Stopwatch();
-            stop.Start();
+            var sql = AssembleQuery();
             var query = Db.Query(sql.Item1, sql.Item2);
-            stop.Stop();
-            DebugConsole.WriteLine("qv " + stop.Elapsed.ToString());
             var bookDataList = new List<BookData>();
             var bookList = new List<Book>();
             var cultureList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
@@ -167,70 +163,26 @@ namespace Bookpouch
         public void BookGridReload()
         {
             BookGrid_OnLoaded(BookGrid, null);   //Reload the book grid
-
-            //Regenerate the filter list
-
-            if (_filter.Count == 0)
-            {
-                Filter.Visibility = Visibility.Collapsed;                
-                return;
-            }
-
-            var keyNames = new Dictionary<string, string>()
-            {
-                {"title", UiLang.Get("BookGridHeaderTitle")},
-                {"category", UiLang.Get("BookGridHeaderCategory")},
-                {"series", UiLang.Get("BookGridSeries")},
-                
-            };
-
-            FilterList.Children.Clear();
-
-            foreach (var item in _filter)
-            {
-                var value = new TextBlock()
-                {
-                    Foreground = Brushes.DodgerBlue,
-                    Text = item.Value
-                };
-
-                var name = new TextBlock()
-                {
-                    Foreground = Brushes.Gray,
-                    Text = keyNames[item.Key] + ": "
-                };
-
-                var separator = new TextBlock()
-                {
-                    Foreground = Brushes.Gray,
-                    Text = "; "
-                };
-
-                FilterList.Children.Add(name);
-                FilterList.Children.Add(value);
-                FilterList.Children.Add(separator);                
-                
-
-            }
-
-            Filter.Visibility = Visibility.Visible;
+            GenerateFilterView();
         }
 
         private readonly Timer _searchStartTimer = new Timer(1000);   
 
         /// <summary>
-        /// Trigger filtered search by title, after the user stops typing into the field
+        /// Trigger a filtered in titles, after the user stops typing into the field
         /// </summary>        
         private void FilterName_OnkeyUp(object sender, KeyEventArgs e)
         {
             var textBox = (TextBox)sender;
 
-            if (textBox.Text == "" && e.Key == Key.Back)
+            if (textBox.Text == "" && e.Key == Key.Back) //Remove the title search parameter from the filter
             {
-                _filter.Remove("title"); //Remove category from the filter so all categories are displayed
+                Filter.Title = null; 
                 textBox.Visibility = Visibility.Collapsed;
                 _searchStartTimer.Stop();
-            }
+                BookGridReload();
+                return;
+            }            
 
             if (_searchStartTimer.Enabled)
             {
@@ -239,19 +191,23 @@ namespace Bookpouch
                 return;
             }
 
+            _searchStartTimer.Elapsed -= FilterNameSearch;
             _searchStartTimer.Elapsed += FilterNameSearch;
             _searchStartTimer.AutoReset = false;
             _searchStartTimer.Start();
         }
 
         /// <summary>
-        /// Filter the books displayed in the grid based on the string from the text field
+        /// Add a title search parameter into the filter
         /// </summary>
         private void FilterNameSearch(object sender, ElapsedEventArgs e)
-        {            
-            Dispatcher.Invoke(() => 
+        {                       
+            Dispatcher.Invoke(() =>
             {
-                _filter["title"] = FilterName.Text;
+                if (String.IsNullOrEmpty(FilterName.Text))
+                    return;
+
+                Filter.Title = FilterName.Text;
                 //Add selected category name into the filter so only books in that category are displayed
 
                 BookGridReload();
@@ -259,17 +215,17 @@ namespace Bookpouch
         }
 
         /// <summary>
-        /// Filter the books displayed in the grid based on the selected category
+        /// FilterWrap the books displayed in the grid based on the selected category
         /// </summary>        
         private void FilterCategory_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (ComboBox) sender;            
 
-            _filter["category"] = comboBox.SelectedItem.ToString(); //Add selected category name into the filter so only books in that category are displayed
+            Filter.Category = comboBox.SelectedItem.ToString(); //Add selected category name into the filter so only books in that category are displayed
 
             if (comboBox.SelectedIndex == 0)
             {
-                _filter.Remove("category"); //Remove category from the filter so all categories are displayed
+                Filter.Category = null; //Remove category from the filter so all categories are displayed
                 comboBox.Visibility = Visibility.Collapsed;
             }
 
@@ -326,15 +282,6 @@ namespace Bookpouch
         {
             var obj = e.OriginalSource as TextBlock;            
 
-            //If the category column header gets right clicked display combobox for filtering categories
-            if (obj != null && obj.Text == UiLang.Get("BookGridHeaderCategory"))
-            {
-                var categoryList = LibraryStructure.CategoryList();                
-                categoryList.Insert(0, "- - -");
-                FilterCategory.ItemsSource = categoryList;
-                FilterCategory.Visibility = Visibility.Visible;
-            }
-
             if (obj == null || obj.Text != UiLang.Get("BookGridHeaderTitle")) 
                 return;
 
@@ -342,21 +289,19 @@ namespace Bookpouch
             FilterName.Focus();
         }
 
-        //Filter book list with only books from the selected series
+        //FilterWrap book list with only books from the selected series
         private void FilterSeries_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var textBlock = (TextBlock) sender;
 
-            _filter["series"] = textBlock.Text;
+            Filter.Series = textBlock.Text;
 
             BookGridReload();
         }
 
         private void ClearFilter_OnMouseLeftButtonUp(object sender, RoutedEventArgs routedEventArgs)
         {
-            _filter.Clear();
-            FilterCategory.SelectedIndex = 0;
-            FilterCategory.Visibility = Visibility.Collapsed;
+            Filter = new BookFilter();
             FilterName.Text = String.Empty;
             FilterName.Visibility = Visibility.Collapsed;
             BookGridReload();
@@ -413,6 +358,16 @@ namespace Bookpouch
         {
             Info(UiLang.Get("SyncingDataStructure"));
             LibraryStructure.SyncDbWithFileTree();           
+        }
+
+        private void Filter_OnClick(object sender, RoutedEventArgs e)
+        {
+            var filterWindow = new FilterWindow
+            {
+                Owner = this
+            };
+
+            filterWindow.Show();
         }
 
         //Execute the button click event handling method manually from here and then cancel the click, since we need to prevent  showing of the row detail and therefore  cannot wait for full click to be performed
@@ -531,7 +486,22 @@ namespace Bookpouch
             }    
         }
 
-  
-    }
 
+    }    
+
+    /// <summary>
+    /// Get maximum width for the detail bubble in the datagrid, calculated from the datagrid width, to make surethe detail bubble won't be wider than the datagrid
+    /// </summary>
+    public class BookGridMaxRowDetailWidth : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+                return System.Convert.ToInt32(value) - 35;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return System.Convert.ToInt32(value) + 35;
+        }
+    }
 }

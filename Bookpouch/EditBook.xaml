@@ -67,7 +67,7 @@
         <Label Grid.Row="5" Grid.Column="0" Content="{local:Lng EditBookCategory}" Target="{Binding ElementName=Category}"/>
         <TextBox Grid.Row="5" Grid.Column="1" Name="Category" KeyUp="Category_OnKeyUp" Loaded="Category_OnLoaded"  LostFocus="Category_OnLostFocus" ToolTip="{local:Lng HintEditBookCategory}"/>
 
-        <Border Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" CornerRadius="4" Background="#58585f" Width="250" Name="CategoryTagsBorder" Visibility="Visible" Padding="5 5 5 0" MinHeight="25">
+        <Border Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" CornerRadius="4" Background="#58585f" Width="250" Name="CategoryTagsBorder" Visibility="Collapsed" Padding="5 5 5 0" MinHeight="25">
             <Border.Resources>
                 <Style BasedOn="{StaticResource DefaultButton}" TargetType="{x:Type Button}">
                     <Setter Property="Margin" Value="0,0,5,5"/>
