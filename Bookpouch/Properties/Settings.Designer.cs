@@ -231,5 +231,17 @@ namespace Bookpouch.Properties {
                 this["DescriptionMaxLength"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FilterPopupHintShown {
+            get {
+                return ((bool)(this["FilterPopupHintShown"]));
+            }
+            set {
+                this["FilterPopupHintShown"] = value;
+            }
+        }
     }
 }

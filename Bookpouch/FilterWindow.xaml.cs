@@ -22,6 +22,13 @@ namespace Bookpouch
         public FilterWindow()
         {            
             InitializeComponent();
+
+            if (Properties.Settings.Default.FilterPopupHintShown)
+                return;
+
+            MessageBox.Show(UiLang.Get("FilterFirstUsePopup"));
+            Properties.Settings.Default.FilterPopupHintShown = true;
+            Properties.Settings.Default.Save();
         }
 
 
@@ -93,9 +100,26 @@ namespace Bookpouch
                 TextBox = (TextBox)sender,
                 HintList = hintList
             };
-        }
+        }        
 
-        readonly ObservableCollection<EditBook.CategoryTag> categoryTagList = new ObservableCollection<EditBook.CategoryTag>();
+        private void Author_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            using (var query = Db.Query("SELECT DISTINCT Author FROM books GROUP BY Author COLLATE NOCASE"))
+            {
+                var hintList = new List<string>();
+
+                while (query.Read())
+                    hintList.Add(query["Author"].ToString());
+                
+                hintList.Sort();
+
+                new Whisperer
+                {
+                    TextBox = (TextBox)sender,
+                    HintList = hintList
+                };
+            }
+        }
 
         private void Category_OnLoaded(object sender, RoutedEventArgs e)
         {                              
@@ -104,11 +128,10 @@ namespace Bookpouch
 
             new Whisperer
             {
-                TextBox = (TextBox)sender,
+                TextBox = (TextBox) sender,
                 HintList = hintList
             };
         }
-
 
         /// <summary>
         /// Save search parameters into the filter list
@@ -127,6 +150,6 @@ namespace Bookpouch
             MainWindow.MW.BookGridReload();
         }
 
-
+      
     }
 }

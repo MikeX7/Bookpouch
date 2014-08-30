@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Bookpouch
@@ -106,7 +110,7 @@ namespace Bookpouch
                 sqlWhere = "WHERE " + String.Join(" AND ", sqlConditions);
             }
 
-            var sql = "SELECT *, GROUP_CONCAT(c.Name, ', ') Categories FROM books b LEFT JOIN categories c ON b.Path = c.Path " + sqlWhere + "  GROUP BY b.Path";
+            var sql = "SELECT *, GROUP_CONCAT(c.Name, ', ') Categories FROM books b LEFT JOIN categories c ON b.Path = c.Path " + sqlWhere + " COLLATE NOCASE  GROUP BY b.Path";
 
             return new Tuple<string, SQLiteParameter[]>(sql, parameters.ToArray());
         }
@@ -187,11 +191,61 @@ namespace Bookpouch
             FilterWrap.Visibility = Visibility.Visible;
         }
 
+        private void SavePreset_OnClick(object sender, RoutedEventArgs e)
+        {
+            FilterPresetName.Visibility = Visibility.Visible;
+            FilterPresetName.Focus();
+        } 
+
+        private void FilterPresetName_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            var textBox = (TextBox) sender;
+
+            if(e.Key != Key.Enter && e.Key != Key.Escape)
+                return;
+
+            if (e.Key == Key.Enter)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    var bf = new BinaryFormatter();
+                    bf.Serialize(ms, Filter);                    
+
+
+                    using (var query = Db.Query("INSERT OR IGNORE INTO filters VALUES(@Name, @Parameters)", new[]
+                    {
+                        new SQLiteParameter("Name", textBox.Text),
+                        new SQLiteParameter("Parameters", ms.GetBuffer()),
+                    }))
+                    {
+
+                        if (query.RecordsAffected > 0)
+                            Info(UiLang.Get("FilterSavingPresetSuccessful"));
+                        else
+                        {
+                            Info(UiLang.Get("FilterSavingPresetDuplicate"), 1);
+                            return;
+                        }
+                    }
+                }
+                
+
+                textBox.Text = String.Empty;
+
+
+            }
+
+            FilterPresetName.Visibility = Visibility.Collapsed; 
+        }
+
+        [Serializable]
         public class BookFilter : BookData
         {
             public int ParameterCount = 0;
             public bool SortByFavorite = false;
             public string Category;
         }
+
+       
     }
 }

@@ -76,11 +76,13 @@
             <TextBlock Name="InfoBox" TextWrapping="Wrap" VerticalAlignment="Top" Padding="5" TextAlignment="Center"
                        RenderTransformOrigin="0.5,0.5" Foreground="Black" />
         </Border>
-
-        <DockPanel Name="FilterWrap" Grid.Row="1" Visibility="Collapsed"  VerticalAlignment="Top" HorizontalAlignment="Stretch">
-            <StackPanel Name="FilterList" Orientation="Horizontal"></StackPanel>
-            <Button Name="ClearFilter" Click="ClearFilter_OnMouseLeftButtonUp" Padding="10 0 0 0" HorizontalAlignment="Right" Content="{local:Lng BookGridClearFilter}" />
-        </DockPanel>        
+        
+        <DockPanel Name="FilterWrap" Grid.Row="1" Visibility="Collapsed"  VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
+            <StackPanel Name="FilterList" Orientation="Horizontal" DockPanel.Dock="Left"/>
+            <Button Name="ClearFilter" Click="ClearFilter_OnMouseLeftButtonUp" Padding="10 0 0 0" DockPanel.Dock="Right" Content="{local:Lng BookGridClearFilter}" />
+            <Button Name="SavePreset" DockPanel.Dock="Right" Content="{local:Lng SavePreset}" ToolTip="{local:Lng HintSavePreset}" Click="SavePreset_OnClick"/>
+        </DockPanel>
+        <TextBox Grid.Row="1" HorizontalAlignment="Right" Name="FilterPresetName" Visibility="Collapsed" KeyUp="FilterPresetName_OnKeyUp" ToolTip="{local:Lng HintFilterPresetName}"/>
 
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="2" Visibility="Collapsed" Canvas.ZIndex="1" />
 

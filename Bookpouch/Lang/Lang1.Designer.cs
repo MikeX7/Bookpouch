@@ -88,7 +88,7 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Clear filter.
+        ///   Looks up a localized string similar to Clear.
         /// </summary>
         internal static string BookGridClearFilter {
             get {
@@ -439,6 +439,33 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All parameters entered in this filter are applied automatically to the book list. If the book list has already some other filter parameters active on it, the new parameters entered in this window will be merged with the existing ones. .
+        /// </summary>
+        internal static string FilterFirstUsePopup {
+            get {
+                return ResourceManager.GetString("FilterFirstUsePopup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving the filter preset failed, because another preset with the chosen name already exists..
+        /// </summary>
+        internal static string FilterSavingPresetDuplicate {
+            get {
+                return ResourceManager.GetString("FilterSavingPresetDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter preset was successfully saved..
+        /// </summary>
+        internal static string FilterSavingPresetSuccessful {
+            get {
+                return ResourceManager.GetString("FilterSavingPresetSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Automatically start Bookpouch during the computer boot and minimize it into tray.
         /// </summary>
         internal static string HintAutoStart {
@@ -520,6 +547,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name of the preset to be saved. After you type the name, hit Enter to save the preset or Escape to cancel the saving..
+        /// </summary>
+        internal static string HintFilterPresetName {
+            get {
+                return ResourceManager.GetString("HintFilterPresetName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
         internal static string HintMenuAbout {
@@ -597,6 +633,15 @@ namespace Bookpouch.Lang {
         internal static string HintOnlyOne {
             get {
                 return ResourceManager.GetString("HintOnlyOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save the active filter parameters as a preset, which you can later use..
+        /// </summary>
+        internal static string HintSavePreset {
+            get {
+                return ResourceManager.GetString("HintSavePreset", resourceCulture);
             }
         }
         
@@ -705,6 +750,15 @@ namespace Bookpouch.Lang {
         internal static string MobiHeaderMissing {
             get {
                 return ResourceManager.GetString("MobiHeaderMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string SavePreset {
+            get {
+                return ResourceManager.GetString("SavePreset", resourceCulture);
             }
         }
         

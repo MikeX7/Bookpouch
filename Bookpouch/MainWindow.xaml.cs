@@ -111,38 +111,43 @@ namespace Bookpouch
             var stopwatch = new Stopwatch();
             stopwatch.Start();            
             var grid = (DataGrid) sender;
-            var sql = AssembleQuery();
-            var query = Db.Query(sql.Item1, sql.Item2);
-            var queryAllCategories = Db.Query("SELECT Path, Name FROM categories");
+            var sql = AssembleQuery();                        
             var categoryList = new Dictionary<string, List<string>>();
             var bookDataList = new List<BookData>();
             var bookList = new List<Book>();
             var cultureList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
 
-            while (queryAllCategories.Read())
+            //Turn rows form the db into BookData objects
+            using (var query = Db.Query(sql.Item1, sql.Item2))
             {
-                var key = queryAllCategories["Path"].ToString();
-                var value = queryAllCategories["Name"].ToString();
+                //Add list of attached categories to each BookData object
+                using (var queryAllCategories = Db.Query("SELECT Path, Name FROM categories")) //Pull all categories from database, so that we don't have to do a separate query for each book
+                {
+                    //Turn category rows into a single dictionary, where each key is a Path, whose value is a List of category Names associated with said Path
+                    while (queryAllCategories.Read())
+                    {
+                        var key = queryAllCategories["Path"].ToString();
+                        var value = queryAllCategories["Name"].ToString();
 
-                if(categoryList.ContainsKey(key))
-                    categoryList[key].Add(value);
-                else
-                    categoryList.Add(key, new List<string>{value});
-            }                
+                        if (categoryList.ContainsKey(key))
+                            categoryList[key].Add(value);
+                        else
+                            categoryList.Add(key, new List<string> {value});
+                    }
+                }
 
-            queryAllCategories.Dispose();
+                //Cast book rows into BookData objects and assign them their category lists
+                while (query.Read())
+                {
+                    var bookData = BookKeeper.CastSqlBookRowToBookData(query);
 
-            while (query.Read())
-            {
-                var bookData = BookKeeper.CastSqlBookRowToBookData(query);
+                    if (categoryList.ContainsKey(query["Path"].ToString()))
+                        bookData.Categories = categoryList[query["Path"].ToString()];
 
-                if (categoryList.ContainsKey(query["Path"].ToString()))
-                    bookData.Categories = categoryList[query["Path"].ToString()];                
+                    bookDataList.Add(bookData);
+                }
 
-                bookDataList.Add(bookData);
             }
-
-            query.Dispose();
 
             foreach (var bookData in bookDataList)
             {               

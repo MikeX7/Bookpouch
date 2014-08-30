@@ -127,7 +127,7 @@
     <value>Delete book?</value>
   </data>
   <data name="BookGridClearFilter" xml:space="preserve">
-    <value>Clear filter</value>
+    <value>Clear</value>
   </data>
   <data name="BookGridEdit" xml:space="preserve">
     <value>Edit</value>
@@ -417,5 +417,23 @@
   </data>
   <data name="FieldPublisher" xml:space="preserve">
     <value>Publisher</value>
+  </data>
+  <data name="FilterFirstUsePopup" xml:space="preserve">
+    <value>All parameters entered in this filter are applied automatically to the book list. If the book list has already some other filter parameters active on it, the new parameters entered in this window will be merged with the existing ones. </value>
+  </data>
+  <data name="HintSavePreset" xml:space="preserve">
+    <value>Save the active filter parameters as a preset, which you can later use.</value>
+  </data>
+  <data name="SavePreset" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="HintFilterPresetName" xml:space="preserve">
+    <value>Name of the preset to be saved. After you type the name, hit Enter to save the preset or Escape to cancel the saving.</value>
+  </data>
+  <data name="FilterSavingPresetDuplicate" xml:space="preserve">
+    <value>Saving the filter preset failed, because another preset with the chosen name already exists.</value>
+  </data>
+  <data name="FilterSavingPresetSuccessful" xml:space="preserve">
+    <value>Filter preset was successfully saved.</value>
   </data>
 </root>

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 
 namespace Bookpouch
 {
+    
     /// <summary>
     /// Class for storing data available about a book
     /// </summary>
+    [Serializable]
     public class BookData
     {       
         public string Title;

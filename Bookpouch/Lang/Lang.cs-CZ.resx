@@ -127,7 +127,7 @@
     <value>Smazat knihu?</value>
   </data>
   <data name="BookGridClearFilter" xml:space="preserve">
-    <value>Vyčistit filtr</value>
+    <value>Vyčistit</value>
   </data>
   <data name="BookGridEdit" xml:space="preserve">
     <value>Upravit</value>
@@ -417,5 +417,23 @@
   </data>
   <data name="FieldPublisher" xml:space="preserve">
     <value>Vydavatel</value>
+  </data>
+  <data name="FilterFirstUsePopup" xml:space="preserve">
+    <value>Všechny parametry zadané do filtru jsou aplikovány na list knih automaticky. Pokud je již filter na listu knih aktivní, nově zadané hodnoty z polí v tomto okně budou sloučeny s hodnotami aktivního filtru.</value>
+  </data>
+  <data name="HintSavePreset" xml:space="preserve">
+    <value>Uložit existující parametry filtru jako předvolbu, kterou je možné později použít.</value>
+  </data>
+  <data name="SavePreset" xml:space="preserve">
+    <value>Uložit</value>
+  </data>
+  <data name="HintFilterPresetName" xml:space="preserve">
+    <value>Název ukládané předvolby filtru. Poté co napíšete název, stiskněte Enter pro uložení předvolby, nebo Escape pro zrušení ukládání.</value>
+  </data>
+  <data name="FilterSavingPresetDuplicate" xml:space="preserve">
+    <value>Ukládání předvolby selhalo, protože jiná předvolba se stejným jménem již existuje.</value>
+  </data>
+  <data name="FilterSavingPresetSuccessful" xml:space="preserve">
+    <value>Předvolba filtru byla úspěšně uložena.</value>
   </data>
 </root>
