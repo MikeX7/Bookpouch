@@ -219,5 +219,17 @@ namespace Bookpouch.Properties {
                 this["CheckCoverDimensions"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int DescriptionMaxLength {
+            get {
+                return ((int)(this["DescriptionMaxLength"]));
+            }
+            set {
+                this["DescriptionMaxLength"] = value;
+            }
+        }
     }
 }

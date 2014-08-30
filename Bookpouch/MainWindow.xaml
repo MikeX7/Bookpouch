@@ -204,7 +204,12 @@
                                         </TextBlock.Effect>
                                     </TextBlock>
                                 </StackPanel>
-
+                                
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding CategoriesVisibility}" DockPanel.Dock="Top">
+                                    <TextBlock FontSize="18" Text="📚 " FontWeight="Medium" VerticalAlignment="Center" Foreground="DarkGray" />
+                                    <TextBlock Text="{Binding Categories}" FontWeight="DemiBold" Foreground="LightGray" VerticalAlignment="Center" />
+                                </StackPanel>
+                                
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding SeriesVisibility}" DockPanel.Dock="Top">
                                     <TextBlock FontSize="18" Text="📚 " FontWeight="Medium" VerticalAlignment="Center" Foreground="DarkGray" />
                                     <TextBlock Text="{Binding Series}" MouseLeftButtonUp="FilterSeries_OnMouseLeftButtonUp" FontWeight="DemiBold" Foreground="LightGray" VerticalAlignment="Center" />

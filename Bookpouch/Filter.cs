@@ -29,73 +29,73 @@ namespace Bookpouch
 
             if (!String.IsNullOrEmpty(Filter.Title)) //Title filter
             {
-                sqlConditions.Add("Title LIKE @Title");
+                sqlConditions.Add("b.Title LIKE @Title");
                 parameters.Add(new SQLiteParameter("Title", "%" + Filter.Title + "%"));
             }
 
             if (!String.IsNullOrEmpty(Filter.Author)) //Author filter
             {
-                sqlConditions.Add("Author = @Author");
+                sqlConditions.Add("b.Author = @Author");
                 parameters.Add(new SQLiteParameter("Author", Filter.Author));
             }
 
             if (!String.IsNullOrEmpty(Filter.Publisher)) //Publisher filter
             {
-                sqlConditions.Add("Publisher = @Publisher");
+                sqlConditions.Add("b.Publisher = @Publisher");
                 parameters.Add(new SQLiteParameter("Publisher", Filter.Publisher));
             }
 
             if (!String.IsNullOrEmpty(Filter.Language)) //Language filter
             {
-                sqlConditions.Add("Language = @Language");
+                sqlConditions.Add("b.Language = @Language");
                 parameters.Add(new SQLiteParameter("Language", Filter.Language));
             }
 
             if (Filter.Created != default(DateTime)) //Published filter
             {
-                sqlConditions.Add("Published = @Published");
+                sqlConditions.Add("b.Published = @Published");
                 parameters.Add(new SQLiteParameter("Published", Filter.Published));
             }
 
             if (!String.IsNullOrEmpty(Filter.Description)) //Description filter
             {
-                sqlConditions.Add("Description LIKE @Description");
+                sqlConditions.Add("b.Description LIKE @Description");
                 parameters.Add(new SQLiteParameter("Description", "%" + Filter.Description + "%"));
             }
 
             if (!String.IsNullOrEmpty(Filter.Series)) //Series filter
             {
-                sqlConditions.Add("Series = @Series");
+                sqlConditions.Add("b.Series = @Series");
                 parameters.Add(new SQLiteParameter("Series", Filter.Series));
             }
 
             if (Filter.Created != default(DateTime)) //Created filter
             {
-                sqlConditions.Add("Created = @Created");
+                sqlConditions.Add("b.Created = @Created");
                 parameters.Add(new SQLiteParameter("Created", Filter.Created));
             }
 
             if (Filter.Favorite) //Favorite filter
             {
-                sqlConditions.Add("Favorite = @Favorite");
+                sqlConditions.Add("b.Favorite = @Favorite");
                 parameters.Add(new SQLiteParameter("Favorite", Filter.Favorite));
             }
 
             if (Filter.Sync) //Sync filter
             {
-                sqlConditions.Add("Sync = @Sync");
+                sqlConditions.Add("b.Sync = @Sync");
                 parameters.Add(new SQLiteParameter("Sync", Filter.Sync));
             }
 
-            if (!String.IsNullOrEmpty(Filter.Category)) //Category filter
+            if (!String.IsNullOrEmpty(Filter.Categories)) //Category filter
             {
-                sqlConditions.Add("Category = @Category");
-                parameters.Add(new SQLiteParameter("Category", Filter.Category));
+                sqlConditions.Add("b.Categories = @Categories");
+                parameters.Add(new SQLiteParameter("Categories", Filter.Categories));
             }
 
             if (!String.IsNullOrEmpty(Filter.Path)) //Path filter
             {
-                sqlConditions.Add("Path LIKE @Path");
+                sqlConditions.Add("b.Path LIKE @Path");
                 parameters.Add(new SQLiteParameter("Path", "%" + Filter.Path + "%"));
             }
 
@@ -106,7 +106,7 @@ namespace Bookpouch
                 sqlWhere = "WHERE " + String.Join(" AND ", sqlConditions);
             }
            
-            var sql = "SELECT * FROM books b LEFT JOIN categories c ON b.Path = c.Path " + sqlWhere + "  GROUP BY b.Path";
+            var sql = "SELECT *, GROUP_CONCAT(c.Name, ', ') Categories FROM books b LEFT JOIN categories c ON b.Path = c.Path " + sqlWhere + "  GROUP BY b.Path";
 
             return new Tuple<string, SQLiteParameter[]>(sql, parameters.ToArray());
         }

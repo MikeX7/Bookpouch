@@ -183,7 +183,7 @@ namespace Bookpouch
             var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);
 
             if (prop != null)
-                box.Text = (string) prop.GetValue(Properties.Settings.Default);        
+                box.Text = prop.GetValue(Properties.Settings.Default).ToString();        
         }
 
         //Handle saving values for all settings text fields
@@ -192,12 +192,18 @@ namespace Bookpouch
             var box = (TextBox) sender;
             var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);
 
-            if (prop != null)
+
+            if (prop == null) 
+                return;
+
+            int number;
+
+            if (prop.PropertyType == typeof (int) && int.TryParse(box.Text, out number))
+                prop.SetValue(Properties.Settings.Default, number);
+            else
                 prop.SetValue(Properties.Settings.Default, box.Text);
 
-            
-
-            Properties.Settings.Default.Save();            
+            Properties.Settings.Default.Save();
         }
 
         private void BooksDir_OnLoaded(object sender, RoutedEventArgs e)

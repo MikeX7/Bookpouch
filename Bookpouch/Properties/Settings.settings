@@ -53,5 +53,8 @@
     <Setting Name="CheckCoverDimensions" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="DescriptionMaxLength" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

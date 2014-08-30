@@ -139,8 +139,7 @@ namespace Bookpouch
                     Published = bookData.Published,
                     Description = bookData.Description,
                     Series = bookData.Series,
-                    Category = bookData.Category,
-                    MobiType = bookData.MobiType,
+                    Categories = bookData.Categories,                    
                     Size = Tools.BytesFormat(bookData.Size),
                     Favorite = bookData.Favorite,
                     Sync = bookData.Sync,
@@ -219,7 +218,7 @@ namespace Bookpouch
         /// </summary>        
         private void FilterCategory_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var comboBox = (ComboBox) sender;            
+     /*       var comboBox = (ComboBox) sender;            
 
             Filter.Category = comboBox.SelectedItem.ToString(); //Add selected category name into the filter so only books in that category are displayed
 
@@ -229,7 +228,7 @@ namespace Bookpouch
                 comboBox.Visibility = Visibility.Collapsed;
             }
 
-            BookGridReload();
+            BookGridReload();*/
         }
 
 

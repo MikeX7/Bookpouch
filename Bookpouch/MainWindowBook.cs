@@ -23,12 +23,20 @@ namespace Bookpouch
             public string Description
             {
                 set { _description = value; }
-                get { return Regex.Replace(_description.Replace("<p", "\n<p"), "<[^>]+>", ""); } //Remove html tags and replace block tags with new line marks
+                get
+                {
+                    var description = Regex.Replace(_description.Replace("<p", "\n<p"), "<[^>]+>", ""); //Remove html tags and replace block tags with new line marks
+
+                    if (Properties.Settings.Default.DescriptionMaxLength > 0 && description.Length > Properties.Settings.Default.DescriptionMaxLength)
+                        description = description.Substring(0, Properties.Settings.Default.DescriptionMaxLength) + "...";
+
+                    return description;
+                } 
             }
 
             public string MobiType { set; get; }
             public string Size { set; get; }
-            public string Category { set; get; }
+            public string Categories { set; get; }
             public bool Favorite { set; get; }
             public bool Sync { set; get; }
             public string BookFile { set; get; }
@@ -64,6 +72,11 @@ namespace Bookpouch
 
                     return cover;
                 }
+            }
+
+            public Visibility CategoriesVisibility
+            {
+                get { return (Categories != "" ? Visibility.Visible : Visibility.Collapsed); }
             }
 
             public Visibility SeriesVisibility

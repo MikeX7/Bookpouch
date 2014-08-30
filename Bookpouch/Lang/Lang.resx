@@ -394,7 +394,13 @@
   <data name="HintCheckCoverDimensions" xml:space="preserve">
     <value>When covers are extracted from the book files, only extract covers where height is larger than width. (This can filter out some incorrect images being used as covers)</value>
   </data>
+  <data name="HintSettingsDescriptionMaxLength" xml:space="preserve">
+    <value>Maximum length of the description displayed for books in the book list.</value>
+  </data>
   <data name="SettingsCheckCoverDimensions" xml:space="preserve">
     <value>Check _covers:</value>
+  </data>
+  <data name="SettingsDescriptionMaxLength" xml:space="preserve">
+    <value>Max desc. _len.:</value>
   </data>
 </root>

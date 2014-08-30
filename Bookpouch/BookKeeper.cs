@@ -139,13 +139,13 @@ namespace Bookpouch
             if (!File.Exists(bookFile))
                 throw new FileNotFoundException();
             
-            const string sql = "SELECT * FROM books WHERE Path = @Path LIMIT 1";
+            const string sql = "SELECT *, GROUP_CONCAT(c.Name, ', ') Categories FROM books b LEFT JOIN categories c ON b.Path = c.Path  WHERE b.Path = @Path GROUP BY c.Path LIMIT 1";
             var bookFileRelativePath = GetRelativeBookFilePath(bookFile);
             var parameters = new[] {new SQLiteParameter("Path", bookFileRelativePath)};
             var query = Db.Query(sql, parameters);
-            //return new BookData();
+                        
             if (!query.HasRows) //If the row is missing, attempt to generate it 
-            {
+            {                
                 query.Dispose();
                 DebugConsole.WriteLine("Book keeper: Nonexistent data for " + bookFile + ". Triggering data generation...");
                 GenerateData(bookFile);
@@ -158,10 +158,10 @@ namespace Bookpouch
                     throw new RowNotInTableException(
                         "Row for the specified book file was not found in the database, and the attempted regeneration failed.");
                 }
-            }                            
-
-            query.Read();
-
+            }
+            
+            query.Read();                       
+            
             var bookData = CastSqlBookRowToBookData(query);
            
             query.Dispose();
@@ -180,16 +180,18 @@ namespace Bookpouch
             {
                 Title = (string) query["Title"],
                 Author = (string) query["Author"],
+                Contributor = (string)query["Contributor"],
                 Publisher = (string) query["Publisher"],
+                Categories = query["Categories"].ToString(),
                 Language = (string) query["Language"],
                 Published = (DateTime?) (query["Published"].ToString() != String.Empty ? query["Published"] : null),
                 Description = (string) query["Description"],
-                Series = (string) query["Series"],                
-                MobiType = (string) query["MobiType"],
+                Series = (string) query["Series"],
+                Coverage = (string)query["Coverage"],
+                Created = (DateTime)query["Created"],
                 Size = Convert.ToUInt64(query["Size"]),
                 Favorite = (bool) query["Favorite"],
-                Sync = (bool) query["Sync"],
-                Created = (DateTime) query["Created"],
+                Sync = (bool) query["Sync"],                
                 Cover = (byte[]) (query["Cover"].ToString() != String.Empty ? query["Cover"] : null),
                 Path = GetAbsoluteBookFilePath((string) query["Path"])
             };
@@ -200,7 +202,6 @@ namespace Bookpouch
         /// <summary>
         /// Save dictionary with book info back into a file
         /// </summary>
-        /// <param name="bookFile">Path to the .dat file into which the dictionary will be saved</param>
         /// <param name="bookData">The dictionary object containing the book info</param>
         /// <exception cref="FileNotFoundException">Supplied book file was not found</exception>
         /// <exception cref="RowNotInTableException">Database record for the supplied book file doesn't exists and it was not possible to regenerate it</exception>
@@ -222,7 +223,7 @@ namespace Bookpouch
             }
            
             Db.NonQuery(
-              "UPDATE books SET Title = @Title, Author = @Author, Contributor = @Contributor, Publisher = @Publisher, Language = @Language, Published = @Published, Description = @Description, Series = @Series, Coverage = @Coverage, MobiType = @MobiType, Identifier = @Identifier, Relation = @Relation, Size = @Size, Favorite = @Favorite, Sync = @Sync, Created = @Created, Cover = @Cover WHERE Path = @Path",
+              "UPDATE books SET Title = @Title, Author = @Author, Contributor = @Contributor, Publisher = @Publisher, Language = @Language, Published = @Published, Description = @Description, Series = @Series, Coverage = @Coverage, Size = @Size, Favorite = @Favorite, Sync = @Sync, Cover = @Cover WHERE Path = @Path",
                 typeof (BookData).GetFields().Select(property => new SQLiteParameter(property.Name, property.GetValue(bookData))).ToArray());                
         }
 

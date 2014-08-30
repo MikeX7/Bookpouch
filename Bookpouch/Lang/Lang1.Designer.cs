@@ -583,6 +583,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum length of the description displayed for books in the book list..
+        /// </summary>
+        internal static string HintSettingsDescriptionMaxLength {
+            get {
+                return ResourceManager.GetString("HintSettingsDescriptionMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Directory on the device, where all the books are stored. This is the directory which Bookpouch will use, while working with the device..
         /// </summary>
         internal static string HintSettingsDir {
@@ -723,6 +732,15 @@ namespace Bookpouch.Lang {
         internal static string SettingsDebug {
             get {
                 return ResourceManager.GetString("SettingsDebug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max desc. _len.:.
+        /// </summary>
+        internal static string SettingsDescriptionMaxLength {
+            get {
+                return ResourceManager.GetString("SettingsDescriptionMaxLength", resourceCulture);
             }
         }
         

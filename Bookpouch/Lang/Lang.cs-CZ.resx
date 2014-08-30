@@ -397,4 +397,10 @@
   <data name="SettingsCheckCoverDimensions" xml:space="preserve">
     <value>Kontrola obalů:</value>
   </data>
+  <data name="HintSettingsDescriptionMaxLength" xml:space="preserve">
+    <value>Maximálně délka popisku zobrazená pro knihy v listu knih.</value>
+  </data>
+  <data name="SettingsDescriptionMaxLength" xml:space="preserve">
+    <value>Max délka pop..:</value>
+  </data>
 </root>
