@@ -132,19 +132,19 @@
   <data name="BookGridEdit" xml:space="preserve">
     <value>Edit</value>
   </data>
-  <data name="BookGridHeaderCategory" xml:space="preserve">
+  <data name="FieldCategory" xml:space="preserve">
     <value>Category</value>
   </data>
-  <data name="BookGridHeaderFavorite" xml:space="preserve">
+  <data name="FieldFavorite" xml:space="preserve">
     <value> ★</value>
   </data>
-  <data name="BookGridHeaderSync" xml:space="preserve">
+  <data name="FieldSync" xml:space="preserve">
     <value> ⇪</value>
   </data>
-  <data name="BookGridHeaderTitle" xml:space="preserve">
+  <data name="FieldTitle" xml:space="preserve">
     <value>Title</value>
   </data>
-  <data name="BookGridSeries" xml:space="preserve">
+  <data name="FieldSeries" xml:space="preserve">
     <value>Series</value>
   </data>
   <data name="BookInfoNotAvailable" xml:space="preserve">
@@ -376,11 +376,8 @@
   <data name="SettingsOnlyManualCategories" xml:space="preserve">
     <value>Manual _categ.:</value>
   </data>
-  <data name="BookGridHeaderAuthor" xml:space="preserve">
+  <data name="FieldAuthor" xml:space="preserve">
     <value>Author</value>
-  </data>
-  <data name="BookGridHeaderSeries" xml:space="preserve">
-    <value>Series</value>
   </data>
   <data name="EditBookCreated" xml:space="preserve">
     <value>_Created:</value>
@@ -402,5 +399,23 @@
   </data>
   <data name="SettingsDescriptionMaxLength" xml:space="preserve">
     <value>Max desc. _len.:</value>
+  </data>
+  <data name="FieldCreated" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="FieldDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="FieldLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="FieldPath" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="FieldPublished" xml:space="preserve">
+    <value>Published</value>
+  </data>
+  <data name="FieldPublisher" xml:space="preserve">
+    <value>Publisher</value>
   </data>
 </root>

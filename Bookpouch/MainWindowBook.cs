@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 
 namespace Bookpouch
@@ -20,6 +23,7 @@ namespace Bookpouch
             public string CountryCode;
 
             private string _description;
+            
             public string Description
             {
                 set { _description = value; }
@@ -36,7 +40,14 @@ namespace Bookpouch
 
             public string MobiType { set; get; }
             public string Size { set; get; }
-            public string Categories { set; get; }
+
+            public List<string> Categories;
+
+            public string CategoriesString
+            {
+                get { return String.Join(", ", Categories); }
+            }
+
             public bool Favorite { set; get; }
             public bool Sync { set; get; }
             public string BookFile { set; get; }
@@ -76,7 +87,7 @@ namespace Bookpouch
 
             public Visibility CategoriesVisibility
             {
-                get { return (Categories != "" ? Visibility.Visible : Visibility.Collapsed); }
+                get { return (CategoriesString != "" ? Visibility.Visible : Visibility.Collapsed); }
             }
 
             public Visibility SeriesVisibility

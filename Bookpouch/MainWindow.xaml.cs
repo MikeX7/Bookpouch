@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -112,12 +113,36 @@ namespace Bookpouch
             var grid = (DataGrid) sender;
             var sql = AssembleQuery();
             var query = Db.Query(sql.Item1, sql.Item2);
+            var queryAllCategories = Db.Query("SELECT Path, Name FROM categories");
+            var categoryList = new Dictionary<string, List<string>>();
             var bookDataList = new List<BookData>();
             var bookList = new List<Book>();
             var cultureList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
 
+            while (queryAllCategories.Read())
+            {
+                var key = queryAllCategories["Path"].ToString();
+                var value = queryAllCategories["Name"].ToString();
+
+                if(categoryList.ContainsKey(key))
+                    categoryList[key].Add(value);
+                else
+                    categoryList.Add(key, new List<string>{value});
+            }                
+
+            queryAllCategories.Dispose();
+
             while (query.Read())
-                bookDataList.Add(BookKeeper.CastSqlBookRowToBookData(query));            
+            {
+                var bookData = BookKeeper.CastSqlBookRowToBookData(query);
+
+                if (categoryList.ContainsKey(query["Path"].ToString()))
+                    bookData.Categories = categoryList[query["Path"].ToString()];                
+
+                bookDataList.Add(bookData);
+            }
+
+            query.Dispose();
 
             foreach (var bookData in bookDataList)
             {               
@@ -281,7 +306,7 @@ namespace Bookpouch
         {
             var obj = e.OriginalSource as TextBlock;            
 
-            if (obj == null || obj.Text != UiLang.Get("BookGridHeaderTitle")) 
+            if (obj == null || obj.Text != UiLang.Get("FieldTitle")) 
                 return;
 
             FilterName.Visibility = Visibility.Visible;
@@ -365,6 +390,10 @@ namespace Bookpouch
             {
                 Owner = this
             };
+
+            OpenFilter.IsEnabled = false;
+
+            filterWindow.Closed += (o, args) => { OpenFilter.IsEnabled = true; };
 
             filterWindow.Show();
         }

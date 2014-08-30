@@ -139,7 +139,7 @@ namespace Bookpouch
             if (!File.Exists(bookFile))
                 throw new FileNotFoundException();
             
-            const string sql = "SELECT *, GROUP_CONCAT(c.Name, ', ') Categories FROM books b LEFT JOIN categories c ON b.Path = c.Path  WHERE b.Path = @Path GROUP BY c.Path LIMIT 1";
+            const string sql = "SELECT * FROM books WHERE Path = @Path LIMIT 1";
             var bookFileRelativePath = GetRelativeBookFilePath(bookFile);
             var parameters = new[] {new SQLiteParameter("Path", bookFileRelativePath)};
             var query = Db.Query(sql, parameters);
@@ -158,14 +158,19 @@ namespace Bookpouch
                     throw new RowNotInTableException(
                         "Row for the specified book file was not found in the database, and the attempted regeneration failed.");
                 }
-            }
-            
+            }           
+
             query.Read();                       
             
             var bookData = CastSqlBookRowToBookData(query);
            
             query.Dispose();
-            
+
+            var queryCategories = Db.Query("SELECT Name FROM categories WHERE Path = @Path", parameters);
+
+            while (queryCategories.Read())
+                bookData.Categories.Add(queryCategories["Name"].ToString());
+
             return bookData;
         }
 
@@ -181,8 +186,7 @@ namespace Bookpouch
                 Title = (string) query["Title"],
                 Author = (string) query["Author"],
                 Contributor = (string)query["Contributor"],
-                Publisher = (string) query["Publisher"],
-                Categories = query["Categories"].ToString(),
+                Publisher = (string) query["Publisher"],                
                 Language = (string) query["Language"],
                 Published = (DateTime?) (query["Published"].ToString() != String.Empty ? query["Published"] : null),
                 Description = (string) query["Description"],

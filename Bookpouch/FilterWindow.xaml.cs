@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -97,11 +98,9 @@ namespace Bookpouch
         readonly ObservableCollection<EditBook.CategoryTag> categoryTagList = new ObservableCollection<EditBook.CategoryTag>();
 
         private void Category_OnLoaded(object sender, RoutedEventArgs e)
-        {      
-            var defaultCategories = Properties.Settings.Default.DefaultCategories.Split(';');
-            var hintList = new List<string>(defaultCategories);
-            hintList.AddRange(LibraryStructure.CategoryList());
-            hintList.Sort();
+        {                              
+            var hintList = LibraryStructure.CategoryList();
+            hintList.Sort();            
 
             new Whisperer
             {
@@ -110,53 +109,22 @@ namespace Bookpouch
             };
         }
 
-        /// <summary>
-        /// Remove category from the book
-        /// </summary>
-        private void CategoryTag_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            var categoryTag = (EditBook.CategoryTag)(((Button)sender).DataContext);
-
-            categoryTagList.Remove(categoryTag);
-
-            if (categoryTagList.Count == 0)
-                CategoryTagsBorder.Visibility = Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// Add category to the book
-        /// </summary>        
-        private void Category_OnKeyUp(object sender, KeyEventArgs e)
-        {
-            var textBox = (TextBox)sender;
-
-            if (textBox.Text.Length <= 1 || (textBox.Text.Substring(textBox.Text.Length - 1) != ";" && textBox.Text.Substring(textBox.Text.Length - 1) != ","))
-                return;
-
-            var category = textBox.Text.Substring(0, textBox.Text.Length - 1);
-            textBox.Text = String.Empty;
-
-            if (categoryTagList.Any(categoryTag => categoryTag.Name == category))
-                return;
-
-            CategoryTagsBorder.Visibility = Visibility.Visible;
-            categoryTagList.Add(new EditBook.CategoryTag { Name = category });
-        }
-
 
         /// <summary>
         /// Save search parameters into the filter list
         /// </summary>
         /// <param name="key">Name of the filter field to which to save the data</param>
         /// <param name="value">Value to be saved into the specified field</param>
-        private void FilterSet(string key, object value)
+        private static void FilterSet(string key, object value)
         {
             var type = typeof (MainWindow.BookFilter);
 
             if(key == null || type.GetField(key) == null)
                 return;
-
+         
             type.GetField(key).SetValue(MainWindow.MW.Filter, value);
+
+            MainWindow.MW.BookGridReload();
         }
 
 

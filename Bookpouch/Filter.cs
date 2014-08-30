@@ -51,10 +51,10 @@ namespace Bookpouch
                 parameters.Add(new SQLiteParameter("Language", Filter.Language));
             }
 
-            if (Filter.Created != default(DateTime)) //Published filter
+            if (Filter.Published != null) //Published filter
             {
                 sqlConditions.Add("b.Published = @Published");
-                parameters.Add(new SQLiteParameter("Published", Filter.Published));
+                parameters.Add(new SQLiteParameter("Published", Filter.Published));                
             }
 
             if (!String.IsNullOrEmpty(Filter.Description)) //Description filter
@@ -87,10 +87,10 @@ namespace Bookpouch
                 parameters.Add(new SQLiteParameter("Sync", Filter.Sync));
             }
 
-            if (!String.IsNullOrEmpty(Filter.Categories)) //Category filter
+            if (!String.IsNullOrEmpty(Filter.Category)) //Category filter
             {
-                sqlConditions.Add("b.Categories = @Categories");
-                parameters.Add(new SQLiteParameter("Categories", Filter.Categories));
+                sqlConditions.Add("c.Name = @Category");
+                parameters.Add(new SQLiteParameter("Category", Filter.Category));
             }
 
             if (!String.IsNullOrEmpty(Filter.Path)) //Path filter
@@ -105,7 +105,7 @@ namespace Bookpouch
             {
                 sqlWhere = "WHERE " + String.Join(" AND ", sqlConditions);
             }
-           
+
             var sql = "SELECT *, GROUP_CONCAT(c.Name, ', ') Categories FROM books b LEFT JOIN categories c ON b.Path = c.Path " + sqlWhere + "  GROUP BY b.Path";
 
             return new Tuple<string, SQLiteParameter[]>(sql, parameters.ToArray());
@@ -115,33 +115,54 @@ namespace Bookpouch
         /// Display filter parameters above the book grid
         /// </summary>
         private void GenerateFilterView()
-        {
+        {            
             if (Filter.ParameterCount == 0)
             {
                 FilterWrap.Visibility = Visibility.Collapsed;
                 return;
             }
-
-            var keyNames = new Dictionary<string, string>
+            
+            var keyNames = new Dictionary<string, string> //Localized names of the displayed search parameters
             {
-                {"Title", UiLang.Get("BookGridHeaderTitle")},
-                {"Author", UiLang.Get("BookGridHeaderAuthor")},
-                {"Category", UiLang.Get("BookGridHeaderCategory")},
-                {"Series", UiLang.Get("BookGridSeries")},
+                {"Title", UiLang.Get("FieldTitle")},
+                {"Author", UiLang.Get("FieldAuthor")},
+                {"Publisher", UiLang.Get("FieldPublisher")},
+                {"Language", UiLang.Get("FieldLanguage")},
+                {"Published", UiLang.Get("FieldPublished")},
+                {"Description", UiLang.Get("FieldDescription")},
+                {"Series", UiLang.Get("FieldSeries")},
+                {"Created", UiLang.Get("FieldCreated")},
+                {"Favorite", UiLang.Get("FieldFavorite")},
+                {"Sync", UiLang.Get("FieldSync")},
+                {"Category", UiLang.Get("FieldCategory")},
+                {"Path", UiLang.Get("FieldPath")},                
                 
             };
-
+            
             FilterList.Children.Clear();
 
             foreach (var field in typeof(BookFilter).GetFields())
             {
-                if (!keyNames.ContainsKey(field.Name) || field.GetValue(Filter) == null)
+                if (!keyNames.ContainsKey(field.Name) || field.GetValue(Filter) == null || field.GetValue(Filter).ToString() == String.Empty)
+                    continue;
+
+                var txtValue = field.GetValue(Filter);
+                
+                //Handle some special types like booleans for better displaying
+                if (field.FieldType == typeof (DateTime) || field.FieldType == typeof (DateTime?))
+                {
+                    if((DateTime) txtValue == DateTime.MinValue)
+                        continue;
+                   
+                    txtValue = ((DateTime) txtValue).Date.ToString("d");
+                }
+                else if (field.FieldType == typeof (Boolean) && (Boolean) txtValue == false)
                     continue;
 
                 var value = new TextBlock
                 {
                     Foreground = Brushes.DodgerBlue,
-                    Text = (field.GetValue(Filter) ?? String.Empty).ToString()
+                    Text = (txtValue ?? String.Empty).ToString()
                 };
 
                 var name = new TextBlock
@@ -170,6 +191,7 @@ namespace Bookpouch
         {
             public int ParameterCount = 0;
             public bool SortByFavorite = false;
+            public string Category;
         }
     }
 }

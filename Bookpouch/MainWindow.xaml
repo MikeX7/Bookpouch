@@ -52,7 +52,7 @@
                 <Image Source="Img/ornament.png" />
             </Button>
 
-            <Button Click="Filter_OnClick" Style="{StaticResource MenuIconButton}" Margin="5,0,0,0"
+            <Button Click="Filter_OnClick" Name="OpenFilter" Style="{StaticResource MenuIconButton}" Margin="5,0,0,0"
                     ToolTip="{local:Lng HintMenuFilter}">
                 <Image Source="Img/aim32x32.png" />
             </Button>
@@ -119,7 +119,7 @@
             </DataGrid.CellStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{local:Lng BookGridHeaderTitle}" Binding="{Binding Title}" Width="*" SortDirection="Ascending">
+                <DataGridTextColumn Header="{local:Lng FieldTitle}" Binding="{Binding Title}" Width="*" SortDirection="Ascending">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Padding" Value="5" />
@@ -127,7 +127,7 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <DataGridTemplateColumn Header="{local:Lng BookGridHeaderFavorite}">
+                <DataGridTemplateColumn Header="{local:Lng FieldFavorite}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Tag="{Binding BookFile}" PreviewMouseDown="Favorite_OnPreviewMouseDown" ToolTip="{local:Lng HintBookGridFavorite}">
@@ -141,7 +141,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="{local:Lng BookGridHeaderSync}">
+                <DataGridTemplateColumn Header="{local:Lng FieldSync}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Tag="{Binding BookFile}" PreviewMouseDown="Sync_OnPreviewMouseDown"
@@ -207,7 +207,7 @@
                                 
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding CategoriesVisibility}" DockPanel.Dock="Top">
                                     <TextBlock FontSize="18" Text="📚 " FontWeight="Medium" VerticalAlignment="Center" Foreground="DarkGray" />
-                                    <TextBlock Text="{Binding Categories}" FontWeight="DemiBold" Foreground="LightGray" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding CategoriesString}" FontWeight="DemiBold" Foreground="LightGray" VerticalAlignment="Center" />
                                 </StackPanel>
                                 
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding SeriesVisibility}" DockPanel.Dock="Top">

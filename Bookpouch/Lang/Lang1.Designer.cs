@@ -106,74 +106,11 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Author.
-        /// </summary>
-        internal static string BookGridHeaderAuthor {
-            get {
-                return ResourceManager.GetString("BookGridHeaderAuthor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Category.
-        /// </summary>
-        internal static string BookGridHeaderCategory {
-            get {
-                return ResourceManager.GetString("BookGridHeaderCategory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to  ★.
-        /// </summary>
-        internal static string BookGridHeaderFavorite {
-            get {
-                return ResourceManager.GetString("BookGridHeaderFavorite", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Series.
-        /// </summary>
-        internal static string BookGridHeaderSeries {
-            get {
-                return ResourceManager.GetString("BookGridHeaderSeries", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to  ⇪.
-        /// </summary>
-        internal static string BookGridHeaderSync {
-            get {
-                return ResourceManager.GetString("BookGridHeaderSync", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Title.
-        /// </summary>
-        internal static string BookGridHeaderTitle {
-            get {
-                return ResourceManager.GetString("BookGridHeaderTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Dir.
         /// </summary>
         internal static string BookGridOpenDir {
             get {
                 return ResourceManager.GetString("BookGridOpenDir", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Series.
-        /// </summary>
-        internal static string BookGridSeries {
-            get {
-                return ResourceManager.GetString("BookGridSeries", resourceCulture);
             }
         }
         
@@ -390,6 +327,114 @@ namespace Bookpouch.Lang {
         internal static string ExthProblemFetching {
             get {
                 return ResourceManager.GetString("ExthProblemFetching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        internal static string FieldAuthor {
+            get {
+                return ResourceManager.GetString("FieldAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        internal static string FieldCategory {
+            get {
+                return ResourceManager.GetString("FieldCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created.
+        /// </summary>
+        internal static string FieldCreated {
+            get {
+                return ResourceManager.GetString("FieldCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string FieldDescription {
+            get {
+                return ResourceManager.GetString("FieldDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  ★.
+        /// </summary>
+        internal static string FieldFavorite {
+            get {
+                return ResourceManager.GetString("FieldFavorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        internal static string FieldLanguage {
+            get {
+                return ResourceManager.GetString("FieldLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Path.
+        /// </summary>
+        internal static string FieldPath {
+            get {
+                return ResourceManager.GetString("FieldPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Published.
+        /// </summary>
+        internal static string FieldPublished {
+            get {
+                return ResourceManager.GetString("FieldPublished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publisher.
+        /// </summary>
+        internal static string FieldPublisher {
+            get {
+                return ResourceManager.GetString("FieldPublisher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Series.
+        /// </summary>
+        internal static string FieldSeries {
+            get {
+                return ResourceManager.GetString("FieldSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  ⇪.
+        /// </summary>
+        internal static string FieldSync {
+            get {
+                return ResourceManager.GetString("FieldSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        internal static string FieldTitle {
+            get {
+                return ResourceManager.GetString("FieldTitle", resourceCulture);
             }
         }
         

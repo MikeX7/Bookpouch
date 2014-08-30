@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Bookpouch
 {
@@ -11,7 +12,7 @@ namespace Bookpouch
         public string Author;
         public string Contributor;        
         public string Publisher;
-        public string Categories;
+        public List<string> Categories = new List<string>();
         public string Language;
         public DateTime? Published;        
         public string Description;
