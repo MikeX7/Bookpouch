@@ -92,7 +92,7 @@ namespace Bookpouch
                     new SQLiteParameter("Contributor", (bookPeek.List.ContainsKey("contributor") ? bookPeek.List["contributor"] : String.Empty).ToString()), 
                     new SQLiteParameter("Publisher", (bookPeek.List.ContainsKey("publisher") ? bookPeek.List["publisher"] : String.Empty).ToString()), 
                     new SQLiteParameter("Language", (bookPeek.List.ContainsKey("language") ? bookPeek.List["language"] : String.Empty).ToString()),
-                    new SQLiteParameter("Published", (DateTime?) (bookPeek.List.ContainsKey("published") ? bookPeek.List["published"] : null)),
+                    new SQLiteParameter("Published",  (bookPeek.List.ContainsKey("published") ? ((DateTime) bookPeek.List["published"]).ToString("yyyy-MM-dd") : null)),
                     new SQLiteParameter("Description", (bookPeek.List.ContainsKey("description") ? bookPeek.List["description"] : String.Empty).ToString()), 
                     new SQLiteParameter("Series", String.Empty),
                     new SQLiteParameter("Coverage", (bookPeek.List.ContainsKey("coverage") ? bookPeek.List["coverage"] : String.Empty).ToString()), 
@@ -102,7 +102,7 @@ namespace Bookpouch
                     new SQLiteParameter("Size",  (ulong) finfo.Length), 
                     new SQLiteParameter("Favorite", false),
                     new SQLiteParameter("Sync", false), 
-                    new SQLiteParameter("Created", DateTime.Now), 
+                    new SQLiteParameter("Created", DateTime.Now.ToString("yyyy-MM-dd")), 
                     new SQLiteParameter("Cover", (bookPeek.List.ContainsKey("cover") ? bookPeek.List["cover"] : null))
                 });     
        

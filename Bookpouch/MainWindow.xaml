@@ -94,7 +94,7 @@
 
         <DockPanel Name="FilterWrap" Grid.Row="2" Visibility="Collapsed"  VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
             <WrapPanel Name="FilterList" Orientation="Horizontal" DockPanel.Dock="Left"/>
-            <Button Name="ClearFilter" Click="ClearFilter_OnMouseLeftButtonUp" Margin="5 0 0 0" DockPanel.Dock="Right" Content="{local:Lng BookGridClearFilter}" />
+            <Button Name="ClearFilter" Click="ClearFilter_OnMouseLeftButtonUp" Margin="5 0 0 0" DockPanel.Dock="Right"  ToolTip="{local:Lng HintClearFilter}" Content="{local:Lng BookGridClearFilter}" />
             <Button Name="SavePreset" DockPanel.Dock="Right" Content="{local:Lng SavePreset}" ToolTip="{local:Lng HintSavePreset}" Click="SavePreset_OnClick"/>
         </DockPanel>
         <TextBox Grid.Row="2" HorizontalAlignment="Right" Name="FilterPresetName" Visibility="Collapsed" KeyUp="FilterPresetName_OnKeyUp" ToolTip="{local:Lng HintFilterPresetName}"/>
@@ -214,7 +214,7 @@
                                     <Image Source="Img/silhouette.png" Height="16" Margin="0,0,5,0"
                                            HorizontalAlignment="Left" />
                                     <TextBlock FontSize="16" Text="{Binding Author}" Foreground="#92caf4"
-                                               FontWeight="Medium"
+                                               FontWeight="Medium" MouseLeftButtonUp="FilterAuthor_OnMouseLeftButtonUp" 
                                                VerticalAlignment="Center">
                                         <TextBlock.Effect>
                                             <DropShadowEffect Color="#0a395c" ShadowDepth="3" BlurRadius="3" />
@@ -234,8 +234,8 @@
 
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                                     <Image Source="{Binding CountryFlagPath}" Height="18" Margin="0,0,5,0" />
-                                    <TextBlock Text="{Binding Publisher}" Margin="0,0,5,0" />
-                                    <TextBlock Text="{Binding Published}" Foreground="#FF292929" />
+                                    <TextBlock Text="{Binding Publisher}" MouseLeftButtonUp="FilterPublisher_OnMouseLeftButtonUp"  Margin="0,0,5,0" />
+                                    <TextBlock Text="{Binding PublishedDate}" Foreground="#FF292929" />
                                 </StackPanel>
 
                                 <TextBlock Text="{Binding Description}" TextAlignment="Justify" DockPanel.Dock="Top" Foreground="LightGray" MaxWidth="{Binding ActualWidth, ElementName=DetailInnerDock}" TextWrapping="Wrap" />

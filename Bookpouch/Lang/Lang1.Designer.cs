@@ -520,6 +520,24 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove the active filter..
+        /// </summary>
+        internal static string HintClearFilter {
+            get {
+                return ResourceManager.GetString("HintClearFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filtered date ie: equal to (=), larger than (&gt;), or smaller than (&lt;) the selected date..
+        /// </summary>
+        internal static string HintDateRange {
+            get {
+                return ResourceManager.GetString("HintDateRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to When you are done typing the category&apos;s name, type ; (semicolon) or , (comma) to add it to the list..
         /// </summary>
         internal static string HintEditBookCategory {

@@ -19,7 +19,13 @@ namespace Bookpouch
             public string Author { set; get; }
             public string Series { set; get; }
             public string Publisher { set; get; }
-            public DateTime? Published { set; get; }
+            public DateTime? Published;
+
+            public string PublishedDate
+            {
+                get { return (Published.HasValue ? Published.Value.ToShortDateString() : null); }
+            }
+
             public string CountryCode;
 
             private string _description;

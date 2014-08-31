@@ -58,10 +58,17 @@
         <TextBox Grid.Row="3" Grid.Column="1" Name="Series" Loaded="Series_OnLoaded"  LostFocus="TextBox_OnChanged"/>
 
         <Label Grid.Row="4" Grid.Column="0" Content="{local:Lng EditBookPublished}" Target="{Binding ElementName=Published}"/>
-        <DatePicker Grid.Row="4" Grid.Column="1" Name="Published" LostFocus="DatePicker_OnChanged" SelectedDateFormat="Short" Width="125"/>
+        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+            <DatePicker  Name="Published" LostFocus="DatePicker_OnChanged" SelectedDateFormat="Short" Width="125"/>
+            <Button Margin="5 0 0 0" VerticalAlignment="Top" Click="PublishedRange_OnClick" ToolTip="{local:Lng HintDateRange}">=</Button>
+        </StackPanel>
+        
 
-        <Label Grid.Row="5" Grid.Column="0" Content="{local:Lng EditBookCreated}" Target="{Binding ElementName=Created}"/>
-        <DatePicker Grid.Row="5" Grid.Column="1" Name="Created" LostFocus="DatePicker_OnChanged" SelectedDateFormat="Short" Width="125"/>
+        <Label Grid.Row="5" Grid.Column="0" Content="{local:Lng EditBookCreated}" Target="{Binding ElementName=Created}"/>        
+        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
+            <DatePicker Name="Created" LostFocus="DatePicker_OnChanged" SelectedDateFormat="Short" Width="125"/>
+            <Button Margin="5 0 0 0" VerticalAlignment="Top" Click="CreatedRange_OnClick" ToolTip="{local:Lng HintDateRange}">=</Button>
+        </StackPanel>
 
         <Label Grid.Row="6" Grid.Column="0" Content="{local:Lng EditBookCategory}" Target="{Binding ElementName=Category}"/>
         <TextBox Grid.Row="6" Grid.Column="1" Name="Category"  Loaded="Category_OnLoaded"

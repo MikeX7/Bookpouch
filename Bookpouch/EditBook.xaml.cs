@@ -208,7 +208,7 @@ namespace Bookpouch
             };            
         }
 
-        ObservableCollection<CategoryTag> categoryTagList = new ObservableCollection<CategoryTag>();
+        private readonly ObservableCollection<CategoryTag> _categoryTagList = new ObservableCollection<CategoryTag>();
 
         private void Category_OnLoaded(object sender, RoutedEventArgs e)
         {                        
@@ -222,14 +222,14 @@ namespace Bookpouch
                     FromFile = SQLiteConvert.ToBoolean(query["FromFile"])
                 };
                 
-                categoryTagList.Add(category);            
+                _categoryTagList.Add(category);            
                 
             }
 
-            if(categoryTagList.Count > 0)
+            if(_categoryTagList.Count > 0)
                 CategoryTagsBorder.Visibility = Visibility.Visible;
 
-            Categories.ItemsSource = categoryTagList;
+            Categories.ItemsSource = _categoryTagList;
 
             var defaultCategories = Properties.Settings.Default.DefaultCategories.Split(';');
             var hintList = new List<string>(defaultCategories);
@@ -250,9 +250,9 @@ namespace Bookpouch
         {            
             var categoryTag = (CategoryTag) (((Button) sender).DataContext);
 
-            categoryTagList.Remove(categoryTag);
+            _categoryTagList.Remove(categoryTag);
 
-            if (categoryTagList.Count == 0)
+            if (_categoryTagList.Count == 0)
                 CategoryTagsBorder.Visibility = Visibility.Collapsed;
 
             Db.NonQuery("DELETE FROM categories WHERE Name = @Name AND Path = @Path", new []
@@ -269,7 +269,7 @@ namespace Bookpouch
         {
             var categoryTag = (CategoryTag)(((Button)sender).DataContext);
 
-            if (categoryTagList.Count == 0)
+            if (_categoryTagList.Count == 0)
                 CategoryTagsBorder.Visibility = Visibility.Collapsed;
 
             Db.NonQuery("UPDATE categories SET FromFile = 0 WHERE Name = @Name AND Path = @Path", new[]
@@ -295,11 +295,11 @@ namespace Bookpouch
             var category = textBox.Text.Substring(0, textBox.Text.Length - 1);
             textBox.Text = String.Empty;
 
-            if (categoryTagList.Any(categoryTag => categoryTag.Name == category))
+            if (_categoryTagList.Any(categoryTag => categoryTag.Name == category))
                 return;
 
             CategoryTagsBorder.Visibility = Visibility.Visible;
-            categoryTagList.Add(new CategoryTag { Name = category});            
+            _categoryTagList.Add(new CategoryTag { Name = category});            
 
             Db.NonQuery("INSERT OR IGNORE INTO categories VALUES(@Path, @Name, 0)", new []
             {

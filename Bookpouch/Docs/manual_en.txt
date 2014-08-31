@@ -12,8 +12,14 @@ You can add new books into the list by clicking on the plus icon, in the top lef
 Bookpouch natively supports Mobi and Epub formats, therefore if you add any books in said formats, it will extract and fill in the informations (if any are available in the book file) about the books, automatically. 
 You can add books in other formats  into the library as well, but apart from their file name, no information will be extracted from the files.
 If you wish to remove a book from the list, click on it and then hit the Delete key on your keyboard. You can also select and remove multiple books by holding down the Ctrl key and clicking on the books you want to remove.
+
+Book filtering
 To display only books containing with a certain letter, or a string, right-click on the Name column name. A text field will appear and as you begin to type into it, the list of books will be automatically filtered, to match the searched string.
-If you wish to view only books belonging to a certain series, simply left-click on the series in the book detail.
+If you wish to view only books belonging to a certain series, simply left-click on the series in the book detail. You can also filter the Author and Publisher in the same way.
+You can also use the advanced filter, which can be open by clicking the filter icon in the menu. Values entered in this filter are automatically applied to the book list, when you click into another field.
+The active filter can also be saved as a preset, for later use. Simply apply a filter to the book list like normally and then click the save button. This will open a text field, into which you can enter the filter preset name and then press the Enter key to save it.
+The newly added preset will appear as a button under the menu and will allow you to filter the book list by a single click.
+To remove an existing preset, right click it with your mouse.
 
 
 Editing book details

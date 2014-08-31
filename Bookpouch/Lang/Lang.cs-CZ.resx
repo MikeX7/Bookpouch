@@ -442,4 +442,10 @@
   <data name="DiscardFilterPresetConfirm" xml:space="preserve">
     <value>Opravdu chcete smazat předvolbu filtru {0}?</value>
   </data>
+  <data name="HintClearFilter" xml:space="preserve">
+    <value>Odebrat aktivní filtr.</value>
+  </data>
+  <data name="HintDateRange" xml:space="preserve">
+    <value>Filtrované datum je:: rovno (=), větší než (&gt;), nebo menší než (&lt;) vybrané datum.</value>
+  </data>
 </root>

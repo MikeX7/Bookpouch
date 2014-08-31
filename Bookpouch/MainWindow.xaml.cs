@@ -319,12 +319,29 @@ namespace Bookpouch
             FilterName.Focus();
         }
 
-        //FilterWrap book list with only books from the selected series
+        //Filter book list with only books from the selected series
         private void FilterSeries_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var textBlock = (TextBlock) sender;
-
             Filter.Series = textBlock.Text;
+
+            BookGridReload();
+        }
+
+        //Filter book list with only books from the selected author
+        private void FilterAuthor_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var textBlock = (TextBlock)sender;
+            Filter.Author = textBlock.Text;
+
+            BookGridReload();
+        }
+
+        //Filter book list with only books from the selected publisher
+        private void FilterPublisher_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var textBlock = (TextBlock)sender;
+            Filter.Publisher = textBlock.Text;
 
             BookGridReload();
         }

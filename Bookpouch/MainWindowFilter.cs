@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -59,8 +53,8 @@ namespace Bookpouch
 
             if (Filter.Published != null) //Published filter
             {
-                sqlConditions.Add("b.Published = @Published");
-                parameters.Add(new SQLiteParameter("Published", Filter.Published));                
+                sqlConditions.Add("b.Published " + (Filter.PublishedRange == 0 ? "=" : (Filter.PublishedRange == 1 ? ">" : "<")) + " @Published");
+                parameters.Add(new SQLiteParameter("Published", Filter.Published.Value.ToString("yyyy-MM-dd")));                
             }
 
             if (!String.IsNullOrEmpty(Filter.Description)) //Description filter
@@ -77,8 +71,8 @@ namespace Bookpouch
 
             if (Filter.Created != default(DateTime)) //Created filter
             {
-                sqlConditions.Add("b.Created = @Created");
-                parameters.Add(new SQLiteParameter("Created", Filter.Created));
+                sqlConditions.Add("b.Created " + (Filter.CreatedRange == 0 ? "=" : (Filter.CreatedRange == 1 ? ">" : "<")) + " @Created");
+                parameters.Add(new SQLiteParameter("Created", Filter.Created.ToString("yyyy-MM-dd")));
             }
 
             if (Filter.Favorite) //Favorite filter
@@ -299,6 +293,8 @@ namespace Bookpouch
             public int ParameterCount = 0;
             public bool SortByFavorite = false;
             public string Category;
+            public int PublishedRange = 0;
+            public int CreatedRange = 0;
         }
 
         private class FilterPreset
@@ -307,7 +303,5 @@ namespace Bookpouch
             public BookFilter BookFilter { set; get; }
         }
 
-
-        
     }
 }

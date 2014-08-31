@@ -82,6 +82,51 @@ namespace Bookpouch
         {
             var datePicker = (DatePicker)sender;
             FilterSet(datePicker.Name, datePicker.SelectedDate);
+            Debug.WriteLine(datePicker.SelectedDate);
+        }
+
+        private void PublishedRange_OnClick(object sender, RoutedEventArgs e)
+        {
+            var button = (Button) sender;
+
+            switch (button.Content.ToString())
+            {
+                case "=":
+                    button.Content = ">";
+                    FilterSet("PublishedRange", 1);
+                    break;
+                case ">":
+                    button.Content = "<";
+                    FilterSet("PublishedRange", 2);
+                    break;
+                case "<":
+                    button.Content = "=";
+                    FilterSet("PublishedRange", 0);
+                    break;
+            }
+            
+        }
+
+        private void CreatedRange_OnClick(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+
+            switch (button.Content.ToString())
+            {
+                case "=":
+                    button.Content = ">";
+                    FilterSet("CreatedRange", 1);
+                    break;
+                case ">":
+                    button.Content = "<";
+                    FilterSet("CreatedRange", 2);
+                    break;
+                case "<":
+                    button.Content = "=";
+                    FilterSet("CreatedRange", 0);
+                    break;
+            }
+            
         }
 
         private void Series_OnLoaded(object sender, RoutedEventArgs e)
@@ -142,14 +187,13 @@ namespace Bookpouch
         {
             var type = typeof (MainWindow.BookFilter);
 
-            if(key == null || type.GetField(key) == null)
+            if (key == null || type.GetField(key) == null)
                 return;
-         
+         Debug.WriteLine("ooo");
             type.GetField(key).SetValue(MainWindow.MW.Filter, value);
 
             MainWindow.MW.BookGridReload();
         }
-
-      
+  
     }
 }

@@ -442,4 +442,10 @@
   <data name="DiscardFilterPresetConfirm" xml:space="preserve">
     <value>Do you really want to delete the {0} filter preset?</value>
   </data>
+  <data name="HintClearFilter" xml:space="preserve">
+    <value>Remove the active filter.</value>
+  </data>
+  <data name="HintDateRange" xml:space="preserve">
+    <value>Filtered date ie: equal to (=), larger than (&gt;), or smaller than (&lt;) the selected date.</value>
+  </data>
 </root>
