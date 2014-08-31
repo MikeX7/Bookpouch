@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -224,7 +225,7 @@ namespace Bookpouch
                 }
 
                 if ((ByteToUInt32(exthFlags) & 0x40) != 0) //exthFlags tells us if the EXTH header exists in this file
-                    MobiExth(fs, file);
+                    MobiExth(fs);
 
                 //Attempt to get the cover image from the mobi file and save it
                 var img = GetJpegFromStream(fs);
@@ -256,7 +257,7 @@ namespace Bookpouch
             }
         }
 
-        private void MobiExth(Stream fs, FileSystemInfo file) //Attempt to find and process the EXTH header from the mobi file stream
+        private void MobiExth(Stream fs) //Attempt to find and process the EXTH header from the mobi file stream
         {
             var records = new Dictionary<UInt32, string>();
             var headerIdent = new byte[4];
@@ -299,23 +300,32 @@ namespace Bookpouch
                 if (records.ContainsKey(100))
                     List.Add("author", records[100]);
 
-                if (records.ContainsKey(503))
-                    List.Add("title", records[503]);
-
                 if (records.ContainsKey(101))
                     List.Add("publisher", records[101]);
 
                 if (records.ContainsKey(103))
                     List.Add("description", records[103]);
 
-                if (records.ContainsKey(524) && !List.ContainsKey("language")) //Only add language from the exth header, if it wasn't found in the mobi header
-                {
-                    var cultureInfo = CultureInfo.GetCultureInfo("en");                                        
-                    List.Add("language", cultureInfo.Name);
-                }
+                if (records.ContainsKey(104))
+                    List.Add("identifier", records[104]);
+
+                if (records.ContainsKey(105))
+                    List.Add("categories", records[105].Split('.').ToList());
 
                 if (records.ContainsKey(106))
                     List.Add("published", DateTime.Parse(records[106]));
+
+                if (records.ContainsKey(108))
+                    List.Add("contributor", records[108]);
+
+                if (records.ContainsKey(503))
+                    List.Add("title", records[503]);
+
+                if (!records.ContainsKey(524) || List.ContainsKey("language")) 
+                    return;
+
+                var cultureInfo = CultureInfo.GetCultureInfo("en");                                        
+                List.Add("language", cultureInfo.Name);
             }
             catch (Exception e)
             {
@@ -373,8 +383,9 @@ namespace Bookpouch
             try
             {
                 using (var imgCheck = Image.FromStream(img))
-                {                 
-                    if ((!imgCheck.RawFormat.Equals(ImageFormat.Jpeg) && !imgCheck.RawFormat.Equals(ImageFormat.Gif)) || (imgCheck.Width > imgCheck.Height && Properties.Settings.Default.CheckCoverDimensions))
+                {
+                    if ((!imgCheck.RawFormat.Equals(ImageFormat.Jpeg) && !imgCheck.RawFormat.Equals(ImageFormat.Gif)) ||
+                        (imgCheck.Width > imgCheck.Height && Properties.Settings.Default.CheckCoverDimensions))
                         throw new BadImageFormatException();
                 }
             }

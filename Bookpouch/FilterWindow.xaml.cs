@@ -39,7 +39,6 @@ namespace Bookpouch
             comboBox.ItemsSource = languageOptions;   
         }
 
-
         /// <summary>
         /// Save the language in which the book is written
         /// </summary>        
@@ -49,10 +48,7 @@ namespace Bookpouch
             var language = (Settings.LanguageOption)comboBox.SelectedItem;            
 
             FilterSet("Language", (language.Name == "- - -" ? String.Empty : language.CultureInfo.Name));
-        }
-
-
-        
+        }        
 
         /// <summary>
         /// Handle saving  values for all checkboxes
@@ -62,7 +58,6 @@ namespace Bookpouch
             var box = (CheckBox)sender;
             FilterSet(box.Name, box.IsChecked);
         }
-
 
         /// <summary>
         /// Handle saving  values for all  textboxes
