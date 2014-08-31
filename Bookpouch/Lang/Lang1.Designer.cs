@@ -178,6 +178,24 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete preset.
+        /// </summary>
+        internal static string DiscardFilterPreset {
+            get {
+                return ResourceManager.GetString("DiscardFilterPreset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to delete the {0} filter preset?.
+        /// </summary>
+        internal static string DiscardFilterPresetConfirm {
+            get {
+                return ResourceManager.GetString("DiscardFilterPresetConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I was not able to remove this book: {0}.
         /// </summary>
         internal static string DiscardingBookFailed {

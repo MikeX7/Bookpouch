@@ -86,7 +86,7 @@
     </Compile>
     <Compile Include="BusyBar.cs" />
     <Compile Include="Db.cs" />
-    <Compile Include="Filter.cs" />
+    <Compile Include="MainWindowFilter.cs" />
     <Compile Include="FilterWindow.xaml.cs">
       <DependentUpon>FilterWindow.xaml</DependentUpon>
     </Compile>

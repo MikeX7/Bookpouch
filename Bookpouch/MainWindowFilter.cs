@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -191,6 +193,30 @@ namespace Bookpouch
             FilterWrap.Visibility = Visibility.Visible;
         }
 
+        private ObservableCollection<FilterPreset> _presetList = new ObservableCollection<FilterPreset>();
+
+        public void GenerateFilterPresetList()
+        {   
+            _presetList.Clear();
+
+            using (var query = Db.Query("SELECT * FROM filters"))
+            {
+                while (query.Read())
+                {
+                    var bs = new BinaryFormatter();
+                    var parameters = (BookFilter) bs.Deserialize(new MemoryStream((byte[]) query["Parameters"]));
+
+                    _presetList.Add(new FilterPreset
+                    {
+                        Name = query["Name"].ToString(),
+                        BookFilter = parameters
+                    });
+                }
+            }
+
+            FilterPresetList.ItemsSource = _presetList;
+        }
+
         private void SavePreset_OnClick(object sender, RoutedEventArgs e)
         {
             FilterPresetName.Visibility = Visibility.Visible;
@@ -220,7 +246,10 @@ namespace Bookpouch
                     {
 
                         if (query.RecordsAffected > 0)
+                        {
                             Info(UiLang.Get("FilterSavingPresetSuccessful"));
+                            GenerateFilterPresetList();
+                        }
                         else
                         {
                             Info(UiLang.Get("FilterSavingPresetDuplicate"), 1);
@@ -236,6 +265,32 @@ namespace Bookpouch
             }
 
             FilterPresetName.Visibility = Visibility.Collapsed; 
+        }        
+
+        /// <summary>
+        /// Set the active filter to the saved preset
+        /// </summary>        
+        private void SetFilterPreset_OnClick(object sender, RoutedEventArgs e)
+        {
+            Filter = ((FilterPreset) ((Button) sender).DataContext).BookFilter;
+            BookGridReload();
+        }
+        
+        private void SetFilterPreset_OnPreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var button = (Button) sender;
+            var filterPreset = (FilterPreset) button.DataContext;
+
+            if (
+                    MessageBox.Show(
+                        String.Format(UiLang.Get("DiscardFilterPresetConfirm"),
+                            button.Content), UiLang.Get("DiscardFilterPreset"), MessageBoxButton.YesNo) !=
+                    MessageBoxResult.Yes)
+                return;
+
+            Db.NonQuery("DELETE FROM filters WHERE Name = @Name", new []{new SQLiteParameter("Name", filterPreset.Name) });
+
+            _presetList.Remove(filterPreset);
         }
 
         [Serializable]
@@ -246,6 +301,13 @@ namespace Bookpouch
             public string Category;
         }
 
-       
+        private class FilterPreset
+        {
+            public string Name { set; get; }
+            public BookFilter BookFilter { set; get; }
+        }
+
+
+        
     }
 }

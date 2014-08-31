@@ -58,7 +58,7 @@ namespace Bookpouch
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
             
             InitializeComponent();
-            
+            GenerateFilterPresetList();
             AllowDrop = true;
             Drop += Add_OnDrop;
             if(Properties.Settings.Default.DebugOnStart)
@@ -193,6 +193,7 @@ namespace Bookpouch
         {
             BookGrid_OnLoaded(BookGrid, null);   //Reload the book grid
             GenerateFilterView();
+            GenerateFilterPresetList();
         }
 
         private readonly Timer _searchStartTimer = new Timer(1000);   

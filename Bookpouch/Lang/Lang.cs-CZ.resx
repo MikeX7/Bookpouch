@@ -436,4 +436,10 @@
   <data name="FilterSavingPresetSuccessful" xml:space="preserve">
     <value>Předvolba filtru byla úspěšně uložena.</value>
   </data>
+  <data name="DiscardFilterPreset" xml:space="preserve">
+    <value>Smazat předvolbu</value>
+  </data>
+  <data name="DiscardFilterPresetConfirm" xml:space="preserve">
+    <value>Opravdu chcete smazat předvolbu filtru {0}?</value>
+  </data>
 </root>
