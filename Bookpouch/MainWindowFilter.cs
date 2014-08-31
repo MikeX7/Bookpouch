@@ -88,7 +88,7 @@ namespace Bookpouch
             }
 
             if (!String.IsNullOrEmpty(Filter.Category)) //Category filter
-            {
+            {                
                 sqlConditions.Add("c.Name = @Category");
                 parameters.Add(new SQLiteParameter("Category", Filter.Category));
             }

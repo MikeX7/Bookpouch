@@ -24,7 +24,7 @@ namespace Bookpouch
 
     public partial class Settings
     {
-        private readonly string[] _supportedLanguages = {"en-US", "cs-CZ"}; //List of languages for which we have translation files
+        private readonly string[] _supportedLanguages = {"- - -", "en-US", "cs-CZ"}; //List of languages for which we have translation files
         public Settings()
         {            
             InitializeComponent();
@@ -64,14 +64,14 @@ namespace Bookpouch
             var comboBox = (ComboBox) sender;
             var langList = new List<LanguageOption>
             {
-                //new LanguageOption(CultureInfo.CurrentUICulture),
+                new LanguageOption(CultureInfo.InvariantCulture){NativeName = "- - -"}, //No language selected, it will be detected automatically
                 new LanguageOption(CultureInfo.GetCultureInfo("en-US")),
                 new LanguageOption(CultureInfo.GetCultureInfo("cs-CZ"))
             };
 
             var position = Array.IndexOf(_supportedLanguages, Properties.Settings.Default.Language);
             comboBox.ItemsSource = langList;
-            comboBox.SelectedIndex = position;
+            comboBox.SelectedIndex = (position < 0 ? 0 : position);
 
         }
 
@@ -81,10 +81,11 @@ namespace Bookpouch
             var comboBox = (ComboBox) sender;
             var language = (LanguageOption) comboBox.SelectedItem;
 
-            Properties.Settings.Default.Language = language.CultureInfo.Name;            
+            Properties.Settings.Default.Language = (language.NativeName == "- - -" ? String.Empty : language.CultureInfo.Name);            
             Properties.Settings.Default.Save();
 
             Thread.CurrentThread.CurrentUICulture = language.CultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = language.CultureInfo;
         }
 
         //Populating reader drop down list
@@ -167,8 +168,7 @@ namespace Bookpouch
         private void CheckBox_OnChecked(object sender, RoutedEventArgs e)
         {           
             var box = (CheckBox) sender;
-            var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);
-            System.Diagnostics.Debug.WriteLine(box.Name);
+            var prop = Properties.Settings.Default.GetType().GetProperty(box.Name);            
 
             if(prop != null)
                 prop.SetValue(Properties.Settings.Default, box.IsChecked);                      
@@ -226,10 +226,10 @@ namespace Bookpouch
              DebugConsole.Open();
         }
 
-        internal sealed class LanguageOption //Class representing items in the language selection drop down menu
+        internal class LanguageOption //Class representing items in the language selection drop down menu
         {
-            public string Name { private set; get; }
-            public string NativeName { private set; get; }
+            public string Name { set; get; }
+            public string NativeName { set; get; }
             public string FlagPath { private set; get; }
 
             public readonly CultureInfo CultureInfo;

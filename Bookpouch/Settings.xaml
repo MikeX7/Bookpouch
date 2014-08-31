@@ -42,7 +42,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="{local:Lng SettingsLanguage}" Target="{Binding ElementName=UiLanguage}"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" Name="UiLanguage" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
+        <ComboBox Grid.Row="0" Grid.Column="1" Name="UiLanguage" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged" SelectedIndex="0">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

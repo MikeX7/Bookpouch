@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
-using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Brushes = System.Windows.Media.Brushes;
 using CheckBox = System.Windows.Controls.CheckBox;
@@ -112,10 +109,11 @@ namespace Bookpouch
             var comboBox = (ComboBox) sender;
             var cultureList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
             var languageOptions = cultureList.Select(culture => new Settings.LanguageOption(culture)).ToList();
-            var language = (string) BookInfoGet("Language");               
+            var language = (string) BookInfoGet("Language");
+            languageOptions.Insert(0, new Settings.LanguageOption(CultureInfo.InvariantCulture) { Name = "- - -" }); //Empty language, for books without any assigned language
          
             comboBox.ItemsSource = languageOptions;
-            comboBox.SelectedIndex = cultureList.Select(culture => culture.Name).ToList().IndexOf(language); //Set combobox position to the book's language            
+            comboBox.SelectedIndex = cultureList.Select(culture => culture.Name).ToList().IndexOf(language) + 1; //Set combobox position to the book's language            
         }
         
 
@@ -127,7 +125,7 @@ namespace Bookpouch
             var comboBox = (ComboBox)sender;
             var language = (Settings.LanguageOption) comboBox.SelectedItem;
 
-            BookInfoSet("Language", language.CultureInfo.Name);                        
+            BookInfoSet("Language", (language.Name == "- - -" ? String.Empty : language.CultureInfo.Name));                        
         }
 
 

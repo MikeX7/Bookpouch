@@ -538,7 +538,7 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filtered date ie: equal to (=), larger than (&gt;), or smaller than (&lt;) the selected date..
+        ///   Looks up a localized string similar to Filtered date is: equal to (=), larger than (&gt;), or smaller than (&lt;) the selected date..
         /// </summary>
         internal static string HintDateRange {
             get {

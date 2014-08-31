@@ -2,13 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 #endregion
 
@@ -37,7 +35,7 @@ namespace Bookpouch
             var comboBox = (ComboBox)sender;
             var cultureList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
             var languageOptions = cultureList.Select(culture => new Settings.LanguageOption(culture)).ToList();
-
+            languageOptions.Insert(0, new Settings.LanguageOption(CultureInfo.InvariantCulture){Name = "- - -"}); //Empty language, to remove the language parameter from the filter
             comboBox.ItemsSource = languageOptions;   
         }
 
@@ -48,9 +46,9 @@ namespace Bookpouch
         private void Language_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (ComboBox)sender;
-            var language = (Settings.LanguageOption)comboBox.SelectedItem;
+            var language = (Settings.LanguageOption)comboBox.SelectedItem;            
 
-            FilterSet("Language", language.CultureInfo.Name);
+            FilterSet("Language", (language.Name == "- - -" ? String.Empty : language.CultureInfo.Name));
         }
 
 
@@ -191,7 +189,7 @@ namespace Bookpouch
         private static void FilterSet(string key, object value)
         {
             var type = typeof (MainWindow.BookFilter);
-
+            
             if (key == null || type.GetField(key) == null)
                 return;
 

@@ -449,6 +449,6 @@
     <value>Odebrat aktivní filtr.</value>
   </data>
   <data name="HintDateRange" xml:space="preserve">
-    <value>Filtrované datum je:: rovno (=), větší než (&gt;), nebo menší než (&lt;) vybrané datum.</value>
+    <value>Filtrované datum je: rovno (=), větší než (&gt;), nebo menší než (&lt;) vybrané datum.</value>
   </data>
 </root>

@@ -74,7 +74,6 @@ namespace Bookpouch
 
                 try
                 {
-                    Debug.WriteLine(file);
                     if (file != null) 
                         File.Copy(file, Path.Combine(_deviceDir, Path.GetFileName(file)));                   
                 }

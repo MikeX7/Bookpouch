@@ -84,9 +84,7 @@ namespace Bookpouch
                 {
                     Debug.WriteLine("Db " + e);
                     DebugConsole.WriteLine("Db: " + e);
-                }
-
-                
+                }                
             }
         }
 
@@ -123,7 +121,7 @@ namespace Bookpouch
         private static void GenerateDbStructure()
         {
             const string sqlBooks = 
-                "CREATE TABLE books (" +
+                "CREATE TABLE books (" + //Create books
                 "Path VARCHAR(255) NOT NULL PRIMARY KEY," +
                 "Title VARCHAR(255) NOT NULL," +
                 "Author VARCHAR(255)," +
@@ -142,32 +140,25 @@ namespace Bookpouch
                 "Sync BOOLEAN NOT NULL," +
                 "Created DATE NOT NULL," +
                 "Cover BLOB" +                      
-                ")";
-
-            const string sqlCategories =
-                "CREATE TABLE categories (" +
+                ");" +
+                "CREATE INDEX books_path_idx ON books (Path COLLATE NOCASE);" + //Put index on Path in books
+                ""+
+                "CREATE TABLE categories (" + //Create categories
                 "Path VARCHAR(255) NOT NULL," +
                 "Name VARCHAR(255) NOT NULL," +
                 "FromFile BOOLEAN NOT NULL," +                
                 "PRIMARY KEY(Path, Name)" +                
-                ")";
-
-            const string sqlFilters =
-                "CREATE TABLE filters (" +
+                ");" +
+                "" +
+                "CREATE INDEX categories_path_idx ON categories (Path COLLATE NOCASE);" + //Put index on Path in categories
+                ""+
+                "CREATE TABLE filters (" + //Create filters
                 "Name VARCHAR(255) NOT NULL PRIMARY KEY," +
                 "Parameters BLOB NOT NULL" +                
-                ")";
+                ");";
 
             using (var command = new SQLiteCommand(sqlBooks, Connection))
-            {                
                 command.ExecuteNonQuery();
-
-                command.CommandText = sqlCategories;
-                command.ExecuteNonQuery();
-
-                command.CommandText = sqlFilters;
-                command.ExecuteNonQuery();
-            }            
         }
 
 

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -19,9 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using ShadoLib;
 using Application = System.Windows.Application;
-using Brushes = System.Windows.Media.Brushes;
 using Button = System.Windows.Controls.Button;
-using ComboBox = System.Windows.Controls.ComboBox;
 using DataGrid = System.Windows.Controls.DataGrid;
 using DataObject = System.Windows.DataObject;
 using DragEventArgs = System.Windows.DragEventArgs;
@@ -61,6 +57,7 @@ namespace Bookpouch
             GenerateFilterPresetList();
             AllowDrop = true;
             Drop += Add_OnDrop;
+
             if(Properties.Settings.Default.DebugOnStart)
                 DebugConsole.Open();
             
@@ -94,13 +91,7 @@ namespace Bookpouch
             if (!(e.Data is DataObject) || !((DataObject) e.Data).ContainsFileDropList()) 
                 return;
 
-            var list = new List<string>();
-
-            foreach (var filePath in ((DataObject)e.Data).GetFileDropList())
-            {
-                Debug.WriteLine(filePath);
-                list.Add(filePath);
-            }
+            var list = ((DataObject) e.Data).GetFileDropList().Cast<string>().ToList();
 
             AddBooksFromList(list);
         }

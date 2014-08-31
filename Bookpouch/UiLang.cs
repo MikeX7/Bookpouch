@@ -16,15 +16,18 @@ namespace Bookpouch
         private static readonly ResourceManager Translations = new ResourceManager("Bookpouch.Lang.Lang", Assembly.GetExecutingAssembly());
 
         static UiLang()
-        {           
+        {
             if (Properties.Settings.Default.Language != "")
+            {
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(Properties.Settings.Default.Language);
+                CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(Properties.Settings.Default.Language);
+            }
 
             Debug.WriteLine("UI language: " + Thread.CurrentThread.CurrentUICulture);
         }
 
         public static string Get(string key)
-        {
+        {           
             return Translations.GetString(key);
         }
     }

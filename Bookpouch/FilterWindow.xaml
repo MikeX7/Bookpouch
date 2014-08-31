@@ -43,7 +43,7 @@
         <TextBox Grid.Row="1" Grid.Column="1" Name="Author" Loaded="Author_OnLoaded" LostFocus="TextBox_OnChanged"/>
 
         <Label Grid.Row="2" Grid.Column="0" Content="{local:Lng EditBookLanguage}" Target="{Binding ElementName=Language}"/>
-        <ComboBox Grid.Row="2" Grid.Column="1" Name="Language" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged">
+        <ComboBox Grid.Row="2" Grid.Column="1" Name="Language" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged" SelectedIndex="0">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -71,7 +71,7 @@
         </StackPanel>
 
         <Label Grid.Row="6" Grid.Column="0" Content="{local:Lng EditBookCategory}" Target="{Binding ElementName=Category}"/>
-        <TextBox Grid.Row="6" Grid.Column="1" Name="Category"  Loaded="Category_OnLoaded"
+        <TextBox Grid.Row="6" Grid.Column="1" Name="Category"  Loaded="Category_OnLoaded" LostFocus="TextBox_OnChanged"
                  ToolTip="{local:Lng HintEditBookCategory}"/>
 
 

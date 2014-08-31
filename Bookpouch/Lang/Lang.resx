@@ -449,6 +449,6 @@
     <value>Remove the active filter.</value>
   </data>
   <data name="HintDateRange" xml:space="preserve">
-    <value>Filtered date ie: equal to (=), larger than (&gt;), or smaller than (&lt;) the selected date.</value>
+    <value>Filtered date is: equal to (=), larger than (&gt;), or smaller than (&lt;) the selected date.</value>
   </data>
 </root>

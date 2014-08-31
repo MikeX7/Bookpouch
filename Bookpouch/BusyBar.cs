@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Shell;
@@ -13,8 +9,8 @@ namespace Bookpouch
     partial class MainWindow
     {
         private static Timer _busyTitleTimer;
-        private static int _busyOn = 0;
-        private static int _busyOff = 0;
+        private static int _busyOn;
+        private static int _busyOff;
 
         /// <summary>
         /// Displays or removes busy indicator from the main window
