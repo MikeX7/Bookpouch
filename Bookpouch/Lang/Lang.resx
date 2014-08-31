@@ -436,6 +436,9 @@
   <data name="FilterSavingPresetSuccessful" xml:space="preserve">
     <value>Filter preset was successfully saved.</value>
   </data>
+  <data name="ApplyFilter" xml:space="preserve">
+    <value>Apply filter</value>
+  </data>
   <data name="DiscardFilterPreset" xml:space="preserve">
     <value>Delete preset</value>
   </data>

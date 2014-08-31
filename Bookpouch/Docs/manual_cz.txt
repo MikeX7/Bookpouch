@@ -17,7 +17,7 @@ Pokud si přejete odebrat knihu z knihovny, klikněte na ni a stiskněte kláves
 Filtrování knih
 Pro zobrazení knih jejichž název obsahuje určité písmeno, nebo řetězec, klikněte pravým tlačítkem myši na jméno sloupce název. Poté se objeví textové pole, do kterého můžete začít psát požadovaný řetězec a seznam knížek bude okamžitě filtrován, se zobrazením odpovídajících knih.
 Pokud si přejte zobrazit pouze knihy patřící do vybrané série, klikněte levým tlačítkem myši na název požadované série v detailu knihy. Stejným způsobem můžete také filtrovat dle autora knihy a podle vydavatelství.
-Můžete také využít rozšířený filtr, který otevřete kliknutím na ikonu filtru v menu. Hodnoty zadané do polí v tomto filtru jsou aplikovány automaticky na seznam knih, jakmile překliknete do jiného pole. 
+Můžete také využít rozšířený filtr, který otevřete kliknutím na ikonu filtru v menu. Hodnoty zadané do polí v tomto filtru jsou aplikovány na seznam knih, jakmile stisknete tlačítko "Aplikovat filtr".
 Aktivní filtr také můžete uložit jako předvolbu a použít ji později. Jednoduše aplikujte filtr na seznam knih jako normálně a poté klikněte na tlačítko uložit, což vyvolá textové pole do kterého vepište název, který chcete dát Vaší předvolbě filtru a stiskněte tlačítko Enter. 
 Nově přidaná předvolba se objeví jako tlačítko pod menu a umožní Vám filtrovat seznam knih jediným stiskem. 
 Pro odebrání existující předvolby na ní klikněte pravým tlačítkem myši.

@@ -143,7 +143,7 @@ namespace Bookpouch
             catch (Exception e)
             {
                 DebugConsole.WriteLine("Problem occurred during info extraction from an epub file: " + e.Message);
-                MainWindow.Info(UiLang.Get("EpubCorrupted"), 1);
+                //MainWindow.Info(UiLang.Get("EpubCorrupted"), 1);
             }             
         }
 
@@ -197,7 +197,7 @@ namespace Bookpouch
 
                 if (!headerFound) 
                 {
-                    MainWindow.Info(string.Format(UiLang.Get("MobiHeaderMissing"), file.Name), 1);
+                    //MainWindow.Info(string.Format(UiLang.Get("MobiHeaderMissing"), file.Name), 1);
                     return;
                 }
 
@@ -272,7 +272,7 @@ namespace Bookpouch
 
             if (fs.Length == fs.Position) //If we reach the end of the stream without finding the EXTH header, then the file doesn't contain it
             {
-                MainWindow.Info(String.Format(UiLang.Get("ExthHeaderMissing"), file.Name), 1);
+                //MainWindow.Info(String.Format(UiLang.Get("ExthHeaderMissing"), file.Name), 1);
                 return;
             }
 
@@ -320,7 +320,7 @@ namespace Bookpouch
             }
             catch (Exception e)
             {
-                MainWindow.Info(String.Format(UiLang.Get("ExthProblemFetching"), file.Name, e), 1);
+                //MainWindow.Info(String.Format(UiLang.Get("ExthProblemFetching"), file.Name, e), 1);
             }
         }
 

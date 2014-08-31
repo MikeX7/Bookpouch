@@ -29,12 +29,31 @@ namespace Bookpouch
         private static void SyncBookFiles()
         {            
             var localBookList = LibraryStructure.List();
-            var localBookListForSync = (from bookData in localBookList where bookData.Sync select BookKeeper.GetAbsoluteBookFilePath(bookData.Path)).ToList();
+            var localBookListForSync = (from bookData in localBookList where bookData.Sync select BookKeeper.GetAbsoluteBookFilePath(bookData.Path)).ToList();            
             var bookList = GetFileList();
 
-            foreach (var file in from file in bookList let fileName = Path.GetFileName(file) where !localBookListForSync.Select(Path.GetFileName).Contains(fileName) select file)
+            if(bookList == null) //The reader is not connected, or the specified storage folder on it doesn't exist, no point to continue
             {
-                DebugConsole.WriteLine("Usb sync: Deleting " + file);
+                MainWindow.Busy(false);
+                return;
+            }
+
+            var filesToDelete = (from file in bookList
+                let fileName = Path.GetFileName(file)
+                where !localBookListForSync.Select(Path.GetFileName).Contains(fileName)
+                select file).ToArray();
+
+            var filesToCopy = localBookListForSync.Where(
+                file => File.Exists(file) && !bookList.Select(Path.GetFileName).Contains(Path.GetFileName(file))).ToArray();
+
+            MainWindow.BusyMax(filesToDelete.Length + filesToCopy.Length);
+            var busyCount = 0;
+
+            foreach (var file in filesToDelete)
+                //Delete files from the reader which don't exist in the local Sync list
+            {
+                MainWindow.Busy(busyCount++);
+                MainWindow.Busy(file);
 
                 try
                 {
@@ -46,17 +65,18 @@ namespace Bookpouch
                 }
             }
 
-            foreach (
-                var file in
-                    localBookListForSync.Where(
-                        file => File.Exists(file) && !bookList.Select(Path.GetFileName).Contains(Path.GetFileName(file)))
-                        .Where(file => !File.Exists(Path.Combine(_deviceDir, Path.GetFileName(file)))))
+            foreach (var file in filesToCopy)
+                //Copy files (which don't exist in the reader) into the reader, from the local Sync list
             {
                 DebugConsole.WriteLine("Copying " + file);
+                MainWindow.Busy(busyCount++);
+                MainWindow.Busy(file);
 
                 try
                 {
-                    File.Copy(file, Path.Combine(_deviceDir, Path.GetFileName(file)));
+                    Debug.WriteLine(file);
+                    if (file != null) 
+                        File.Copy(file, Path.Combine(_deviceDir, Path.GetFileName(file)));                   
                 }
                 catch (Exception e)
                 {
@@ -77,7 +97,7 @@ namespace Bookpouch
             var drive = GetDriveLetter();
 
             if (drive == "") //Reader is not connected to the pc or wasn't found, so there is no point to go on                            
-                return new String[0];
+                return null;
 
             _deviceDir = drive + Properties.Settings.Default.DeviceBooksDir;
 
@@ -85,7 +105,7 @@ namespace Bookpouch
             {                
                 MainWindow.Info(String.Format(UiLang.Get("SyncReaderDirNotFound"), Properties.Settings.Default.DeviceBooksDir, Properties.Settings.Default.DeviceModel), 1);                
 
-                return new String[0];            
+                return null;            
             }
 
             var extensions = Properties.Settings.Default.FileExtensions.Split(';');

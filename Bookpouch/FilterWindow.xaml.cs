@@ -178,6 +178,11 @@ namespace Bookpouch
             };
         }
 
+        private void ApplyFilter_OnClick(object sender, RoutedEventArgs e)
+        {
+            MainWindow.MW.BookGridReload();
+        }
+
         /// <summary>
         /// Save search parameters into the filter list
         /// </summary>
@@ -189,10 +194,8 @@ namespace Bookpouch
 
             if (key == null || type.GetField(key) == null)
                 return;
-         Debug.WriteLine("ooo");
-            type.GetField(key).SetValue(MainWindow.MW.Filter, value);
 
-            MainWindow.MW.BookGridReload();
+            type.GetField(key).SetValue(MainWindow.MW.Filter, value);            
         }
   
     }

@@ -77,8 +77,8 @@ namespace Bookpouch
         /// <param name="text">Text to be displayed</param>
         public static void Busy(string text)
         {
-            if (text.Count() > 100)
-                text = "..." + text.Substring(text.Count() - 100);
+            if (text.Count() > 85)
+                text = "..." + text.Substring(text.Count() - 85);
 
             MW.Dispatcher.Invoke(() =>
             {

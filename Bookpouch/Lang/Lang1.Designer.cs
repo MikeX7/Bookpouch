@@ -61,6 +61,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply filter.
+        /// </summary>
+        internal static string ApplyFilter {
+            get {
+                return ResourceManager.GetString("ApplyFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There was a problem with copying {0} into the library..
         /// </summary>
         internal static string BookCopyError {
