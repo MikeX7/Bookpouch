@@ -80,8 +80,8 @@ namespace Bookpouch
         {
 
             var listBox = new ListBox();             
-            var combedList = HintList.Distinct().Where(hl => hl.ToLower().StartsWith(TextBox.Text.ToLower())).ToArray();
-
+            var combedList = HintList.Distinct().Where(hl => hl.ToLower().StartsWith(TextBox.Text.ToLower())).Take(Properties.Settings.Default.WhispererMaxItems).ToArray();
+            
             if (!combedList.Any())
             {
                 if (_popup != null)
