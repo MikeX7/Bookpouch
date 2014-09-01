@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
@@ -40,6 +41,48 @@ namespace Bookpouch
             MessageBox.Show(UiLang.Get("EditBookAutoSavePopup"));
             Properties.Settings.Default.AutoSavedEditsPopupShown = true;               
             Properties.Settings.Default.Save();
+        }
+
+        /// <summary>
+        /// Get whisperer filled with values from the specified column
+        /// </summary>
+        /// <param name="column">Name of the column in the table</param>
+        /// <returns>Whisperer with filled HintList, only the TextBox field has to be set.</returns>
+        /// <exception cref="RowNotInTableException">The supplied column name wasn't found in the table books</exception>
+        static public Whisperer GetWhispererForColumn(string column)
+        {
+            //Check if the supplied column exists
+            using (var query = Db.Query("PRAGMA TABLE_INFO(books);")) 
+            {
+                var columnExists = false;
+
+                while (query.Read())
+                {
+                    if (query["name"].ToString() != column) 
+                        continue;
+
+                    columnExists = true;
+                    break;
+                }
+
+                if (!columnExists)
+                    throw new RowNotInTableException("Specifid column does not exist in the table books.");
+            }
+
+            using (var query = Db.Query("SELECT DISTINCT " + column + " FROM books GROUP BY " + column + " COLLATE NOCASE"))
+            {
+                var hintList = new List<string>();
+
+                while (query.Read())
+                    hintList.Add(query[0].ToString());
+
+                hintList.Sort();
+
+                return new Whisperer
+                {                    
+                    HintList = hintList
+                };
+            }
         }
 
         private void CoverImage_OnLoaded(object sender, RoutedEventArgs e)
@@ -152,11 +195,18 @@ namespace Bookpouch
         /// </summary>        
         private void TextBox_OnLoaded(object sender, RoutedEventArgs e)
         {
+            var whispererFor = new[] {"Author", "Publisher", "Contributor", "Series"};
             var textBox = (TextBox) sender;
             textBox.Text = (string) BookInfoGet(textBox.Name);
 
             if (textBox.Name == "Title")
                 base.Title = textBox.Text; //Set the window title to the name of the book
+
+            if (!whispererFor.Contains(textBox.Name)) 
+                return;
+
+            var whisperer = GetWhispererForColumn(textBox.Name);
+            whisperer.TextBox = textBox;
         }
 
         /// <summary>
@@ -184,26 +234,6 @@ namespace Bookpouch
         {            
             var datePicker = (DatePicker) sender;                       
             BookInfoSet(datePicker.Name, datePicker.SelectedDate);
-        }
-
-        private void Series_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            TextBox_OnLoaded(sender, e);
-
-            var bookData = LibraryStructure.List();
-            var hintSet = new HashSet<string>();
-
-            foreach (var info in bookData.Where(info => info.Series != ""))
-                hintSet.Add(info.Series);
-
-            var hintList = hintSet.ToList();
-            hintList.Sort();
-            
-            new Whisperer
-            {
-                TextBox = (TextBox) sender,
-                HintList = hintList   
-            };            
         }
 
         private readonly ObservableCollection<CategoryTag> _categoryTagList = new ObservableCollection<CategoryTag>();

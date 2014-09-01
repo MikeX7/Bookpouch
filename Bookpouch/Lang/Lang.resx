@@ -451,4 +451,13 @@
   <data name="HintDateRange" xml:space="preserve">
     <value>Filtered date is: equal to (=), larger than (&gt;), or smaller than (&lt;) the selected date.</value>
   </data>
+  <data name="EditBookContributor" xml:space="preserve">
+    <value>_Contributor:</value>
+  </data>
+  <data name="EditBookPublisher" xml:space="preserve">
+    <value>P_ublisher:</value>
+  </data>
+  <data name="FieldContributor" xml:space="preserve">
+    <value>Contributor</value>
+  </data>
 </root>

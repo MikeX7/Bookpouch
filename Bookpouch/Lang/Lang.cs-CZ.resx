@@ -365,7 +365,7 @@
     <value>Čistím databázi knihovny...</value>
   </data>
   <data name="EditBookDescription" xml:space="preserve">
-    <value>_Popis: </value>
+    <value>P_opis: </value>
   </data>
   <data name="HintEditBookCategory" xml:space="preserve">
     <value>Poté co vepíšete název kategorie, napište ; (středník) nebo , (čárku) pro přidání do listu.</value>
@@ -450,5 +450,14 @@
   </data>
   <data name="HintDateRange" xml:space="preserve">
     <value>Filtrované datum je: rovno (=), větší než (&gt;), nebo menší než (&lt;) vybrané datum.</value>
+  </data>
+  <data name="EditBookContributor" xml:space="preserve">
+    <value>_Přispěvatel:</value>
+  </data>
+  <data name="EditBookPublisher" xml:space="preserve">
+    <value>_Vydavatel:</value>
+  </data>
+  <data name="FieldContributor" xml:space="preserve">
+    <value>Přispěvatel</value>
   </data>
 </root>

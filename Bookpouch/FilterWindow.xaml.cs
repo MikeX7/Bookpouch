@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -122,41 +124,20 @@ namespace Bookpouch
             
         }
 
-        private void Series_OnLoaded(object sender, RoutedEventArgs e)
+        private void TextBox_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var bookData = LibraryStructure.List();
-            var hintSet = new HashSet<string>();
+            var textBox = (TextBox) sender;
 
-            foreach (var info in bookData.Where(info => info.Series != ""))
-                hintSet.Add(info.Series);
-
-            var hintList = hintSet.ToList();
-            hintList.Sort();
-
-            new Whisperer
+            try
             {
-                TextBox = (TextBox)sender,
-                HintList = hintList
-            };
-        }        
-
-        private void Author_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            using (var query = Db.Query("SELECT DISTINCT Author FROM books GROUP BY Author COLLATE NOCASE"))
-            {
-                var hintList = new List<string>();
-
-                while (query.Read())
-                    hintList.Add(query["Author"].ToString());
-                
-                hintList.Sort();
-
-                new Whisperer
-                {
-                    TextBox = (TextBox)sender,
-                    HintList = hintList
-                };
+                var whisperer = EditBook.GetWhispererForColumn(textBox.Name);
+                whisperer.TextBox = textBox;
             }
+            catch (RowNotInTableException exception)
+            {
+                DebugConsole.WriteLine("FilterWindow: Not possible to load Whisperer for " + textBox.Name + ": " + exception);
+            }
+
         }
 
         private void Category_OnLoaded(object sender, RoutedEventArgs e)
@@ -189,7 +170,6 @@ namespace Bookpouch
                 return;
 
             type.GetField(key).SetValue(MainWindow.MW.Filter, value);            
-        }
-  
+        }      
     }
 }

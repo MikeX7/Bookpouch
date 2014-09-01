@@ -12,15 +12,13 @@
             <Style TargetType="RowDefinition">
                 <Setter Property="Height" Value="30"/>
             </Style>
-
-
-
-
             <!--End form style-->
         </ResourceDictionary>
     </Window.Resources>
     <Grid Margin="5" Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
@@ -46,8 +44,14 @@
         <Label Grid.Row="1" Grid.Column="0" Content="{local:Lng EditBookAuthor}" Target="{Binding ElementName=Author}"/>
         <TextBox Grid.Row="1" Grid.Column="1" Name="Author" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged"/>
 
-        <Label Grid.Row="2" Grid.Column="0" Content="{local:Lng EditBookLanguage}" Target="{Binding ElementName=UiLanguage}"/>
-        <ComboBox Grid.Row="2" Grid.Column="1" Name="UiLanguage" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged" SelectedIndex="0">
+        <Label Grid.Row="2" Grid.Column="0" Content="{local:Lng EditBookContributor}" Target="{Binding ElementName=Contributor}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Name="Contributor" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged"/>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="{local:Lng EditBookPublisher}" Target="{Binding ElementName=Publisher}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Name="Publisher" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged"/>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="{local:Lng EditBookLanguage}" Target="{Binding ElementName=UiLanguage}"/>
+        <ComboBox Grid.Row="4" Grid.Column="1" Name="UiLanguage" Loaded="Language_OnLoaded" SelectionChanged="Language_OnSelectionChanged" SelectedIndex="0">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -58,16 +62,16 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <Label Grid.Row="3" Grid.Column="0" Content="{local:Lng EditBookSeries}" Target="{Binding ElementName=Series}"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Name="Series" Loaded="Series_OnLoaded"  LostFocus="TextBox_OnChanged"/>
+        <Label Grid.Row="5" Grid.Column="0" Content="{local:Lng EditBookSeries}" Target="{Binding ElementName=Series}"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Name="Series" Loaded="TextBox_OnLoaded"  LostFocus="TextBox_OnChanged"/>
 
-        <Label Grid.Row="4" Grid.Column="0" Content="{local:Lng EditBookPublished}" Target="{Binding ElementName=Published}"/>
-        <DatePicker Grid.Row="4" Grid.Column="1" Name="Published" Loaded="DatePicker_OnLoaded" LostFocus="DatePicker_OnChanged" SelectedDateFormat="Short" Width="125"/>
+        <Label Grid.Row="6" Grid.Column="0" Content="{local:Lng EditBookPublished}" Target="{Binding ElementName=Published}"/>
+        <DatePicker Grid.Row="6" Grid.Column="1" Name="Published" Loaded="DatePicker_OnLoaded" LostFocus="DatePicker_OnChanged" SelectedDateFormat="Short" Width="125"/>
 
-        <Label Grid.Row="5" Grid.Column="0" Content="{local:Lng EditBookCategory}" Target="{Binding ElementName=Category}"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Name="Category" KeyUp="Category_OnKeyUp" Loaded="Category_OnLoaded"  LostFocus="Category_OnLostFocus" ToolTip="{local:Lng HintEditBookCategory}"/>
+        <Label Grid.Row="7" Grid.Column="0" Content="{local:Lng EditBookCategory}" Target="{Binding ElementName=Category}"/>
+        <TextBox Grid.Row="7" Grid.Column="1" Name="Category" KeyUp="Category_OnKeyUp" Loaded="Category_OnLoaded"  LostFocus="Category_OnLostFocus" ToolTip="{local:Lng HintEditBookCategory}"/>
 
-        <Border Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" CornerRadius="4" Background="#58585f" Width="250" Name="CategoryTagsBorder" Visibility="Collapsed" Padding="5 5 5 0" MinHeight="25">
+        <Border Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left" CornerRadius="4" Background="#58585f" Width="250" Name="CategoryTagsBorder" Visibility="Collapsed" Padding="5 5 5 0" MinHeight="25">
             <Border.Resources>
                 <Style BasedOn="{StaticResource DefaultButton}" TargetType="{x:Type Button}">
                     <Setter Property="Margin" Value="0,0,5,5"/>
@@ -91,16 +95,16 @@
 
         </Border>
 
-        <Label Grid.Row="7" Grid.Column="0" Content="{local:Lng EditBookFavorite}" Target="{Binding ElementName=Favorite}"/>
-        <CheckBox Grid.Row="7" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Favorite" ToolTip="{local:Lng HintEditBookFavorite}"/>
+        <Label Grid.Row="9" Grid.Column="0" Content="{local:Lng EditBookFavorite}" Target="{Binding ElementName=Favorite}"/>
+        <CheckBox Grid.Row="9" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Favorite" ToolTip="{local:Lng HintEditBookFavorite}"/>
 
-        <Label Grid.Row="8" Grid.Column="0" Content="{local:Lng EditBookSync}" Target="{Binding ElementName=Sync}"/>
-        <CheckBox Grid.Row="8" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Sync" ToolTip="{local:Lng HintEditBookSync}"/>
+        <Label Grid.Row="10" Grid.Column="0" Content="{local:Lng EditBookSync}" Target="{Binding ElementName=Sync}"/>
+        <CheckBox Grid.Row="10" Grid.Column="1" Checked="CheckBox_OnChecked" Unchecked="CheckBox_OnChecked" Loaded="CheckBox_OnLoaded" Name="Sync" ToolTip="{local:Lng HintEditBookSync}"/>
 
-        <Label Grid.Row="9" Grid.Column="0" Content="{local:Lng EditBookDescription}"  Target="{Binding ElementName=Description}"/>
-        <TextBox Grid.Row="9" Grid.Column="1" AcceptsReturn="True" Name="Description" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Width="auto" Height="auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <Label Grid.Row="11" Grid.Column="0" Content="{local:Lng EditBookDescription}"  Target="{Binding ElementName=Description}"/>
+        <TextBox Grid.Row="11" Grid.Column="1" AcceptsReturn="True" Name="Description" Loaded="TextBox_OnLoaded" LostFocus="TextBox_OnChanged" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Width="auto" Height="auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         
-        <Button Grid.Row="10" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{local:Lng EditBookDiscard}" Click="Discard_OnClick" ToolTip="{local:Lng HintEditBookRemove}"/>
+        <Button Grid.Row="12" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{local:Lng EditBookDiscard}" Click="Discard_OnClick" ToolTip="{local:Lng HintEditBookRemove}"/>
 
     </Grid>
 </Window>

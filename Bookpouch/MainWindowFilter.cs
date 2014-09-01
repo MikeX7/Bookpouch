@@ -38,6 +38,12 @@ namespace Bookpouch
                 parameters.Add(new SQLiteParameter("Author", Filter.Author));
             }
 
+            if (!String.IsNullOrEmpty(Filter.Contributor)) //Contributor filter
+            {
+                sqlConditions.Add("b.Contributor = @Contributor");
+                parameters.Add(new SQLiteParameter("Contributor", Filter.Contributor));
+            }
+
             if (!String.IsNullOrEmpty(Filter.Publisher)) //Publisher filter
             {
                 sqlConditions.Add("b.Publisher = @Publisher");
@@ -125,6 +131,7 @@ namespace Bookpouch
             {
                 {"Title", UiLang.Get("FieldTitle")},
                 {"Author", UiLang.Get("FieldAuthor")},
+                {"Contributor", UiLang.Get("FieldContributor")},
                 {"Publisher", UiLang.Get("FieldPublisher")},
                 {"Language", UiLang.Get("FieldLanguage")},
                 {"Published", UiLang.Get("FieldPublished")},

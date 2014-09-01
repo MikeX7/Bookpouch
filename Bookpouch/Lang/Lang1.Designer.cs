@@ -9,6 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace Bookpouch.Lang {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -238,6 +241,15 @@ namespace Bookpouch.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Contributor:.
+        /// </summary>
+        internal static string EditBookContributor {
+            get {
+                return ResourceManager.GetString("EditBookContributor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Created:.
         /// </summary>
         internal static string EditBookCreated {
@@ -297,6 +309,15 @@ namespace Bookpouch.Lang {
         internal static string EditBookPublished {
             get {
                 return ResourceManager.GetString("EditBookPublished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to P_ublisher:.
+        /// </summary>
+        internal static string EditBookPublisher {
+            get {
+                return ResourceManager.GetString("EditBookPublisher", resourceCulture);
             }
         }
         
@@ -369,6 +390,15 @@ namespace Bookpouch.Lang {
         internal static string FieldCategory {
             get {
                 return ResourceManager.GetString("FieldCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contributor.
+        /// </summary>
+        internal static string FieldContributor {
+            get {
+                return ResourceManager.GetString("FieldContributor", resourceCulture);
             }
         }
         

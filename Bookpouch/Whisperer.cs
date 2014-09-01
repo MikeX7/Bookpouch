@@ -16,7 +16,7 @@ namespace Bookpouch
     /// <summary>
     /// Display a list of suggestions based on a text typed in a bonded text field
     /// </summary>
-     class Whisperer
+    public class Whisperer
     {
          public List<string> HintList = new List<string>(); //List of possible phrases offered in the whisperer
          public Window Parent;
