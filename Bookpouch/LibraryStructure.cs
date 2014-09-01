@@ -17,9 +17,12 @@ namespace Bookpouch
         public static void GenerateFileTree()
         {
             DebugConsole.WriteLine("Regenerating the file tree for the library books...");
-            //Info(      String.Format(UiLang.Get("DirNotFound"),    Properties.Settings.Default.BooksDir), 1);
-            if(!Directory.Exists(Properties.Settings.Default.BooksDir))
-                MainWindow.MW.Dispatcher.Invoke(()=> { Settings.SelectBooksDir(); });
+
+            if (!Directory.Exists(Properties.Settings.Default.BooksDir))
+            {
+                //MainWindow.Info(String.Format(UiLang.Get("DirNotFound"), Properties.Settings.Default.BooksDir), 1);
+                MainWindow.MW.Dispatcher.Invoke(Settings.SelectBooksDir);
+            }
 
             var dirList = Tools.GetDirectoryList(Properties.Settings.Default.BooksDir);
             var bookFileList = new List<string>();
@@ -113,10 +116,7 @@ namespace Bookpouch
                     }
                 }
 
-                MainWindow.MW.Dispatcher.Invoke(() =>
-                {
-                    MainWindow.MW.BookGridReload();                    
-                });
+                MainWindow.MW.Dispatcher.Invoke(() => MainWindow.MW.BookGridReload());
 
                 MainWindow.Busy(false);
             });

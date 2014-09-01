@@ -52,7 +52,7 @@ namespace Bookpouch
             
             if (path != null) 
                 Environment.CurrentDirectory = path; //Make sure the app's directory is correct, in case we launched via registry entry during boot
-            
+
             InitializeComponent();
             GenerateFilterPresetList();
             AllowDrop = true;
@@ -81,7 +81,7 @@ namespace Bookpouch
             }
 
             if (Properties.Settings.Default.UsbAutoSync)
-                new ReaderDetector(this);
+                ReaderDetector.HookDectection();
                     //Start reader detection which automatically triggers UsbSync when the reader is connected to the pc         
             
         }        
@@ -99,21 +99,30 @@ namespace Bookpouch
         private void BookGrid_OnLoaded(object sender, RoutedEventArgs e)
         {            
             DebugConsole.WriteLine("Loading the book grid...");
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();            
-            var grid = (DataGrid) sender;
+
+            var gridLoadStopwatch = new Stopwatch(); 
+            gridLoadStopwatch.Start();
+
+            var sqlCategoriesQueryStopwatch = new Stopwatch();
+            var sqlbooksQueryStopwatch = new Stopwatch();
+            var grid = (DataGrid) sender;            
             var sql = AssembleQuery();                        
             var categoryList = new Dictionary<string, List<string>>();
             var bookDataList = new List<BookData>();
             var bookList = new List<Book>();
-            var cultureList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            var cultureList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);            
+
+            sqlbooksQueryStopwatch.Start();
 
             //Turn rows form the db into BookData objects
             using (var query = Db.Query(sql.Item1, sql.Item2))
             {
+                sqlbooksQueryStopwatch.Stop();
+                sqlCategoriesQueryStopwatch.Start();
                 //Add list of attached categories to each BookData object
                 using (var queryAllCategories = Db.Query("SELECT Path, Name FROM categories")) //Pull all categories from database, so that we don't have to do a separate query for each book
                 {
+                    sqlCategoriesQueryStopwatch.Stop();
                     //Turn category rows into a single dictionary, where each key is a Path, whose value is a List of category Names associated with said Path
                     while (queryAllCategories.Read())
                     {
@@ -171,9 +180,8 @@ namespace Bookpouch
             }
                         
             grid.ItemsSource = bookList.OrderBy(x => x.Title); //By default, the list is sorted by book titles. Note: this is much faster than ORDER BY Title directly in the sqlite query
-
-            stopwatch.Stop();
-            DebugConsole.WriteLine("Book grid loaded. Book count: " + bookList.Count + ", load time: " + stopwatch.Elapsed);                        
+            gridLoadStopwatch.Stop();
+            DebugConsole.WriteLine(String.Format("Book grid loaded. [Book count: {0}], [Grid load: {1}], [Categories query: {2}], [Books query: {3}]", bookList.Count, gridLoadStopwatch.Elapsed, sqlCategoriesQueryStopwatch.Elapsed, sqlbooksQueryStopwatch.Elapsed));                        
         }
 
         /// <summary>
@@ -234,25 +242,6 @@ namespace Bookpouch
                 BookGridReload();
             });
         }
-
-        /// <summary>
-        /// FilterWrap the books displayed in the grid based on the selected category
-        /// </summary>        
-        private void FilterCategory_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-     /*       var comboBox = (ComboBox) sender;            
-
-            Filter.Category = comboBox.SelectedItem.ToString(); //Add selected category name into the filter so only books in that category are displayed
-
-            if (comboBox.SelectedIndex == 0)
-            {
-                Filter.Category = null; //Remove category from the filter so all categories are displayed
-                comboBox.Visibility = Visibility.Collapsed;
-            }
-
-            BookGridReload();*/
-        }
-
 
         private void BookGrid_OnKeyUp(object sender, KeyEventArgs e)
         {

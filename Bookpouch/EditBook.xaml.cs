@@ -210,11 +210,11 @@ namespace Bookpouch
 
         private void Category_OnLoaded(object sender, RoutedEventArgs e)
         {                        
-            var query = Db.Query("SELECT Name, FromFile FROM categories WHERE Path = @Path", new []{new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookFile)), });            
+            var query = Db.Query("SELECT Name, FromFile FROM categories WHERE Path = @Path", new []{new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookFile)) });            
 
             while (query.Read())
             {                
-                var category = new CategoryTag()
+                var category = new CategoryTag
                 {
                     Name = query["Name"].ToString(),
                     FromFile = SQLiteConvert.ToBoolean(query["FromFile"])
@@ -256,7 +256,7 @@ namespace Bookpouch
             Db.NonQuery("DELETE FROM categories WHERE Name = @Name AND Path = @Path", new []
                 {
                     new SQLiteParameter("Name", categoryTag.Name),
-                    new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookFile)),
+                    new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookFile))
                 });
         }
 
@@ -273,7 +273,7 @@ namespace Bookpouch
             Db.NonQuery("UPDATE categories SET FromFile = 0 WHERE Name = @Name AND Path = @Path", new[]
                 {
                     new SQLiteParameter("Name", categoryTag.Name),
-                    new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookFile)),
+                    new SQLiteParameter("Path", BookKeeper.GetRelativeBookFilePath(_bookFile))
                 });
 
             categoryTag.FromFile = false;

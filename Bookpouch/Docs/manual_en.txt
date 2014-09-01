@@ -55,3 +55,27 @@ Shift + [Toggle hotkey]- When a toggle hotkey is used, while holding down the Sh
 Ctrl + [Toggle hotkey] - When a toggle hotkey is used ,while holding down the Alt key, the setting will be always turned to "off"
 
 
+Troubleshooting:
+
+Q: Why is synchronization with my reader not working?
+A: Check if your reader setting in the settings tab is correct.
+
+Q: When I try to start the Bookpouch, this error appears: "Bookpouch.exe is not a valid Win32 application", what should I do?
+A: Make sure you have the .NET Framework 4.5 (or later) installed.
+
+Q: Which versions of Windows does Bookpouch support?
+A: Windows Vista or higher.
+
+Q: Displaying details for some books takes a long time, can I make it faster?
+A: Try to reduce the maximum description length in Settings.
+
+Q: Covers added for MOBI books are sometimes weird images that clearly aren't the book's cover, why?
+A: Bookpouch pulls the first compatible image out of the MOBI file and uses it as a cover, sometimes this image can be some illustration from the book and not the actual cover. To reduce the chance of this happening, enable the "Check covers" option in the Settings.
+
+Q: I found a bug, how can I report it?
+A: Use the email mentioned in the About window, thank you.
+
+Q: Bookpouch interface is displayed in English, instead of my native language, why?
+A: You either selected another interface language in the Settings, or the translation file for your language isn't available yet. If you would like to help, with translating the Bookpouch into your language please visit the project's Github page: https://github.com/MikeX7/Bookpouch
+
+

@@ -135,9 +135,9 @@ namespace Bookpouch
         {
             var checkBox = (CheckBox)sender;
 
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
+            var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
 
-            if (key.GetValue("Bookpouch") != null)
+            if (key != null && key.GetValue("Bookpouch") != null)
                 checkBox.IsChecked = true;
         }
 
@@ -145,7 +145,10 @@ namespace Bookpouch
         private void AutoStart_OnChecked(object sender, RoutedEventArgs e)
         {
             var box = (CheckBox)sender;
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            if(key == null)
+                return;
 
             if (box.IsChecked == true)            
                 key.SetValue("Bookpouch", Assembly.GetExecutingAssembly().Location + " -tray");            

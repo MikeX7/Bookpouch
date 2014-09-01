@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -47,51 +46,62 @@ namespace Bookpouch
                     //Get location of the content file 
                     var container = zip.GetEntry("META-INF/container.xml");
                     var containerXml = XDocument.Load(container.Open());
-                
+
+                    if (containerXml.Root == null) 
+                        return;
+
                     XNamespace ns = containerXml.Root.Attribute("xmlns").Value;
 
                     var rootFile = containerXml
                         .Root
                         .Descendants(ns + "rootfile")
-                        .FirstOrDefault()
+                        .First()
                         .Attribute("full-path")
                         .Value;
 
                     //Get book info from the content file
                     var content = zip.GetEntry(rootFile);
-                    var contentXml = XDocument.Load(content.Open());                    
+                    var contentXml = XDocument.Load(content.Open());
+
+                    if (contentXml.Root == null) 
+                        return;
+
                     XNamespace contentNs = contentXml.Root.Attribute("xmlns").Value;
                     var customNs = XNamespace.Get("http://purl.org/dc/elements/1.1/");                    
                     var metaData = contentXml.Root.Descendants(contentNs + "metadata").FirstOrDefault();
                     var manifest = contentXml.Root.Descendants(contentNs + "manifest").FirstOrDefault();
 
-                    XElement cover = manifest.Elements(contentNs + "item")
-                        .FirstOrDefault(
-                            x =>
-                                (x.Attribute("id").Value.ToLower().Contains("cover") &&
-                                 (x.Attribute("href").Value.EndsWith(".jpg") ||
-                                  x.Attribute("href").Value.EndsWith(".jpeg"))));
-
-                    if (cover != null)
+                    if (manifest != null)
                     {
-                        var dir = new DirectoryInfo(rootFile);
+                        var cover = manifest.Elements(contentNs + "item")
+                            .FirstOrDefault(
+                                x =>
+                                    (x.Attribute("id").Value.ToLower().Contains("cover") &&
+                                     (x.Attribute("href").Value.EndsWith(".jpg") ||
+                                      x.Attribute("href").Value.EndsWith(".jpeg"))));
 
-                        var coverFullPath = ((rootFile.Contains("/") || rootFile.Contains("\\"))
-                            ? dir.Parent + "/"
-                            : "") + cover.Attribute("href").Value;
-                        
-                        //zip.GetEntry(coverFullPath).ExtractToFile(DirName + "/cover.jpg", true);                            
-
-                        using (var ms = new MemoryStream())
+                        if (cover != null)
                         {
-                            zip.GetEntry(coverFullPath).Open().CopyTo(ms);
-                            List.Add("cover", ms.ToArray());
+                            var dir = new DirectoryInfo(rootFile);
+
+                            var coverFullPath = ((rootFile.Contains("/") || rootFile.Contains("\\"))
+                                ? dir.Parent + "/"
+                                : "") + cover.Attribute("href").Value;
+                        
+                            //zip.GetEntry(coverFullPath).ExtractToFile(DirName + "/cover.jpg", true);                            
+
+                            using (var ms = new MemoryStream())
+                            {
+                                zip.GetEntry(coverFullPath).Open().CopyTo(ms);
+                                List.Add("cover", ms.ToArray());
+                            }
                         }
                     }
 
                     //3.4.6 The DCMES Optional Elements: contributor | coverage | creator | date | description | format | publisher | relation | rights | source | subject | type
 
-                    var meta = from el in metaData.Descendants() where el.Name.Namespace == customNs select el;
+                    if (metaData == null) 
+                        return;
 
                     var author = metaData.Descendants(customNs + "creator").FirstOrDefault();
                     var contributor = metaData.Descendants(customNs + "contributor").FirstOrDefault();

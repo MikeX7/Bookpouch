@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--Main skin colors.-->
     <Color x:Key="TextColor">WhiteSmoke</Color>
@@ -236,8 +235,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <ToggleButton x:Name="ToggleButton"
-                        Template="{StaticResource ComboBoxToggleButton}"
-                        Grid.Column="2"
+                        Template="{StaticResource ComboBoxToggleButton}"                        
                         Focusable="false"
                         ClickMode="Press"
                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, 

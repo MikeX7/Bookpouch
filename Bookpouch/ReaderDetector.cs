@@ -6,21 +6,17 @@ using System.Windows.Interop;
 //Trigger class UsbSync when connection of compatible USB storage device is detected
 namespace Bookpouch
 {
-    class ReaderDetector
-    {
-        public MainWindow Parent;
-
-        public ReaderDetector(MainWindow parent)
+    static class ReaderDetector
+    {        
+        public static void HookDectection()
         {            
-            Parent = parent;
-
-            Parent.SourceInitialized += OnSourceInitialized;
+            MainWindow.MW.SourceInitialized += OnSourceInitialized;
         }
 
-        public void OnSourceInitialized(object sender, EventArgs e)
+        public static void OnSourceInitialized(object sender, EventArgs e)
         {
-            
-            var windowHandle = (new WindowInteropHelper(Parent)).Handle;
+
+            var windowHandle = (new WindowInteropHelper(MainWindow.MW)).Handle;
             var src = HwndSource.FromHwnd(windowHandle);
 
             if (src != null) 

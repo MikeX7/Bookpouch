@@ -80,7 +80,7 @@ namespace Bookpouch
         {
 
             var listBox = new ListBox();             
-            var combedList = HintList.Distinct().Where(hl => hl.ToLower().StartsWith(TextBox.Text.ToLower()));
+            var combedList = HintList.Distinct().Where(hl => hl.ToLower().StartsWith(TextBox.Text.ToLower())).ToArray();
 
             if (!combedList.Any())
             {
@@ -149,7 +149,7 @@ namespace Bookpouch
             _popup.IsOpen = false;
         }
 
-        private  void InlineHint(object sender, KeyEventArgs e) //Take the first whisperer sugestion and display it in the text box, in a form of selected text appended behind the text cursor
+       /* private  void InlineHint(object sender, KeyEventArgs e) //Take the first whisperer sugestion and display it in the text box, in a form of selected text appended behind the text cursor
         {            
             if (e.Key == Key.Back || e.Key == Key.Delete)
                 return;
@@ -167,6 +167,6 @@ namespace Bookpouch
 
             textBox.AppendText(hint.Substring(textLen)); 
             textBox.Select(textLen, (textBox.GetLineLength(0) - textLen));
-        }
+        }*/
     }
 }

@@ -43,7 +43,6 @@ namespace Bookpouch
                 newDirPath = dirPath + " (" + copyNumber + ")";
 
             dirPath = newDirPath; //We are now sure, the folder name for the book storing folder doesn't already exist
-            dirName = Path.GetFileName(dirPath);            
 
             var fileName = Path.GetFileNameWithoutExtension(finfo.Name)  + (copyNumber > 1 ? " (" + (copyNumber - 1) + ")" : "") + finfo.Extension; //If the parent directory got a number added to its name, add it to the book file name as well
             var path = Path.Combine(dirPath, fileName);

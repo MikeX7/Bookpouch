@@ -18,7 +18,6 @@ namespace Bookpouch
         /// <summary>
         /// Assemble query to pull out book list out of the database, implementing the provided filter
         /// </summary>
-        /// <param name="filter">Dictionary with the filter parameters</param>
         /// <returns>Assembled query, ready for execution</returns>
         private Tuple<string, SQLiteParameter[]> AssembleQuery()
         {
@@ -187,7 +186,7 @@ namespace Bookpouch
             FilterWrap.Visibility = Visibility.Visible;
         }
 
-        private ObservableCollection<FilterPreset> _presetList = new ObservableCollection<FilterPreset>();
+        private readonly ObservableCollection<FilterPreset> _presetList = new ObservableCollection<FilterPreset>();
 
         public void GenerateFilterPresetList()
         {   
@@ -235,7 +234,7 @@ namespace Bookpouch
                     using (var query = Db.Query("INSERT OR IGNORE INTO filters VALUES(@Name, @Parameters)", new[]
                     {
                         new SQLiteParameter("Name", textBox.Text),
-                        new SQLiteParameter("Parameters", ms.GetBuffer()),
+                        new SQLiteParameter("Parameters", ms.GetBuffer())
                     }))
                     {
 
