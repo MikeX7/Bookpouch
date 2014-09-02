@@ -78,4 +78,6 @@ A: Use the email mentioned in the About window, thank you.
 Q: Bookpouch interface is displayed in English, instead of my native language, why?
 A: You either selected another interface language in the Settings, or the translation file for your language isn't available yet. If you would like to help, with translating the Bookpouch into your language please visit the project's Github page: https://github.com/MikeX7/Bookpouch
 
+Q: I tried to mark/unmark a large amount of books as favorite/sync and Bookpouch stopped responding, whats happening?
+A: If you are trying to change settings for a large amount of books simultaneously, it may take couple of seconds or longer, depending on the amount of books you are editing. Just be patient and wait for the Bookpouch to finish.
 
