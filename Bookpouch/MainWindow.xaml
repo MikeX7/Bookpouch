@@ -91,11 +91,16 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <DockPanel Name="FilterWrap" Grid.Row="2" Visibility="Collapsed"  VerticalAlignment="Top" HorizontalAlignment="Stretch" LastChildFill="False">
-            <WrapPanel Name="FilterList" Orientation="Horizontal" DockPanel.Dock="Left"/>
-            <Button Name="ClearFilter" Click="ClearFilter_OnMouseLeftButtonUp" Margin="5 0 0 0" DockPanel.Dock="Right"  ToolTip="{local:Lng HintClearFilter}" Content="{local:Lng BookGridClearFilter}" />
-            <Button Name="SavePreset" DockPanel.Dock="Right" Content="{local:Lng SavePreset}" ToolTip="{local:Lng HintSavePreset}" Click="SavePreset_OnClick"/>
-        </DockPanel>
+        <Grid Name="FilterWrap" Grid.Row="2" Visibility="Collapsed"  VerticalAlignment="Top" HorizontalAlignment="Stretch" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <WrapPanel Name="FilterList" Orientation="Horizontal" Grid.Column="0"/>
+            <Button Name="ClearFilter" Click="ClearFilter_OnMouseLeftButtonUp" Margin="5 0 0 0" Grid.Column="1" ToolTip="{local:Lng HintClearFilter}" Content="{local:Lng BookGridClearFilter}" />
+            <Button Name="SavePreset" Content="{local:Lng SavePreset}" ToolTip="{local:Lng HintSavePreset}" Margin="5 0 0 0" Grid.Column="2" Click="SavePreset_OnClick"/>
+        </Grid>        
         <TextBox Grid.Row="2" HorizontalAlignment="Right" Name="FilterPresetName" Visibility="Collapsed" KeyUp="FilterPresetName_OnKeyUp" ToolTip="{local:Lng HintFilterPresetName}"/>
 
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Name="FilterName" KeyUp="FilterName_OnkeyUp" Grid.Row="3" Visibility="Collapsed" Canvas.ZIndex="1" />

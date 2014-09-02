@@ -168,7 +168,8 @@ namespace Bookpouch
                 var value = new TextBlock
                 {
                     Foreground = Brushes.DodgerBlue,
-                    Text = (txtValue ?? String.Empty).ToString()
+                    Text = (txtValue ?? String.Empty).ToString(),
+                    TextWrapping = TextWrapping.Wrap                    
                 };
 
                 var name = new TextBlock
