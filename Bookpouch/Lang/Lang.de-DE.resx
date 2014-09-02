@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BookCopyError" xml:space="preserve">
+    <value>Beim Kopieren von {0} ist ein Fehler aufgetreten.</value>
+  </data>
+  <data name="BookDeleteConfirm" xml:space="preserve">
+    <value>Möchtest du {0} wirklich dauerhaft löschen?</value>
+  </data>
+  <data name="BookDeleteConfirmTitle" xml:space="preserve">
+    <value>Buch löschen?</value>
+  </data>
+  <data name="BookGridClearFilter" xml:space="preserve">
+    <value>Leeren</value>
+  </data>
+  <data name="BookGridEdit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="FieldCategory" xml:space="preserve">
+    <value>Kategorie</value>
+  </data>
+  <data name="FieldFavorite" xml:space="preserve">
+    <value> ★</value>
+  </data>
+  <data name="FieldSync" xml:space="preserve">
+    <value> ⇪</value>
+  </data>
+  <data name="FieldTitle" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="FieldSeries" xml:space="preserve">
+    <value>Serie</value>
+  </data>
+  <data name="BookInfoNotAvailable" xml:space="preserve">
+    <value>Informationen zum Buch konntent nicht aus dem Speicher gelesen werden. Möglicherweise ist es gelöscht, oder der Datenbankeintrag beschädigt?</value>
+  </data>
+  <data name="BookInfoSaveError" xml:space="preserve">
+    <value>Der angegebene Wert konnte nicht für das Buch gespeichert werden.</value>
+  </data>
+  <data name="DeleteBooksConfirm" xml:space="preserve">
+    <value>Möchtest du wirklich {0} Bücher dauerhaft löschen?</value>
+  </data>
+  <data name="DirAccessDenied" xml:space="preserve">
+    <value>In das angegeben Verzeichnis kann nicht geschrieben werden.</value>
+  </data>
+  <data name="DirNotFound" xml:space="preserve">
+    <value>Das angegeben Verzeichnis ({0}) zum Speichern von Büchern konnte nicht gefunden werden.</value>
+  </data>
+  <data name="DiscardBook" xml:space="preserve">
+    <value>Buch verwerfen?</value>
+  </data>
+  <data name="DiscardingBookFailed" xml:space="preserve">
+    <value>Dieses Buch konnte nicht entfernt werden:</value>
+  </data>
+  <data name="EditBookAuthor" xml:space="preserve">
+    <value>_Autor:</value>
+  </data>
+  <data name="EditBookAutoSavePopup" xml:space="preserve">
+    <value>Alle Änderung im Dialog zur Buchbearbeitung werden automatisch gespeichert. Deswegen brauchst du keinen Speicher-Button drücken.</value>
+  </data>
+  <data name="EditBookCategory" xml:space="preserve">
+    <value>_Kategorie:</value>
+  </data>
+  <data name="EditBookDiscard" xml:space="preserve">
+    <value>Buch löschen</value>
+  </data>
+  <data name="EditBookFavorite" xml:space="preserve">
+    <value>_Favorit:</value>
+  </data>
+  <data name="EditBookLanguage" xml:space="preserve">
+    <value>_Sprache:</value>
+  </data>
+  <data name="EditBookPublished" xml:space="preserve">
+    <value>_Veröffentlicht:</value>
+  </data>
+  <data name="EditBookSeries" xml:space="preserve">
+    <value>S_erie:</value>
+  </data>
+  <data name="EditBookSync" xml:space="preserve">
+    <value>_Sync:</value>
+  </data>
+  <data name="EditBookTitle" xml:space="preserve">
+    <value>_Titel:</value>
+  </data>
+  <data name="EpubCorrupted" xml:space="preserve">
+    <value>Informationen konnten nich aus dem epub gelesen werden. Möglicherweise ist es beschädigt, oder Schlüsseldateien fehlen.</value>
+  </data>
+  <data name="ExthHeaderMissing" xml:space="preserve">
+    <value>{0} fehlt der EXTH-Header, obwohl es angibt einen zu besitzen. Deswegen konnten keine Informationen gelesen werden.</value>
+  </data>
+  <data name="ExthProblemFetching" xml:space="preserve">
+    <value>Beim Lesen des EXTH-Headers von {0} gab es Probleme: {1}</value>
+    <comment>{0} - File name, {1} - Error description</comment>
+  </data>
+  <data name="HintAutoStart" xml:space="preserve">
+    <value>Starte Bookpouch automatisch und verkleinere es in den Infobereich.</value>
+  </data>
+  <data name="HintBookGridFavorite" xml:space="preserve">
+    <value>Buch als Favorit markieren.</value>
+  </data>
+  <data name="HintBookGridSync" xml:space="preserve">
+    <value>Buch mit dem Reader synchronisieren.</value>
+  </data>
+  <data name="HintEditBookCoverImage" xml:space="preserve">
+    <value>Buchdeckel. Klicke mit der linken Maustaste, um ein neues zu wählen, oder mit der rechten, um das Bild zu entfernen.</value>
+  </data>
+  <data name="HintEditBookFavorite" xml:space="preserve">
+    <value>Markiere das Buch als Favorit.</value>
+  </data>
+  <data name="HintEditBookRemove" xml:space="preserve">
+    <value>Entferne das Buch aus der Bibliothek.</value>
+  </data>
+  <data name="HintEditBookSync" xml:space="preserve">
+    <value>Das Buch wird während der Synchronisation auf den Reader kopiert.</value>
+  </data>
+  <data name="HintMenuAbout" xml:space="preserve">
+    <value>Über</value>
+  </data>
+  <data name="HintMenuAdd" xml:space="preserve">
+    <value>Füge neue Bücher zur Bibliothek hinzu</value>
+  </data>
+  <data name="HintMenuRegenerateTree" xml:space="preserve">
+    <value>Verzeichnisbaum der Bücher neu generieren. Benutze dies, wenn du Verzeichnisse manuell geändert has.</value>
+  </data>
+  <data name="HintMenuSettings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="HintMenuSync" xml:space="preserve">
+    <value>Dateien des Readers mit der Bookpouch-Bibliothek synchronisieren.</value>
+  </data>
+  <data name="HintOnlyOne" xml:space="preserve">
+    <value>Erlaube nur eine Instanz von Bookpouch.</value>
+  </data>
+  <data name="HintSettingsAutosync" xml:space="preserve">
+    <value>Automatische Synchronisation, wenn ein Reader mit dem PC verbunden wird.</value>
+  </data>
+  <data name="HintSettingsBooksDir" xml:space="preserve">
+    <value>Verzeichnis, in dem Bookpouch nach Büchern sucht.</value>
+  </data>
+  <data name="HintSettingsDebug" xml:space="preserve">
+    <value>Die Debug-Ausgabe gibt Informationen zur Fehlerbehebung aus.</value>
+  </data>
+  <data name="HintSettingsDir" xml:space="preserve">
+    <value>Verzeichnis auf dem Gerät, in dem Bücher gespeichert werden. Mit diesem Verzeichnis arbeitet Bookpouch.</value>
+  </data>
+  <data name="HintSettingsModel" xml:space="preserve">
+    <value>Modell des Readers. Normalerweise werden die Geräte damit beworben, zum Beispiel "Kindle" für das Amazon Kindle.</value>
+  </data>
+  <data name="HintSettingsPnp" xml:space="preserve">
+    <value>Die Plug and Play-ID des Gerätes. Normalweise ist das der Gerätename, das kann aber abweichen.</value>
+  </data>
+  <data name="HintSettingsReader" xml:space="preserve">
+    <value>Wähle den Reader, den du mit Bookpouch verwenden möchtest.</value>
+  </data>
+  <data name="HintSettingsSplashscreen" xml:space="preserve">
+    <value>Splashscreen beim Laden anzeigen.</value>
+  </data>
+  <data name="HintSettingsTray" xml:space="preserve">
+    <value>Die Anwendung wird in den Infobereich geschlossen. So funktioniert die Auto-Synchronisation immernoch.</value>
+  </data>
+  <data name="MobiHeaderMissing" xml:space="preserve">
+    <value>{0} fehlt der MOBI-Header, deswegen konnten keine Informationen gelesen werden.</value>
+  </data>
+  <data name="SelectBookDirPrompt" xml:space="preserve">
+    <value>Bitte wähle das Verzeichnis, in dem deine Bücher gespeichert sind. Drücke Abbrechen, um bei {0} zu bleiben.</value>
+  </data>
+  <data name="SettingsAutoStart" xml:space="preserve">
+    <value>Aut_ostart:</value>
+  </data>
+  <data name="SettingsAutosync" xml:space="preserve">
+    <value>_AutoSync:</value>
+  </data>
+  <data name="SettingsBookDir" xml:space="preserve">
+    <value>_Bücherverzeichnis:</value>
+  </data>
+  <data name="SettingsBooksDir" xml:space="preserve">
+    <value>Bücher_verzeichnis:</value>
+  </data>
+  <data name="SettingsConsole" xml:space="preserve">
+    <value>Konsole anzeigen</value>
+  </data>
+  <data name="SettingsDebug" xml:space="preserve">
+    <value>_Debug:</value>
+  </data>
+  <data name="SettingsLanguage" xml:space="preserve">
+    <value>_Sprache:</value>
+  </data>
+  <data name="SettingsModel" xml:space="preserve">
+    <value>_Modell:</value>
+  </data>
+  <data name="SettingsOnlyOne" xml:space="preserve">
+    <value>Eine _Instanz:</value>
+  </data>
+  <data name="SettingsPnp" xml:space="preserve">
+    <value>_PnP ID:</value>
+  </data>
+  <data name="SettingsReader" xml:space="preserve">
+    <value>_Reader:</value>
+  </data>
+  <data name="SettingsReaderCustomHint" xml:space="preserve">
+    <value>Was ist das?</value>
+  </data>
+  <data name="SettingsSplashScreen" xml:space="preserve">
+    <value>Splashs_creen:</value>
+  </data>
+  <data name="SettingsTray" xml:space="preserve">
+    <value>In den _Infobereich verkleinern.</value>
+  </data>
+  <data name="SyncAddingBooks" xml:space="preserve">
+    <value>Neue Bücher werden hinzugefügt...</value>
+  </data>
+  <data name="SyncDeviceSearch" xml:space="preserve">
+    <value>Suche nach verbundenem {0}...</value>
+  </data>
+  <data name="SyncFilesAdded" xml:space="preserve">
+    <value>Die gewählten Dateien werden zur Bibliothek hinzugefügt...</value>
+  </data>
+  <data name="SyncFinished" xml:space="preserve">
+    <value>Synchronisation erfolgreich.</value>
+  </data>
+  <data name="SyncingDataStructure" xml:space="preserve">
+    <value>Bibliothek wird neu gescannt und bereiningt.</value>
+  </data>
+  <data name="SyncNoReadersFound" xml:space="preserve">
+    <value>Es konnten keine verbunden Reader erkannt werden.</value>
+  </data>
+  <data name="SyncReaderDirNotFound" xml:space="preserve">
+    <value>Das Verzeichns "{0}" wurde auf dem Reader {1} nicht gefunden.</value>
+  </data>
+  <data name="UnknownDeviceHint" xml:space="preserve">
+    <value>Du hast einen unbekannten Reader gewählt. Deswegen musst du die Identifikation manuell eingeben, so dass dein Gerät von Bookpouch erkannt werden kann.\nFahre mit der Maus über Eingabefelder, um Hinweise angezeigt zu bekommen.</value>
+  </data>
+  <data name="InfoQueueDeleted" xml:space="preserve">
+    <value>Die Info-Queue wurde gelöscht.</value>
+  </data>
+  <data name="Working" xml:space="preserve">
+    <value>Arbeite...</value>
+  </data>
+  <data name="SyncFileCopyFailed" xml:space="preserve">
+    <value>{0} konnte nicht syncvhronisiert werden.</value>
+  </data>
+  <data name="BookGridOpenDir" xml:space="preserve">
+    <value>Verzeichnis</value>
+  </data>
+  <data name="HintMenuRootDir" xml:space="preserve">
+    <value>Bibliotheksverzeichnis öffnen</value>
+  </data>
+  <data name="BusyCleaningDb" xml:space="preserve">
+    <value>Bibliothekdatenbank wird gereinigt...</value>
+  </data>
+  <data name="EditBookDescription" xml:space="preserve">
+    <value>_Beschreibung:</value>
+  </data>
+  <data name="HintEditBookCategory" xml:space="preserve">
+    <value>Wenn du den Name der Kategorie eingegeben hast, benutze ein ; (Semikolon) oder , (Komma), um sie zur Liste hinzuzufügen.</value>
+  </data>
+  <data name="HintOnlyManualCategories" xml:space="preserve">
+    <value>Zeige nur manuell angegebene Kategorien (z.B. zur Suche). Von manchen Büchern können Kategorien auch automatisch gelesen werden, allerdings sind diese manchmal sehr allgemein und breit gefasst.</value>
+  </data>
+  <data name="SettingsOnlyManualCategories" xml:space="preserve">
+    <value>Manuelle _Kategorie:</value>
+  </data>
+  <data name="FieldAuthor" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="EditBookCreated" xml:space="preserve">
+    <value>_Erstellt:</value>
+  </data>
+  <data name="EditBookPath" xml:space="preserve">
+    <value>_Pfad:</value>
+  </data>
+  <data name="HintMenuFilter" xml:space="preserve">
+    <value>Zeige nur Einträge, die zu den angegeben Parametern passen.</value>
+  </data>
+  <data name="HintCheckCoverDimensions" xml:space="preserve">
+    <value>Nur Buchdeckel auslesen, deren Höhe größer als deren Breite ist. Das verhindern, das einige Bilder fälschlicherweise als Buchdeckel genutzt werden.</value>
+  </data>
+  <data name="HintSettingsDescriptionMaxLength" xml:space="preserve">
+    <value>Maximale Länge für Beschreibungen, die in der Bücherliste angezeigt werden.</value>
+  </data>
+  <data name="SettingsCheckCoverDimensions" xml:space="preserve">
+    <value>_Buchdeckel prüfen:</value>
+  </data>
+  <data name="SettingsDescriptionMaxLength" xml:space="preserve">
+    <value>Maximale Länge von _Beschreibungen:</value>
+  </data>
+  <data name="FieldCreated" xml:space="preserve">
+    <value>Erstellt</value>
+  </data>
+  <data name="FieldDescription" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="FieldLanguage" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="FieldPath" xml:space="preserve">
+    <value>Pfad</value>
+  </data>
+  <data name="FieldPublished" xml:space="preserve">
+    <value>Veröffentlicht</value>
+  </data>
+  <data name="FieldPublisher" xml:space="preserve">
+    <value>Verlag</value>
+  </data>
+  <data name="FilterFirstUsePopup" xml:space="preserve">
+    <value>Alle Parameter die in den Filter eingegeben werden, werden automatisch auf die Buchliste angewandt. Wenn schon andere Filter aktiv sind, werden die eingegeben mit den vorhandenen zusammengeführt.</value>
+  </data>
+  <data name="HintSavePreset" xml:space="preserve">
+    <value>Speichere den aktuellen Filter als Voreinstellung, die später wieder genutzt werden kann</value>
+  </data>
+  <data name="SavePreset" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="HintFilterPresetName" xml:space="preserve">
+    <value>Name für die Filtereinstellung. Drücke die Eingabetaste um zu speichern, oder Escape um abzubrechen.</value>
+  </data>
+  <data name="FilterSavingPresetDuplicate" xml:space="preserve">
+    <value>Die Filtereinstellung konnte nicht gespeichert werden, da schon eine Einstellung mit dem selben Namen vorhanden ist.</value>
+  </data>
+  <data name="FilterSavingPresetSuccessful" xml:space="preserve">
+    <value>Filtereinstellung erfolgreich gespeichert.</value>
+  </data>
+  <data name="ApplyFilter" xml:space="preserve">
+    <value>Filter anwenden</value>
+  </data>
+  <data name="DiscardFilterPreset" xml:space="preserve">
+    <value>Voreinstellung löschen</value>
+  </data>
+  <data name="DiscardFilterPresetConfirm" xml:space="preserve">
+    <value>Möchtest du wirklich die {0} Filtereinstellung löschen?</value>
+  </data>
+  <data name="HintClearFilter" xml:space="preserve">
+    <value>Aktiven Filter entfernen.</value>
+  </data>
+  <data name="HintDateRange" xml:space="preserve">
+    <value>Gefiltertes Datum ist: gleich (=), größer (&gt;) oder kleiner (&lt;) als das Ausgewählte.</value>
+  </data>
+  <data name="EditBookContributor" xml:space="preserve">
+    <value>_Mitwirkende:</value>
+  </data>
+  <data name="EditBookPublisher" xml:space="preserve">
+    <value>V_erlag:</value>
+  </data>
+  <data name="FieldContributor" xml:space="preserve">
+    <value>Mitwirkende</value>
+  </data>
+</root>

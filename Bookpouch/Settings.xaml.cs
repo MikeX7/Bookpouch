@@ -24,7 +24,7 @@ namespace Bookpouch
 
     public partial class Settings
     {
-        private readonly string[] _supportedLanguages = {"- - -", "en-US", "cs-CZ"}; //List of languages for which we have translation files
+        private readonly string[] _supportedLanguages = {"- - -", "en-US", "cs-CZ", "de-DE"}; //List of languages for which we have translation files
         public Settings()
         {            
             InitializeComponent();
@@ -66,7 +66,8 @@ namespace Bookpouch
             {
                 new LanguageOption(CultureInfo.InvariantCulture){NativeName = "- - -"}, //No language selected, it will be detected automatically
                 new LanguageOption(CultureInfo.GetCultureInfo("en-US")),
-                new LanguageOption(CultureInfo.GetCultureInfo("cs-CZ"))
+                new LanguageOption(CultureInfo.GetCultureInfo("cs-CZ")),
+                new LanguageOption(CultureInfo.GetCultureInfo("de-DE"))
             };
 
             var position = Array.IndexOf(_supportedLanguages, Properties.Settings.Default.Language);
