@@ -1,2 +1,13 @@
+v 2.0
+Large code rewrites and speed optimizations
+Lots of bug fixes along with UI tweaks
+Support for user defined folder structure for storing books
+Advanced filter for book filtering
+Filter parameters can be saved as presets and accessed via single click
+More fields for editing book information
+Book can have multiple categories assigned
+Categories are automatically extracted from added books (epub and mobi)
+Storing book data changed from serialized .dat files into a SQLite database, which is much faster and cleaner solution
+
 v 1.0
 First pre-release of the application
