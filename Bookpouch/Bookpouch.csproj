@@ -236,9 +236,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="kindle.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Img\star.png" />
   </ItemGroup>
   <ItemGroup>
@@ -558,9 +555,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Docs\licence.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Img\kindle.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Docs\manual_cz.txt" />
