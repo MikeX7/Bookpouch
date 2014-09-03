@@ -110,6 +110,11 @@
     </Compile>
     <Compile Include="BusyBar.cs" />
     <Compile Include="Db.cs" />
+    <Compile Include="Lang\Lang.de-DE.Designer.cs">
+      <DependentUpon>Lang.de-DE.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="MainWindowFilter.cs" />
     <Compile Include="FilterWindow.xaml.cs">
       <DependentUpon>FilterWindow.xaml</DependentUpon>
@@ -208,6 +213,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Lang\Lang.de-DE.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Lang.de-DE.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Lang\Lang.cs-CZ.resx" />
     <EmbeddedResource Include="Lang\Lang.resx">
       <Generator>ResXFileCodeGenerator</Generator>
