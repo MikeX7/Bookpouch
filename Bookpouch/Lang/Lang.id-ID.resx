@@ -1,0 +1,465 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BookCopyError" xml:space="preserve">
+    <value>Ada masalah masalah dalam penyalinan {0} ke pustaka.</value>
+  </data>
+  <data name="BookDeleteConfirm" xml:space="preserve">
+    <value>Do you really want to permanently delete {0}?</value>
+    <value>Apakah anda benar-benar ingin menghapus {0} secara permanen?</value>
+  </data>
+  <data name="BookDeleteConfirmTitle" xml:space="preserve">
+    <value>Hapus buku?</value>
+  </data>
+  <data name="BookGridClearFilter" xml:space="preserve">
+    <value>Bersihkan</value>
+  </data>
+  <data name="BookGridEdit" xml:space="preserve">
+    <value>Sunting</value>
+  </data>
+  <data name="FieldCategory" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
+  <data name="FieldFavorite" xml:space="preserve">
+    <value> ★</value>
+  </data>
+  <data name="FieldSync" xml:space="preserve">
+    <value> ⇪</value>
+  </data>
+  <data name="FieldTitle" xml:space="preserve">
+    <value>Judul</value>
+  </data>
+  <data name="FieldSeries" xml:space="preserve">
+    <value>Seri</value>
+  </data>
+  <data name="BookInfoNotAvailable" xml:space="preserve">
+    <value>Saya tidak bisa mendapatkan informasi mengenai buku ini dari penyimpanan. Mungkin berkas buku tidak ditemukan, atau catatan database korup.</value>
+  </data>
+  <data name="BookInfoSaveError" xml:space="preserve">
+    <value>Saya tidak bisa menyimpan nilai yang diberikan mengenai buku.</value>
+  </data>
+  <data name="DeleteBooksConfirm" xml:space="preserve">
+    <value>Apakah anda benar benar ingin menghapus {0} buku?</value>
+  </data>
+  <data name="DirAccessDenied" xml:space="preserve">
+    <value>Saya tidak mempunyai akses tulis di folder ini.</value>
+  </data>
+  <data name="DirNotFound" xml:space="preserve">
+    <value>Saya tidak bisa mencari direktori yang ditentukan ({0}) untuk menyimpan buku.</value>
+  </data>
+  <data name="DiscardBook" xml:space="preserve">
+    <value>Buang buku?</value>
+  </data>
+  <data name="DiscardingBookFailed" xml:space="preserve">
+    <value>Saya tidak bisa menghapus buku ini: {0}</value>
+  </data>
+  <data name="EditBookAuthor" xml:space="preserve">
+    <value>_Penulis:</value>
+  </data>
+  <data name="EditBookAutoSavePopup" xml:space="preserve">
+    <value>Semua perubahan pada jendela untuk penyuntingan detail buku akan disimpan secara otomatis dan Anda tidak perlu menge-klik tombol "Simpan" apapun.</value>
+  </data>
+  <data name="EditBookCategory" xml:space="preserve">
+    <value>_Kategori:</value>
+  </data>
+  <data name="EditBookDiscard" xml:space="preserve">
+    <value>Hapus buku</value>
+  </data>
+  <data name="EditBookFavorite" xml:space="preserve">
+    <value>_Favorit:</value>
+  </data>
+  <data name="EditBookLanguage" xml:space="preserve">
+    <value>_Bahasa:</value>
+  </data>
+  <data name="EditBookPublished" xml:space="preserve">
+    <value>_Diterbitkan:</value>
+  </data>
+  <data name="EditBookSeries" xml:space="preserve">
+    <value>S_eri:</value>
+  </data>
+  <data name="EditBookSync" xml:space="preserve">
+    <value>_Sinkronisasi:</value>
+  </data>
+  <data name="EditBookTitle" xml:space="preserve">
+    <value>_Judul:</value>
+  </data>
+  <data name="EpubCorrupted" xml:space="preserve">
+    <value>Saya tidak mampu mendapatkan informasi dari berkas Epub, berkas tersebut mungkin korup atau kehilangan beberapa berkas penting.</value>
+  </data>
+  <data name="ExthHeaderMissing" xml:space="preserve">
+    <value>{0} kehilangan header EXTH, mungkin berkas ini mengira masih mempunyai sehingga saya tidak mampu mengambil informasi.</value>
+  </data>
+  <data name="ExthProblemFetching" xml:space="preserve">
+    <value>Saya menemui beberapa permasalahan sewaktu mengambil header EXTH pada {0}: {1}</value>
+    <comment>{0} - Nama berkas, {1} - Deskripsi galat</comment>
+  </data>
+  <data name="HintAutoStart" xml:space="preserve">
+    <value>Memulai Bookpouch secara otomatis ketika komputer dinyalakan dan meminimalkan ke laci</value>
+  </data>
+  <data name="HintBookGridFavorite" xml:space="preserve">
+    <value>Ubah untuk menandai buku ini sebagai salah datu favorit Anda.</value>
+  </data>
+  <data name="HintBookGridSync" xml:space="preserve">
+    <value>Ubah untuk menentukan apakah anda ingin menyinkronkan buku ini ke software pembaca anda atau tidak.</value>
+  </data>
+  <data name="HintEditBookCoverImage" xml:space="preserve">
+    <value>Gambar sampul untuk buku ini. Anda dapat memilih gambar lain dengan menge-klik gambar ini, atau menghapus gambar yang sudah ada dengan meng-klik kanan-nya.</value>
+  </data>
+  <data name="HintEditBookFavorite" xml:space="preserve">
+    <value>Tandai buku ini sebagai salah satu favorit anda</value>
+  </data>
+  <data name="HintEditBookRemove" xml:space="preserve">
+    <value>Hapus buku ini dari pustaka</value>
+  </data>
+  <data name="HintEditBookSync" xml:space="preserve">
+    <value>Buku ini akan disalin ke pembaca anda sewaktu sinkronisasi</value>
+  </data>
+  <data name="HintMenuAbout" xml:space="preserve">
+    <value>Tentang</value>
+  </data>
+  <data name="HintMenuAdd" xml:space="preserve">
+    <value>Tambahkan buku baru ke pustaka</value>
+  </data>
+  <data name="HintMenuRegenerateTree" xml:space="preserve">
+    <value>Buat ulang tatanan buku. (Pakai ini jika anda mengubah folder secara manual)</value>
+  </data>
+  <data name="HintMenuSettings" xml:space="preserve">
+    <value>Pengaturan</value>
+  </data>
+  <data name="HintMenuSync" xml:space="preserve">
+    <value>Sinkronisasikan berkas pada pembaca ebook dengan pustaka Bookpouch lokal</value>
+  </data>
+  <data name="HintOnlyOne" xml:space="preserve">
+    <value>Hanya izinkan satu instansiasi Bookpouch saat berjalan pada waktu yang sama</value>
+  </data>
+  <data name="HintSettingsAutosync" xml:space="preserve">
+    <value>Mulai sinkronisasi secara otomatis, ketika pembaca yang sesuai tersambung ke komputer</value>
+  </data>
+  <data name="HintSettingsBooksDir" xml:space="preserve">
+    <value>Direktori pencarian Bookpouch mencari berkas buku.</value>
+  </data>
+  <data name="HintSettingsDebug" xml:space="preserve">
+    <value>Konsol debug menampilkan informasi waktu-jalan mengenai aplikasi ini. Informasi ini mungkin tidak ada gunanya untuk anda sebagai pengguna.</value>
+  </data>
+  <data name="HintSettingsDir" xml:space="preserve">
+    <value>Direktori pada divais, dimana semua buku tersimpan. Direktori ini yang akan digunakan Bookpouch ketika bekerja dengan divais.</value>
+  </data>
+  <data name="HintSettingsModel" xml:space="preserve">
+    <value>Nama model dari divais pembaca, biasanya identik dengan nama dagang dari pembaca. (Misal: nama model kindle adalah kindle)</value>
+  </data>
+  <data name="HintSettingsPnp" xml:space="preserve">
+    <value>ID Plug and play divais. Biasanya identik dengan nama model. Bisa juga berbeda.</value>
+  </data>
+  <data name="HintSettingsReader" xml:space="preserve">
+    <value>Pilih pembaca yang akan anda gunakan dengan Bookpouch</value>
+  </data>
+  <data name="HintSettingsSplashscreen" xml:space="preserve">
+    <value>Tunjukkan gambar layar ketika aplikasi dimuat</value>
+  </data>
+  <data name="HintSettingsTray" xml:space="preserve">
+    <value>Menutup aplikasi ini menyebabkan aplikasi terminimalkan ke laci. (AutoSync akan tetap berjalan)</value>
+  </data>
+  <data name="MobiHeaderMissing" xml:space="preserve">
+    <value>{0} kehilangan header MOBI dan saya tidak dapat mengambil informasi apapun.</value>
+  </data>
+  <data name="SelectBookDirPrompt" xml:space="preserve">
+    <value>Silakan pilih direktori anda menyimpan e-buku anda, atau tekan batal untuk tetap pada direktori ini: {0}</value>
+  </data>
+  <data name="SettingsAutoStart" xml:space="preserve">
+    <value>Jalan O_tomatis:</value>
+  </data>
+  <data name="SettingsAutosync" xml:space="preserve">
+    <value>Sinkronisasi Otom_atis:</value>
+  </data>
+  <data name="SettingsBookDir" xml:space="preserve">
+    <value>Direktori _Buku:</value>
+  </data>
+  <data name="SettingsBooksDir" xml:space="preserve">
+    <value>_Direktori Buku:</value>
+  </data>
+  <data name="SettingsConsole" xml:space="preserve">
+    <value>Tunjukkan konsol</value>
+  </data>
+  <data name="SettingsDebug" xml:space="preserve">
+    <value>_Debug:</value>
+  </data>
+  <data name="SettingsLanguage" xml:space="preserve">
+    <value>Bahasa:</value>
+  </data>
+  <data name="SettingsModel" xml:space="preserve">
+    <value>_Model:</value>
+  </data>
+  <data name="SettingsOnlyOne" xml:space="preserve">
+    <value>Satu _Instansiasi:</value>
+  </data>
+  <data name="SettingsPnp" xml:space="preserve">
+    <value>ID _PnP:</value>
+  </data>
+  <data name="SettingsReader" xml:space="preserve">
+    <value>Pembaca:</value>
+  </data>
+  <data name="SettingsReaderCustomHint" xml:space="preserve">
+    <value>Apa ini?</value>
+  </data>
+  <data name="SettingsSplashScreen" xml:space="preserve">
+    <value>Gambar layar:</value>
+  </data>
+  <data name="SettingsTray" xml:space="preserve">
+    <value>Tutup ke laci:</value>
+  </data>
+  <data name="SyncAddingBooks" xml:space="preserve">
+    <value>Menambahkan buku baru...</value>
+  </data>
+  <data name="SyncDeviceSearch" xml:space="preserve">
+    <value>Mencari untuk {0} yang tersambung...</value>
+  </data>
+  <data name="SyncFilesAdded" xml:space="preserve">
+    <value>Pilih berkas yang didukung untuk ditambahkan ke pustaka...</value>
+  </data>
+  <data name="SyncFinished" xml:space="preserve">
+    <value>Sinkronisasi berkasil diselesaikan.</value>
+  </data>
+  <data name="SyncingDataStructure" xml:space="preserve">
+    <value>Memindai ulang dan membersihkan struktur data pustaka...</value>
+  </data>
+  <data name="SyncNoReadersFound" xml:space="preserve">
+    <value>Saya tidak mampu mencari pembaca yang tersambung.</value>
+  </data>
+  <data name="SyncReaderDirNotFound" xml:space="preserve">
+    <value>Direktori yang dipilih \"{0}\" tidak ditemukan pada pembaca yang tersambung: {1}</value>
+  </data>
+  <data name="UnknownDeviceHint" xml:space="preserve">
+    <value>Anda telah memilih divais pembaca yang tidak dikenal, sehingga anda harus memasukkan string identifikasi manual agar pembaca anda dapat dikenal dengan tepat dan ditangani Bookpouch.\nLayangkan diatas bagian dengan kursor anda untuk menampilkan tooltips.</value>
+  </data>
+  <data name="InfoQueueDeleted" xml:space="preserve">
+    <value>Antrian informasi telah dihapus.</value>
+  </data>
+  <data name="Working" xml:space="preserve">
+    <value>Sedang bekerja...</value>
+  </data>
+  <data name="SyncFileCopyFailed" xml:space="preserve">
+    <value>I was unable to sync {0}.</value>
+    <value>Tidak dapat melakukan sinkronisasi {0}.</value>
+  </data>
+  <data name="BookGridOpenDir" xml:space="preserve">
+    <value>Direktori</value>
+  </data>
+  <data name="HintMenuRootDir" xml:space="preserve">
+    <value>Buka direktori utama pustaka</value>
+  </data>
+  <data name="BusyCleaningDb" xml:space="preserve">
+    <value>Membersihkan database pustaka...</value>
+  </data>
+  <data name="EditBookDescription" xml:space="preserve">
+    <value>_Deskripsi: </value>
+  </data>
+  <data name="HintEditBookCategory" xml:space="preserve">
+    <value>Ketika anda selesai menulis nama kategori, ketik ; (titik dua) atau , (koma) untuk menambahkannya pada daftar.</value>
+  </data>
+  <data name="HintOnlyManualCategories" xml:space="preserve">
+    <value>Ketika menampilkan daftar kategori, atau menggunakan kategori untuk pencarian, hanya gunakan kategori yang ditambahkan ke buku secara manual. (Kategori juga akan diambil dan ditambahkan dari beberapa buku, namun sering samar, atau terlalu luas dan bisa mengotori daftar kategori.)</value>
+  </data>
+  <data name="SettingsOnlyManualCategories" xml:space="preserve">
+    <value>Kategori manual:</value>
+  </data>
+  <data name="FieldAuthor" xml:space="preserve">
+    <value>Penulis</value>
+  </data>
+  <data name="EditBookCreated" xml:space="preserve">
+    <value>Dibuat:</value>
+  </data>
+  <data name="EditBookPath" xml:space="preserve">
+    <value>_Path:</value>
+  </data>
+  <data name="HintMenuFilter" xml:space="preserve">
+    <value>Saring daftar buku dan tampilkan daftar yang sesuai dengan parameter yang diberikan</value>
+  </data>
+  <data name="HintCheckCoverDimensions" xml:space="preserve">
+    <value>Ketika sampul diambil dari berkas buku, hanya ambil sampul yang mempunya tinggi lebih dari lebar. (Hal ini bisa menyaring beberapa gambar yang salah yang digunakan sebagai sampul)</value>
+  </data>
+  <data name="HintSettingsDescriptionMaxLength" xml:space="preserve">
+    <value>Panjang maksimum dari deskripsi yang ditampilkan untuk buku yang ada pada daftar buku.</value>
+  </data>
+  <data name="SettingsCheckCoverDimensions" xml:space="preserve">
+    <value>Periksa sampul:</value>
+  </data>
+  <data name="SettingsDescriptionMaxLength" xml:space="preserve">
+    <value>Panjang maksimal deskripsi:</value>
+  </data>
+  <data name="FieldCreated" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="FieldDescription" xml:space="preserve">
+    <value>Deskripsi</value>
+  </data>
+  <data name="FieldLanguage" xml:space="preserve">
+    <value>Bahasa</value>
+  </data>
+  <data name="FieldPath" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="FieldPublished" xml:space="preserve">
+    <value>Diterbitkan</value>
+  </data>
+  <data name="FieldPublisher" xml:space="preserve">
+    <value>Penerbit</value>
+  </data>
+  <data name="FilterFirstUsePopup" xml:space="preserve">
+    <value>Semua parameter yang dimasukkan pada penyaringan ini akan diterapkan secara otomatis pada daftar buku. Jika daftar buku sudah mempunyai beberapa parameter penyaringan yang aktif, maka parameter yang baru dimasukkan pada jendela ini akan ditambahkan dengan parameter yang sudah ada.</value>
+  </data>
+  <data name="HintSavePreset" xml:space="preserve">
+    <value>Simpan parameter penyaringan aktif sebagai nilai tetapan, yang bisa digunakan lagi nanti.</value>
+  </data>
+  <data name="SavePreset" xml:space="preserve">
+    <value>Simpan</value>
+  </data>
+  <data name="HintFilterPresetName" xml:space="preserve">
+    <value>Nama dari preset yang sudah disimpan. Setelah anda menuliskan nama, tekan Enter untuk menyimpan preset atau Escape untuk membatalkan penyimpanan.</value>
+  </data>
+  <data name="FilterSavingPresetDuplicate" xml:space="preserve">
+    <value>Penyimpanan preset penyaringan gagal, karena preset lain dengan nama yang dipilih sudah ada.</value>
+  </data>
+  <data name="FilterSavingPresetSuccessful" xml:space="preserve">
+    <value>Preset penyaringan berhasil disimpan.</value>
+  </data>
+  <data name="ApplyFilter" xml:space="preserve">
+    <value>Terapkan penyaringan</value>
+  </data>
+  <data name="DiscardFilterPreset" xml:space="preserve">
+    <value>Hapus preset</value>
+  </data>
+  <data name="DiscardFilterPresetConfirm" xml:space="preserve">
+    <value>Apakah anda benar benar ingin menghapus {0} preset filter?</value>
+  </data>
+  <data name="HintClearFilter" xml:space="preserve">
+    <value>Hapus penyaringan aktif.</value>
+  </data>
+  <data name="HintDateRange" xml:space="preserve">
+    <value>Tanggal tersaring: sama dengan (=), lebih besar (&gt;), atau lebih kecil (&lt;) daripada tanggal terpilih.</value>
+  </data>
+  <data name="EditBookContributor" xml:space="preserve">
+    <value>Kontributor:</value>
+  </data>
+  <data name="EditBookPublisher" xml:space="preserve">
+    <value>Penerbit:</value>
+  </data>
+  <data name="FieldContributor" xml:space="preserve">
+    <value>Kontributor</value>
+  </data>
+</root>
