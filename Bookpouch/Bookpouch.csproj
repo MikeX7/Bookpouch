@@ -218,6 +218,7 @@
       <LastGenOutput>Lang.de-DE.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Lang\Lang.cs-CZ.resx" />
+    <EmbeddedResource Include="Lang\Lang.id-ID.resx" />
     <EmbeddedResource Include="Lang\Lang.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Lang1.Designer.cs</LastGenOutput>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
@@ -24,7 +25,7 @@ namespace Bookpouch
 
     public partial class Settings
     {
-        private readonly string[] _supportedLanguages = {"- - -", "en-US", "cs-CZ", "de-DE"}; //List of languages for which we have translation files
+        private readonly string[] _supportedLanguages = { "- - -", "en-US", "cs-CZ", "de-DE", "id-ID" }; //List of languages for which we have translation files
         public Settings()
         {            
             InitializeComponent();
@@ -64,11 +65,11 @@ namespace Bookpouch
             var comboBox = (ComboBox) sender;
             var langList = new List<LanguageOption>
             {
-                new LanguageOption(CultureInfo.InvariantCulture){NativeName = "- - -"}, //No language selected, it will be detected automatically
-                new LanguageOption(CultureInfo.GetCultureInfo("en-US")),
-                new LanguageOption(CultureInfo.GetCultureInfo("cs-CZ")),
-                new LanguageOption(CultureInfo.GetCultureInfo("de-DE"))
+                new LanguageOption(CultureInfo.InvariantCulture){NativeName = _supportedLanguages[0]} //No language selected, it will be detected automatically                
             };
+
+            langList.AddRange(from language in _supportedLanguages where language != _supportedLanguages[0] select new LanguageOption(CultureInfo.GetCultureInfo(language)));
+
 
             var position = Array.IndexOf(_supportedLanguages, Properties.Settings.Default.Language);
             comboBox.ItemsSource = langList;
